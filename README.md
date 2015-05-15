@@ -25,7 +25,7 @@ Printing all layer names:
 var database = Application.DocumentManager.MdiActiveDocument.Database;
 var editor = Application.DocumentManager.MdiActiveDocument.Editor;
 
-using (var db = new ActiveDatabase(Database))
+using (var db = new ActiveDatabase(database))
 {
   db.Layers
     .ForEach(l => editor.WriteLine(l.Name));
