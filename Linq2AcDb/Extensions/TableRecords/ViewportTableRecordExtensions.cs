@@ -31,7 +31,7 @@ namespace Linq2AcDb
 
     public static IEnumerable<ObjectId> Add(this IEnumerable<ViewportTableRecord> source, IEnumerable<ViewportTableRecord> items)
     {
-      return SymbolTableHelpers.Add<ViewportTableRecord, ViewportTable>(source, items);
+      return SymbolTableHelpers.AddRange<ViewportTableRecord, ViewportTable>(source, items);
     }
   }
 }

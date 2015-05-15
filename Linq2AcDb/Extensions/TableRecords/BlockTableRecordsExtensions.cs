@@ -31,7 +31,7 @@ namespace Linq2AcDb
 
     public static IEnumerable<ObjectId> Add(this IEnumerable<BlockTableRecord> source, IEnumerable<BlockTableRecord> items)
     {
-      return SymbolTableHelpers.Add<BlockTableRecord, BlockTable>(source, items);
+      return SymbolTableHelpers.AddRange<BlockTableRecord, BlockTable>(source, items);
     }
   }
 }

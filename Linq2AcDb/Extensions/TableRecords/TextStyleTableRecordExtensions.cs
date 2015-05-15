@@ -31,7 +31,7 @@ namespace Linq2AcDb
 
     public static IEnumerable<ObjectId> Add(this IEnumerable<TextStyleTableRecord> source, IEnumerable<TextStyleTableRecord> items)
     {
-      return SymbolTableHelpers.Add<TextStyleTableRecord, TextStyleTable>(source, items);
+      return SymbolTableHelpers.AddRange<TextStyleTableRecord, TextStyleTable>(source, items);
     }
   }
 }

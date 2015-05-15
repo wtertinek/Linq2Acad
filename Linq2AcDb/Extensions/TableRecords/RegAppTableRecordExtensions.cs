@@ -31,7 +31,7 @@ namespace Linq2AcDb
 
     public static IEnumerable<ObjectId> Add(this IEnumerable<RegAppTableRecord> source, IEnumerable<RegAppTableRecord> items)
     {
-      return SymbolTableHelpers.Add<RegAppTableRecord, RegAppTable>(source, items);
+      return SymbolTableHelpers.AddRange<RegAppTableRecord, RegAppTable>(source, items);
     }
   }
 }

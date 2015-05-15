@@ -45,5 +45,24 @@ using (var db = new ActiveDatabase(database))
 }
 ```
 
+Creating a group:
+
+```c#
+var database = Application.DocumentManager.MdiActiveDocument.Database;
+var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+
+using (var db = new ActiveDatabase(Database))
+{
+  if (db.Groups.Contains("Group1"))
+  {
+    Editor.WriteMessage("Group1 already exists");
+  }
+  else
+  {
+    db.Groups.Set("Group1", new Group("This is Group 1", true));
+  }
+}
+```
+
 ### TODO
 I just started the project, at the moment it's just a working prototype for AutoCAD 2016. If you have any comments or suggestions, **I'm very happy to hear from you**.

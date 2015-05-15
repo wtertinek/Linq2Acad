@@ -9,8 +9,8 @@ namespace Linq2AcDb
 {
   static class SymbolTableHelpers
   {
-    public static TRecord GetItem<TRecord, TTable>(this IEnumerable<TRecord> source, Func<TTable, ObjectId> getItem) where TRecord : SymbolTableRecord
-                                                                                                                     where TTable : SymbolTable
+    public static TRecord GetItem<TRecord, TTable>(this IEnumerable<TRecord> source, Func<TTable, ObjectId> getID) where TRecord : SymbolTableRecord
+                                                                                                                   where TTable : SymbolTable
     {
       Helpers.CheckTransaction();
 
@@ -18,7 +18,7 @@ namespace Linq2AcDb
       {
         var data = source as IAcadEnumerableData;
         var table = (TTable)ActiveDatabase.Transaction.Value.GetObject(data.ContainerID, OpenMode.ForRead);
-        return (TRecord)ActiveDatabase.Transaction.Value.GetObject(getItem(table), OpenMode.ForRead);
+        return (TRecord)ActiveDatabase.Transaction.Value.GetObject(getID(table), OpenMode.ForRead);
       }
       else
       {
@@ -34,7 +34,7 @@ namespace Linq2AcDb
       if (source is IAcadEnumerableData)
       {
         var data = source as IAcadEnumerableData;
-        var table = (TTable)ActiveDatabase.Transaction.Value.GetObject(data.ContainerID, OpenMode.ForWrite);
+        var table = (TTable)ActiveDatabase.Transaction.Value.GetObject(data.ContainerID, OpenMode.ForRead);
         return has(table);
       }
       else
@@ -46,11 +46,11 @@ namespace Linq2AcDb
     public static ObjectId Add<TRecord, TTable>(this IEnumerable<TRecord> source, TRecord item) where TRecord : SymbolTableRecord
                                                                                                 where TTable : SymbolTable
     {
-      return Add<TRecord, TTable>(source, new[] { item }).First();
+      return AddRange<TRecord, TTable>(source, new[] { item }).First();
     }
 
-    public static IEnumerable<ObjectId> Add<TRecord, TTable>(this IEnumerable<TRecord> source, IEnumerable<TRecord> items) where TRecord : SymbolTableRecord
-                                                                                                                           where TTable : SymbolTable
+    public static IEnumerable<ObjectId> AddRange<TRecord, TTable>(this IEnumerable<TRecord> source, IEnumerable<TRecord> items) where TRecord : SymbolTableRecord
+                                                                                                                                where TTable : SymbolTable
     {
       Helpers.CheckTransaction();
 

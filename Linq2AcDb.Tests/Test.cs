@@ -159,5 +159,21 @@ namespace Linq2AcDb.AcadTest
                                       new Point3d(1200, 300, 0)) });
       }
     }
+
+    [CommandMethod("TestAddGroup")]
+    public static void TestAddGroup()
+    {
+      using (var db = new ActiveDatabase(Database))
+      {
+        if (db.Groups.Contains("Group1"))
+        {
+          Editor.WriteMessage("Group1 already exists");
+        }
+        else
+        {
+          db.Groups.Set("Group1", new Group("This is Group 1", true));
+        }
+      }
+    }
   }
 }

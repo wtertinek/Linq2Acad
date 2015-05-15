@@ -31,7 +31,7 @@ namespace Linq2AcDb
 
     public static IEnumerable<ObjectId> Add(this IEnumerable<LayerTableRecord> source, IEnumerable<LayerTableRecord> items)
     {
-      return SymbolTableHelpers.Add<LayerTableRecord, LayerTable>(source, items);
+      return SymbolTableHelpers.AddRange<LayerTableRecord, LayerTable>(source, items);
     }
   }
 }

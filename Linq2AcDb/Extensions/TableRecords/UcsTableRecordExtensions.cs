@@ -31,7 +31,7 @@ namespace Linq2AcDb
 
     public static IEnumerable<ObjectId> Add(this IEnumerable<UcsTableRecord> source, IEnumerable<UcsTableRecord> items)
     {
-      return SymbolTableHelpers.Add<UcsTableRecord, UcsTable>(source, items);
+      return SymbolTableHelpers.AddRange<UcsTableRecord, UcsTable>(source, items);
     }
   }
 }

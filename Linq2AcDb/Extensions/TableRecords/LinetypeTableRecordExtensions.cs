@@ -31,7 +31,7 @@ namespace Linq2AcDb
 
     public static IEnumerable<ObjectId> Add(this IEnumerable<LinetypeTableRecord> source, IEnumerable<LinetypeTableRecord> items)
     {
-      return SymbolTableHelpers.Add<LinetypeTableRecord, LinetypeTable>(source, items);
+      return SymbolTableHelpers.AddRange<LinetypeTableRecord, LinetypeTable>(source, items);
     }
   }
 }

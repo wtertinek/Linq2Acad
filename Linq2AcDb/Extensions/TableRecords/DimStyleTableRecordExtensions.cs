@@ -31,7 +31,7 @@ namespace Linq2AcDb
 
     public static IEnumerable<ObjectId> Add(this IEnumerable<DimStyleTableRecord> source, IEnumerable<DimStyleTableRecord> items)
     {
-      return SymbolTableHelpers.Add<DimStyleTableRecord, DimStyleTable>(source, items);
+      return SymbolTableHelpers.AddRange<DimStyleTableRecord, DimStyleTable>(source, items);
     }
   }
 }
