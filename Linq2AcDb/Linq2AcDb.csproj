@@ -69,13 +69,24 @@
   <ItemGroup>
     <Compile Include="ActiveDatabase.cs" />
     <Compile Include="AcdbEnumerable.cs" />
-    <Compile Include="BlockTableRecordExntensions.cs" />
-    <Compile Include="DatabaseExtensions.cs" />
+    <Compile Include="Extensions\DbObjectsExtensions.cs" />
+    <Compile Include="Extensions\TableRecord\BlockTableRecordExtensions.cs" />
+    <Compile Include="Extensions\DatabaseExtensions.cs" />
+    <Compile Include="Extensions\TablesRecords\BlockTableRecordsExtensions.cs" />
+    <Compile Include="Extensions\TablesRecords\DimStyleTableRecordExtensions.cs" />
+    <Compile Include="Extensions\TablesRecords\LayerTableRecordExtensions.cs" />
+    <Compile Include="Extensions\TablesRecords\LinetypeTableRecordExtensions.cs" />
+    <Compile Include="Extensions\TablesRecords\RegAppTableRecordExtensions.cs" />
+    <Compile Include="Extensions\TablesRecords\UcsTableRecordExtensions.cs" />
+    <Compile Include="Extensions\TablesRecords\ViewportTableRecordExtensions.cs" />
+    <Compile Include="Extensions\TablesRecords\ViewTableRecordExtensions.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="IAcadEnumerableData.cs" />
-    <Compile Include="IEnumerableExtensions.cs" />
+    <Compile Include="SymbolTableHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Extensions\TablesRecords\TextStyleTableRecordExtensions.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,6 +1,7 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices.Core;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
 using System;
 using System.Collections.Generic;
@@ -115,6 +116,47 @@ namespace Linq2AcDb.AcadTest
         var names = db.Layers
                       .Select(l => l.Name)
                       .ToArray();
+      }
+    }
+
+    [CommandMethod("TestAddLayer")]
+    public static void TestAddLayer()
+    {
+      using (var db = new ActiveDatabase(Database))
+      {
+        db.Layers
+          .Add(new LayerTableRecord() { Name = "TestLayer" });
+      }
+    }
+
+    [CommandMethod("TestGetLayer0")]
+    public static void TestGetLayer0()
+    {
+      using (var db = new ActiveDatabase(Database))
+      {
+        if (db.Layers.Contains("0"))
+        {
+          var name = db.Layers
+                       .GetItem("0").Name;
+          Debug.Assert(name == "0");
+        }
+      }
+    }
+
+    [CommandMethod("TestAddLine")]
+    public static void TestAddLine()
+    {
+      using (var db = new ActiveDatabase(Database))
+      {
+        db.ModelSpace
+          .Add(new Line(new Point3d(5, 5, 0),
+                        new Point3d(12, 3, 0)));
+
+        db.ModelSpace
+          .AddRange(new [] { new Line(new Point3d(5, 5, 0),
+                                      new Point3d(12, 3, 0)),
+                             new Line(new Point3d(500, 500, 0),
+                                      new Point3d(1200, 300, 0)) });
       }
     }
   }

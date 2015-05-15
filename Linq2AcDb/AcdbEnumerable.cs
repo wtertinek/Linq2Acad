@@ -10,17 +10,20 @@ namespace Linq2AcDb
 {
   class AcdbEnumerable<T> : IEnumerable<T>, IAcadEnumerableData where T : DBObject
   {
-    private AcdbEnumerable(Lazy<Transaction> transaction, IEnumerable<ObjectId> ids)
+    private AcdbEnumerable(Lazy<Transaction> transaction, IEnumerable<ObjectId> ids, ObjectId containerID = default(ObjectId))
     {
       Transaction = transaction;
       IDs = ids;
+      ContainerID = containerID;
     }
 
     public bool IsEnumerating { get; private set; }
 
+    public Lazy<Transaction> Transaction { get; private set; }
+
     public IEnumerable<ObjectId> IDs { get; private set; }
 
-    public Lazy<Transaction> Transaction { get; private set; }
+    public ObjectId ContainerID { get; private set; }
 
     public IEnumerator<T> GetEnumerator()
     {
@@ -53,17 +56,17 @@ namespace Linq2AcDb
     {
       if (filter)
       {
-        return new AcdbEnumerable<T>(transaction, EnumerateIds(transaction, containerID, o => (ObjectId)o, "AcDb" + typeof(T).Name));
+        return new AcdbEnumerable<T>(transaction, EnumerateIds(transaction, containerID, o => (ObjectId)o, "AcDb" + typeof(T).Name), containerID);
       }
       else
       {
-        return new AcdbEnumerable<T>(transaction, EnumerateIds(transaction, containerID, o => (ObjectId)o));
+        return new AcdbEnumerable<T>(transaction, EnumerateIds(transaction, containerID, o => (ObjectId)o), containerID);
       }
     }
 
     public static IEnumerable<T> Create(Lazy<Transaction> transaction, ObjectId containerID, Func<object, ObjectId> getObjectID)
     {
-      return new AcdbEnumerable<T>(transaction, EnumerateIds(transaction, containerID, getObjectID));
+      return new AcdbEnumerable<T>(transaction, EnumerateIds(transaction, containerID, getObjectID), containerID);
     }
 
     private static IEnumerable<ObjectId> EnumerateIds(Lazy<Transaction> transaction, ObjectId containerID, Func<object, ObjectId> getObjectID, string acDbType = null)

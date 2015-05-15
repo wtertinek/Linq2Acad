@@ -11,8 +11,10 @@ namespace Linq2AcDb
   {
     bool IsEnumerating { get; }
 
+    Lazy<Transaction> Transaction { get; }
+
     IEnumerable<ObjectId> IDs { get; }
 
-    Lazy<Transaction> Transaction { get; }
+    ObjectId ContainerID { get; }
   }
 }

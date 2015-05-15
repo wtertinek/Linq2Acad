@@ -19,6 +19,19 @@ using (var db = new ActiveDatabase(database))
 }
 ```
 
+Adding a line to the model space:
+
+```c#
+var database = Application.DocumentManager.MdiActiveDocument.Database;
+
+using (var db = new ActiveDatabase(Database))
+{
+  db.ModelSpace
+    .Add(new Line(new Point3d(5, 5, 0),
+                  new Point3d(12, 3, 0)));
+}
+```
+
 Printing all layer names:
 
 ```c#

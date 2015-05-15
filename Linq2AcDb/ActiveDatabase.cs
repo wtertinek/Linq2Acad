@@ -119,52 +119,52 @@ namespace Linq2AcDb
 
     public IEnumerable<ViewTableRecord> Views
     {
-      get { return  AcdbEnumerable<ViewTableRecord>.Create(Transaction, Database.ViewTableId); }
+      get { return AcdbEnumerable<ViewTableRecord>.Create(Transaction, Database.ViewTableId); }
     }
 
     public IEnumerable<Layout> Layouts
     {
-      get { return  AcdbEnumerable<Layout>.Create(Transaction, Database.LayoutDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
+      get { return AcdbEnumerable<Layout>.Create(Transaction, Database.LayoutDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
     }
 
     public IEnumerable<Group> Groups
     {
-      get { return  AcdbEnumerable<Group>.Create(Transaction, Database.GroupDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
+      get { return AcdbEnumerable<Group>.Create(Transaction, Database.GroupDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
     }
 
     public IEnumerable<MLeaderStyle> MLeaderStyles
     {
-      get { return  AcdbEnumerable<MLeaderStyle>.Create(Transaction, Database.MLeaderStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
+      get { return AcdbEnumerable<MLeaderStyle>.Create(Transaction, Database.MLeaderStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
     }
 
     public IEnumerable<Material> Materials
     {
-      get { return  AcdbEnumerable<Material>.Create(Transaction, Database.MaterialDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
+      get { return AcdbEnumerable<Material>.Create(Transaction, Database.MaterialDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
     }
 
     public IEnumerable<DBVisualStyle> DBVisualStyles
     {
-      get { return  AcdbEnumerable<DBVisualStyle>.Create(Transaction, Database.VisualStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
+      get { return AcdbEnumerable<DBVisualStyle>.Create(Transaction, Database.VisualStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
     }
 
     public IEnumerable<PlotSettings> PlotSettings
     {
-      get { return  AcdbEnumerable<PlotSettings>.Create(Transaction, Database.PlotSettingsDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
+      get { return AcdbEnumerable<PlotSettings>.Create(Transaction, Database.PlotSettingsDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
     }
 
     public IEnumerable<TableStyle> TableStyles
     {
-      get { return  AcdbEnumerable<TableStyle>.Create(Transaction, Database.TableStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
+      get { return AcdbEnumerable<TableStyle>.Create(Transaction, Database.TableStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
     }
 
     public IEnumerable<SectionViewStyle> SectionViewStyles
     {
-      get { return  AcdbEnumerable<SectionViewStyle>.Create(Transaction, Database.SectionViewStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
+      get { return AcdbEnumerable<SectionViewStyle>.Create(Transaction, Database.SectionViewStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
     }
 
     public IEnumerable<DetailViewStyle> DetailViewStyles
     {
-      get { return  AcdbEnumerable<DetailViewStyle>.Create(Transaction, Database.DetailViewStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
+      get { return AcdbEnumerable<DetailViewStyle>.Create(Transaction, Database.DetailViewStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
     }
 
     public BlockTableRecord CurrentSpace
