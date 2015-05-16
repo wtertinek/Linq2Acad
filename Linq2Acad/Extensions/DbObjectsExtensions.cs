@@ -51,9 +51,13 @@ namespace Linq2Acad
     {
       Helpers.CheckTransaction();
 
-      foreach (var item in source.Where(i => !i.IsWriteEnabled))
+      foreach (var item in source)
       {
-        item.UpgradeOpen();
+        if (!item.IsWriteEnabled)
+        {
+          item.UpgradeOpen();
+        }
+
         yield return item;
       }
     }
@@ -62,10 +66,14 @@ namespace Linq2Acad
     {
       Helpers.CheckTransaction();
 
-      foreach (var i in source.Where(i => !i.IsReadEnabled))
+      foreach (var item in source)
       {
-        i.DowngradeOpen();
-        yield return i;
+        if (!item.IsReadEnabled)
+        {
+          item.DowngradeOpen();
+        }
+
+        yield return item;
       }
     }
   }
