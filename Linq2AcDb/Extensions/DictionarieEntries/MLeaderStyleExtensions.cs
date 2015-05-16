@@ -24,12 +24,12 @@ namespace Linq2AcDb
       return DBDictionaryHelpers.Contains<MLeaderStyle>(source, ld => ld.Contains(id));
     }
 
-    public static ObjectId Set(this IEnumerable<MLeaderStyle> source, string name, MLeaderStyle item)
+    public static ObjectId Add(this IEnumerable<MLeaderStyle> source, string name, MLeaderStyle item)
     {
       return DBDictionaryHelpers.Set<MLeaderStyle>(source, name, item);
     }
 
-    public static IEnumerable<ObjectId> Set(this IEnumerable<MLeaderStyle> source, IEnumerable<string> names, IEnumerable<MLeaderStyle> items)
+    public static IEnumerable<ObjectId> Add(this IEnumerable<MLeaderStyle> source, IEnumerable<string> names, IEnumerable<MLeaderStyle> items)
     {
       return DBDictionaryHelpers.SetRange<MLeaderStyle>(source, names, items);
     }

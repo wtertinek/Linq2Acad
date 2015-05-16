@@ -24,12 +24,12 @@ namespace Linq2AcDb
       return DBDictionaryHelpers.Contains<PlotSettings>(source, ld => ld.Contains(id));
     }
 
-    public static ObjectId Set(this IEnumerable<PlotSettings> source, string name, PlotSettings item)
+    public static ObjectId Add(this IEnumerable<PlotSettings> source, string name, PlotSettings item)
     {
       return DBDictionaryHelpers.Set<PlotSettings>(source, name, item);
     }
 
-    public static IEnumerable<ObjectId> Set(this IEnumerable<PlotSettings> source, IEnumerable<string> names, IEnumerable<PlotSettings> items)
+    public static IEnumerable<ObjectId> Add(this IEnumerable<PlotSettings> source, IEnumerable<string> names, IEnumerable<PlotSettings> items)
     {
       return DBDictionaryHelpers.SetRange<PlotSettings>(source, names, items);
     }

@@ -24,12 +24,12 @@ namespace Linq2AcDb
       return DBDictionaryHelpers.Contains<Group>(source, ld => ld.Contains(id));
     }
 
-    public static ObjectId Set(this IEnumerable<Group> source, string name, Group item)
+    public static ObjectId Add(this IEnumerable<Group> source, string name, Group item)
     {
       return DBDictionaryHelpers.Set<Group>(source, name, item);
     }
 
-    public static IEnumerable<ObjectId> Set(this IEnumerable<Group> source, IEnumerable<string> names, IEnumerable<Group> items)
+    public static IEnumerable<ObjectId> Add(this IEnumerable<Group> source, IEnumerable<string> names, IEnumerable<Group> items)
     {
       return DBDictionaryHelpers.SetRange<Group>(source, names, items);
     }

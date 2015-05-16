@@ -9,7 +9,7 @@ namespace Linq2AcDb
 {
   public static class DBDictionaryHelpers
   {
-    public static T GetItem<T>(this IEnumerable<T> source, Func<DBDictionary, ObjectId> getID) where T : DBObject
+    public static T GetItem<T>(IEnumerable<T> source, Func<DBDictionary, ObjectId> getID) where T : DBObject
     {
       Helpers.CheckTransaction();
 
@@ -25,7 +25,7 @@ namespace Linq2AcDb
       }
     }
 
-    public static bool Contains<T>(this IEnumerable<T> source, Func<DBDictionary, bool> has) where T : DBObject
+    public static bool Contains<T>(IEnumerable<T> source, Func<DBDictionary, bool> has) where T : DBObject
     {
       Helpers.CheckTransaction();
 
@@ -41,7 +41,7 @@ namespace Linq2AcDb
       }
     }
 
-    public static ObjectId Set<T>(this IEnumerable<T> source, string name, T item) where T : DBObject
+    public static ObjectId Set<T>(IEnumerable<T> source, string name, T item) where T : DBObject
     {
       return SetRange<T>(source, new[] { name }, new[] { item }).First();
     }

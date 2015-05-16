@@ -24,12 +24,12 @@ namespace Linq2AcDb
       return DBDictionaryHelpers.Contains<SectionViewStyle>(source, ld => ld.Contains(id));
     }
 
-    public static ObjectId Set(this IEnumerable<SectionViewStyle> source, string name, SectionViewStyle item)
+    public static ObjectId Add(this IEnumerable<SectionViewStyle> source, string name, SectionViewStyle item)
     {
       return DBDictionaryHelpers.Set<SectionViewStyle>(source, name, item);
     }
 
-    public static IEnumerable<ObjectId> Set(this IEnumerable<SectionViewStyle> source, IEnumerable<string> names, IEnumerable<SectionViewStyle> items)
+    public static IEnumerable<ObjectId> Add(this IEnumerable<SectionViewStyle> source, IEnumerable<string> names, IEnumerable<SectionViewStyle> items)
     {
       return DBDictionaryHelpers.SetRange<SectionViewStyle>(source, names, items);
     }

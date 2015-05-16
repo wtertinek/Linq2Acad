@@ -171,7 +171,7 @@ namespace Linq2AcDb.AcadTest
         }
         else
         {
-          db.Groups.Set("Group1", new Group("This is Group 1", true));
+          db.Groups.Add("Group1", new Group("This is Group 1", true));
         }
       }
     }
