@@ -39,8 +39,8 @@ namespace Linq2Acad
       }
     }
 
-    public static bool Contains<TRecord, TTable>(this IEnumerable<TRecord> source, Func<TTable, bool> has) where TRecord : SymbolTableRecord
-                                                                                                           where TTable : SymbolTable
+    public static bool Contains<TRecord, TTable>(this IEnumerable<TRecord> source, Func<TTable, bool> has, Func<TRecord, bool> altPredicate) where TRecord : SymbolTableRecord
+                                                                                                                                             where TTable : SymbolTable
     {
       Helpers.CheckTransaction();
 
@@ -52,7 +52,7 @@ namespace Linq2Acad
       }
       else
       {
-        throw new InvalidOperationException();
+        return source.Any(altPredicate);
       }
     }
 

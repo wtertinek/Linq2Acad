@@ -11,17 +11,17 @@ namespace Linq2Acad
   {
     public static SectionViewStyle GetItem(this IEnumerable<SectionViewStyle> source, string name)
     {
-      return DBDictionaryHelpers.GetItem<SectionViewStyle>(source, ld => ld.GetAt(name));
+      return DBDictionaryHelpers.GetItem<SectionViewStyle>(source, sd => sd.GetAt(name));
     }
 
     public static bool Contains(this IEnumerable<SectionViewStyle> source, string name)
     {
-      return DBDictionaryHelpers.Contains<SectionViewStyle>(source, ld => ld.Contains(name));
+      return DBDictionaryHelpers.Contains<SectionViewStyle>(source, sd => sd.Contains(name), s => s.Name == name);
     }
 
     public static bool Contains(this IEnumerable<SectionViewStyle> source, ObjectId id)
     {
-      return DBDictionaryHelpers.Contains<SectionViewStyle>(source, ld => ld.Contains(id));
+      return DBDictionaryHelpers.Contains<SectionViewStyle>(source, sd => sd.Contains(id), s => s.ObjectId == id);
     }
 
     public static ObjectId Add(this IEnumerable<SectionViewStyle> source, string name, SectionViewStyle item)

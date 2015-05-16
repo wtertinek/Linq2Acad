@@ -11,17 +11,17 @@ namespace Linq2Acad
   {
     public static MlineStyle GetItem(this IEnumerable<MlineStyle> source, string name)
     {
-      return DBDictionaryHelpers.GetItem<MlineStyle>(source, ld => ld.GetAt(name));
+      return DBDictionaryHelpers.GetItem<MlineStyle>(source, sd => sd.GetAt(name));
     }
 
     public static bool Contains(this IEnumerable<MlineStyle> source, string name)
     {
-      return DBDictionaryHelpers.Contains<MlineStyle>(source, ld => ld.Contains(name));
+      return DBDictionaryHelpers.Contains<MlineStyle>(source, sd => sd.Contains(name), s => s.Name == name);
     }
 
     public static bool Contains(this IEnumerable<MlineStyle> source, ObjectId id)
     {
-      return DBDictionaryHelpers.Contains<MlineStyle>(source, ld => ld.Contains(id));
+      return DBDictionaryHelpers.Contains<MlineStyle>(source, sd => sd.Contains(id), s => s.ObjectId == id);
     }
 
     public static ObjectId Add(this IEnumerable<MlineStyle> source, string name, MlineStyle item)

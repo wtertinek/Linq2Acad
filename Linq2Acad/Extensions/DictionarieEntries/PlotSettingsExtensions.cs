@@ -11,17 +11,17 @@ namespace Linq2Acad
   {
     public static PlotSettings GetItem(this IEnumerable<PlotSettings> source, string name)
     {
-      return DBDictionaryHelpers.GetItem<PlotSettings>(source, ld => ld.GetAt(name));
+      return DBDictionaryHelpers.GetItem<PlotSettings>(source, sd => sd.GetAt(name));
     }
 
     public static bool Contains(this IEnumerable<PlotSettings> source, string name)
     {
-      return DBDictionaryHelpers.Contains<PlotSettings>(source, ld => ld.Contains(name));
+      return DBDictionaryHelpers.Contains<PlotSettings>(source, sd => sd.Contains(name), s => s.PlotSettingsName == name);
     }
 
     public static bool Contains(this IEnumerable<PlotSettings> source, ObjectId id)
     {
-      return DBDictionaryHelpers.Contains<PlotSettings>(source, ld => ld.Contains(id));
+      return DBDictionaryHelpers.Contains<PlotSettings>(source, sd => sd.Contains(id), s => s.ObjectId == id);
     }
 
     public static ObjectId Add(this IEnumerable<PlotSettings> source, string name, PlotSettings item)

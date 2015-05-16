@@ -11,17 +11,17 @@ namespace Linq2Acad
   {
     public static TableStyle GetItem(this IEnumerable<TableStyle> source, string name)
     {
-      return DBDictionaryHelpers.GetItem<TableStyle>(source, ld => ld.GetAt(name));
+      return DBDictionaryHelpers.GetItem<TableStyle>(source, sd => sd.GetAt(name));
     }
 
     public static bool Contains(this IEnumerable<TableStyle> source, string name)
     {
-      return DBDictionaryHelpers.Contains<TableStyle>(source, ld => ld.Contains(name));
+      return DBDictionaryHelpers.Contains<TableStyle>(source, sd => sd.Contains(name), s => s.Name == name);
     }
 
     public static bool Contains(this IEnumerable<TableStyle> source, ObjectId id)
     {
-      return DBDictionaryHelpers.Contains<TableStyle>(source, ld => ld.Contains(id));
+      return DBDictionaryHelpers.Contains<TableStyle>(source, sd => sd.Contains(id), s => s.ObjectId == id);
     }
 
     public static ObjectId Add(this IEnumerable<TableStyle> source, string name, TableStyle item)

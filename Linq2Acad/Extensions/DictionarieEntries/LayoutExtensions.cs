@@ -16,12 +16,12 @@ namespace Linq2Acad
 
     public static bool Contains(this IEnumerable<Layout> source, string name)
     {
-      return DBDictionaryHelpers.Contains<Layout>(source, ld => ld.Contains(name));
+      return DBDictionaryHelpers.Contains<Layout>(source, ld => ld.Contains(name), l => l.LayoutName == name);
     }
 
     public static bool Contains(this IEnumerable<Layout> source, ObjectId id)
     {
-      return DBDictionaryHelpers.Contains<Layout>(source, ld => ld.Contains(id));
+      return DBDictionaryHelpers.Contains<Layout>(source, ld => ld.Contains(id), l => l.ObjectId == id);
     }
 
     public static ObjectId Add(this IEnumerable<Layout> source, string name, Layout item)

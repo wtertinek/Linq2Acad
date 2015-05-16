@@ -21,12 +21,12 @@ namespace Linq2Acad
 
     public static bool Contains(this IEnumerable<LayerTableRecord> source, string name)
     {
-      return TableHelpers.Contains<LayerTableRecord, LayerTable>(source, lt => lt.Has(name));
+      return TableHelpers.Contains<LayerTableRecord, LayerTable>(source, lt => lt.Has(name), ltr => ltr.Name == name);
     }
 
     public static bool Contains(this IEnumerable<LayerTableRecord> source, ObjectId id)
     {
-      return TableHelpers.Contains<LayerTableRecord, LayerTable>(source, lt => lt.Has(id));
+      return TableHelpers.Contains<LayerTableRecord, LayerTable>(source, lt => lt.Has(id), ltr => ltr.ObjectId == id);
     }
 
     public static ObjectId Add(this IEnumerable<LayerTableRecord> source, LayerTableRecord item)

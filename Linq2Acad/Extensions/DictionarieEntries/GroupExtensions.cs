@@ -11,17 +11,17 @@ namespace Linq2Acad
   {
     public static Group GetItem(this IEnumerable<Group> source, string name)
     {
-      return DBDictionaryHelpers.GetItem<Group>(source, ld => ld.GetAt(name));
+      return DBDictionaryHelpers.GetItem<Group>(source, gd => gd.GetAt(name));
     }
 
     public static bool Contains(this IEnumerable<Group> source, string name)
     {
-      return DBDictionaryHelpers.Contains<Group>(source, ld => ld.Contains(name));
+      return DBDictionaryHelpers.Contains<Group>(source, gd => gd.Contains(name), g => g.Name == name);
     }
 
     public static bool Contains(this IEnumerable<Group> source, ObjectId id)
     {
-      return DBDictionaryHelpers.Contains<Group>(source, ld => ld.Contains(id));
+      return DBDictionaryHelpers.Contains<Group>(source, gd => gd.Contains(id), s => s.ObjectId == id);
     }
 
     public static ObjectId Add(this IEnumerable<Group> source, string name, Group item)

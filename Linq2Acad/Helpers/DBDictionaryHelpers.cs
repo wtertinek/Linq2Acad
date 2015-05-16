@@ -25,7 +25,7 @@ namespace Linq2Acad
       }
     }
 
-    public static bool Contains<T>(IEnumerable<T> source, Func<DBDictionary, bool> has) where T : DBObject
+    public static bool Contains<T>(IEnumerable<T> source, Func<DBDictionary, bool> has, Func<T, bool> altPredicate) where T : DBObject
     {
       Helpers.CheckTransaction();
 
@@ -37,7 +37,7 @@ namespace Linq2Acad
       }
       else
       {
-        throw new InvalidOperationException();
+        return source.Any(altPredicate);
       }
     }
 

@@ -21,12 +21,12 @@ namespace Linq2Acad
 
     public static bool Contains(this IEnumerable<RegAppTableRecord> source, string name)
     {
-      return TableHelpers.Contains<RegAppTableRecord, RegAppTable>(source, rat => rat.Has(name));
+      return TableHelpers.Contains<RegAppTableRecord, RegAppTable>(source, rat => rat.Has(name), tatr => tatr.Name == name);
     }
 
     public static bool Contains(this IEnumerable<RegAppTableRecord> source, ObjectId id)
     {
-      return TableHelpers.Contains<RegAppTableRecord, RegAppTable>(source, rat => rat.Has(id));
+      return TableHelpers.Contains<RegAppTableRecord, RegAppTable>(source, rat => rat.Has(id), rat => rat.ObjectId == id);
     }
 
     public static ObjectId Add(this IEnumerable<RegAppTableRecord> source, RegAppTableRecord item)

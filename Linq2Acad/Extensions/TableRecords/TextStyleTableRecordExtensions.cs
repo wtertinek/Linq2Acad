@@ -21,12 +21,12 @@ namespace Linq2Acad
 
     public static bool Contains(this IEnumerable<TextStyleTableRecord> source, string name)
     {
-      return TableHelpers.Contains<TextStyleTableRecord, TextStyleTable>(source, tst => tst.Has(name));
+      return TableHelpers.Contains<TextStyleTableRecord, TextStyleTable>(source, tst => tst.Has(name), tstr => tstr.Name == name);
     }
 
     public static bool Contains(this IEnumerable<TextStyleTableRecord> source, ObjectId id)
     {
-      return TableHelpers.Contains<TextStyleTableRecord, TextStyleTable>(source, tst => tst.Has(id));
+      return TableHelpers.Contains<TextStyleTableRecord, TextStyleTable>(source, tst => tst.Has(id), tstr => tstr.ObjectId == id);
     }
 
     public static ObjectId Add(this IEnumerable<TextStyleTableRecord> source, TextStyleTableRecord item)

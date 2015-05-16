@@ -27,12 +27,12 @@ namespace Linq2Acad
 
     public static bool Contains(this IEnumerable<ViewportTableRecord> source, string name)
     {
-      return TableHelpers.Contains<ViewportTableRecord, ViewportTable>(source, vt => vt.Has(name));
+      return TableHelpers.Contains<ViewportTableRecord, ViewportTable>(source, vt => vt.Has(name), vtr => vtr.Name == name);
     }
 
     public static bool Contains(this IEnumerable<ViewportTableRecord> source, ObjectId id)
     {
-      return TableHelpers.Contains<ViewportTableRecord, ViewportTable>(source, vt => vt.Has(id));
+      return TableHelpers.Contains<ViewportTableRecord, ViewportTable>(source, vt => vt.Has(id), vtr => vtr.ObjectId == id);
     }
 
     public static ObjectId Add(this IEnumerable<ViewportTableRecord> source, ViewportTableRecord item)
