@@ -70,7 +70,6 @@ namespace Linq2Acad.Tests
         db.ModelSpace
           .Items()
           .OfType<BlockReference>()
-          .UpgradeOpen()
           .ForEach(br => br.Erase());
       }
 

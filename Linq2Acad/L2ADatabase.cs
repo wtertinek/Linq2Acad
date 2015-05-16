@@ -14,46 +14,41 @@ namespace Linq2Acad
     private bool commit;
     private bool dispose;
 
-    private L2ADatabase()
-    {
-      CheckTransaction();
-    }
-
     private L2ADatabase(Database database)
     {
       CheckTransaction();
+      CheckDatabase(database);
 
-      if (database != null)
-      {
-        AcadDatabase = database;
-        commit = true;
-        dispose = true;
-        Transaction = new Lazy<Transaction>(AcadDatabase.TransactionManager.StartTransaction);
-        IsValid = true;
-      }
+      AcadDatabase = database;
+      commit = true;
+      dispose = true;
+      Transaction = new Lazy<Transaction>(AcadDatabase.TransactionManager.StartTransaction);
     }
 
     private L2ADatabase(Database database, Transaction tr, bool commit, bool dispose)
     {
       CheckTransaction();
+      CheckDatabase(database);
 
-      if (database != null)
-      {
-        AcadDatabase = database;
-        this.commit = commit;
-        this.dispose = dispose;
-        Transaction = new Lazy<Transaction>(() => tr);
-        IsValid = true;
-      }
+      AcadDatabase = database;
+      this.commit = commit;
+      this.dispose = dispose;
+      Transaction = new Lazy<Transaction>(() => tr);
     }
-
-    public bool IsValid { get; private set; }
 
     private void CheckTransaction()
     {
       if (Transaction != null)
       {
         throw new InvalidOperationException("Can't create nested instance of ActiveDatabase");
+      }
+    }
+
+    private void CheckDatabase(Database database)
+    {
+      if (database == null)
+      {
+        throw new InvalidOperationException("No database available");
       }
     }
 
@@ -84,6 +79,8 @@ namespace Linq2Acad
 
       Transaction = null;
     }
+
+    #region Properties
 
     public IEnumerable<BlockTableRecord> Blocks
     {
@@ -209,11 +206,13 @@ namespace Linq2Acad
       return (BlockTableRecord)Transaction.Value.GetObject(modelSpaceId, OpenMode.ForRead);
     }
 
+    #endregion
+
     public static L2ADatabase ActiveDatabase()
     {
       if (Application.DocumentManager.MdiActiveDocument == null)
       {
-        return new L2ADatabase();
+        throw new InvalidOperationException("No document available");
       }
 
       return new L2ADatabase(Application.DocumentManager.MdiActiveDocument.Database);
@@ -223,7 +222,7 @@ namespace Linq2Acad
     {
       if (Application.DocumentManager.MdiActiveDocument == null)
       {
-        return new L2ADatabase();
+        throw new InvalidOperationException("No document available");
       }
 
       return new L2ADatabase(Application.DocumentManager.MdiActiveDocument.Database, tr, commit, dispose);
