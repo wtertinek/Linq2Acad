@@ -35,17 +35,17 @@ namespace Linq2Acad
 
         var btr = (BlockTableRecord)L2ADatabase.Transaction.Value.GetObject(data.ContainerID, OpenMode.ForWrite);
 
-        foreach (var item in items)
-        {
-          if (!noDatabaseDefaults)
-          {
-            item.SetDatabaseDefaults();
-          }
+        return items.Select(i =>
+                           {
+                             if (!noDatabaseDefaults)
+                             {
+                               i.SetDatabaseDefaults();
+                             }
 
-          var id = btr.AppendEntity(item);
-          L2ADatabase.Transaction.Value.AddNewlyCreatedDBObject(item, true);
-          yield return id;
-        }
+                             var id = btr.AppendEntity(i);
+                             L2ADatabase.Transaction.Value.AddNewlyCreatedDBObject(i, true);
+                             return id;
+                           }).ToArray();
       }
       else
       {

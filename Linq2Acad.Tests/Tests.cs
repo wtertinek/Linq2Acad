@@ -185,5 +185,44 @@ namespace Linq2Acad.Tests
         }
       }
     }
+
+    [CommandMethod("TestCreateLines")]
+    public static void TestCreateLines()
+    {
+      var start = DateTime.Now;
+
+      using (var db = L2ADatabase.ActiveDatabase())
+      {
+        var lines = new List<Line>();
+
+        for (int i = 0; i < 100; i++)
+        {
+          for (int j = 0; j < 1000; j++)
+          {
+            var x = j % 2;
+            lines.Add(new Line(new Point3d(i * 10, j * 10 + x * 10, 0), new Point3d(i * 10 + 10, j * 10 + x * 10, 0)));
+          }
+        }
+
+        db.ModelSpace.Add(lines);
+      }
+
+      Editor.WriteMessage("Done in " + (DateTime.Now - start).TotalMilliseconds + "ms");
+    }
+
+    [CommandMethod("TestDeleteLines")]
+    public static void TestDeleteLines()
+    {
+      var start = DateTime.Now;
+
+      using (var db = L2ADatabase.ActiveDatabase())
+      {
+        db.ModelSpace
+          .OfType<Line>()
+          .ForEach(br => br.Erase());
+      }
+
+      Editor.WriteMessage("Done in " + (DateTime.Now - start).TotalMilliseconds + "ms");
+    }
   }
 }
