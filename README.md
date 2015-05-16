@@ -1,5 +1,5 @@
-###Linq2AcDb
-**Linq2AcDb** is a library that aims to simplify .NET AutoCAD addin code. The use of transactions is abstracted away by using extension methods and ```IEnumerable<T>```. This provides the possibility to execute LINQ queries on database-resident objects. The AutoCAD .NET API already offers a way to use LINQ query through the ```dynamic``` keyword, which has the drawback of losing the type information. Using Linq2AcDb the full type information is preserved.
+###Linq2Acad
+**Linq2Acad** is a library that aims to simplify .NET AutoCAD addin code. The use of transactions is abstracted away by using extension methods and ```IEnumerable<T>```. This provides the possibility to execute LINQ queries on database-resident objects. The AutoCAD .NET API already offers a way to use LINQ query through the ```dynamic``` keyword, which has the drawback of losing the type information. Using Linq2Acad the full type information is preserved.
 
 In general, the library should be a more intuitive API for working with the drawing database, making the learning curve for beginners less steep.
 
@@ -7,9 +7,7 @@ In general, the library should be a more intuitive API for working with the draw
 As an example, erasing all BlockReferences from the model space can be done like this:
 
 ```c#
-var database = Application.DocumentManager.MdiActiveDocument.Database;
-
-using (var db = new ActiveDatabase(database))
+using (var db = L2ADatabase.ActiveDatabase())
 {
   db.ModelSpace
     .OfType<BlockReference>()
@@ -20,9 +18,7 @@ using (var db = new ActiveDatabase(database))
 Adding a line to the model space:
 
 ```c#
-var database = Application.DocumentManager.MdiActiveDocument.Database;
-
-using (var db = new ActiveDatabase(database))
+using (var db = L2ADatabase.ActiveDatabase())
 {
   db.ModelSpace
     .Add(new Line(new Point3d(5, 5, 0),
@@ -33,10 +29,9 @@ using (var db = new ActiveDatabase(database))
 Printing all layer names:
 
 ```c#
-var database = Application.DocumentManager.MdiActiveDocument.Database;
 var editor = Application.DocumentManager.MdiActiveDocument.Editor;
 
-using (var db = new ActiveDatabase(database))
+using (var db = L2ADatabase.ActiveDatabase())
 {
   db.Layers
     .ForEach(l => editor.WriteLine(l.Name));
@@ -46,10 +41,9 @@ using (var db = new ActiveDatabase(database))
 Creating a group:
 
 ```c#
-var database = Application.DocumentManager.MdiActiveDocument.Database;
 var editor = Application.DocumentManager.MdiActiveDocument.Editor;
 
-using (var db = new ActiveDatabase(database))
+using (var db = L2ADatabase.ActiveDatabase())
 {
   if (db.Groups.Contains("Group1"))
   {
@@ -65,10 +59,9 @@ using (var db = new ActiveDatabase(database))
 Picking an entity and turning off all layers, except the entity's layer:
 
 ```c#
-var database = Application.DocumentManager.MdiActiveDocument.Database;
 var editor = Application.DocumentManager.MdiActiveDocument.Editor;
 
-using (var db = new ActiveDatabase(database))
+using (var db = L2ADatabase.ActiveDatabase())
 {
   var result = editor.GetEntity("Select an entity");
 
