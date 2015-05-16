@@ -59,7 +59,7 @@ using (var db = new ActiveDatabase(database))
   }
   else
   {
-    db.Groups.Set("Group1", new Group("This is Group 1", true));
+    db.Groups.Add("Group1", new Group("This is Group 1", true));
   }
 }
 ```
@@ -70,22 +70,18 @@ Picking an entity and turning off all layers, except the entity's layer:
 var database = Application.DocumentManager.MdiActiveDocument.Database;
 var editor = Application.DocumentManager.MdiActiveDocument.Editor;
 
-[CommandMethod("TestTurnOffLayers")]
-public static void TestTurnOffLayers()
+using (var db = new ActiveDatabase(database))
 {
-  using (var db = new ActiveDatabase(database))
-  {
-    var result = editor.GetEntity("Select an entity");
+  var result = editor.GetEntity("Select an entity");
 
-    if (result.Status == PromptStatus.OK)
-    {
-      var layerID = db.Database
-                      .GetObject<Entity>(result.ObjectId)
-                      .LayerId;
-      db.Layers
-        .Where(l => l.Id != layerID)
-        .ForEach(l => l.IsOff = true);
-    }
+  if (result.Status == PromptStatus.OK)
+  {
+    var layerID = db.Database
+                    .GetObject<Entity>(result.ObjectId)
+                    .LayerId;
+    db.Layers
+      .Where(l => l.Id != layerID)
+      .ForEach(l => l.IsOff = true);
   }
 }
 ```
