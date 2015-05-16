@@ -181,32 +181,30 @@ namespace Linq2Acad
       get { return AcdbEnumerable<DetailViewStyle>.Create(Transaction, AcadDatabase.DetailViewStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
     }
 
-    public BlockTableRecord CurrentSpace
+    public IEnumerable<Entity> CurrentSpace
     {
-      get
-      {
-        Helpers.CheckTransaction();
-        return (BlockTableRecord)Transaction.Value.GetObject(AcadDatabase.CurrentSpaceId, OpenMode.ForRead);
-      }
+      get { return AcdbEnumerable<Entity>.Create(Transaction, AcadDatabase.CurrentSpaceId); }
     }
 
-    public BlockTableRecord ModelSpace
+    public IEnumerable<Entity> ModelSpace
     {
       get { return GetSpace(BlockTableRecord.ModelSpace); }
     }
-    public BlockTableRecord PaperSpace
+    public IEnumerable<Entity> PaperSpace
     {
       get { return GetSpace(BlockTableRecord.PaperSpace); }
     }
 
-    private BlockTableRecord GetSpace(string name)
+    private IEnumerable<Entity> GetSpace(string name)
     {
       Helpers.CheckTransaction();
       var modelSpaceId = ((BlockTable)Transaction.Value.GetObject(AcadDatabase.BlockTableId, OpenMode.ForRead))[name];
-      return (BlockTableRecord)Transaction.Value.GetObject(modelSpaceId, OpenMode.ForRead);
+      return AcdbEnumerable<Entity>.Create(Transaction, modelSpaceId);
     }
 
     #endregion
+
+    #region Factory methods
 
     public static L2ADatabase ActiveDatabase()
     {
@@ -237,5 +235,7 @@ namespace Linq2Acad
     {
       return new L2ADatabase(database, tr, commit, dispose);
     }
+
+    #endregion
   }
 }

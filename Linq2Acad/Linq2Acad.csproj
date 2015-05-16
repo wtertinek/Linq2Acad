@@ -73,6 +73,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\EntitiesExtensions.cs" />
     <Compile Include="L2ADatabase.cs" />
     <Compile Include="AcdbEnumerable.cs" />
     <Compile Include="DBDictionaryHelpers.cs" />
@@ -86,7 +87,6 @@
     <Compile Include="Extensions\DictionarieEntries\MLeaderStyleExtensions.cs" />
     <Compile Include="Extensions\DictionarieEntries\LayoutExtensions.cs" />
     <Compile Include="Extensions\DbObjectsExtensions.cs" />
-    <Compile Include="Extensions\TableRecord\BlockTableRecordExtensions.cs" />
     <Compile Include="Extensions\DatabaseExtensions.cs" />
     <Compile Include="Extensions\TableRecords\BlockTableRecordsExtensions.cs" />
     <Compile Include="Extensions\TableRecords\DimStyleTableRecordExtensions.cs" />

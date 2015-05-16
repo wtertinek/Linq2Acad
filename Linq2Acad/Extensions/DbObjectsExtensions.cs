@@ -16,6 +16,7 @@ namespace Linq2Acad
       foreach (var item in items)
       {
         Helpers.WriteCheck(item, () => action(item));
+        action(item);
       }
     }
 

@@ -68,7 +68,6 @@ namespace Linq2Acad.Tests
       using (var db = L2ADatabase.ActiveDatabase())
       {
         db.ModelSpace
-          .Items()
           .OfType<BlockReference>()
           .ForEach(br => br.Erase());
       }
@@ -82,13 +81,11 @@ namespace Linq2Acad.Tests
       using (var db = L2ADatabase.ActiveDatabase())
       {
         var names1 = db.ModelSpace
-                       .Items()
                        .OfType<BlockReference>()
                        .Select(br => br.Name)
                        .ToArray();
 
         var names2 = db.CurrentSpace
-                       .Items()
                        .OfType<BlockReference>()
                        .Select(br => br.Name)
                        .ToArray();
@@ -147,10 +144,10 @@ namespace Linq2Acad.Tests
                         new Point3d(12, 3, 0)));
 
         db.ModelSpace
-          .AddRange(new [] { new Line(new Point3d(5, 5, 0),
-                                      new Point3d(12, 3, 0)),
-                             new Line(new Point3d(500, 500, 0),
-                                      new Point3d(1200, 300, 0)) });
+          .Add(new [] { new Line(new Point3d(5, 5, 0),
+                                 new Point3d(12, 3, 0)),
+                        new Line(new Point3d(500, 500, 0),
+                                 new Point3d(1200, 300, 0)) });
       }
     }
 
