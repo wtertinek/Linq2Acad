@@ -15,7 +15,7 @@ namespace Linq2AcDb
 
       foreach (var item in items)
       {
-        action(item);
+        Helpers.WriteCheck(item, () => action(item));
       }
     }
 
