@@ -26,11 +26,11 @@ namespace Linq2Acad
 
       if (source is IAcadEnumerableData)
       {
-        var enumerable = (IAcadEnumerableData)source;
+        var data = (IAcadEnumerableData)source;
 
-        if (!enumerable.IsEnumerating)
+        if (!data.IsEnumerating)
         {
-          return AcdbEnumerable<T>.Create(enumerable.Transaction, enumerable.IDs, true);
+          return AcdbEnumerable<T>.Create(data.Transaction, data.ContainerID, true);
         }
       }
 
