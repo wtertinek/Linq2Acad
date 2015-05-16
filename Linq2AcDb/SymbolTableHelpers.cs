@@ -9,6 +9,19 @@ namespace Linq2AcDb
 {
   static class SymbolTableHelpers
   {
+    public static bool IsValidName(string name, bool allowVerticalBar)
+    {
+      try
+      {
+        SymbolUtilityServices.ValidateSymbolName(name, allowVerticalBar);
+        return true;
+      }
+      catch
+      {
+        return false;
+      }
+    }
+
     public static TRecord GetItem<TRecord, TTable>(this IEnumerable<TRecord> source, Func<TTable, ObjectId> getID) where TRecord : SymbolTableRecord
                                                                                                                    where TTable : SymbolTable
     {

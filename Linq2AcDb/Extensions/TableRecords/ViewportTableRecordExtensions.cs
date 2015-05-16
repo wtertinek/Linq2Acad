@@ -9,6 +9,11 @@ namespace Linq2AcDb
 {
   public static class ViewportTableRecordExtensions
   {
+    public static bool IsValidName(this IEnumerable<ViewportTableRecord> source, string name, bool allowVerticalBar)
+    {
+      return SymbolTableHelpers.IsValidName(name, allowVerticalBar);
+    }
+
     public static ViewportTableRecord GetItem(this IEnumerable<ViewportTableRecord> source, string name)
     {
       return SymbolTableHelpers.GetItem<ViewportTableRecord, ViewportTable>(source, vt => vt[name]);

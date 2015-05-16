@@ -9,6 +9,11 @@ namespace Linq2AcDb
 {
   public static class TextStyleTableRecordExtensions
   {
+    public static bool IsValidName(this IEnumerable<TextStyleTableRecord> source, string name, bool allowVerticalBar)
+    {
+      return SymbolTableHelpers.IsValidName(name, allowVerticalBar);
+    }
+
     public static TextStyleTableRecord GetItem(this IEnumerable<TextStyleTableRecord> source, string name)
     {
       return SymbolTableHelpers.GetItem<TextStyleTableRecord, TextStyleTable>(source, tst => tst[name]);

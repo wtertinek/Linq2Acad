@@ -9,6 +9,11 @@ namespace Linq2AcDb
 {
   public static class LinetypeTableRecordExtensions
   {
+    public static bool IsValidName(this IEnumerable<LinetypeTableRecord> source, string name, bool allowVerticalBar)
+    {
+      return SymbolTableHelpers.IsValidName(name, allowVerticalBar);
+    }
+
     public static LinetypeTableRecord GetItem(this IEnumerable<LinetypeTableRecord> source, string name)
     {
       return SymbolTableHelpers.GetItem<LinetypeTableRecord, LinetypeTable>(source, lt => lt[name]);

@@ -9,6 +9,11 @@ namespace Linq2AcDb
 {
   public static class BlockTableRecordExtensions
   {
+    public static bool IsValidName(this IEnumerable<BlockTableRecord> source, string name, bool allowVerticalBar)
+    {
+      return SymbolTableHelpers.IsValidName(name, allowVerticalBar);
+    }
+
     public static BlockTableRecord GetItem(this IEnumerable<BlockTableRecord> source, string name)
     {
       return SymbolTableHelpers.GetItem<BlockTableRecord, BlockTable>(source, bt => bt[name]);

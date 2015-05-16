@@ -9,6 +9,11 @@ namespace Linq2AcDb
 {
   public static class RegAppTableRecordExtensions
   {
+    public static bool IsValidName(this IEnumerable<RegAppTableRecord> source, string name, bool allowVerticalBar)
+    {
+      return SymbolTableHelpers.IsValidName(name, allowVerticalBar);
+    }
+
     public static RegAppTableRecord GetItem(this IEnumerable<RegAppTableRecord> source, string name)
     {
       return SymbolTableHelpers.GetItem<RegAppTableRecord, RegAppTable>(source, rat => rat[name]);

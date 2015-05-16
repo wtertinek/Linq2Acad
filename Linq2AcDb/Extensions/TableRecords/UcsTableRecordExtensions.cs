@@ -9,6 +9,11 @@ namespace Linq2AcDb
 {
   public static class UcsTableRecordExtensions
   {
+    public static bool IsValidName(this IEnumerable<UcsTableRecord> source, string name, bool allowVerticalBar)
+    {
+      return SymbolTableHelpers.IsValidName(name, allowVerticalBar);
+    }
+
     public static UcsTableRecord GetItem(this IEnumerable<UcsTableRecord> source, string name)
     {
       return SymbolTableHelpers.GetItem<UcsTableRecord, UcsTable>(source, ut => ut[name]);

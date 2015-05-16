@@ -9,6 +9,11 @@ namespace Linq2AcDb
 {
   public static class LayerTableRecordExtensions
   {
+    public static bool IsValidName(this IEnumerable<LayerTableRecord> source, string name, bool allowVerticalBar)
+    {
+      return SymbolTableHelpers.IsValidName(name, allowVerticalBar);
+    }
+
     public static LayerTableRecord GetItem(this IEnumerable<LayerTableRecord> source, string name)
     {
       return SymbolTableHelpers.GetItem<LayerTableRecord, LayerTable>(source, lt => lt[name]);
