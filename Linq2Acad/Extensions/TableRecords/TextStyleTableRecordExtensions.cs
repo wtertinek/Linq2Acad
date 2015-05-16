@@ -11,32 +11,32 @@ namespace Linq2Acad
   {
     public static bool IsValidName(this IEnumerable<TextStyleTableRecord> source, string name, bool allowVerticalBar)
     {
-      return SymbolTableHelpers.IsValidName(name, allowVerticalBar);
+      return TableHelpers.IsValidName(name, allowVerticalBar);
     }
 
     public static TextStyleTableRecord GetItem(this IEnumerable<TextStyleTableRecord> source, string name)
     {
-      return SymbolTableHelpers.GetItem<TextStyleTableRecord, TextStyleTable>(source, tst => tst[name]);
+      return TableHelpers.GetItem<TextStyleTableRecord, TextStyleTable>(source, tst => tst[name]);
     }
 
     public static bool Contains(this IEnumerable<TextStyleTableRecord> source, string name)
     {
-      return SymbolTableHelpers.Contains<TextStyleTableRecord, TextStyleTable>(source, tst => tst.Has(name));
+      return TableHelpers.Contains<TextStyleTableRecord, TextStyleTable>(source, tst => tst.Has(name));
     }
 
     public static bool Contains(this IEnumerable<TextStyleTableRecord> source, ObjectId id)
     {
-      return SymbolTableHelpers.Contains<TextStyleTableRecord, TextStyleTable>(source, tst => tst.Has(id));
+      return TableHelpers.Contains<TextStyleTableRecord, TextStyleTable>(source, tst => tst.Has(id));
     }
 
     public static ObjectId Add(this IEnumerable<TextStyleTableRecord> source, TextStyleTableRecord item)
     {
-      return SymbolTableHelpers.Add<TextStyleTableRecord, TextStyleTable>(source, item);
+      return TableHelpers.Add<TextStyleTableRecord, TextStyleTable>(source, item);
     }
 
     public static IEnumerable<ObjectId> Add(this IEnumerable<TextStyleTableRecord> source, IEnumerable<TextStyleTableRecord> items)
     {
-      return SymbolTableHelpers.AddRange<TextStyleTableRecord, TextStyleTable>(source, items);
+      return TableHelpers.AddRange<TextStyleTableRecord, TextStyleTable>(source, items);
     }
   }
 }

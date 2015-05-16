@@ -73,14 +73,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enumerables\DbDictionaryEnumerable.cs" />
+    <Compile Include="Enumerables\DBDictionaryEnumerable.cs" />
     <Compile Include="Enumerables\EnumerableBase.cs" />
     <Compile Include="Enumerables\IAcadEnumerable.cs" />
     <Compile Include="Extensions\DictionarieEntries\MLineStyleExtensions.cs" />
     <Compile Include="Extensions\EntitiesExtensions.cs" />
     <Compile Include="L2ADatabase.cs" />
     <Compile Include="Enumerables\TableEnumerable.cs" />
-    <Compile Include="DBDictionaryHelpers.cs" />
+    <Compile Include="Helpers\DBDictionaryHelpers.cs" />
     <Compile Include="Extensions\DictionarieEntries\GroupExtensions.cs" />
     <Compile Include="Extensions\DictionarieEntries\DBVisualStyleExtensions.cs" />
     <Compile Include="Extensions\DictionarieEntries\DetailViewStyleExtensions.cs" />
@@ -100,8 +100,8 @@
     <Compile Include="Extensions\TableRecords\UcsTableRecordExtensions.cs" />
     <Compile Include="Extensions\TableRecords\ViewportTableRecordExtensions.cs" />
     <Compile Include="Extensions\TableRecords\ViewTableRecordExtensions.cs" />
-    <Compile Include="Helpers.cs" />
-    <Compile Include="SymbolTableHelpers.cs" />
+    <Compile Include="Helpers\Helpers.cs" />
+    <Compile Include="Helpers\TableHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\TableRecords\TextStyleTableRecordExtensions.cs" />
   </ItemGroup>

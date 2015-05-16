@@ -138,52 +138,52 @@ namespace Linq2Acad
 
     public IEnumerable<Layout> Layouts
     {
-      get { return new DbDictionaryEnumerable<Layout>(Transaction, AcadDatabase.LayoutDictionaryId); }
+      get { return new DBDictionaryEnumerable<Layout>(Transaction, AcadDatabase.LayoutDictionaryId); }
     }
 
     public IEnumerable<Group> Groups
     {
-      get { return new DbDictionaryEnumerable<Group>(Transaction, AcadDatabase.GroupDictionaryId); }
+      get { return new DBDictionaryEnumerable<Group>(Transaction, AcadDatabase.GroupDictionaryId); }
     }
 
     public IEnumerable<MLeaderStyle> MLeaderStyles
     {
-      get { return new DbDictionaryEnumerable<MLeaderStyle>(Transaction, AcadDatabase.MLeaderStyleDictionaryId); }
+      get { return new DBDictionaryEnumerable<MLeaderStyle>(Transaction, AcadDatabase.MLeaderStyleDictionaryId); }
     }
 
     public IEnumerable<MlineStyle> MlineStyles
     {
-      get { return new DbDictionaryEnumerable<MlineStyle>(Transaction, AcadDatabase.MLStyleDictionaryId); }
+      get { return new DBDictionaryEnumerable<MlineStyle>(Transaction, AcadDatabase.MLStyleDictionaryId); }
     }
 
     public IEnumerable<Material> Materials
     {
-      get { return new DbDictionaryEnumerable<Material>(Transaction, AcadDatabase.MaterialDictionaryId); }
+      get { return new DBDictionaryEnumerable<Material>(Transaction, AcadDatabase.MaterialDictionaryId); }
     }
 
     public IEnumerable<DBVisualStyle> DBVisualStyles
     {
-      get { return new DbDictionaryEnumerable<DBVisualStyle>(Transaction, AcadDatabase.VisualStyleDictionaryId); }
+      get { return new DBDictionaryEnumerable<DBVisualStyle>(Transaction, AcadDatabase.VisualStyleDictionaryId); }
     }
 
     public IEnumerable<PlotSettings> PlotSettings
     {
-      get { return new DbDictionaryEnumerable<PlotSettings>(Transaction, AcadDatabase.PlotSettingsDictionaryId); }
+      get { return new DBDictionaryEnumerable<PlotSettings>(Transaction, AcadDatabase.PlotSettingsDictionaryId); }
     }
 
     public IEnumerable<TableStyle> TableStyles
     {
-      get { return new DbDictionaryEnumerable<TableStyle>(Transaction, AcadDatabase.TableStyleDictionaryId); }
+      get { return new DBDictionaryEnumerable<TableStyle>(Transaction, AcadDatabase.TableStyleDictionaryId); }
     }
 
     public IEnumerable<SectionViewStyle> SectionViewStyles
     {
-      get { return new DbDictionaryEnumerable<SectionViewStyle>(Transaction, AcadDatabase.SectionViewStyleDictionaryId); }
+      get { return new DBDictionaryEnumerable<SectionViewStyle>(Transaction, AcadDatabase.SectionViewStyleDictionaryId); }
     }
 
     public IEnumerable<DetailViewStyle> DetailViewStyles
     {
-      get { return new DbDictionaryEnumerable<DetailViewStyle>(Transaction, AcadDatabase.DetailViewStyleDictionaryId); }
+      get { return new DBDictionaryEnumerable<DetailViewStyle>(Transaction, AcadDatabase.DetailViewStyleDictionaryId); }
     }
 
     public IEnumerable<Entity> CurrentSpace

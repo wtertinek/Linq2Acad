@@ -11,32 +11,32 @@ namespace Linq2Acad
   {
     public static bool IsValidName(this IEnumerable<BlockTableRecord> source, string name, bool allowVerticalBar)
     {
-      return SymbolTableHelpers.IsValidName(name, allowVerticalBar);
+      return TableHelpers.IsValidName(name, allowVerticalBar);
     }
 
     public static BlockTableRecord GetItem(this IEnumerable<BlockTableRecord> source, string name)
     {
-      return SymbolTableHelpers.GetItem<BlockTableRecord, BlockTable>(source, bt => bt[name]);
+      return TableHelpers.GetItem<BlockTableRecord, BlockTable>(source, bt => bt[name]);
     }
 
     public static bool Contains(this IEnumerable<BlockTableRecord> source, string name)
     {
-      return SymbolTableHelpers.Contains<BlockTableRecord, BlockTable>(source, bt => bt.Has(name));
+      return TableHelpers.Contains<BlockTableRecord, BlockTable>(source, bt => bt.Has(name));
     }
 
     public static bool Contains(this IEnumerable<BlockTableRecord> source, ObjectId id)
     {
-      return SymbolTableHelpers.Contains<BlockTableRecord, BlockTable>(source, bt => bt.Has(id));
+      return TableHelpers.Contains<BlockTableRecord, BlockTable>(source, bt => bt.Has(id));
     }
 
     public static ObjectId Add(this IEnumerable<BlockTableRecord> source, BlockTableRecord item)
     {
-      return SymbolTableHelpers.Add<BlockTableRecord, BlockTable>(source, item);
+      return TableHelpers.Add<BlockTableRecord, BlockTable>(source, item);
     }
 
     public static IEnumerable<ObjectId> Add(this IEnumerable<BlockTableRecord> source, IEnumerable<BlockTableRecord> items)
     {
-      return SymbolTableHelpers.AddRange<BlockTableRecord, BlockTable>(source, items);
+      return TableHelpers.AddRange<BlockTableRecord, BlockTable>(source, items);
     }
   }
 }

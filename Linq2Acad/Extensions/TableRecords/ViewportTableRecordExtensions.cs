@@ -17,32 +17,32 @@ namespace Linq2Acad
 
     public static bool IsValidName(this IEnumerable<ViewportTableRecord> source, string name, bool allowVerticalBar)
     {
-      return SymbolTableHelpers.IsValidName(name, allowVerticalBar);
+      return TableHelpers.IsValidName(name, allowVerticalBar);
     }
 
     public static ViewportTableRecord GetItem(this IEnumerable<ViewportTableRecord> source, string name)
     {
-      return SymbolTableHelpers.GetItem<ViewportTableRecord, ViewportTable>(source, vt => vt[name]);
+      return TableHelpers.GetItem<ViewportTableRecord, ViewportTable>(source, vt => vt[name]);
     }
 
     public static bool Contains(this IEnumerable<ViewportTableRecord> source, string name)
     {
-      return SymbolTableHelpers.Contains<ViewportTableRecord, ViewportTable>(source, vt => vt.Has(name));
+      return TableHelpers.Contains<ViewportTableRecord, ViewportTable>(source, vt => vt.Has(name));
     }
 
     public static bool Contains(this IEnumerable<ViewportTableRecord> source, ObjectId id)
     {
-      return SymbolTableHelpers.Contains<ViewportTableRecord, ViewportTable>(source, vt => vt.Has(id));
+      return TableHelpers.Contains<ViewportTableRecord, ViewportTable>(source, vt => vt.Has(id));
     }
 
     public static ObjectId Add(this IEnumerable<ViewportTableRecord> source, ViewportTableRecord item)
     {
-      return SymbolTableHelpers.Add<ViewportTableRecord, ViewportTable>(source, item);
+      return TableHelpers.Add<ViewportTableRecord, ViewportTable>(source, item);
     }
 
     public static IEnumerable<ObjectId> Add(this IEnumerable<ViewportTableRecord> source, IEnumerable<ViewportTableRecord> items)
     {
-      return SymbolTableHelpers.AddRange<ViewportTableRecord, ViewportTable>(source, items);
+      return TableHelpers.AddRange<ViewportTableRecord, ViewportTable>(source, items);
     }
   }
 }

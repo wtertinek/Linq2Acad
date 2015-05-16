@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Linq2Acad
 {
-  static class SymbolTableHelpers
+  static class TableHelpers
   {
     public static bool IsValidName(string name, bool allowVerticalBar)
     {

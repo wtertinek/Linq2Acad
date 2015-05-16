@@ -11,32 +11,32 @@ namespace Linq2Acad
   {
     public static bool IsValidName(this IEnumerable<ViewTableRecord> source, string name, bool allowVerticalBar)
     {
-      return SymbolTableHelpers.IsValidName(name, allowVerticalBar);
+      return TableHelpers.IsValidName(name, allowVerticalBar);
     }
 
     public static ViewTableRecord GetItem(this IEnumerable<ViewTableRecord> source, string name)
     {
-      return SymbolTableHelpers.GetItem<ViewTableRecord, ViewTable>(source, vt => vt[name]);
+      return TableHelpers.GetItem<ViewTableRecord, ViewTable>(source, vt => vt[name]);
     }
 
     public static bool Contains(this IEnumerable<ViewTableRecord> source, string name)
     {
-      return SymbolTableHelpers.Contains<ViewTableRecord, ViewTable>(source, vt => vt.Has(name));
+      return TableHelpers.Contains<ViewTableRecord, ViewTable>(source, vt => vt.Has(name));
     }
 
     public static bool Contains(this IEnumerable<ViewTableRecord> source, ObjectId id)
     {
-      return SymbolTableHelpers.Contains<ViewTableRecord, ViewTable>(source, vt => vt.Has(id));
+      return TableHelpers.Contains<ViewTableRecord, ViewTable>(source, vt => vt.Has(id));
     }
 
     public static ObjectId Add(this IEnumerable<ViewTableRecord> source, ViewTableRecord item)
     {
-      return SymbolTableHelpers.Add<ViewTableRecord, ViewTable>(source, item);
+      return TableHelpers.Add<ViewTableRecord, ViewTable>(source, item);
     }
 
     public static IEnumerable<ObjectId> Add(this IEnumerable<ViewTableRecord> source, IEnumerable<ViewTableRecord> items)
     {
-      return SymbolTableHelpers.AddRange<ViewTableRecord, ViewTable>(source, items);
+      return TableHelpers.AddRange<ViewTableRecord, ViewTable>(source, items);
     }
   }
 }

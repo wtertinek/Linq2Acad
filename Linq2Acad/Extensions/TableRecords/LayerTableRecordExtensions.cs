@@ -11,32 +11,32 @@ namespace Linq2Acad
   {
     public static bool IsValidName(this IEnumerable<LayerTableRecord> source, string name, bool allowVerticalBar)
     {
-      return SymbolTableHelpers.IsValidName(name, allowVerticalBar);
+      return TableHelpers.IsValidName(name, allowVerticalBar);
     }
 
     public static LayerTableRecord GetItem(this IEnumerable<LayerTableRecord> source, string name)
     {
-      return SymbolTableHelpers.GetItem<LayerTableRecord, LayerTable>(source, lt => lt[name]);
+      return TableHelpers.GetItem<LayerTableRecord, LayerTable>(source, lt => lt[name]);
     }
 
     public static bool Contains(this IEnumerable<LayerTableRecord> source, string name)
     {
-      return SymbolTableHelpers.Contains<LayerTableRecord, LayerTable>(source, lt => lt.Has(name));
+      return TableHelpers.Contains<LayerTableRecord, LayerTable>(source, lt => lt.Has(name));
     }
 
     public static bool Contains(this IEnumerable<LayerTableRecord> source, ObjectId id)
     {
-      return SymbolTableHelpers.Contains<LayerTableRecord, LayerTable>(source, lt => lt.Has(id));
+      return TableHelpers.Contains<LayerTableRecord, LayerTable>(source, lt => lt.Has(id));
     }
 
     public static ObjectId Add(this IEnumerable<LayerTableRecord> source, LayerTableRecord item)
     {
-      return SymbolTableHelpers.Add<LayerTableRecord, LayerTable>(source, item);
+      return TableHelpers.Add<LayerTableRecord, LayerTable>(source, item);
     }
 
     public static IEnumerable<ObjectId> Add(this IEnumerable<LayerTableRecord> source, IEnumerable<LayerTableRecord> items)
     {
-      return SymbolTableHelpers.AddRange<LayerTableRecord, LayerTable>(source, items);
+      return TableHelpers.AddRange<LayerTableRecord, LayerTable>(source, items);
     }
   }
 }

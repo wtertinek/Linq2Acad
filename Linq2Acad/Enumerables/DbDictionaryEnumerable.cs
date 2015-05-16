@@ -8,9 +8,9 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Linq2Acad
 {
-  class DbDictionaryEnumerable<T> : EnumerableBase<T> where T : DBObject
+  class DBDictionaryEnumerable<T> : EnumerableBase<T> where T : DBObject
   {
-    public DbDictionaryEnumerable(Lazy<Transaction> transaction, ObjectId containerID)
+    public DBDictionaryEnumerable(Lazy<Transaction> transaction, ObjectId containerID)
       : base(transaction, containerID)
     {
     }
