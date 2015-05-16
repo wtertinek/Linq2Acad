@@ -151,6 +151,11 @@ namespace Linq2Acad
       get { return AcdbEnumerable<MLeaderStyle>.Create(Transaction, AcadDatabase.MLeaderStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
     }
 
+    public IEnumerable<MlineStyle> MlineStyles
+    {
+      get { return AcdbEnumerable<MlineStyle>.Create(Transaction, AcadDatabase.MLStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
+    }
+
     public IEnumerable<Material> Materials
     {
       get { return AcdbEnumerable<Material>.Create(Transaction, AcadDatabase.MaterialDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }

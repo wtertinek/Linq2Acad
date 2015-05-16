@@ -73,6 +73,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\DictionarieEntries\MLineStyleExtensions.cs" />
     <Compile Include="Extensions\EntitiesExtensions.cs" />
     <Compile Include="L2ADatabase.cs" />
     <Compile Include="AcdbEnumerable.cs" />
