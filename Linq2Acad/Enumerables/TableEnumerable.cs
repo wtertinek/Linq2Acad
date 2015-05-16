@@ -8,26 +8,20 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Linq2Acad
 {
-  class TableEnumerable<T> : IEnumerable<T>, IAcadEnumerable where T : DBObject
+  class TableEnumerable<T> : EnumerableBase<T> where T : DBObject
   {
     private string acDbType;
 
     public TableEnumerable(Lazy<Transaction> transaction, ObjectId containerID, bool filter = false)
+      : base(transaction, containerID)
     {
-      Transaction = transaction;
-      ContainerID = containerID;
-
       if (filter)
       {
         acDbType = "AcDb" + typeof(T).Name;
       }
     }
 
-    public Lazy<Transaction> Transaction { get; private set; }
-
-    public ObjectId ContainerID { get; private set; }
-
-    public int Count
+    public override int Count
     {
       get
       {
@@ -43,14 +37,14 @@ namespace Linq2Acad
       }
     }
 
-    public IEnumerator<T> GetEnumerator()
+    public override IEnumerator<T> GetEnumerator()
     {
-      return Iterate(id => (T)Transaction.Value.GetObject(id, OpenMode.ForRead));
+      return Iterate(id => (T)transaction.Value.GetObject(id, OpenMode.ForRead));
     }
 
     private IEnumerator<T> Iterate(Func<ObjectId, T> getItem)
     {
-      var container = (IEnumerable)Transaction.Value.GetObject(ContainerID, OpenMode.ForRead);
+      var container = (IEnumerable)transaction.Value.GetObject(ContainerID, OpenMode.ForRead);
       var idEnumerator = container.GetEnumerator();
 
       if (acDbType != null)
@@ -74,11 +68,6 @@ namespace Linq2Acad
           yield return getItem((ObjectId)idEnumerator.Current);
         }
       }
-    }
-
-    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-    {
-      return GetEnumerator();
     }
   }
 }
