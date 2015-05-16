@@ -1,5 +1,5 @@
 ###Linq2Acad
-**Linq2Acad** is a library that aims to simplify .NET AutoCAD addin code. The use of transactions is abstracted away by using extension methods and ```IEnumerable<T>```. This provides the possibility to execute LINQ queries on database-resident objects. The AutoCAD .NET API already offers a way to use LINQ query through the ```dynamic``` keyword, which has the drawback of losing the type information. Using Linq2Acad the full type information is preserved.
+**Linq2Acad** is a library that aims to simplify .NET AutoCAD addin code. The use of transactions is abstracted away through extension methods and an ```IEnumerable<T>``` implementation which enumerates the datatabase items. This provides the possibility to execute LINQ queries on database-resident objects. The AutoCAD .NET API already offers a way to use LINQ query through the ```dynamic``` keyword, which has the drawback of losing all type information. Using Linq2Acad the type information is preserved.
 
 In general, the library should be a more intuitive API for working with the drawing database, making the learning curve for beginners less steep.
 
