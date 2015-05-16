@@ -12,9 +12,7 @@ var database = Application.DocumentManager.MdiActiveDocument.Database;
 using (var db = new ActiveDatabase(database))
 {
   db.ModelSpace
-    .Items()
     .OfType<BlockReference>()
-    .UpgradeOpen()
     .ForEach(br => br.Erase());
 }
 ```
@@ -24,7 +22,7 @@ Adding a line to the model space:
 ```c#
 var database = Application.DocumentManager.MdiActiveDocument.Database;
 
-using (var db = new ActiveDatabase(Database))
+using (var db = new ActiveDatabase(database))
 {
   db.ModelSpace
     .Add(new Line(new Point3d(5, 5, 0),
