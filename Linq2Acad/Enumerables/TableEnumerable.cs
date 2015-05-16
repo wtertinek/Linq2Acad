@@ -32,29 +32,11 @@ namespace Linq2Acad
       get
       {
         var count = 0;
-        var container = (IEnumerable)Transaction.Value.GetObject(ContainerID, OpenMode.ForRead);
-        var idEnumerator = container.GetEnumerator();
+        var iterator = Iterate(id => null);
 
-        if (acDbType != null)
+        while (iterator.MoveNext())
         {
-          while (idEnumerator.MoveNext())
-          {
-            var id = (ObjectId)idEnumerator.Current;
-
-            if (id.ObjectClass.Name != acDbType)
-            {
-              continue;
-            }
-
-            count++;
-          }
-        }
-        else
-        {
-          while (idEnumerator.MoveNext())
-          {
-            count++;
-          }
+          count++;
         }
 
         return count;
@@ -62,6 +44,11 @@ namespace Linq2Acad
     }
 
     public IEnumerator<T> GetEnumerator()
+    {
+      return Iterate(id => (T)Transaction.Value.GetObject(id, OpenMode.ForRead));
+    }
+
+    private IEnumerator<T> Iterate(Func<ObjectId, T> getItem)
     {
       var container = (IEnumerable)Transaction.Value.GetObject(ContainerID, OpenMode.ForRead);
       var idEnumerator = container.GetEnumerator();
@@ -77,14 +64,14 @@ namespace Linq2Acad
             continue;
           }
 
-          yield return (T)Transaction.Value.GetObject(id, OpenMode.ForRead);;
+          yield return getItem(id);
         }
       }
       else
       {
         while (idEnumerator.MoveNext())
         {
-          yield return (T)Transaction.Value.GetObject((ObjectId)idEnumerator.Current, OpenMode.ForRead);
+          yield return getItem((ObjectId)idEnumerator.Current);
         }
       }
     }
