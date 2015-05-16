@@ -51,15 +51,41 @@ Creating a group:
 var database = Application.DocumentManager.MdiActiveDocument.Database;
 var editor = Application.DocumentManager.MdiActiveDocument.Editor;
 
-using (var db = new ActiveDatabase(Database))
+using (var db = new ActiveDatabase(database))
 {
   if (db.Groups.Contains("Group1"))
   {
-    Editor.WriteMessage("Group1 already exists");
+    editor.WriteMessage("Group1 already exists");
   }
   else
   {
     db.Groups.Set("Group1", new Group("This is Group 1", true));
+  }
+}
+```
+
+Picking an entity and turning off all layers, except the entity's layer:
+
+```c#
+var database = Application.DocumentManager.MdiActiveDocument.Database;
+var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+
+[CommandMethod("TestTurnOffLayers")]
+public static void TestTurnOffLayers()
+{
+  using (var db = new ActiveDatabase(database))
+  {
+    var result = editor.GetEntity("Select an entity");
+
+    if (result.Status == PromptStatus.OK)
+    {
+      var layerID = db.Database
+                      .GetObject<Entity>(result.ObjectId)
+                      .LayerId;
+      db.Layers
+        .Where(l => l.Id != layerID)
+        .ForEach(l => l.IsOff = true);
+    }
   }
 }
 ```

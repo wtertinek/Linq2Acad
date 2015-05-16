@@ -175,5 +175,24 @@ namespace Linq2AcDb.AcadTest
         }
       }
     }
+
+    [CommandMethod("TestTurnOffLayers")]
+    public static void TestTurnOffLayers()
+    {
+      using (var db = new ActiveDatabase(Database))
+      {
+        var result = Editor.GetEntity("Select an entity");
+
+        if (result.Status == PromptStatus.OK)
+        {
+          var layerID = db.Database
+                          .GetObject<Entity>(result.ObjectId)
+                          .LayerId;
+          db.Layers
+            .Where(l => l.Id != layerID)
+            .ForEach(l => l.IsOff = true);
+        }
+      }
+    }
   }
 }
