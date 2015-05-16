@@ -67,7 +67,7 @@ using (var db = L2ADatabase.ActiveDatabase())
 
   if (result.Status == PromptStatus.OK)
   {
-    var layerID = db.Database
+    var layerID = db.AcadDatabase
                     .GetObject<Entity>(result.ObjectId)
                     .LayerId;
     db.Layers

@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace Linq2Acad.Tests
 {
-  public static class Test
+  public static class Tests
   {
     private static Editor Editor
     {
@@ -180,7 +180,7 @@ namespace Linq2Acad.Tests
 
         if (result.Status == PromptStatus.OK)
         {
-          var layerID = db.Database
+          var layerID = db.AcadDatabase
                           .GetObject<Entity>(result.ObjectId)
                           .LayerId;
           db.Layers

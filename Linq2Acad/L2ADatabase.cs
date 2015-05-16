@@ -25,10 +25,10 @@ namespace Linq2Acad
 
       if (database != null)
       {
-        Database = database;
+        AcadDatabase = database;
         commit = true;
         dispose = true;
-        Transaction = new Lazy<Transaction>(Database.TransactionManager.StartTransaction);
+        Transaction = new Lazy<Transaction>(AcadDatabase.TransactionManager.StartTransaction);
         IsValid = true;
       }
     }
@@ -39,7 +39,7 @@ namespace Linq2Acad
 
       if (database != null)
       {
-        Database = database;
+        AcadDatabase = database;
         this.commit = commit;
         this.dispose = dispose;
         Transaction = new Lazy<Transaction>(() => tr);
@@ -59,7 +59,7 @@ namespace Linq2Acad
 
     internal static Lazy<Transaction> Transaction { get; private set; }
 
-    public Database Database { get; private set; }
+    public Database AcadDatabase { get; private set; }
 
     public void DiscardChanges()
     {
@@ -87,42 +87,42 @@ namespace Linq2Acad
 
     public IEnumerable<BlockTableRecord> Blocks
     {
-      get { return AcdbEnumerable<BlockTableRecord>.Create(Transaction, Database.BlockTableId); }
+      get { return AcdbEnumerable<BlockTableRecord>.Create(Transaction, AcadDatabase.BlockTableId); }
     }
 
     public IEnumerable<LayerTableRecord> Layers
     {
-      get { return AcdbEnumerable<LayerTableRecord>.Create(Transaction, Database.LayerTableId); }
+      get { return AcdbEnumerable<LayerTableRecord>.Create(Transaction, AcadDatabase.LayerTableId); }
     }
 
     public IEnumerable<DimStyleTableRecord> DimStyles
     {
-      get { return AcdbEnumerable<DimStyleTableRecord>.Create(Transaction, Database.DimStyleTableId); }
+      get { return AcdbEnumerable<DimStyleTableRecord>.Create(Transaction, AcadDatabase.DimStyleTableId); }
     }
 
     public IEnumerable<LinetypeTableRecord> Linetypes
     {
-      get { return AcdbEnumerable<LinetypeTableRecord>.Create(Transaction, Database.LinetypeTableId); }
+      get { return AcdbEnumerable<LinetypeTableRecord>.Create(Transaction, AcadDatabase.LinetypeTableId); }
     }
 
     public IEnumerable<RegAppTableRecord> RegApps
     {
-      get { return AcdbEnumerable<RegAppTableRecord>.Create(Transaction, Database.RegAppTableId); }
+      get { return AcdbEnumerable<RegAppTableRecord>.Create(Transaction, AcadDatabase.RegAppTableId); }
     }
 
     public IEnumerable<TextStyleTableRecord> TextStyles
     {
-      get { return AcdbEnumerable<TextStyleTableRecord>.Create(Transaction, Database.TextStyleTableId); }
+      get { return AcdbEnumerable<TextStyleTableRecord>.Create(Transaction, AcadDatabase.TextStyleTableId); }
     }
 
     public IEnumerable<UcsTableRecord> Ucss
     {
-      get { return AcdbEnumerable<UcsTableRecord>.Create(Transaction, Database.UcsTableId); }
+      get { return AcdbEnumerable<UcsTableRecord>.Create(Transaction, AcadDatabase.UcsTableId); }
     }
 
     public IEnumerable<ViewportTableRecord> Viewports
     {
-      get { return AcdbEnumerable<ViewportTableRecord>.Create(Transaction, Database.ViewportTableId); }
+      get { return AcdbEnumerable<ViewportTableRecord>.Create(Transaction, AcadDatabase.ViewportTableId); }
     }
 
     public ViewportTableRecord CurrentViewport
@@ -130,58 +130,58 @@ namespace Linq2Acad
       get
       {
         Helpers.CheckTransaction();
-        return (ViewportTableRecord)Transaction.Value.GetObject(Database.CurrentViewportTableRecordId, OpenMode.ForRead);
+        return (ViewportTableRecord)Transaction.Value.GetObject(AcadDatabase.CurrentViewportTableRecordId, OpenMode.ForRead);
       }
     }
 
     public IEnumerable<ViewTableRecord> Views
     {
-      get { return AcdbEnumerable<ViewTableRecord>.Create(Transaction, Database.ViewTableId); }
+      get { return AcdbEnumerable<ViewTableRecord>.Create(Transaction, AcadDatabase.ViewTableId); }
     }
 
     public IEnumerable<Layout> Layouts
     {
-      get { return AcdbEnumerable<Layout>.Create(Transaction, Database.LayoutDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
+      get { return AcdbEnumerable<Layout>.Create(Transaction, AcadDatabase.LayoutDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
     }
 
     public IEnumerable<Group> Groups
     {
-      get { return AcdbEnumerable<Group>.Create(Transaction, Database.GroupDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
+      get { return AcdbEnumerable<Group>.Create(Transaction, AcadDatabase.GroupDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
     }
 
     public IEnumerable<MLeaderStyle> MLeaderStyles
     {
-      get { return AcdbEnumerable<MLeaderStyle>.Create(Transaction, Database.MLeaderStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
+      get { return AcdbEnumerable<MLeaderStyle>.Create(Transaction, AcadDatabase.MLeaderStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
     }
 
     public IEnumerable<Material> Materials
     {
-      get { return AcdbEnumerable<Material>.Create(Transaction, Database.MaterialDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
+      get { return AcdbEnumerable<Material>.Create(Transaction, AcadDatabase.MaterialDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
     }
 
     public IEnumerable<DBVisualStyle> DBVisualStyles
     {
-      get { return AcdbEnumerable<DBVisualStyle>.Create(Transaction, Database.VisualStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
+      get { return AcdbEnumerable<DBVisualStyle>.Create(Transaction, AcadDatabase.VisualStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
     }
 
     public IEnumerable<PlotSettings> PlotSettings
     {
-      get { return AcdbEnumerable<PlotSettings>.Create(Transaction, Database.PlotSettingsDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
+      get { return AcdbEnumerable<PlotSettings>.Create(Transaction, AcadDatabase.PlotSettingsDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
     }
 
     public IEnumerable<TableStyle> TableStyles
     {
-      get { return AcdbEnumerable<TableStyle>.Create(Transaction, Database.TableStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
+      get { return AcdbEnumerable<TableStyle>.Create(Transaction, AcadDatabase.TableStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
     }
 
     public IEnumerable<SectionViewStyle> SectionViewStyles
     {
-      get { return AcdbEnumerable<SectionViewStyle>.Create(Transaction, Database.SectionViewStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
+      get { return AcdbEnumerable<SectionViewStyle>.Create(Transaction, AcadDatabase.SectionViewStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
     }
 
     public IEnumerable<DetailViewStyle> DetailViewStyles
     {
-      get { return AcdbEnumerable<DetailViewStyle>.Create(Transaction, Database.DetailViewStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
+      get { return AcdbEnumerable<DetailViewStyle>.Create(Transaction, AcadDatabase.DetailViewStyleDictionaryId, o => (ObjectId)((DictionaryEntry)o).Value); }
     }
 
     public BlockTableRecord CurrentSpace
@@ -189,7 +189,7 @@ namespace Linq2Acad
       get
       {
         Helpers.CheckTransaction();
-        return (BlockTableRecord)Transaction.Value.GetObject(Database.CurrentSpaceId, OpenMode.ForRead);
+        return (BlockTableRecord)Transaction.Value.GetObject(AcadDatabase.CurrentSpaceId, OpenMode.ForRead);
       }
     }
 
@@ -205,7 +205,7 @@ namespace Linq2Acad
     private BlockTableRecord GetSpace(string name)
     {
       Helpers.CheckTransaction();
-      var modelSpaceId = ((BlockTable)Transaction.Value.GetObject(Database.BlockTableId, OpenMode.ForRead))[name];
+      var modelSpaceId = ((BlockTable)Transaction.Value.GetObject(AcadDatabase.BlockTableId, OpenMode.ForRead))[name];
       return (BlockTableRecord)Transaction.Value.GetObject(modelSpaceId, OpenMode.ForRead);
     }
 
