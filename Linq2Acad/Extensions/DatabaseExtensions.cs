@@ -19,7 +19,11 @@ namespace Linq2Acad
     public static IEnumerable<T> GetObjects<T>(this Database db, IEnumerable<ObjectId> ids) where T : DBObject
     {
       Helpers.CheckTransaction();
-      return AcdbEnumerable<T>.Create(L2ADatabase.Transaction, ids);
+
+      foreach (var id in ids)
+      {
+        yield return (T)L2ADatabase.Transaction.Value.GetObject(id, OpenMode.ForRead);
+      }
     }
   }
 }

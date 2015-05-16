@@ -9,6 +9,12 @@ namespace Linq2Acad
 {
   public static class ViewportTableRecordExtensions
   {
+    public static ViewportTableRecord Current(this IEnumerable<ViewportTableRecord> source)
+    {
+      Helpers.CheckTransaction();
+      return (ViewportTableRecord)L2ADatabase.Transaction.Value.GetObject(L2ADatabase.Database.CurrentViewportTableRecordId, OpenMode.ForRead);
+    }
+
     public static bool IsValidName(this IEnumerable<ViewportTableRecord> source, string name, bool allowVerticalBar)
     {
       return SymbolTableHelpers.IsValidName(name, allowVerticalBar);

@@ -29,11 +29,10 @@ namespace Linq2Acad
     {
       Helpers.CheckTransaction();
 
-      if (source is IAcadEnumerableData)
+      if (source is IAcadEnumerable)
       {
-        var data = (IAcadEnumerableData)source;
-
-        var btr = (BlockTableRecord)L2ADatabase.Transaction.Value.GetObject(data.ContainerID, OpenMode.ForWrite);
+        var enumerable = (IAcadEnumerable)source;
+        var btr = (BlockTableRecord)L2ADatabase.Transaction.Value.GetObject(enumerable.ContainerID, OpenMode.ForWrite);
 
         return items.Select(i =>
                            {

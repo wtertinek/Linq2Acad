@@ -27,10 +27,10 @@ namespace Linq2Acad
     {
       Helpers.CheckTransaction();
 
-      if (source is IAcadEnumerableData)
+      if (source is IAcadEnumerable)
       {
-        var data = source as IAcadEnumerableData;
-        var table = (TTable)L2ADatabase.Transaction.Value.GetObject(data.ContainerID, OpenMode.ForRead);
+        var enumerable = source as IAcadEnumerable;
+        var table = (TTable)L2ADatabase.Transaction.Value.GetObject(enumerable.ContainerID, OpenMode.ForRead);
         return (TRecord)L2ADatabase.Transaction.Value.GetObject(getID(table), OpenMode.ForRead);
       }
       else
@@ -44,10 +44,10 @@ namespace Linq2Acad
     {
       Helpers.CheckTransaction();
 
-      if (source is IAcadEnumerableData)
+      if (source is IAcadEnumerable)
       {
-        var data = source as IAcadEnumerableData;
-        var table = (TTable)L2ADatabase.Transaction.Value.GetObject(data.ContainerID, OpenMode.ForRead);
+        var enumerable = source as IAcadEnumerable;
+        var table = (TTable)L2ADatabase.Transaction.Value.GetObject(enumerable.ContainerID, OpenMode.ForRead);
         return has(table);
       }
       else
@@ -67,10 +67,10 @@ namespace Linq2Acad
     {
       Helpers.CheckTransaction();
 
-      if (source is IAcadEnumerableData)
+      if (source is IAcadEnumerable)
       {
-        var data = source as IAcadEnumerableData;
-        var table = (TTable)L2ADatabase.Transaction.Value.GetObject(data.ContainerID, OpenMode.ForWrite);
+        var enumerable = source as IAcadEnumerable;
+        var table = (TTable)L2ADatabase.Transaction.Value.GetObject(enumerable.ContainerID, OpenMode.ForWrite);
 
         foreach (var item in items)
         {

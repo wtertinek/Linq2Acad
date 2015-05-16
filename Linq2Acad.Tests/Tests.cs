@@ -17,66 +17,58 @@ namespace Linq2Acad.Tests
       get { return Application.DocumentManager.MdiActiveDocument.Editor; }
     }
 
-    [CommandMethod("TestMLeaderStyles")]
-    public static void TestMLeaderStyles()
+    [CommandMethod("TestPrintMLeaderStyles")]
+    public static void TestPrintMLeaderStyles()
     {
       using (var db = L2ADatabase.ActiveDatabase())
       {
-        var names = db.MLeaderStyles
-                      .Select(m => m.Name)
-                      .ToArray();
+        db.MLeaderStyles
+          .ForEach(m => Editor.WriteMessage("\n" + m.Name));
       }
     }
 
-    [CommandMethod("TestMaterials")]
-    public static void TestMaterials()
+    [CommandMethod("TestPrintMaterials")]
+    public static void TestPrintMaterials()
     {
       using (var db = L2ADatabase.ActiveDatabase())
       {
-        var names = db.Materials
-                      .Select(m => m.Name)
-                      .ToArray();
+        db.Materials
+          .ForEach(m => Editor.WriteMessage("\n" + m.Name));
       }
     }
 
-    [CommandMethod("TestLayouts")]
-    public static void TestLayouts()
+    [CommandMethod("TestPrintLayouts")]
+    public static void TestPrintLayouts()
     {
       using (var db = L2ADatabase.ActiveDatabase())
       {
-        var names = db.Layouts
-                      .Select(l => l.LayoutName)
-                      .ToArray();
+        db.Layouts
+          .ForEach(l => Editor.WriteMessage("\n" + l.LayoutName));
       }
     }
 
-    [CommandMethod("TestCurrentViewport")]
-    public static void TestCurrentViewport()
+    [CommandMethod("TestPrintCurrentViewport")]
+    public static void TestPrintCurrentViewport()
     {
       using (var db = L2ADatabase.ActiveDatabase())
       {
-        var name = db.CurrentViewport
-                     .Name;
+        Editor.WriteMessage("\n" + db.Viewports.Current().Name);
       }
     }
 
     [CommandMethod("TestDeleteBlockReferences")]
     public static void TestDeleteBlockReferences()
     {
-      var start = DateTime.Now;
-
       using (var db = L2ADatabase.ActiveDatabase())
       {
         db.ModelSpace
           .OfType<BlockReference>()
           .ForEach(br => br.Erase());
       }
-
-      Editor.WriteMessage("Done in " + (DateTime.Now - start).TotalMilliseconds + "ms");
     }
 
     [CommandMethod("TestCurrentVsModelSpace")]
-    public static void CurrentVsModelSpace()
+    public static void TestCurrentVsModelSpace()
     {
       using (var db = L2ADatabase.ActiveDatabase())
       {
@@ -99,14 +91,13 @@ namespace Linq2Acad.Tests
       }
     }
 
-    [CommandMethod("TestLayers")]
-    public static void TestLayers()
+    [CommandMethod("TestPrintLayers")]
+    public static void TestPrintLayers()
     {
       using (var db = L2ADatabase.ActiveDatabase())
       {
-        var names = db.Layers
-                      .Select(l => l.Name)
-                      .ToArray();
+        db.Layers
+          .ForEach(l => Editor.WriteMessage("\n" + l.Name));
       }
     }
 
@@ -186,30 +177,6 @@ namespace Linq2Acad.Tests
       }
     }
 
-    [CommandMethod("TestCreateLines")]
-    public static void TestCreateLines()
-    {
-      var start = DateTime.Now;
-
-      using (var db = L2ADatabase.ActiveDatabase())
-      {
-        var lines = new List<Line>();
-
-        for (int i = 0; i < 100; i++)
-        {
-          for (int j = 0; j < 1000; j++)
-          {
-            var x = j % 2;
-            lines.Add(new Line(new Point3d(i * 10, j * 10 + x * 10, 0), new Point3d(i * 10 + 10, j * 10 + x * 10, 0)));
-          }
-        }
-
-        db.ModelSpace.Add(lines);
-      }
-
-      Editor.WriteMessage("Done in " + (DateTime.Now - start).TotalMilliseconds + "ms");
-    }
-
     [CommandMethod("TestDeleteLines")]
     public static void TestDeleteLines()
     {
@@ -221,13 +188,16 @@ namespace Linq2Acad.Tests
       }
     }
 
-    [CommandMethod("TestCount")]
-    public static void TestCount()
+    [CommandMethod("TestCountBlockReferences")]
+    public static void TestCountBlockReferences()
     {
       using (var db = L2ADatabase.ActiveDatabase())
       {
-        db.Layers
-          .Count();
+        int count = db.ModelSpace
+                      .OfType<BlockReference>()
+                      .Count();
+
+        Editor.WriteMessage("\n" + count + " BlockReferences");
       }
     }
   }

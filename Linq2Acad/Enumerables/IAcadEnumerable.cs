@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace Linq2Acad
 {
-  interface IAcadEnumerableData
+  interface IAcadEnumerable
   {
-    Lazy<Transaction> Transaction { get; }
-
-    IEnumerable<ObjectId> IDs { get; }
-
     ObjectId ContainerID { get; }
 
     int Count { get; }

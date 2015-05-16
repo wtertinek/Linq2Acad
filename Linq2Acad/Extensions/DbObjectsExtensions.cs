@@ -11,9 +11,9 @@ namespace Linq2Acad
   {
     public static int Count<T>(this IEnumerable<T> source) where T : DBObject
     {
-      if (source is IAcadEnumerableData)
+      if (source is IAcadEnumerable)
       {
-        return ((IAcadEnumerableData)source).Count;
+        return ((IAcadEnumerable)source).Count;
       }
       else
       {
@@ -36,10 +36,10 @@ namespace Linq2Acad
     {
       Helpers.CheckTransaction();
 
-      if (source is IAcadEnumerableData)
+      if (source is IAcadEnumerable)
       {
-        var data = (IAcadEnumerableData)source;
-        return AcdbEnumerable<T>.Create(data.Transaction, data.ContainerID, true);
+        var acadEnumerable = (IAcadEnumerable)source;
+        return new TableEnumerable<T>(L2ADatabase.Transaction, acadEnumerable.ContainerID, true);
       }
       else
       {
