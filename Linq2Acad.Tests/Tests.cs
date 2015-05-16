@@ -213,16 +213,22 @@ namespace Linq2Acad.Tests
     [CommandMethod("TestDeleteLines")]
     public static void TestDeleteLines()
     {
-      var start = DateTime.Now;
-
       using (var db = L2ADatabase.ActiveDatabase())
       {
         db.ModelSpace
           .OfType<Line>()
           .ForEach(br => br.Erase());
       }
+    }
 
-      Editor.WriteMessage("Done in " + (DateTime.Now - start).TotalMilliseconds + "ms");
+    [CommandMethod("TestCount")]
+    public static void TestCount()
+    {
+      using (var db = L2ADatabase.ActiveDatabase())
+      {
+        db.Layers
+          .Count();
+      }
     }
   }
 }

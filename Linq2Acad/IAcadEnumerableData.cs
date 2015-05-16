@@ -9,12 +9,12 @@ namespace Linq2Acad
 {
   interface IAcadEnumerableData
   {
-    bool IsEnumerating { get; }
-
     Lazy<Transaction> Transaction { get; }
 
     IEnumerable<ObjectId> IDs { get; }
 
     ObjectId ContainerID { get; }
+
+    int Count { get; }
   }
 }

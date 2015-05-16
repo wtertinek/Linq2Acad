@@ -10,14 +10,12 @@ namespace Linq2Acad
 {
   class AcdbEnumerable<T> : IEnumerable<T>, IAcadEnumerableData where T : DBObject
   {
-    private AcdbEnumerable(Lazy<Transaction> transaction, IEnumerable<ObjectId> ids, ObjectId containerID = default(ObjectId))
+    private AcdbEnumerable(Lazy<Transaction> transaction, IEnumerable<ObjectId> ids, ObjectId containerID)
     {
       Transaction = transaction;
       IDs = ids;
       ContainerID = containerID;
     }
-
-    public bool IsEnumerating { get; private set; }
 
     public Lazy<Transaction> Transaction { get; private set; }
 
@@ -25,10 +23,16 @@ namespace Linq2Acad
 
     public ObjectId ContainerID { get; private set; }
 
+    public int Count
+    {
+      get
+      {
+        return 0;
+      }
+    }
+
     public IEnumerator<T> GetEnumerator()
     {
-      IsEnumerating = true;
-
       foreach (var id in IDs)
       {
         yield return (T)Transaction.Value.GetObject(id, OpenMode.ForRead);
@@ -44,11 +48,11 @@ namespace Linq2Acad
     {
       if (filter)
       {
-        return new AcdbEnumerable<T>(transaction, EnumerateIds(ids.GetEnumerator(), o => (ObjectId)o, "AcDb" + typeof(T).Name));
+        return new AcdbEnumerable<T>(transaction, EnumerateIds(ids.GetEnumerator(), o => (ObjectId)o, "AcDb" + typeof(T).Name), ObjectId.Null);
       }
       else
       {
-        return new AcdbEnumerable<T>(transaction, ids);
+        return new AcdbEnumerable<T>(transaction, ids, ObjectId.Null);
       }
     }
 

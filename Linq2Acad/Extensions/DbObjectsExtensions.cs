@@ -9,6 +9,18 @@ namespace Linq2Acad
 {
   public static class DbObjectsExtensions
   {
+    public static int Count<T>(this IEnumerable<T> source) where T : DBObject
+    {
+      if (source is IAcadEnumerableData)
+      {
+        return ((IAcadEnumerableData)source).Count;
+      }
+      else
+      {
+        return Enumerable.Count(source);
+      }
+    }
+
     public static void ForEach<T>(this IEnumerable<T> items, Action<T> action) where T : DBObject
     {
       Helpers.CheckTransaction();
@@ -27,14 +39,12 @@ namespace Linq2Acad
       if (source is IAcadEnumerableData)
       {
         var data = (IAcadEnumerableData)source;
-
-        if (!data.IsEnumerating)
-        {
-          return AcdbEnumerable<T>.Create(data.Transaction, data.ContainerID, true);
-        }
+        return AcdbEnumerable<T>.Create(data.Transaction, data.ContainerID, true);
       }
-
-      return Filter<T>(source);
+      else
+      {
+        return Filter<T>(source);
+      }
     }
 
     private static IEnumerable<T> Filter<T>(IEnumerable<DBObject> source) where T : DBObject
