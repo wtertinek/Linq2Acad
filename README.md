@@ -37,7 +37,7 @@ using (var db = L2ADatabase.ActiveDatabase())
 }
 ```
 
-Creating a group and adding all Lines in the model space to it:
+Creating a group and adding all lines in the model space to it:
 
 ```c#
 var editor = Application.DocumentManager.MdiActiveDocument.Editor;
@@ -46,7 +46,7 @@ using (var db = L2ADatabase.ActiveDatabase())
 {
   if (db.Groups.Contains("LineGroup"))
   {
-    Editor.WriteMessage("LineGroup already exists");
+    editor.WriteMessage("LineGroup already exists");
   }
   else
   {
