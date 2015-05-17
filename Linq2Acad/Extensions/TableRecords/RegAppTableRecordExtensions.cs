@@ -38,5 +38,15 @@ namespace Linq2Acad
     {
       return TableHelpers.AddRange<RegAppTableRecord, RegAppTable>(source, items);
     }
+
+    public static ObjectId Create(this IEnumerable<RegAppTableRecord> source, string name)
+    {
+      return TableHelpers.Add<RegAppTableRecord, RegAppTable>(source, new RegAppTableRecord() { Name = name });
+    }
+
+    public static IEnumerable<ObjectId> Create(this IEnumerable<RegAppTableRecord> source, IEnumerable<string> names)
+    {
+      return TableHelpers.AddRange<RegAppTableRecord, RegAppTable>(source, names.Select(n => new RegAppTableRecord() { Name = n }));
+    }
   }
 }

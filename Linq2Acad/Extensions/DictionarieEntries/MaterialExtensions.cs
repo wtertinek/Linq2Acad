@@ -26,12 +26,22 @@ namespace Linq2Acad
 
     public static ObjectId Add(this IEnumerable<Material> source, string name, Material item)
     {
-      return DBDictionaryHelpers.Set<Material>(source, name, item);
+      return DBDictionaryHelpers.Add<Material>(source, name, item);
     }
 
     public static IEnumerable<ObjectId> Add(this IEnumerable<Material> source, IEnumerable<string> names, IEnumerable<Material> items)
     {
-      return DBDictionaryHelpers.SetRange<Material>(source, names, items);
+      return DBDictionaryHelpers.AddRange<Material>(source, names, items);
+    }
+
+    public static ObjectId Create(this IEnumerable<Material> source, string name)
+    {
+      return DBDictionaryHelpers.Add<Material>(source, name, new Material());
+    }
+
+    public static IEnumerable<ObjectId> Create(this IEnumerable<Material> source, IEnumerable<string> names)
+    {
+      return DBDictionaryHelpers.AddRange<Material>(source, names, names.Select(n => new Material()));
     }
   }
 }

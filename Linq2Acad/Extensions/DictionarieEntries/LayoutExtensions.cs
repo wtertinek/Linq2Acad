@@ -26,12 +26,22 @@ namespace Linq2Acad
 
     public static ObjectId Add(this IEnumerable<Layout> source, string name, Layout item)
     {
-      return DBDictionaryHelpers.Set<Layout>(source, name, item);
+      return DBDictionaryHelpers.Add<Layout>(source, name, item);
     }
 
     public static IEnumerable<ObjectId> Add(this IEnumerable<Layout> source, IEnumerable<string> names, IEnumerable<Layout> items)
     {
-      return DBDictionaryHelpers.SetRange<Layout>(source, names, items);
+      return DBDictionaryHelpers.AddRange<Layout>(source, names, items);
+    }
+
+    public static ObjectId Create(this IEnumerable<Layout> source, string name)
+    {
+      return DBDictionaryHelpers.Add<Layout>(source, name, new Layout());
+    }
+
+    public static IEnumerable<ObjectId> Create(this IEnumerable<Layout> source, IEnumerable<string> names)
+    {
+      return DBDictionaryHelpers.AddRange<Layout>(source, names, names.Select(n => new Layout()));
     }
   }
 }

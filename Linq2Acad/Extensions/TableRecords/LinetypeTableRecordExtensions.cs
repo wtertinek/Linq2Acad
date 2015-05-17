@@ -38,5 +38,15 @@ namespace Linq2Acad
     {
       return TableHelpers.AddRange<LinetypeTableRecord, LinetypeTable>(source, items);
     }
+
+    public static ObjectId Create(this IEnumerable<LinetypeTableRecord> source, string name)
+    {
+      return TableHelpers.Add<LinetypeTableRecord, LinetypeTable>(source, new LinetypeTableRecord() { Name = name });
+    }
+
+    public static IEnumerable<ObjectId> Create(this IEnumerable<LinetypeTableRecord> source, IEnumerable<string> names)
+    {
+      return TableHelpers.AddRange<LinetypeTableRecord, LinetypeTable>(source, names.Select(n => new LinetypeTableRecord() { Name = n }));
+    }
   }
 }

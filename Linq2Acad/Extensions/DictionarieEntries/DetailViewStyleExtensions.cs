@@ -26,12 +26,22 @@ namespace Linq2Acad
 
     public static ObjectId Add(this IEnumerable<DetailViewStyle> source, string name, DetailViewStyle item)
     {
-      return DBDictionaryHelpers.Set<DetailViewStyle>(source, name, item);
+      return DBDictionaryHelpers.Add<DetailViewStyle>(source, name, item);
     }
 
     public static IEnumerable<ObjectId> Add(this IEnumerable<DetailViewStyle> source, IEnumerable<string> names, IEnumerable<DetailViewStyle> items)
     {
-      return DBDictionaryHelpers.SetRange<DetailViewStyle>(source, names, items);
+      return DBDictionaryHelpers.AddRange<DetailViewStyle>(source, names, items);
+    }
+
+    public static ObjectId Create(this IEnumerable<DetailViewStyle> source, string name)
+    {
+      return DBDictionaryHelpers.Add<DetailViewStyle>(source, name, new DetailViewStyle());
+    }
+
+    public static IEnumerable<ObjectId> Create(this IEnumerable<DetailViewStyle> source, IEnumerable<string> names)
+    {
+      return DBDictionaryHelpers.AddRange<DetailViewStyle>(source, names, names.Select(n => new DetailViewStyle()));
     }
   }
 }

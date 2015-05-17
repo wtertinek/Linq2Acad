@@ -38,5 +38,15 @@ namespace Linq2Acad
     {
       return TableHelpers.AddRange<ViewTableRecord, ViewTable>(source, items);
     }
+
+    public static ObjectId Create(this IEnumerable<ViewTableRecord> source, string name)
+    {
+      return TableHelpers.Add<ViewTableRecord, ViewTable>(source, new ViewTableRecord() { Name = name });
+    }
+
+    public static IEnumerable<ObjectId> Create(this IEnumerable<ViewTableRecord> source, IEnumerable<string> names)
+    {
+      return TableHelpers.AddRange<ViewTableRecord, ViewTable>(source, names.Select(n => new ViewTableRecord() { Name = n }));
+    }
   }
 }

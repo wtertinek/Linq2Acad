@@ -38,5 +38,15 @@ namespace Linq2Acad
     {
       return TableHelpers.AddRange<TextStyleTableRecord, TextStyleTable>(source, items);
     }
+
+    public static ObjectId Create(this IEnumerable<TextStyleTableRecord> source, string name)
+    {
+      return TableHelpers.Add<TextStyleTableRecord, TextStyleTable>(source, new TextStyleTableRecord() { Name = name });
+    }
+
+    public static IEnumerable<ObjectId> Create(this IEnumerable<TextStyleTableRecord> source, IEnumerable<string> names)
+    {
+      return TableHelpers.AddRange<TextStyleTableRecord, TextStyleTable>(source, names.Select(n => new TextStyleTableRecord() { Name = n }));
+    }
   }
 }

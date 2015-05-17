@@ -38,5 +38,15 @@ namespace Linq2Acad
     {
       return TableHelpers.AddRange<DimStyleTableRecord, DimStyleTable>(source, items);
     }
+
+    public static ObjectId Create(this IEnumerable<DimStyleTableRecord> source, string name)
+    {
+      return TableHelpers.Add<DimStyleTableRecord, DimStyleTable>(source, new DimStyleTableRecord() { Name = name });
+    }
+
+    public static IEnumerable<ObjectId> Create(this IEnumerable<DimStyleTableRecord> source, IEnumerable<string> names)
+    {
+      return TableHelpers.AddRange<DimStyleTableRecord, DimStyleTable>(source, names.Select(n => new DimStyleTableRecord() { Name = n }));
+    }
   }
 }

@@ -26,12 +26,22 @@ namespace Linq2Acad
 
     public static ObjectId Add(this IEnumerable<PlotSettings> source, string name, PlotSettings item)
     {
-      return DBDictionaryHelpers.Set<PlotSettings>(source, name, item);
+      return DBDictionaryHelpers.Add<PlotSettings>(source, name, item);
     }
 
     public static IEnumerable<ObjectId> Add(this IEnumerable<PlotSettings> source, IEnumerable<string> names, IEnumerable<PlotSettings> items)
     {
-      return DBDictionaryHelpers.SetRange<PlotSettings>(source, names, items);
+      return DBDictionaryHelpers.AddRange<PlotSettings>(source, names, items);
+    }
+
+    public static ObjectId Create(this IEnumerable<PlotSettings> source, string name, bool modelType)
+    {
+      return DBDictionaryHelpers.Add<PlotSettings>(source, name, new PlotSettings(modelType));
+    }
+
+    public static IEnumerable<ObjectId> Create(this IEnumerable<PlotSettings> source, IEnumerable<string> names, bool modelType)
+    {
+      return DBDictionaryHelpers.AddRange<PlotSettings>(source, names, names.Select(n => new PlotSettings(modelType)));
     }
   }
 }

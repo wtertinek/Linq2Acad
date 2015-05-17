@@ -33,25 +33,28 @@ var editor = Application.DocumentManager.MdiActiveDocument.Editor;
 
 using (var db = L2ADatabase.ActiveDatabase())
 {
-  db.Layers
-    .ForEach(l => editor.WriteLine(l.Name));
+  db.Layers.ForEach(l => editor.WriteLine(l.Name));
 }
 ```
 
-Creating a group:
+Creating a group and adding all Lines in the model space to it:
 
 ```c#
 var editor = Application.DocumentManager.MdiActiveDocument.Editor;
 
 using (var db = L2ADatabase.ActiveDatabase())
 {
-  if (db.Groups.Contains("Group1"))
+  if (db.Groups.Contains("LineGroup"))
   {
-    editor.WriteMessage("Group1 already exists");
+    Editor.WriteMessage("LineGroup already exists");
   }
   else
   {
-    db.Groups.Add("Group1", new Group("This is Group 1", true));
+    var ids = db.ModelSpace
+                .OfType<Line>()
+                .Select(l => l.ObjectId);
+
+    db.Groups.Create("LineGroup", ids);
   }
 }
 ```

@@ -41,12 +41,12 @@ namespace Linq2Acad
       }
     }
 
-    public static ObjectId Set<T>(IEnumerable<T> source, string name, T item) where T : DBObject
+    public static ObjectId Add<T>(IEnumerable<T> source, string name, T item) where T : DBObject
     {
-      return SetRange<T>(source, new[] { name }, new[] { item }).First();
+      return AddRange<T>(source, new[] { name }, new[] { item }).First();
     }
 
-    public static IEnumerable<ObjectId> SetRange<T>(this IEnumerable<T> source, IEnumerable<string> names, IEnumerable<T> items) where T : DBObject
+    public static IEnumerable<ObjectId> AddRange<T>(this IEnumerable<T> source, IEnumerable<string> names, IEnumerable<T> items) where T : DBObject
     {
       Helpers.CheckTransaction();
 
@@ -65,6 +65,11 @@ namespace Linq2Acad
 
         for (int i = 0; i < a_items.Length; i++)
         {
+          if (dict.Contains(a_names[i]))
+          {
+            throw new Exception(typeof(T).Name + " \"" + a_names[i] + "\" already exists");
+          }
+
           var id = dict.SetAt(a_names[i], a_items[i]);
           L2ADatabase.Transaction.Value.AddNewlyCreatedDBObject(a_items[i], true);
           yield return id;

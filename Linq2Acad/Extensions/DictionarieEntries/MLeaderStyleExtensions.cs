@@ -26,12 +26,22 @@ namespace Linq2Acad
 
     public static ObjectId Add(this IEnumerable<MLeaderStyle> source, string name, MLeaderStyle item)
     {
-      return DBDictionaryHelpers.Set<MLeaderStyle>(source, name, item);
+      return DBDictionaryHelpers.Add<MLeaderStyle>(source, name, item);
     }
 
     public static IEnumerable<ObjectId> Add(this IEnumerable<MLeaderStyle> source, IEnumerable<string> names, IEnumerable<MLeaderStyle> items)
     {
-      return DBDictionaryHelpers.SetRange<MLeaderStyle>(source, names, items);
+      return DBDictionaryHelpers.AddRange<MLeaderStyle>(source, names, items);
+    }
+
+    public static ObjectId Create(this IEnumerable<MLeaderStyle> source, string name)
+    {
+      return DBDictionaryHelpers.Add<MLeaderStyle>(source, name, new MLeaderStyle());
+    }
+
+    public static IEnumerable<ObjectId> Create(this IEnumerable<MLeaderStyle> source, IEnumerable<string> names)
+    {
+      return DBDictionaryHelpers.AddRange<MLeaderStyle>(source, names, names.Select(n => new MLeaderStyle()));
     }
   }
 }

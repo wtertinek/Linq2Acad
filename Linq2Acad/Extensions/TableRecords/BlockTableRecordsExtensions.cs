@@ -38,5 +38,15 @@ namespace Linq2Acad
     {
       return TableHelpers.AddRange<BlockTableRecord, BlockTable>(source, items);
     }
+
+    public static ObjectId Create(this IEnumerable<BlockTableRecord> source, string name)
+    {
+      return TableHelpers.Add<BlockTableRecord, BlockTable>(source, new BlockTableRecord() { Name = name });
+    }
+
+    public static IEnumerable<ObjectId> Create(this IEnumerable<BlockTableRecord> source, IEnumerable<string> names)
+    {
+      return TableHelpers.AddRange<BlockTableRecord, BlockTable>(source, names.Select(n => new BlockTableRecord() { Name = n }));
+    }
   }
 }

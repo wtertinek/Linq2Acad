@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Linq2Acad
 {
-  abstract class EnumerableBase<T> : IEnumerable<T> where T : DBObject
+  abstract class EnumerableBase<T> : IEnumerable<T>, IAcadEnumerable where T : DBObject
   {
     protected Lazy<Transaction> transaction;
 

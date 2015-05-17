@@ -38,5 +38,15 @@ namespace Linq2Acad
     {
       return TableHelpers.AddRange<UcsTableRecord, UcsTable>(source, items);
     }
+
+    public static ObjectId Create(this IEnumerable<UcsTableRecord> source, string name)
+    {
+      return TableHelpers.Add<UcsTableRecord, UcsTable>(source, new UcsTableRecord() { Name = name });
+    }
+
+    public static IEnumerable<ObjectId> Create(this IEnumerable<UcsTableRecord> source, IEnumerable<string> names)
+    {
+      return TableHelpers.AddRange<UcsTableRecord, UcsTable>(source, names.Select(n => new UcsTableRecord() { Name = n }));
+    }
   }
 }

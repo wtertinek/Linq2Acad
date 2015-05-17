@@ -101,13 +101,13 @@ namespace Linq2Acad.Tests
       }
     }
 
-    [CommandMethod("TestAddLayer")]
-    public static void TestAddLayer()
+    [CommandMethod("TestCreateNewLayer")]
+    public static void TestCreateNewLayer()
     {
       using (var db = L2ADatabase.ActiveDatabase())
       {
         db.Layers
-          .Add(new LayerTableRecord() { Name = "TestLayer" });
+          .Create("TestLayer");
       }
     }
 
@@ -142,18 +142,22 @@ namespace Linq2Acad.Tests
       }
     }
 
-    [CommandMethod("TestAddGroup")]
-    public static void TestAddGroup()
+    [CommandMethod("TestCreateGroup")]
+    public static void TestCreateGroup()
     {
       using (var db = L2ADatabase.ActiveDatabase())
       {
-        if (db.Groups.Contains("Group1"))
+        if (db.Groups.Contains("LineGroup"))
         {
-          Editor.WriteMessage("Group1 already exists");
+          Editor.WriteMessage("LineGroup already exists");
         }
         else
         {
-          db.Groups.Add("Group1", new Group("This is Group 1", true));
+          var ids = db.ModelSpace
+                      .OfType<Line>()
+                      .Select(l => l.ObjectId);
+
+          db.Groups.Create("LineGroup", ids);
         }
       }
     }
