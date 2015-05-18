@@ -12,19 +12,18 @@ namespace Linq2Acad
   {
     protected Database database;
     protected Transaction transaction;
+    protected ObjectId containerID;
 
     protected EnumerableBase(Database database, Transaction transaction, ObjectId containerID)
     {
       this.database = database;
       this.transaction = transaction;
-      ContainerID = containerID;
+      this.containerID = containerID;
     }
-
-    internal ObjectId ContainerID { get; private set; }
 
     public IEnumerator<T> GetEnumerator()
     {
-      var enumerable = (IEnumerable)transaction.GetObject(ContainerID, OpenMode.ForRead);
+      var enumerable = (IEnumerable)transaction.GetObject(containerID, OpenMode.ForRead);
 
       foreach (var item in enumerable)
       {
@@ -41,9 +40,11 @@ namespace Linq2Acad
 
     public abstract int Count();
 
+    public abstract long LongCount();
+
     public IEnumerable<TResult> OfType<TResult>() where TResult : T
     {
-      var container = (IEnumerable)transaction.GetObject(ContainerID, OpenMode.ForRead);
+      var container = (IEnumerable)transaction.GetObject(containerID, OpenMode.ForRead);
       var idEnumerator = container.GetEnumerator();
       var filterType = "AcDb" + typeof(TResult).Name;
 
@@ -68,7 +69,7 @@ namespace Linq2Acad
 
     public IEnumerable<T> Items(IEnumerable<ObjectId> ids)
     {
-      var table = (IEnumerable)transaction.GetObject(ContainerID, OpenMode.ForRead);
+      var table = (IEnumerable)transaction.GetObject(containerID, OpenMode.ForRead);
 
       foreach (var id in ids)
       {

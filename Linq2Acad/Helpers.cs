@@ -39,7 +39,21 @@ namespace Linq2Acad
     {
       var enumerator = ((IEnumerable)transaction.GetObject(containerID, OpenMode.ForRead)).GetEnumerator();
 
-      var count = 0;
+      int count = 0;
+      
+      while (enumerator.MoveNext())
+      {
+        count++;
+      }
+
+      return count;
+    }
+
+    public static long GetLongCount(Transaction transaction, ObjectId containerID)
+    {
+      var enumerator = ((IEnumerable)transaction.GetObject(containerID, OpenMode.ForRead)).GetEnumerator();
+
+      long count = 0;
 
       while (enumerator.MoveNext())
       {

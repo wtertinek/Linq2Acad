@@ -22,7 +22,12 @@ namespace Linq2Acad
 
     public override int Count()
     {
-      return Helpers.GetCount(transaction, ContainerID);
+      return Helpers.GetCount(transaction, containerID);
+    }
+
+    public override long LongCount()
+    {
+      return Helpers.GetLongCount(transaction, containerID);
     }
 
     public ObjectId Add(Entity item)
@@ -42,7 +47,7 @@ namespace Linq2Acad
 
     public IEnumerable<ObjectId> Add(IEnumerable<Entity> items, bool noDatabaseDefaults)
     {
-      var btr = (BlockTableRecord)transaction.GetObject(ContainerID, OpenMode.ForWrite);
+      var btr = (BlockTableRecord)transaction.GetObject(containerID, OpenMode.ForWrite);
 
       return items.Select(i =>
                          {

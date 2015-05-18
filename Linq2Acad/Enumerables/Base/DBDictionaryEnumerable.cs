@@ -28,35 +28,57 @@ namespace Linq2Acad
 
     public override sealed bool Contains(string name)
     {
-      var dict = (DBDictionary)transaction.GetObject(ContainerID, OpenMode.ForRead);
-      return dict.Contains(name);
+      return ((DBDictionary)transaction.GetObject(containerID, OpenMode.ForRead)).Contains(name);
     }
 
     public override sealed bool Contains(ObjectId id)
     {
-      var dict = (DBDictionary)transaction.GetObject(ContainerID, OpenMode.ForRead);
-      return dict.Contains(id);
+      return ((DBDictionary)transaction.GetObject(containerID, OpenMode.ForRead)).Contains(id);
     }
 
     public override sealed T Item(string name)
     {
-      var dict = (DBDictionary)transaction.GetObject(ContainerID, OpenMode.ForRead);
-      return (T)transaction.GetObject(dict.GetAt(name), OpenMode.ForRead);
+      var dict = (DBDictionary)transaction.GetObject(containerID, OpenMode.ForRead);
+
+      try
+      {
+        return (T)transaction.GetObject(dict.GetAt(name), OpenMode.ForRead);
+      }
+      catch
+      {
+        throw new KeyNotFoundException("No element with key " + name + " found");
+      }
     }
 
     public override sealed IEnumerable<T> Items(IEnumerable<string> names)
     {
-      var dict = (DBDictionary)transaction.GetObject(ContainerID, OpenMode.ForRead);
+      var dict = (DBDictionary)transaction.GetObject(containerID, OpenMode.ForRead);
 
       foreach (var name in names)
       {
-        yield return (T)transaction.GetObject(dict.GetAt(name), OpenMode.ForRead);
+        T item = default(T);
+
+        try
+        {
+          item = (T)transaction.GetObject(dict.GetAt(name), OpenMode.ForRead);
+        }
+        catch
+        {
+          throw new KeyNotFoundException("No element with key " + name + " found");
+        }
+
+        yield return item;
       }
     }
 
     public override sealed int Count()
     {
-      return ((DBDictionary)transaction.GetObject(ContainerID, OpenMode.ForRead)).Count;
+      return ((DBDictionary)transaction.GetObject(containerID, OpenMode.ForRead)).Count;
+    }
+
+    public override sealed long LongCount()
+    {
+      return ((DBDictionary)transaction.GetObject(containerID, OpenMode.ForRead)).Count;
     }
 
     public ObjectId Add(string name, T item)
@@ -74,13 +96,13 @@ namespace Linq2Acad
         throw new ArgumentException();
       }
 
-      var dict = (DBDictionary)transaction.GetObject(ContainerID, OpenMode.ForWrite);
+      var dict = (DBDictionary)transaction.GetObject(containerID, OpenMode.ForWrite);
 
       for (int i = 0; i < a_items.Length; i++)
       {
         if (dict.Contains(a_names[i]))
         {
-          throw new Exception(typeof(T).Name + " \"" + a_names[i] + "\" already exists");
+          throw new Exception(typeof(T).Name + " " + a_names[i] + " already exists");
         }
 
         var id = dict.SetAt(a_names[i], a_items[i]);

@@ -35,35 +35,58 @@ namespace Linq2Acad
 
     public override sealed bool Contains(string name)
     {
-      var table = (SymbolTable)transaction.GetObject(ContainerID, OpenMode.ForRead);
-      return table.Has(name);
+      return ((SymbolTable)transaction.GetObject(containerID, OpenMode.ForRead)).Has(name);
     }
 
     public override sealed bool Contains(ObjectId id)
     {
-      var table = (SymbolTable)transaction.GetObject(ContainerID, OpenMode.ForRead);
-      return table.Has(id);
+      return ((SymbolTable)transaction.GetObject(containerID, OpenMode.ForRead)).Has(id);
     }
 
     public override sealed T Item(string name)
     {
-      var table = (SymbolTable)transaction.GetObject(ContainerID, OpenMode.ForRead);
-      return (T)transaction.GetObject(table[name], OpenMode.ForRead);
+      var table = (SymbolTable)transaction.GetObject(containerID, OpenMode.ForRead);
+
+      try
+      {
+        return (T)transaction.GetObject(table[name], OpenMode.ForRead);
+      }
+      catch
+      {
+        throw new KeyNotFoundException("No element with key " + name + " found");
+      }
     }
 
     public override sealed IEnumerable<T> Items(IEnumerable<string> names)
     {
-      var table = (SymbolTable)transaction.GetObject(ContainerID, OpenMode.ForRead);
+      var table = (SymbolTable)transaction.GetObject(containerID, OpenMode.ForRead);
 
       foreach (var name in names)
       {
-        yield return (T)transaction.GetObject(table[name], OpenMode.ForRead);
+        T item = default(T);
+
+        try
+        {
+          item = (T)transaction.GetObject(table[name], OpenMode.ForRead);
+        }
+        catch
+        {
+          throw new KeyNotFoundException("No element with key " + name + " found");
+        }
+
+
+        yield return item;
       }
     }
 
-    public override int Count()
+    public override sealed int Count()
     {
-      return Helpers.GetCount(transaction, ContainerID);
+      return Helpers.GetCount(transaction, containerID);
+    }
+
+    public override sealed long LongCount()
+    {
+      return Helpers.GetLongCount(transaction, containerID);
     }
 
     public ObjectId Add(T item)
@@ -73,7 +96,7 @@ namespace Linq2Acad
 
     public IEnumerable<ObjectId> AddRange(IEnumerable<T> items)
     {
-      var table = (SymbolTable)transaction.GetObject(ContainerID, OpenMode.ForWrite);
+      var table = (SymbolTable)transaction.GetObject(containerID, OpenMode.ForWrite);
 
       foreach (var item in items)
       {
