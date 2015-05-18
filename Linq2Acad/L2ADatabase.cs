@@ -3,6 +3,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace Linq2Acad
   {
     private bool commit;
     private bool dispose;
-    private Database database;
+    private bool abort;
     private Transaction transaction;
 
     private L2ADatabase(Database database)
@@ -23,37 +24,41 @@ namespace Linq2Acad
 
     private L2ADatabase(Database database, Transaction transaction, bool commit, bool dispose)
     {
-      if (database == null)
-      {
-        throw new InvalidOperationException("No database available");
-      }
+      if (database == null) { throw new ArgumentNullException("database"); }
+      if (transaction == null) { throw new ArgumentNullException("transaction"); }
 
       AcadDatabase = database;
+      this.transaction = transaction;
       this.commit = commit;
       this.dispose = dispose;
-      this.database = database;
-      this.transaction = transaction;
     }
 
     public Database AcadDatabase { get; private set; }
 
     public void DiscardChanges()
     {
-      commit = false;
+      abort = true;
     }
 
     public void Dispose()
     {
       if (!transaction.IsDisposed)
       {
-        if (commit)
+        if (abort)
         {
-          transaction.Commit();
+          transaction.Abort();
         }
-
-        if (dispose)
+        else
         {
-          transaction.Dispose();
+          if (commit)
+          {
+            transaction.Commit();
+          }
+
+          if (dispose)
+          {
+            transaction.Dispose();
+          }
         }
       }
     }
@@ -75,47 +80,47 @@ namespace Linq2Acad
 
     public Blocks Blocks
     {
-      get { return new Blocks(database, transaction, database.BlockTableId); }
+      get { return new Blocks(AcadDatabase, transaction, AcadDatabase.BlockTableId); }
     }
 
     public Layers Layers
     {
-      get { return new Layers(database, transaction, database.LayerTableId); }
+      get { return new Layers(AcadDatabase, transaction, AcadDatabase.LayerTableId); }
     }
 
     public DimStyles DimStyles
     {
-      get { return new DimStyles(database, transaction, database.DimStyleTableId); }
+      get { return new DimStyles(AcadDatabase, transaction, AcadDatabase.DimStyleTableId); }
     }
 
     public Linetypes Linetypes
     {
-      get { return new Linetypes(database, transaction, database.LinetypeTableId); }
+      get { return new Linetypes(AcadDatabase, transaction, AcadDatabase.LinetypeTableId); }
     }
 
     public RegApps RegApps
     {
-      get { return new RegApps(database, transaction, database.RegAppTableId); }
+      get { return new RegApps(AcadDatabase, transaction, AcadDatabase.RegAppTableId); }
     }
 
     public TextStyles TextStyles
     {
-      get { return new TextStyles(database, transaction, database.TextStyleTableId); }
+      get { return new TextStyles(AcadDatabase, transaction, AcadDatabase.TextStyleTableId); }
     }
 
     public Ucss Ucss
     {
-      get { return new Ucss(database, transaction, database.UcsTableId); }
+      get { return new Ucss(AcadDatabase, transaction, AcadDatabase.UcsTableId); }
     }
 
     public Viewports Viewports
     {
-      get { return new Viewports(database, transaction, database.ViewportTableId); }
+      get { return new Viewports(AcadDatabase, transaction, AcadDatabase.ViewportTableId); }
     }
 
     public Views Views
     {
-      get { return new Views(database, transaction, database.ViewTableId); }
+      get { return new Views(AcadDatabase, transaction, AcadDatabase.ViewTableId); }
     }
 
     #endregion
@@ -124,52 +129,52 @@ namespace Linq2Acad
 
     public Layouts Layouts
     {
-      get { return new Layouts(database, transaction, database.LayoutDictionaryId); }
+      get { return new Layouts(AcadDatabase, transaction, AcadDatabase.LayoutDictionaryId); }
     }
 
     public Groups Groups
     {
-      get { return new Groups(database, transaction, database.GroupDictionaryId); }
+      get { return new Groups(AcadDatabase, transaction, AcadDatabase.GroupDictionaryId); }
     }
 
     public MLeaderStyles MLeaderStyles
     {
-      get { return new MLeaderStyles(database, transaction, database.MLeaderStyleDictionaryId); }
+      get { return new MLeaderStyles(AcadDatabase, transaction, AcadDatabase.MLeaderStyleDictionaryId); }
     }
 
     public MlineStyles MlineStyles
     {
-      get { return new MlineStyles(database, transaction, database.MLStyleDictionaryId); }
+      get { return new MlineStyles(AcadDatabase, transaction, AcadDatabase.MLStyleDictionaryId); }
     }
 
     public Materials Materials
     {
-      get { return new Materials(database, transaction, database.MaterialDictionaryId); }
+      get { return new Materials(AcadDatabase, transaction, AcadDatabase.MaterialDictionaryId); }
     }
 
     public DBVisualStyles DBVisualStyles
     {
-      get { return new DBVisualStyles(database, transaction, database.VisualStyleDictionaryId); }
+      get { return new DBVisualStyles(AcadDatabase, transaction, AcadDatabase.VisualStyleDictionaryId); }
     }
 
     public PlotSettingss PlotSettings
     {
-      get { return new PlotSettingss(database, transaction, database.PlotSettingsDictionaryId); }
+      get { return new PlotSettingss(AcadDatabase, transaction, AcadDatabase.PlotSettingsDictionaryId); }
     }
 
     public TableStyles TableStyles
     {
-      get { return new TableStyles(database, transaction, database.TableStyleDictionaryId); }
+      get { return new TableStyles(AcadDatabase, transaction, AcadDatabase.TableStyleDictionaryId); }
     }
 
     public SectionViewStyles SectionViewStyles
     {
-      get { return new SectionViewStyles(database, transaction, database.SectionViewStyleDictionaryId); }
+      get { return new SectionViewStyles(AcadDatabase, transaction, AcadDatabase.SectionViewStyleDictionaryId); }
     }
 
     public DetailViewStyles DetailViewStyles
     {
-      get { return new DetailViewStyles(database, transaction, database.DetailViewStyleDictionaryId); }
+      get { return new DetailViewStyles(AcadDatabase, transaction, AcadDatabase.DetailViewStyleDictionaryId); }
     }
 
     #endregion
@@ -178,7 +183,7 @@ namespace Linq2Acad
 
     public Block CurrentSpace
     {
-      get { return new Block(database, transaction, database.CurrentSpaceId); }
+      get { return new Block(AcadDatabase, transaction, AcadDatabase.CurrentSpaceId); }
     }
 
     public Block ModelSpace
@@ -193,7 +198,7 @@ namespace Linq2Acad
     private Block GetSpace(string name)
     {
       var spaceID = ((BlockTable)transaction.GetObject(AcadDatabase.BlockTableId, OpenMode.ForRead))[name];
-      return new Block(database, transaction, spaceID);
+      return new Block(AcadDatabase, transaction, spaceID);
     }
 
     #endregion
@@ -202,21 +207,11 @@ namespace Linq2Acad
 
     public static L2ADatabase ActiveDatabase()
     {
-      if (Application.DocumentManager.MdiActiveDocument == null)
-      {
-        throw new InvalidOperationException("No document available");
-      }
-
       return new L2ADatabase(Application.DocumentManager.MdiActiveDocument.Database);
     }
 
     public static L2ADatabase ActiveDatabase(Transaction tr, bool commit, bool dispose)
     {
-      if (Application.DocumentManager.MdiActiveDocument == null)
-      {
-        throw new InvalidOperationException("No document available");
-      }
-
       return new L2ADatabase(Application.DocumentManager.MdiActiveDocument.Database, tr, commit, dispose);
     }
 
@@ -228,6 +223,31 @@ namespace Linq2Acad
     public static L2ADatabase Use(Database database, Transaction tr, bool commit, bool dispose)
     {
       return new L2ADatabase(database, tr, commit, dispose);
+    }
+
+    public static L2ADatabase Open(string fileName)
+    {
+      return Open(fileName, false, null);
+    }
+
+    public static L2ADatabase Open(string fileName, string password)
+    {
+      return Open(fileName, false, password);
+    }
+
+    public static L2ADatabase Open(string fileName, bool forWrite)
+    {
+      return Open(fileName, forWrite, null);
+    }
+
+    public static L2ADatabase Open(string fileName, bool forWrite, string password)
+    {
+      if (!File.Exists(fileName)) { throw new FileNotFoundException(); }
+
+      var database = new Database(false, true);
+      database.ReadDwgFile(fileName, forWrite ? FileOpenMode.OpenForReadAndWriteNoShare : FileOpenMode.OpenForReadAndAllShare, false, password);
+      database.CloseInput(true);
+      return new L2ADatabase(database);
     }
 
     #endregion

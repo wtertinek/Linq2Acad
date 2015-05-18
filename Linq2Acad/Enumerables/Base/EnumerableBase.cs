@@ -20,7 +20,7 @@ namespace Linq2Acad
       ContainerID = containerID;
     }
 
-    public ObjectId ContainerID { get; private set; }
+    internal ObjectId ContainerID { get; private set; }
 
     public IEnumerator<T> GetEnumerator()
     {

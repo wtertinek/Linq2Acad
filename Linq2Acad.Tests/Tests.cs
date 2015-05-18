@@ -6,6 +6,7 @@ using Autodesk.AutoCAD.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 
 namespace Linq2Acad.Tests
@@ -201,6 +202,24 @@ namespace Linq2Acad.Tests
                       .Count();
 
         Editor.WriteMessage("\n" + count + " BlockReferences");
+      }
+    }
+
+    [CommandMethod("TestReadFromFile")]
+    public static void TestReadFromFile()
+    {
+      var result = Editor.GetString("Enter file path:");
+
+      if (result.Status == PromptStatus.OK && File.Exists(result.StringResult))
+      {
+        using (var db = L2ADatabase.Open(result.StringResult))
+        {
+          var count = db.ModelSpace
+                        .OfType<BlockReference>()
+                        .Count();
+
+          Editor.WriteMessage("\n Model space BlockReferences in file " + result.StringResult + ": " + count);
+        }
       }
     }
   }

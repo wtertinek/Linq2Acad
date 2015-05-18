@@ -80,5 +80,23 @@ using (var db = L2ADatabase.ActiveDatabase())
 }
 ```
 
+Opening a drawing from file and count the BlockReferences in the model space:
+
+```c#
+var result = Editor.GetString("Enter file path:");
+
+if (result.Status == PromptStatus.OK && File.Exists(result.StringResult))
+{
+  using (var db = L2ADatabase.Open(result.StringResult))
+  {
+    var count = db.ModelSpace
+                  .OfType<BlockReference>()
+                  .Count();
+
+    Editor.WriteMessage("\nModel space BlockReferences in file " + result.StringResult + ": " + count);
+  }
+}
+```
+
 ### TODO
 I just started the project, at the moment it's just a working prototype for AutoCAD 2016. If you have any comments or suggestions, **I'm very happy to hear from you**.
