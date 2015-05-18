@@ -63,12 +63,12 @@ namespace Linq2Acad
       }
     }
 
-    public T GetObject<T>(ObjectId id) where T : DBObject
+    public T Item<T>(ObjectId id) where T : DBObject
     {
       return (T)transaction.GetObject(id, OpenMode.ForRead);
     }
 
-    public IEnumerable<T> GetObjects<T>(IEnumerable<ObjectId> ids) where T : DBObject
+    public IEnumerable<T> Items<T>(IEnumerable<ObjectId> ids) where T : DBObject
     {
       foreach (var id in ids)
       {
@@ -181,24 +181,24 @@ namespace Linq2Acad
 
     #region Model/Paper space
 
-    public Block CurrentSpace
+    public Entities CurrentSpace
     {
-      get { return new Block(AcadDatabase, transaction, AcadDatabase.CurrentSpaceId); }
+      get { return new Entities(AcadDatabase, transaction, AcadDatabase.CurrentSpaceId); }
     }
 
-    public Block ModelSpace
+    public Entities ModelSpace
     {
       get { return GetSpace(BlockTableRecord.ModelSpace); }
     }
-    public Block PaperSpace
+    public Entities PaperSpace
     {
       get { return GetSpace(BlockTableRecord.PaperSpace); }
     }
 
-    private Block GetSpace(string name)
+    private Entities GetSpace(string name)
     {
       var spaceID = ((BlockTable)transaction.GetObject(AcadDatabase.BlockTableId, OpenMode.ForRead))[name];
-      return new Block(AcadDatabase, transaction, spaceID);
+      return new Entities(AcadDatabase, transaction, spaceID);
     }
 
     #endregion

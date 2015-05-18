@@ -128,4 +128,59 @@ namespace Linq2Acad
       return new ViewTableRecord();
     }
   }
+
+  public class Entities : EnumerableBase<Entity>
+  {
+    public Entities(Database database, Transaction transaction, ObjectId containerID)
+      : base(database, transaction, containerID)
+    {
+    }
+
+    protected override ObjectId GetObjectID(object iteratorItem)
+    {
+      return (ObjectId)iteratorItem;
+    }
+
+    public override int Count()
+    {
+      return Helpers.GetCount(transaction, containerID);
+    }
+
+    public override long LongCount()
+    {
+      return Helpers.GetLongCount(transaction, containerID);
+    }
+
+    public ObjectId Add(Entity item)
+    {
+      return Add(item, false);
+    }
+
+    public ObjectId Add(Entity item, bool noDatabaseDefaults)
+    {
+      return Add(new[] { item }, noDatabaseDefaults).First();
+    }
+
+    public IEnumerable<ObjectId> Add(IEnumerable<Entity> items)
+    {
+      return Add(items, false);
+    }
+
+    public IEnumerable<ObjectId> Add(IEnumerable<Entity> items, bool noDatabaseDefaults)
+    {
+      var btr = (BlockTableRecord)transaction.GetObject(containerID, OpenMode.ForWrite);
+
+      return items.Select(i =>
+      {
+        if (!noDatabaseDefaults)
+        {
+          i.SetDatabaseDefaults();
+        }
+
+        var id = btr.AppendEntity(i);
+        transaction.AddNewlyCreatedDBObject(i, true);
+        return id;
+      }).ToArray();
+    }
+  }
 }

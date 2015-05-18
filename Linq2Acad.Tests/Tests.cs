@@ -172,7 +172,7 @@ namespace Linq2Acad.Tests
 
         if (result.Status == PromptStatus.OK)
         {
-          var layerID = db.GetObject<Entity>(result.ObjectId)
+          var layerID = db.Item<Entity>(result.ObjectId)
                           .LayerId;
           db.Layers
             .Where(l => l.Id != layerID)

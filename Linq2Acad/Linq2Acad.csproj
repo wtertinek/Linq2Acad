@@ -77,7 +77,6 @@
     <Compile Include="Enumerables\Base\DBDictionaryEnumerable.cs" />
     <Compile Include="Enumerables\DictionaryEnumerables.cs" />
     <Compile Include="Enumerables\Base\EnumerableBase.cs" />
-    <Compile Include="Enumerables\Block.cs" />
     <Compile Include="Enumerables\TableEnumerables.cs" />
     <Compile Include="L2ADatabase.cs" />
     <Compile Include="Enumerables\Base\SymbolTableEnumerable.cs" />
