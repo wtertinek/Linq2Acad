@@ -8,10 +8,10 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Linq2Acad
 {
-  public abstract class DBDictionaryEnumerableBase<T> : NameBasedEnumerable<T> where T : DBObject
+  public abstract class DBDictionaryEnumerable<T> : NameBasedEnumerable<T> where T : DBObject
   {
-    protected DBDictionaryEnumerableBase(Lazy<Transaction> transaction, ObjectId containerID)
-      : base(transaction, containerID)
+    protected DBDictionaryEnumerable(Database database, Transaction transaction, ObjectId containerID)
+      : base(database, transaction, containerID)
     {
     }
 
@@ -28,38 +28,35 @@ namespace Linq2Acad
 
     public override sealed bool Contains(string name)
     {
-      var dict = (DBDictionary)transaction.Value.GetObject(ContainerID, OpenMode.ForRead);
+      var dict = (DBDictionary)transaction.GetObject(ContainerID, OpenMode.ForRead);
       return dict.Contains(name);
     }
 
     public override sealed bool Contains(ObjectId id)
     {
-      var dict = (DBDictionary)transaction.Value.GetObject(ContainerID, OpenMode.ForRead);
+      var dict = (DBDictionary)transaction.GetObject(ContainerID, OpenMode.ForRead);
       return dict.Contains(id);
     }
 
     public override sealed T Item(string name)
     {
-      Helpers.CheckTransaction();
-      var dict = (DBDictionary)L2ADatabase.Transaction.Value.GetObject(ContainerID, OpenMode.ForRead);
-      return (T)L2ADatabase.Transaction.Value.GetObject(dict.GetAt(name), OpenMode.ForRead);
+      var dict = (DBDictionary)transaction.GetObject(ContainerID, OpenMode.ForRead);
+      return (T)transaction.GetObject(dict.GetAt(name), OpenMode.ForRead);
     }
 
     public override sealed IEnumerable<T> Items(IEnumerable<string> names)
     {
-      Helpers.CheckTransaction();
-
-      var dict = (DBDictionary)L2ADatabase.Transaction.Value.GetObject(ContainerID, OpenMode.ForRead);
+      var dict = (DBDictionary)transaction.GetObject(ContainerID, OpenMode.ForRead);
 
       foreach (var name in names)
       {
-        yield return (T)L2ADatabase.Transaction.Value.GetObject(dict.GetAt(name), OpenMode.ForRead);
+        yield return (T)transaction.GetObject(dict.GetAt(name), OpenMode.ForRead);
       }
     }
 
     public override sealed int Count()
     {
-      return ((DBDictionary)transaction.Value.GetObject(ContainerID, OpenMode.ForRead)).Count;
+      return ((DBDictionary)transaction.GetObject(ContainerID, OpenMode.ForRead)).Count;
     }
 
     public ObjectId Add(string name, T item)
@@ -69,8 +66,6 @@ namespace Linq2Acad
 
     public IEnumerable<ObjectId> AddRange(IEnumerable<string> names, IEnumerable<T> items)
     {
-      Helpers.CheckTransaction();
-
       var a_names = names.ToArray();
       var a_items = items.ToArray();
 
@@ -79,7 +74,7 @@ namespace Linq2Acad
         throw new ArgumentException();
       }
 
-      var dict = (DBDictionary)L2ADatabase.Transaction.Value.GetObject(ContainerID, OpenMode.ForWrite);
+      var dict = (DBDictionary)transaction.GetObject(ContainerID, OpenMode.ForWrite);
 
       for (int i = 0; i < a_items.Length; i++)
       {
@@ -89,7 +84,7 @@ namespace Linq2Acad
         }
 
         var id = dict.SetAt(a_names[i], a_items[i]);
-        L2ADatabase.Transaction.Value.AddNewlyCreatedDBObject(a_items[i], true);
+       transaction.AddNewlyCreatedDBObject(a_items[i], true);
         yield return id;
       }
     }

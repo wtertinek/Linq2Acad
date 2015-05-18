@@ -1,5 +1,6 @@
 ﻿using Autodesk.AutoCAD.DatabaseServices;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,12 +35,18 @@ namespace Linq2Acad
       return result;
     }
 
-    public static void CheckTransaction()
+    public static int GetCount(Transaction transaction, ObjectId containerID)
     {
-      if (L2ADatabase.Transaction == null)
+      var enumerator = ((IEnumerable)transaction.GetObject(containerID, OpenMode.ForRead)).GetEnumerator();
+
+      var count = 0;
+
+      while (enumerator.MoveNext())
       {
-        throw new InvalidOperationException("No ActiveDatabase context available");
+        count++;
       }
+
+      return count;
     }
   }
 }

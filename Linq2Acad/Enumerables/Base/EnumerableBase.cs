@@ -10,10 +10,12 @@ namespace Linq2Acad
 {
   public abstract class EnumerableBase<T> : IEnumerable<T> where T : DBObject
   {
-    protected Lazy<Transaction> transaction;
+    protected Database database;
+    protected Transaction transaction;
 
-    protected EnumerableBase(Lazy<Transaction> transaction, ObjectId containerID)
+    protected EnumerableBase(Database database, Transaction transaction, ObjectId containerID)
     {
+      this.database = database;
       this.transaction = transaction;
       ContainerID = containerID;
     }
@@ -22,11 +24,11 @@ namespace Linq2Acad
 
     public IEnumerator<T> GetEnumerator()
     {
-      var enumerable = (IEnumerable)transaction.Value.GetObject(ContainerID, OpenMode.ForRead);
+      var enumerable = (IEnumerable)transaction.GetObject(ContainerID, OpenMode.ForRead);
 
       foreach (var item in enumerable)
       {
-        yield return (T)transaction.Value.GetObject(GetObjectID(item), OpenMode.ForRead);
+        yield return (T)transaction.GetObject(GetObjectID(item), OpenMode.ForRead);
       }
     }
 
@@ -41,7 +43,7 @@ namespace Linq2Acad
 
     public IEnumerable<TResult> OfType<TResult>() where TResult : T
     {
-      var container = (IEnumerable)transaction.Value.GetObject(ContainerID, OpenMode.ForRead);
+      var container = (IEnumerable)transaction.GetObject(ContainerID, OpenMode.ForRead);
       var idEnumerator = container.GetEnumerator();
       var filterType = "AcDb" + typeof(TResult).Name;
 
@@ -55,42 +57,23 @@ namespace Linq2Acad
           continue;
         }
 
-        yield return (TResult)transaction.Value.GetObject(id, OpenMode.ForRead);
+        yield return (TResult)transaction.GetObject(id, OpenMode.ForRead);
       }
     }
 
     public T Item(ObjectId id)
     {
-      Helpers.CheckTransaction();
-      return (T)L2ADatabase.Transaction.Value.GetObject(id, OpenMode.ForRead);
+      return (T)transaction.GetObject(id, OpenMode.ForRead);
     }
 
     public IEnumerable<T> Items(IEnumerable<ObjectId> ids)
     {
-      Helpers.CheckTransaction();
-
-      var table = (IEnumerable)L2ADatabase.Transaction.Value.GetObject(ContainerID, OpenMode.ForRead);
+      var table = (IEnumerable)transaction.GetObject(ContainerID, OpenMode.ForRead);
 
       foreach (var id in ids)
       {
-        yield return (T)L2ADatabase.Transaction.Value.GetObject(id, OpenMode.ForRead);
+        yield return (T)transaction.GetObject(id, OpenMode.ForRead);
       }
     }
-  }
-
-  public abstract class NameBasedEnumerable<T> : EnumerableBase<T> where T : DBObject
-  {
-    protected NameBasedEnumerable(Lazy<Transaction> transaction, ObjectId containerID)
-      : base(transaction, containerID)
-    {
-    }
-
-    public abstract bool Contains(string name);
-    
-    public abstract bool Contains(ObjectId id);
-
-    public abstract T Item(string name);
-
-    public abstract IEnumerable<T> Items(IEnumerable<string> names);
   }
 }

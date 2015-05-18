@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Linq2Acad
 {
-  public class EntityEnumerable : EnumerableBase<Entity>
+  public class Block : EnumerableBase<Entity>
   {
-    public EntityEnumerable(Lazy<Transaction> transaction, ObjectId containerID)
-      : base(transaction, containerID)
+    public Block(Database database, Transaction transaction, ObjectId containerID)
+      : base(database, transaction, containerID)
     {
     }
 
@@ -22,16 +22,7 @@ namespace Linq2Acad
 
     public override int Count()
     {
-      var enumerator = ((IEnumerable)transaction.Value.GetObject(ContainerID, OpenMode.ForRead)).GetEnumerator();
-
-      var count = 0;
-
-      while (enumerator.MoveNext())
-      {
-        count++;
-      }
-
-      return count;
+      return Helpers.GetCount(transaction, ContainerID);
     }
 
     public ObjectId Add(Entity item)
@@ -41,7 +32,6 @@ namespace Linq2Acad
 
     public ObjectId Add(Entity item, bool noDatabaseDefaults)
     {
-      Helpers.CheckTransaction();
       return Add(new[] { item }, noDatabaseDefaults).First();
     }
 
@@ -52,9 +42,7 @@ namespace Linq2Acad
 
     public IEnumerable<ObjectId> Add(IEnumerable<Entity> items, bool noDatabaseDefaults)
     {
-      Helpers.CheckTransaction();
-
-      var btr = (BlockTableRecord)L2ADatabase.Transaction.Value.GetObject(ContainerID, OpenMode.ForWrite);
+      var btr = (BlockTableRecord)transaction.GetObject(ContainerID, OpenMode.ForWrite);
 
       return items.Select(i =>
                          {
@@ -64,7 +52,7 @@ namespace Linq2Acad
                            }
 
                            var id = btr.AppendEntity(i);
-                           L2ADatabase.Transaction.Value.AddNewlyCreatedDBObject(i, true);
+                          transaction.AddNewlyCreatedDBObject(i, true);
                            return id;
                          }).ToArray();
     }

@@ -13,50 +13,27 @@ namespace Linq2Acad
   {
     private bool commit;
     private bool dispose;
+    private Database database;
+    private Transaction transaction;
 
     private L2ADatabase(Database database)
+      : this(database, database.TransactionManager.StartTransaction(), true, true)
     {
-      CheckTransaction();
-      CheckDatabase(database);
-
-      AcadDatabase = database;
-      commit = true;
-      dispose = true;
-      Transaction = new Lazy<Transaction>(AcadDatabase.TransactionManager.StartTransaction);
-      Database = database;
     }
 
-    private L2ADatabase(Database database, Transaction tr, bool commit, bool dispose)
-    {
-      CheckTransaction();
-      CheckDatabase(database);
-
-      AcadDatabase = database;
-      this.commit = commit;
-      this.dispose = dispose;
-      Transaction = new Lazy<Transaction>(() => tr);
-      Database = database;
-    }
-
-    private void CheckTransaction()
-    {
-      if (Transaction != null)
-      {
-        throw new InvalidOperationException("Can't create nested instance of ActiveDatabase");
-      }
-    }
-
-    private void CheckDatabase(Database database)
+    private L2ADatabase(Database database, Transaction transaction, bool commit, bool dispose)
     {
       if (database == null)
       {
         throw new InvalidOperationException("No database available");
       }
+
+      AcadDatabase = database;
+      this.commit = commit;
+      this.dispose = dispose;
+      this.database = database;
+      this.transaction = transaction;
     }
-
-    internal static Lazy<Transaction> Transaction { get; private set; }
-
-    internal static Database Database { get; private set; }
 
     public Database AcadDatabase { get; private set; }
 
@@ -67,148 +44,156 @@ namespace Linq2Acad
 
     public void Dispose()
     {
-      if (Transaction.IsValueCreated &&
-          !Transaction.Value.IsDisposed)
+      if (!transaction.IsDisposed)
       {
         if (commit)
         {
-          Transaction.Value.Commit();
+          transaction.Commit();
         }
 
         if (dispose)
         {
-          Transaction.Value.Dispose();
+          transaction.Dispose();
         }
       }
+    }
 
-      Transaction = null;
-      Database = null;
+    public T GetObject<T>(ObjectId id) where T : DBObject
+    {
+      return (T)transaction.GetObject(id, OpenMode.ForRead);
+    }
+
+    public IEnumerable<T> GetObjects<T>(IEnumerable<ObjectId> ids) where T : DBObject
+    {
+      foreach (var id in ids)
+      {
+        yield return (T)transaction.GetObject(id, OpenMode.ForRead);
+      }
     }
 
     #region Tables
 
-    public L2ABlockTable Blocks
+    public Blocks Blocks
     {
-      get { return new L2ABlockTable(Transaction, AcadDatabase.BlockTableId); }
+      get { return new Blocks(database, transaction, database.BlockTableId); }
     }
 
-    public L2ALayerTable Layers
+    public Layers Layers
     {
-      get { return new L2ALayerTable(Transaction, AcadDatabase.LayerTableId); }
+      get { return new Layers(database, transaction, database.LayerTableId); }
     }
 
-    public L2ADimStyleTable DimStyles
+    public DimStyles DimStyles
     {
-      get { return new L2ADimStyleTable(Transaction, AcadDatabase.DimStyleTableId); }
+      get { return new DimStyles(database, transaction, database.DimStyleTableId); }
     }
 
-    public L2ALinetypeTable Linetypes
+    public Linetypes Linetypes
     {
-      get { return new L2ALinetypeTable(Transaction, AcadDatabase.LinetypeTableId); }
+      get { return new Linetypes(database, transaction, database.LinetypeTableId); }
     }
 
-    public L2ARegAppTable RegApps
+    public RegApps RegApps
     {
-      get { return new L2ARegAppTable(Transaction, AcadDatabase.RegAppTableId); }
+      get { return new RegApps(database, transaction, database.RegAppTableId); }
     }
 
-    public L2ATextStyleTable TextStyles
+    public TextStyles TextStyles
     {
-      get { return new L2ATextStyleTable(Transaction, AcadDatabase.TextStyleTableId); }
+      get { return new TextStyles(database, transaction, database.TextStyleTableId); }
     }
 
-    public L2AUcsTable Ucss
+    public Ucss Ucss
     {
-      get { return new L2AUcsTable(Transaction, AcadDatabase.UcsTableId); }
+      get { return new Ucss(database, transaction, database.UcsTableId); }
     }
 
-    public L2AViewportTable Viewports
+    public Viewports Viewports
     {
-      get { return new L2AViewportTable(Transaction, AcadDatabase.ViewportTableId); }
+      get { return new Viewports(database, transaction, database.ViewportTableId); }
     }
 
-    public L2AViewTable Views
+    public Views Views
     {
-      get { return new L2AViewTable(Transaction, AcadDatabase.ViewTableId); }
+      get { return new Views(database, transaction, database.ViewTableId); }
     }
 
     #endregion
 
     #region Dictionaries
 
-    public L2ALayoutDictionary Layouts
+    public Layouts Layouts
     {
-      get { return new L2ALayoutDictionary(Transaction, AcadDatabase.LayoutDictionaryId); }
+      get { return new Layouts(database, transaction, database.LayoutDictionaryId); }
     }
 
-    public L2AGroupDictionary Groups
+    public Groups Groups
     {
-      get { return new L2AGroupDictionary(Transaction, AcadDatabase.GroupDictionaryId); }
+      get { return new Groups(database, transaction, database.GroupDictionaryId); }
     }
 
-    public L2AMLeaderStyleDictionary MLeaderStyles
+    public MLeaderStyles MLeaderStyles
     {
-      get { return new L2AMLeaderStyleDictionary(Transaction, AcadDatabase.MLeaderStyleDictionaryId); }
+      get { return new MLeaderStyles(database, transaction, database.MLeaderStyleDictionaryId); }
     }
 
-    public L2AMlineStyleDictionary MlineStyles
+    public MlineStyles MlineStyles
     {
-      get { return new L2AMlineStyleDictionary(Transaction, AcadDatabase.MLStyleDictionaryId); }
+      get { return new MlineStyles(database, transaction, database.MLStyleDictionaryId); }
     }
 
-    public L2AMaterialDictionary Materials
+    public Materials Materials
     {
-      get { return new L2AMaterialDictionary(Transaction, AcadDatabase.MaterialDictionaryId); }
+      get { return new Materials(database, transaction, database.MaterialDictionaryId); }
     }
 
-    public L2ADBVisualStyleDictionary DBVisualStyles
+    public DBVisualStyles DBVisualStyles
     {
-      get { return new L2ADBVisualStyleDictionary(Transaction, AcadDatabase.VisualStyleDictionaryId); }
+      get { return new DBVisualStyles(database, transaction, database.VisualStyleDictionaryId); }
     }
 
-    public L2APlotSettingsDictionary PlotSettings
+    public PlotSettingss PlotSettings
     {
-      get { return new L2APlotSettingsDictionary(Transaction, AcadDatabase.PlotSettingsDictionaryId); }
+      get { return new PlotSettingss(database, transaction, database.PlotSettingsDictionaryId); }
     }
 
-    public L2ATableStyleDictionary TableStyles
+    public TableStyles TableStyles
     {
-      get { return new L2ATableStyleDictionary(Transaction, AcadDatabase.TableStyleDictionaryId); }
+      get { return new TableStyles(database, transaction, database.TableStyleDictionaryId); }
     }
 
-    public L2ASectionViewStyleDictionary SectionViewStyles
+    public SectionViewStyles SectionViewStyles
     {
-      get { return new L2ASectionViewStyleDictionary(Transaction, AcadDatabase.SectionViewStyleDictionaryId); }
+      get { return new SectionViewStyles(database, transaction, database.SectionViewStyleDictionaryId); }
     }
 
-    public L2ADetailViewStyleDictionary DetailViewStyles
+    public DetailViewStyles DetailViewStyles
     {
-      get { return new L2ADetailViewStyleDictionary(Transaction, AcadDatabase.DetailViewStyleDictionaryId); }
+      get { return new DetailViewStyles(database, transaction, database.DetailViewStyleDictionaryId); }
     }
 
     #endregion
 
     #region Model/Paper space
 
-    public EntityEnumerable CurrentSpace
+    public Block CurrentSpace
     {
-      get { return new EntityEnumerable(Transaction, AcadDatabase.CurrentSpaceId); }
+      get { return new Block(database, transaction, database.CurrentSpaceId); }
     }
 
-    public EntityEnumerable ModelSpace
+    public Block ModelSpace
     {
       get { return GetSpace(BlockTableRecord.ModelSpace); }
     }
-    public EntityEnumerable PaperSpace
+    public Block PaperSpace
     {
       get { return GetSpace(BlockTableRecord.PaperSpace); }
     }
 
-    private EntityEnumerable GetSpace(string name)
+    private Block GetSpace(string name)
     {
-      Helpers.CheckTransaction();
-      var spaceID = ((BlockTable)Transaction.Value.GetObject(AcadDatabase.BlockTableId, OpenMode.ForRead))[name];
-      return new EntityEnumerable(Transaction, spaceID);
+      var spaceID = ((BlockTable)transaction.GetObject(AcadDatabase.BlockTableId, OpenMode.ForRead))[name];
+      return new Block(database, transaction, spaceID);
     }
 
     #endregion

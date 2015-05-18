@@ -11,8 +11,6 @@ namespace Linq2Acad
   {
     public static void ForEach<T>(this IEnumerable<T> items, Action<T> action) where T : DBObject
     {
-      Helpers.CheckTransaction();
-
       foreach (var item in items)
       {
         Helpers.WriteCheck(item, () => action(item));
@@ -21,8 +19,6 @@ namespace Linq2Acad
 
     public static IEnumerable<T> UpgradeOpen<T>(this IEnumerable<T> source) where T : DBObject
     {
-      Helpers.CheckTransaction();
-
       foreach (var item in source)
       {
         if (!item.IsWriteEnabled)
@@ -36,8 +32,6 @@ namespace Linq2Acad
 
     public static IEnumerable<T> DowngradeOpen<T>(this IEnumerable<T> source) where T : DBObject
     {
-      Helpers.CheckTransaction();
-
       foreach (var item in source)
       {
         if (!item.IsReadEnabled)

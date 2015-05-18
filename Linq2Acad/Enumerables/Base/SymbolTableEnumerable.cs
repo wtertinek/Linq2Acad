@@ -8,10 +8,10 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Linq2Acad
 {
-  public abstract class SymbolTableEnumerableBase<T> : NameBasedEnumerable<T> where T : SymbolTableRecord
+  public abstract class SymbolTableEnumerable<T> : NameBasedEnumerable<T> where T : SymbolTableRecord
   {
-    protected SymbolTableEnumerableBase(Lazy<Transaction> transaction, ObjectId containerID)
-      : base(transaction, containerID)
+    protected SymbolTableEnumerable(Database database, Transaction transaction, ObjectId containerID)
+      : base(database, transaction, containerID)
     {
     }
 
@@ -35,47 +35,35 @@ namespace Linq2Acad
 
     public override sealed bool Contains(string name)
     {
-      var table = (SymbolTable)L2ADatabase.Transaction.Value.GetObject(ContainerID, OpenMode.ForRead);
+      var table = (SymbolTable)transaction.GetObject(ContainerID, OpenMode.ForRead);
       return table.Has(name);
     }
 
     public override sealed bool Contains(ObjectId id)
     {
-      var table = (SymbolTable)L2ADatabase.Transaction.Value.GetObject(ContainerID, OpenMode.ForRead);
+      var table = (SymbolTable)transaction.GetObject(ContainerID, OpenMode.ForRead);
       return table.Has(id);
     }
 
     public override sealed T Item(string name)
     {
-      Helpers.CheckTransaction();
-      var table = (SymbolTable)L2ADatabase.Transaction.Value.GetObject(ContainerID, OpenMode.ForRead);
-      return (T)L2ADatabase.Transaction.Value.GetObject(table[name], OpenMode.ForRead);
+      var table = (SymbolTable)transaction.GetObject(ContainerID, OpenMode.ForRead);
+      return (T)transaction.GetObject(table[name], OpenMode.ForRead);
     }
 
     public override sealed IEnumerable<T> Items(IEnumerable<string> names)
     {
-      Helpers.CheckTransaction();
-
-      var table = (SymbolTable)L2ADatabase.Transaction.Value.GetObject(ContainerID, OpenMode.ForRead);
+      var table = (SymbolTable)transaction.GetObject(ContainerID, OpenMode.ForRead);
 
       foreach (var name in names)
       {
-        yield return (T)L2ADatabase.Transaction.Value.GetObject(table[name], OpenMode.ForRead);
+        yield return (T)transaction.GetObject(table[name], OpenMode.ForRead);
       }
     }
 
     public override int Count()
     {
-      var enumerator = ((IEnumerable)transaction.Value.GetObject(ContainerID, OpenMode.ForRead)).GetEnumerator();
-
-      var count = 0;
-
-      while (enumerator.MoveNext())
-      {
-        count++;
-      }
-
-      return count;
+      return Helpers.GetCount(transaction, ContainerID);
     }
 
     public ObjectId Add(T item)
@@ -85,14 +73,12 @@ namespace Linq2Acad
 
     public IEnumerable<ObjectId> AddRange(IEnumerable<T> items)
     {
-      Helpers.CheckTransaction();
-
-      var table = (SymbolTable)L2ADatabase.Transaction.Value.GetObject(ContainerID, OpenMode.ForWrite);
+      var table = (SymbolTable)transaction.GetObject(ContainerID, OpenMode.ForWrite);
 
       foreach (var item in items)
       {
         var id = table.Add(item);
-        L2ADatabase.Transaction.Value.AddNewlyCreatedDBObject(item, true);
+       transaction.AddNewlyCreatedDBObject(item, true);
         yield return id;
       }
     }

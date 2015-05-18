@@ -73,15 +73,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enumerables\DBDictionaryEnumerableBase.cs" />
-    <Compile Include="Enumerables\Dictionaries.cs" />
-    <Compile Include="Enumerables\EnumerableBase.cs" />
-    <Compile Include="Enumerables\EntityEnumerable.cs" />
-    <Compile Include="Enumerables\Tables.cs" />
+    <Compile Include="Enumerables\Base\NameBasedEnumerable.cs" />
+    <Compile Include="Enumerables\Base\DBDictionaryEnumerable.cs" />
+    <Compile Include="Enumerables\DictionaryEnumerables.cs" />
+    <Compile Include="Enumerables\Base\EnumerableBase.cs" />
+    <Compile Include="Enumerables\Block.cs" />
+    <Compile Include="Enumerables\TableEnumerables.cs" />
     <Compile Include="L2ADatabase.cs" />
-    <Compile Include="Enumerables\SymbolTableEnumerableBase.cs" />
-    <Compile Include="Extensions\DbObjectsExtensions.cs" />
-    <Compile Include="Extensions\DatabaseExtensions.cs" />
+    <Compile Include="Enumerables\Base\SymbolTableEnumerable.cs" />
+    <Compile Include="DbObjectsExtensions.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
