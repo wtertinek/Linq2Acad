@@ -102,6 +102,7 @@ if (result.Status == PromptStatus.OK && File.Exists(result.StringResult))
 Importing a block from a drawing file:
 
 ```c#
+var editor = Application.DocumentManager.MdiActiveDocument.Editor;
 var result = editor.GetString("Enter file path:");
 
 if (result.Status == PromptStatus.OK &&
