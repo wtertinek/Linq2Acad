@@ -83,32 +83,16 @@ namespace Linq2Acad
 
     public ObjectId Add(string name, T item)
     {
-      return AddRange(new[] { name }, new[] { item }).First();
-    }
-
-    public IEnumerable<ObjectId> AddRange(IEnumerable<string> names, IEnumerable<T> items)
-    {
-      var a_names = names.ToArray();
-      var a_items = items.ToArray();
-
-      if (a_names.Length != a_items.Length)
-      {
-        throw new ArgumentException();
-      }
-
       var dict = (DBDictionary)transaction.GetObject(ID, OpenMode.ForWrite);
 
-      for (int i = 0; i < a_items.Length; i++)
+      if (dict.Contains(name))
       {
-        if (dict.Contains(a_names[i]))
-        {
-          throw new Exception(typeof(T).Name + " " + a_names[i] + " already exists");
-        }
-
-        var id = dict.SetAt(a_names[i], a_items[i]);
-       transaction.AddNewlyCreatedDBObject(a_items[i], true);
-        yield return id;
+        throw new Exception(typeof(T).Name + " " + name + " already exists");
       }
+
+      var id = dict.SetAt(name, item);
+      transaction.AddNewlyCreatedDBObject(item, true);
+      return id;
     }
 
     protected abstract T CreateNew();
@@ -118,14 +102,6 @@ namespace Linq2Acad
       var item = CreateNew();
       Add(name, item);
       return item;
-    }
-
-    public IEnumerable<T> Create(IEnumerable<string> names)
-    {
-      var items = names.Select(n => CreateNew())
-                      .ToArray();
-      AddRange(names, items);
-      return items;
     }
   }
 }

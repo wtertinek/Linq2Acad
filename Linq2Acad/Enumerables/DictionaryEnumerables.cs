@@ -45,10 +45,11 @@ namespace Linq2Acad
       return new Group();
     }
 
-    public Group Create(string name, IEnumerable<ObjectId> ids)
+    public Group Create(string name, IEnumerable<Entity> entities)
     {
       var group = Create(name);
-      group.Append(new ObjectIdCollection(ids.ToArray()));
+      group.Append(new ObjectIdCollection(entities.Select(e => e.ObjectId)
+                                                  .ToArray()));
       return group;
     }
   }

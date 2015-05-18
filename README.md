@@ -50,11 +50,10 @@ using (var db = L2ADatabase.ActiveDatabase())
   }
   else
   {
-    var ids = db.ModelSpace
-                .OfType<Line>()
-                .Select(l => l.ObjectId);
-
-    db.Groups.Create("LineGroup", ids);
+    var lines = db.ModelSpace
+                  .OfType<Line>();
+    db.Groups
+      .Create("LineGroup", lines);
   }
 }
 ```
