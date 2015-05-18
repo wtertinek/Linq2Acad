@@ -83,7 +83,8 @@ using (var db = L2ADatabase.ActiveDatabase())
 Opening a drawing from file and count the BlockReferences in the model space:
 
 ```c#
-var result = Editor.GetString("Enter file path:");
+var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+var result = editor.GetString("Enter file path:");
 
 if (result.Status == PromptStatus.OK && File.Exists(result.StringResult))
 {
@@ -93,7 +94,7 @@ if (result.Status == PromptStatus.OK && File.Exists(result.StringResult))
                   .OfType<BlockReference>()
                   .Count();
 
-    Editor.WriteMessage("\nModel space BlockReferences in file " + result.StringResult + ": " + count);
+    editor.WriteMessage("\n" + result.StringResult + ": " + count + " BlockReferences");
   }
 }
 ```
