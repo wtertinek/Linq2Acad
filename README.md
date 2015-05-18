@@ -85,7 +85,8 @@ Opening a drawing from file and count the BlockReferences in the model space:
 var editor = Application.DocumentManager.MdiActiveDocument.Editor;
 var result = editor.GetString("Enter file path:");
 
-if (result.Status == PromptStatus.OK && File.Exists(result.StringResult))
+if (result.Status == PromptStatus.OK &&
+    File.Exists(result.StringResult))
 {
   using (var db = L2ADatabase.Open(result.StringResult))
   {
