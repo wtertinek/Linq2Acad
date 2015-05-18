@@ -212,12 +212,12 @@ namespace Linq2Acad
 
     #region Factory methods
 
-    public static L2ADatabase ActiveDatabase()
+    public static L2ADatabase Active()
     {
       return new L2ADatabase(Application.DocumentManager.MdiActiveDocument.Database);
     }
 
-    public static L2ADatabase ActiveDatabase(Transaction tr, bool commit, bool dispose)
+    public static L2ADatabase Active(Transaction tr, bool commit, bool dispose)
     {
       return new L2ADatabase(Application.DocumentManager.MdiActiveDocument.Database, tr, commit, dispose);
     }

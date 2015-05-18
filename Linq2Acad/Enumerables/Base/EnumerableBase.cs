@@ -1,4 +1,5 @@
 ﻿using Autodesk.AutoCAD.DatabaseServices;
+using RXClass = Autodesk.AutoCAD.Runtime.RXClass;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -47,14 +48,13 @@ namespace Linq2Acad
     {
       var container = (IEnumerable)transaction.GetObject(ID, OpenMode.ForRead);
       var idEnumerator = container.GetEnumerator();
-      var filterType = "AcDb" + typeof(TResult).Name;
+      var filterType = RXClass.GetClass(typeof(TResult));
 
       while (idEnumerator.MoveNext())
       {
         var id = GetObjectID(idEnumerator.Current);
 
-        // TODO: This is not enough
-        if (id.ObjectClass.Name != filterType)
+        if (id.ObjectClass.IsDerivedFrom(filterType))
         {
           continue;
         }

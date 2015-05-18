@@ -7,7 +7,7 @@ In general, the library should be a more intuitive API for working with the draw
 As an example, erasing all BlockReferences from the model space can be done like this:
 
 ```c#
-using (var db = L2ADatabase.ActiveDatabase())
+using (var db = L2ADatabase.Active())
 {
   db.ModelSpace
     .OfType<BlockReference>()
@@ -18,7 +18,7 @@ using (var db = L2ADatabase.ActiveDatabase())
 Adding a line to the model space:
 
 ```c#
-using (var db = L2ADatabase.ActiveDatabase())
+using (var db = L2ADatabase.Active())
 {
   db.ModelSpace
     .Add(new Line(new Point3d(5, 5, 0),
@@ -31,7 +31,7 @@ Printing all layer names:
 ```c#
 var editor = Application.DocumentManager.MdiActiveDocument.Editor;
 
-using (var db = L2ADatabase.ActiveDatabase())
+using (var db = L2ADatabase.Active())
 {
   db.Layers.ForEach(l => editor.WriteLine(l.Name));
 }
@@ -42,7 +42,7 @@ Creating a group and adding all lines in the model space to it:
 ```c#
 var editor = Application.DocumentManager.MdiActiveDocument.Editor;
 
-using (var db = L2ADatabase.ActiveDatabase())
+using (var db = L2ADatabase.Active())
 {
   if (db.Groups.Contains("LineGroup"))
   {
@@ -63,7 +63,7 @@ Picking an entity and turning off all layers, except the entity's layer:
 ```c#
 var editor = Application.DocumentManager.MdiActiveDocument.Editor;
 
-using (var db = L2ADatabase.ActiveDatabase())
+using (var db = L2ADatabase.Active())
 {
   var result = editor.GetEntity("Select an entity");
 
@@ -117,7 +117,7 @@ if (result.Status == PromptStatus.OK &&
       var block = sourceDB.Blocks
                           .Item(result.StringResult);
 
-      using (var activeDB = L2ADatabase.ActiveDatabase())
+      using (var activeDB = L2ADatabase.Active())
       {
         activeDB.Blocks
                 .Import(block, true);

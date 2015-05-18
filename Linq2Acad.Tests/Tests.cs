@@ -2,6 +2,7 @@
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.LayerManager;
 using Autodesk.AutoCAD.Runtime;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace Linq2Acad.Tests
     [CommandMethod("TestPrintMLeaderStyles")]
     public static void TestPrintMLeaderStyles()
     {
-      using (var db = L2ADatabase.ActiveDatabase())
+      using (var db = L2ADatabase.Active())
       {
         db.MLeaderStyles
           .ForEach(m => Editor.WriteMessage("\n" + m.Name));
@@ -31,7 +32,7 @@ namespace Linq2Acad.Tests
     [CommandMethod("TestPrintMaterials")]
     public static void TestPrintMaterials()
     {
-      using (var db = L2ADatabase.ActiveDatabase())
+      using (var db = L2ADatabase.Active())
       {
         db.Materials
           .ForEach(m => Editor.WriteMessage("\n" + m.Name));
@@ -41,7 +42,7 @@ namespace Linq2Acad.Tests
     [CommandMethod("TestPrintLayouts")]
     public static void TestPrintLayouts()
     {
-      using (var db = L2ADatabase.ActiveDatabase())
+      using (var db = L2ADatabase.Active())
       {
         db.Layouts
           .ForEach(l => Editor.WriteMessage("\n" + l.LayoutName));
@@ -51,7 +52,7 @@ namespace Linq2Acad.Tests
     [CommandMethod("TestPrintBlockNames")]
     public static void TestPrintBlockNames()
     {
-      using (var db = L2ADatabase.ActiveDatabase())
+      using (var db = L2ADatabase.Active())
       {
         db.Blocks
           .ForEach(b => Editor.WriteMessage("\n" + b.Name));
@@ -61,7 +62,7 @@ namespace Linq2Acad.Tests
     [CommandMethod("TestPrintCurrentViewport")]
     public static void TestPrintCurrentViewport()
     {
-      using (var db = L2ADatabase.ActiveDatabase())
+      using (var db = L2ADatabase.Active())
       {
         Editor.WriteMessage("\n" + db.Viewports.Current.Name);
       }
@@ -70,7 +71,7 @@ namespace Linq2Acad.Tests
     [CommandMethod("TestDeleteBlockReferences")]
     public static void TestDeleteBlockReferences()
     {
-      using (var db = L2ADatabase.ActiveDatabase())
+      using (var db = L2ADatabase.Active())
       {
         db.ModelSpace
           .OfType<BlockReference>()
@@ -81,7 +82,7 @@ namespace Linq2Acad.Tests
     [CommandMethod("TestCurrentVsModelSpace")]
     public static void TestCurrentVsModelSpace()
     {
-      using (var db = L2ADatabase.ActiveDatabase())
+      using (var db = L2ADatabase.Active())
       {
         var names1 = db.ModelSpace
                        .OfType<BlockReference>()
@@ -105,7 +106,7 @@ namespace Linq2Acad.Tests
     [CommandMethod("TestPrintLayers")]
     public static void TestPrintLayers()
     {
-      using (var db = L2ADatabase.ActiveDatabase())
+      using (var db = L2ADatabase.Active())
       {
         db.Layers
           .ForEach(l => Editor.WriteMessage("\n" + l.Name));
@@ -115,7 +116,7 @@ namespace Linq2Acad.Tests
     [CommandMethod("TestCreateNewLayer")]
     public static void TestCreateNewLayer()
     {
-      using (var db = L2ADatabase.ActiveDatabase())
+      using (var db = L2ADatabase.Active())
       {
         db.Layers
           .Create("TestLayer");
@@ -125,7 +126,7 @@ namespace Linq2Acad.Tests
     [CommandMethod("TestGetLayer0")]
     public static void TestGetLayer0()
     {
-      using (var db = L2ADatabase.ActiveDatabase())
+      using (var db = L2ADatabase.Active())
       {
         if (db.Layers.Contains("0"))
         {
@@ -139,7 +140,7 @@ namespace Linq2Acad.Tests
     [CommandMethod("TestAddLine")]
     public static void TestAddLine()
     {
-      using (var db = L2ADatabase.ActiveDatabase())
+      using (var db = L2ADatabase.Active())
       {
         db.ModelSpace
           .Add(new Line(new Point3d(5, 5, 0),
@@ -156,7 +157,7 @@ namespace Linq2Acad.Tests
     [CommandMethod("TestCreateGroup")]
     public static void TestCreateGroup()
     {
-      using (var db = L2ADatabase.ActiveDatabase())
+      using (var db = L2ADatabase.Active())
       {
         if (db.Groups.Contains("LineGroup"))
         {
@@ -175,7 +176,7 @@ namespace Linq2Acad.Tests
     [CommandMethod("TestTurnOffLayers")]
     public static void TestTurnOffLayers()
     {
-      using (var db = L2ADatabase.ActiveDatabase())
+      using (var db = L2ADatabase.Active())
       {
         var result = Editor.GetEntity("Select an entity");
 
@@ -193,7 +194,7 @@ namespace Linq2Acad.Tests
     [CommandMethod("TestDeleteLines")]
     public static void TestDeleteLines()
     {
-      using (var db = L2ADatabase.ActiveDatabase())
+      using (var db = L2ADatabase.Active())
       {
         db.ModelSpace
           .OfType<Line>()
@@ -204,7 +205,7 @@ namespace Linq2Acad.Tests
     [CommandMethod("TestCountBlockReferences")]
     public static void TestCountBlockReferences()
     {
-      using (var db = L2ADatabase.ActiveDatabase())
+      using (var db = L2ADatabase.Active())
       {
         int count = db.ModelSpace
                       .OfType<BlockReference>()
@@ -250,7 +251,7 @@ namespace Linq2Acad.Tests
             var block = sourceDB.Blocks
                                 .Item(result.StringResult);
 
-            using (var activeDB = L2ADatabase.ActiveDatabase())
+            using (var activeDB = L2ADatabase.Active())
             {
               activeDB.Blocks
                       .Import(block, true);
