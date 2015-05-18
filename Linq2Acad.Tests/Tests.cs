@@ -52,7 +52,7 @@ namespace Linq2Acad.Tests
     {
       using (var db = L2ADatabase.ActiveDatabase())
       {
-        Editor.WriteMessage("\n" + db.Viewports.Current().Name);
+        Editor.WriteMessage("\n" + db.Viewports.Current.Name);
       }
     }
 
@@ -119,7 +119,7 @@ namespace Linq2Acad.Tests
         if (db.Layers.Contains("0"))
         {
           var name = db.Layers
-                       .GetItem("0").Name;
+                       .Item("0").Name;
           Debug.Assert(name == "0");
         }
       }
