@@ -99,5 +99,32 @@ if (result.Status == PromptStatus.OK && File.Exists(result.StringResult))
 }
 ```
 
+Importing a block from a drawing file:
+
+```c#
+var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+var result = Editor.GetString("Enter file path:");
+
+if (result.Status == PromptStatus.OK && File.Exists(result.StringResult))
+{
+  using (var sourceDB = L2ADatabase.Open(result.StringResult))
+  {
+    result = editor.GetString("Enter block name:");
+    var name = result.StringResult;
+
+    if (sourceDB.Blocks.Contains(name))
+    {
+      using (var targetDB = L2ADatabase.ActiveDatabase())
+      {
+        sourceDB.CloneObject(sourceDB.Blocks.Item(name),
+                              targetDB.Blocks, true);
+      }
+
+      editor.WriteMessage("\nBlock " + result.StringResult + " successfully imported");
+    }
+  }
+}
+```
+
 ### TODO
 I just started the project, at the moment it's just a working prototype for AutoCAD 2016. If you have any comments or suggestions, **I'm very happy to hear from you**.

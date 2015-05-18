@@ -48,6 +48,16 @@ namespace Linq2Acad.Tests
       }
     }
 
+    [CommandMethod("TestPrintBlockNames")]
+    public static void TestPrintBlockNames()
+    {
+      using (var db = L2ADatabase.ActiveDatabase())
+      {
+        db.Blocks
+          .ForEach(b => Editor.WriteMessage("\n" + b.Name));
+      }
+    }
+
     [CommandMethod("TestPrintCurrentViewport")]
     public static void TestPrintCurrentViewport()
     {
@@ -219,6 +229,32 @@ namespace Linq2Acad.Tests
                         .Count();
 
           Editor.WriteMessage("\n Model space BlockReferences in file " + result.StringResult + ": " + count);
+        }
+      }
+    }
+
+    [CommandMethod("TestImportBlock")]
+    public static void TestImportBlock()
+    {
+      var result = Editor.GetString("Enter file path:");
+
+      if (result.Status == PromptStatus.OK && File.Exists(result.StringResult))
+      {
+        using (var sourceDB = L2ADatabase.Open(result.StringResult))
+        {
+          result = Editor.GetString("Enter block name:");
+          var name = result.StringResult;
+
+          if (sourceDB.Blocks.Contains(name))
+          {
+            using (var targetDB = L2ADatabase.ActiveDatabase())
+            {
+              sourceDB.CloneObject(sourceDB.Blocks.Item(name),
+                                   targetDB.Blocks, true);
+            }
+
+            Editor.WriteMessage("\nBlock " + result.StringResult + " successfully imported");
+          }
         }
       }
     }

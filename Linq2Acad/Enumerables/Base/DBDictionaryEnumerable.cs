@@ -28,17 +28,17 @@ namespace Linq2Acad
 
     public override sealed bool Contains(string name)
     {
-      return ((DBDictionary)transaction.GetObject(containerID, OpenMode.ForRead)).Contains(name);
+      return ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Contains(name);
     }
 
     public override sealed bool Contains(ObjectId id)
     {
-      return ((DBDictionary)transaction.GetObject(containerID, OpenMode.ForRead)).Contains(id);
+      return ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Contains(id);
     }
 
     public override sealed T Item(string name)
     {
-      var dict = (DBDictionary)transaction.GetObject(containerID, OpenMode.ForRead);
+      var dict = (DBDictionary)transaction.GetObject(ID, OpenMode.ForRead);
 
       try
       {
@@ -52,7 +52,7 @@ namespace Linq2Acad
 
     public override sealed IEnumerable<T> Items(IEnumerable<string> names)
     {
-      var dict = (DBDictionary)transaction.GetObject(containerID, OpenMode.ForRead);
+      var dict = (DBDictionary)transaction.GetObject(ID, OpenMode.ForRead);
 
       foreach (var name in names)
       {
@@ -73,12 +73,12 @@ namespace Linq2Acad
 
     public override sealed int Count()
     {
-      return ((DBDictionary)transaction.GetObject(containerID, OpenMode.ForRead)).Count;
+      return ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Count;
     }
 
     public override sealed long LongCount()
     {
-      return ((DBDictionary)transaction.GetObject(containerID, OpenMode.ForRead)).Count;
+      return ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Count;
     }
 
     public ObjectId Add(string name, T item)
@@ -96,7 +96,7 @@ namespace Linq2Acad
         throw new ArgumentException();
       }
 
-      var dict = (DBDictionary)transaction.GetObject(containerID, OpenMode.ForWrite);
+      var dict = (DBDictionary)transaction.GetObject(ID, OpenMode.ForWrite);
 
       for (int i = 0; i < a_items.Length; i++)
       {

@@ -12,14 +12,16 @@ namespace Linq2Acad
 {
   public class L2ADatabase : IDisposable
   {
+    private Transaction transaction;
     private bool commit;
     private bool dispose;
+    private bool disposeDatabase;
     private bool abort;
-    private Transaction transaction;
 
-    private L2ADatabase(Database database)
+    private L2ADatabase(Database database, bool disposeDatabase = false)
       : this(database, database.TransactionManager.StartTransaction(), true, true)
     {
+      this.disposeDatabase = disposeDatabase;
     }
 
     private L2ADatabase(Database database, Transaction transaction, bool commit, bool dispose)
@@ -61,6 +63,11 @@ namespace Linq2Acad
           }
         }
       }
+
+      if (disposeDatabase)
+      {
+        AcadDatabase.Dispose();
+      }
     }
 
     public T Item<T>(ObjectId id) where T : DBObject
@@ -74,6 +81,23 @@ namespace Linq2Acad
       {
         yield return (T)transaction.GetObject(id, OpenMode.ForRead);
       }
+    }
+    public IdMapping CloneObject<T>(T @object, EnumerableBase<T> targetContainer, bool replaceIfDuplicate) where T : DBObject
+    {
+      var ids = new ObjectIdCollection(new[] { @object.ObjectId });
+      var mapping = new IdMapping();
+      var type = replaceIfDuplicate ? DuplicateRecordCloning.Replace : DuplicateRecordCloning.Ignore;
+      AcadDatabase.WblockCloneObjects(ids, targetContainer.ID, mapping, type, false);
+      return mapping;
+    }
+
+    public IdMapping CloneObjects<T>(IEnumerable<T> objects, EnumerableBase<T> targetContainer, bool replaceIfDuplicate) where T : DBObject
+    {
+      var ids = new ObjectIdCollection(objects.Select(o => o.ObjectId).ToArray());
+      var mapping = new IdMapping();
+      var type = replaceIfDuplicate ? DuplicateRecordCloning.Replace : DuplicateRecordCloning.Ignore;
+      AcadDatabase.WblockCloneObjects(ids, targetContainer.ID, mapping, type, false);
+      return mapping;
     }
 
     #region Tables
@@ -247,7 +271,7 @@ namespace Linq2Acad
       var database = new Database(false, true);
       database.ReadDwgFile(fileName, forWrite ? FileOpenMode.OpenForReadAndWriteNoShare : FileOpenMode.OpenForReadAndAllShare, false, password);
       database.CloseInput(true);
-      return new L2ADatabase(database);
+      return new L2ADatabase(database, true);
     }
 
     #endregion

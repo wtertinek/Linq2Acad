@@ -35,17 +35,17 @@ namespace Linq2Acad
 
     public override sealed bool Contains(string name)
     {
-      return ((SymbolTable)transaction.GetObject(containerID, OpenMode.ForRead)).Has(name);
+      return ((SymbolTable)transaction.GetObject(ID, OpenMode.ForRead)).Has(name);
     }
 
     public override sealed bool Contains(ObjectId id)
     {
-      return ((SymbolTable)transaction.GetObject(containerID, OpenMode.ForRead)).Has(id);
+      return ((SymbolTable)transaction.GetObject(ID, OpenMode.ForRead)).Has(id);
     }
 
     public override sealed T Item(string name)
     {
-      var table = (SymbolTable)transaction.GetObject(containerID, OpenMode.ForRead);
+      var table = (SymbolTable)transaction.GetObject(ID, OpenMode.ForRead);
 
       try
       {
@@ -59,7 +59,7 @@ namespace Linq2Acad
 
     public override sealed IEnumerable<T> Items(IEnumerable<string> names)
     {
-      var table = (SymbolTable)transaction.GetObject(containerID, OpenMode.ForRead);
+      var table = (SymbolTable)transaction.GetObject(ID, OpenMode.ForRead);
 
       foreach (var name in names)
       {
@@ -81,12 +81,12 @@ namespace Linq2Acad
 
     public override sealed int Count()
     {
-      return Helpers.GetCount(transaction, containerID);
+      return Helpers.GetCount(transaction, ID);
     }
 
     public override sealed long LongCount()
     {
-      return Helpers.GetLongCount(transaction, containerID);
+      return Helpers.GetLongCount(transaction, ID);
     }
 
     public ObjectId Add(T item)
@@ -96,7 +96,7 @@ namespace Linq2Acad
 
     public IEnumerable<ObjectId> AddRange(IEnumerable<T> items)
     {
-      var table = (SymbolTable)transaction.GetObject(containerID, OpenMode.ForWrite);
+      var table = (SymbolTable)transaction.GetObject(ID, OpenMode.ForWrite);
 
       foreach (var item in items)
       {
