@@ -238,19 +238,23 @@ namespace Linq2Acad.Tests
     {
       var result = Editor.GetString("Enter file path:");
 
-      if (result.Status == PromptStatus.OK && File.Exists(result.StringResult))
+      if (result.Status == PromptStatus.OK &&
+          File.Exists(result.StringResult))
       {
         using (var sourceDB = L2ADatabase.Open(result.StringResult))
         {
           result = Editor.GetString("Enter block name:");
-          var name = result.StringResult;
 
-          if (sourceDB.Blocks.Contains(name))
+          if (result.Status == PromptStatus.OK &&
+              sourceDB.Blocks.Contains(result.StringResult))
           {
-            using (var targetDB = L2ADatabase.ActiveDatabase())
+            var block = sourceDB.Blocks
+                                .Item(result.StringResult);
+
+            using (var activeDB = L2ADatabase.ActiveDatabase())
             {
-              sourceDB.CloneObject(sourceDB.Blocks.Item(name),
-                                   targetDB.Blocks, true);
+              activeDB.Blocks
+                      .Import(block, true);
             }
 
             Editor.WriteMessage("\nBlock " + result.StringResult + " successfully imported");

@@ -77,5 +77,24 @@ namespace Linq2Acad
         yield return (T)transaction.GetObject(id, OpenMode.ForRead);
       }
     }
+
+    public IdMapping Import(T item, bool replaceIfDuplicate)
+    {
+      return Import(new[] { item }, replaceIfDuplicate);
+    }
+
+    public IdMapping Import(IEnumerable<T> items, bool replaceIfDuplicate)
+    {
+      if (items.Any(i => i.Database == database))
+      {
+        throw new Exception("All items must be from a different database");
+      }
+      
+      var ids = new ObjectIdCollection(items.Select(o => o.ObjectId).ToArray());
+      var mapping = new IdMapping();
+      var type = replaceIfDuplicate ? DuplicateRecordCloning.Replace : DuplicateRecordCloning.Ignore;
+      database.WblockCloneObjects(ids, ID, mapping, type, false);
+      return mapping;
+    }
   }
 }

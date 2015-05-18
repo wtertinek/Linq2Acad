@@ -101,7 +101,7 @@ namespace Linq2Acad
       foreach (var item in items)
       {
         var id = table.Add(item);
-       transaction.AddNewlyCreatedDBObject(item, true);
+        transaction.AddNewlyCreatedDBObject(item, true);
         yield return id;
       }
     }

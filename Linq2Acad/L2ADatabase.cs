@@ -82,23 +82,6 @@ namespace Linq2Acad
         yield return (T)transaction.GetObject(id, OpenMode.ForRead);
       }
     }
-    public IdMapping CloneObject<T>(T @object, EnumerableBase<T> targetContainer, bool replaceIfDuplicate) where T : DBObject
-    {
-      var ids = new ObjectIdCollection(new[] { @object.ObjectId });
-      var mapping = new IdMapping();
-      var type = replaceIfDuplicate ? DuplicateRecordCloning.Replace : DuplicateRecordCloning.Ignore;
-      AcadDatabase.WblockCloneObjects(ids, targetContainer.ID, mapping, type, false);
-      return mapping;
-    }
-
-    public IdMapping CloneObjects<T>(IEnumerable<T> objects, EnumerableBase<T> targetContainer, bool replaceIfDuplicate) where T : DBObject
-    {
-      var ids = new ObjectIdCollection(objects.Select(o => o.ObjectId).ToArray());
-      var mapping = new IdMapping();
-      var type = replaceIfDuplicate ? DuplicateRecordCloning.Replace : DuplicateRecordCloning.Ignore;
-      AcadDatabase.WblockCloneObjects(ids, targetContainer.ID, mapping, type, false);
-      return mapping;
-    }
 
     #region Tables
 
