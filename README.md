@@ -82,7 +82,8 @@ using (var db = L2ADatabase.Active())
 Opening a drawing from file and count the BlockReferences in the model space:
 
 ```c#
-var result = Editor.GetString("Enter file path:", s => File.Exists(s));
+var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+var result = editor.GetString("Enter file path:", s => File.Exists(s));
 
 if (result.Status == PromptStatus.OK)
 {
@@ -92,7 +93,7 @@ if (result.Status == PromptStatus.OK)
                   .OfType<BlockReference>()
                   .Count();
 
-    Editor.WriteLine("Model space BlockReferences in file " + result.StringResult + ": " + count);
+    editor.WriteLine("Model space BlockReferences in file " + result.StringResult + ": " + count);
   }
 }
 ```
@@ -100,13 +101,14 @@ if (result.Status == PromptStatus.OK)
 Importing a block from a drawing file:
 
 ```c#
-var result = Editor.GetString("Enter file path:", s => File.Exists(s));
+var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+var result = editor.GetString("Enter file path:", s => File.Exists(s));
       
 if (result.Status == PromptStatus.OK)
 {
   using (var sourceDB = L2ADatabase.Open(result.StringResult))
   {
-    result = Editor.GetString("Enter block name:",
+    result = editor.GetString("Enter block name:",
                               s => sourceDB.Blocks.Contains(s));
 
     if (result.Status == PromptStatus.OK)
@@ -120,7 +122,7 @@ if (result.Status == PromptStatus.OK)
                 .Import(block, true);
       }
 
-      Editor.WriteLine("Block " + result.StringResult + " successfully imported");
+      editor.WriteLine("Block " + result.StringResult + " successfully imported");
     }
   }
 }
