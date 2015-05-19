@@ -218,9 +218,10 @@ namespace Linq2Acad.Tests
     [CommandMethod("TestReadFromFile")]
     public static void TestReadFromFile()
     {
-      var result = Editor.GetString("Enter file path:");
+      var result = Editor.GetString("Enter file path:",
+                                    s => File.Exists(s));
 
-      if (result.Status == PromptStatus.OK && File.Exists(result.StringResult))
+      if (result.Status == PromptStatus.OK)
       {
         using (var db = L2ADatabase.Open(result.StringResult))
         {
@@ -236,17 +237,17 @@ namespace Linq2Acad.Tests
     [CommandMethod("TestImportBlock")]
     public static void TestImportBlock()
     {
-      var result = Editor.GetString("Enter file path:");
-
-      if (result.Status == PromptStatus.OK &&
-          File.Exists(result.StringResult))
+      var result = Editor.GetString("Enter file path:",
+                                    s => File.Exists(s));
+      
+      if (result.Status == PromptStatus.OK)
       {
         using (var sourceDB = L2ADatabase.Open(result.StringResult))
         {
-          result = Editor.GetString("Enter block name:");
+          result = Editor.GetString("Enter block name:",
+                                    s => sourceDB.Blocks.Contains(s));
 
-          if (result.Status == PromptStatus.OK &&
-              sourceDB.Blocks.Contains(result.StringResult))
+          if (result.Status == PromptStatus.OK)
           {
             var block = sourceDB.Blocks
                                 .Item(result.StringResult);
