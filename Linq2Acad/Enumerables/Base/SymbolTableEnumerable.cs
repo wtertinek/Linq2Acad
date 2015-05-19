@@ -43,17 +43,20 @@ namespace Linq2Acad
       return ((SymbolTable)transaction.GetObject(ID, OpenMode.ForRead)).Has(id);
     }
 
-    public override sealed T Item(string name)
+    public override sealed T this[string name]
     {
-      var table = (SymbolTable)transaction.GetObject(ID, OpenMode.ForRead);
+      get
+      {
+        var table = (SymbolTable)transaction.GetObject(ID, OpenMode.ForRead);
 
-      try
-      {
-        return (T)transaction.GetObject(table[name], OpenMode.ForRead);
-      }
-      catch
-      {
-        throw new KeyNotFoundException("No element with key " + name + " found");
+        try
+        {
+          return (T)transaction.GetObject(table[name], OpenMode.ForRead);
+        }
+        catch
+        {
+          throw new KeyNotFoundException("No element with key " + name + " found");
+        }
       }
     }
 

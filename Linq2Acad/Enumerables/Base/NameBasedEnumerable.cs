@@ -18,7 +18,7 @@ namespace Linq2Acad
 
     public abstract bool Contains(ObjectId id);
 
-    public abstract T Item(string name);
+    public abstract T this[string name] { get; }
 
     public abstract IEnumerable<T> Items(IEnumerable<string> names);
   }

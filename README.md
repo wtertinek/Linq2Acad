@@ -79,6 +79,37 @@ using (var db = L2ADatabase.Active())
 }
 ```
 
+Moving entities from one layer to another:
+
+```c#
+var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+
+using (var db = L2ADatabase.Active())
+{
+  var result = editor.GetString("Enter source layer name:",
+                                s => db.Layers.Contains(s));
+
+  if (result.Status == PromptStatus.OK)
+  {
+    var sourceLayerID = db.Layers[result.StringResult]
+                          .ObjectId;
+
+    result = editor.GetString("Enter target layer name:",
+                              s => db.Layers.Contains(s));
+
+    if (result.Status == PromptStatus.OK)
+    {
+      var targetLayerID = db.Layers[result.StringResult]
+                            .ObjectId;
+
+      db.ModelSpace
+        .Where(l => l.LayerId == targetLayerID)
+        .ForEach(l => l.LayerId = sourceLayerID);
+    }
+  }
+}
+```
+
 Opening a drawing from file and count the BlockReferences in the model space:
 
 ```c#
@@ -113,8 +144,7 @@ if (result.Status == PromptStatus.OK)
 
     if (result.Status == PromptStatus.OK)
     {
-      var block = sourceDB.Blocks
-                          .Item(result.StringResult);
+      var block = sourceDB.Blocks[result.StringResult];
 
       using (var activeDB = L2ADatabase.Active())
       {

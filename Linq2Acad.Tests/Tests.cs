@@ -130,8 +130,7 @@ namespace Linq2Acad.Tests
       {
         if (db.Layers.Contains("0"))
         {
-          var name = db.Layers
-                       .Item("0").Name;
+          var name = db.Layers["0"].Name;
           Debug.Assert(name == "0");
         }
       }
@@ -187,6 +186,35 @@ namespace Linq2Acad.Tests
           db.Layers
             .Where(l => l.Id != layerID)
             .ForEach(l => l.IsOff = true);
+        }
+      }
+    }
+
+    [CommandMethod("TestMoveEntitiesToDifferentLayer")]
+    public static void TestMoveEntitiesToDifferentLayer()
+    {
+      using (var db = L2ADatabase.Active())
+      {
+        var result = Editor.GetString("Enter source layer name:",
+                                      s => db.Layers.Contains(s));
+
+        if (result.Status == PromptStatus.OK)
+        {
+          var sourceLayerID = db.Layers[result.StringResult]
+                                .ObjectId;
+
+          result = Editor.GetString("Enter target layer name:",
+                                    s => db.Layers.Contains(s));
+
+          if (result.Status == PromptStatus.OK)
+          {
+            var targetLayerID = db.Layers[result.StringResult]
+                                  .ObjectId;
+
+            db.ModelSpace
+              .Where(l => l.LayerId == targetLayerID)
+              .ForEach(l => l.LayerId = sourceLayerID);
+          }
         }
       }
     }
@@ -249,8 +277,7 @@ namespace Linq2Acad.Tests
 
           if (result.Status == PromptStatus.OK)
           {
-            var block = sourceDB.Blocks
-                                .Item(result.StringResult);
+            var block = sourceDB.Blocks[result.StringResult];
 
             using (var activeDB = L2ADatabase.Active())
             {
