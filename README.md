@@ -46,7 +46,7 @@ using (var db = L2ADatabase.Active())
 {
   if (db.Groups.Contains("LineGroup"))
   {
-    editor.WriteMessage("LineGroup already exists");
+    editor.WriteLine("LineGroup already exists");
   }
   else
   {
@@ -82,11 +82,9 @@ using (var db = L2ADatabase.Active())
 Opening a drawing from file and count the BlockReferences in the model space:
 
 ```c#
-var editor = Application.DocumentManager.MdiActiveDocument.Editor;
-var result = editor.GetString("Enter file path:");
+var result = Editor.GetString("Enter file path:", s => File.Exists(s));
 
-if (result.Status == PromptStatus.OK &&
-    File.Exists(result.StringResult))
+if (result.Status == PromptStatus.OK)
 {
   using (var db = L2ADatabase.Open(result.StringResult))
   {
@@ -94,7 +92,7 @@ if (result.Status == PromptStatus.OK &&
                   .OfType<BlockReference>()
                   .Count();
 
-    editor.WriteMessage("\n" + result.StringResult + ": " + count + " BlockReferences");
+    Editor.WriteLine("Model space BlockReferences in file " + result.StringResult + ": " + count);
   }
 }
 ```
@@ -102,18 +100,16 @@ if (result.Status == PromptStatus.OK &&
 Importing a block from a drawing file:
 
 ```c#
-var editor = Application.DocumentManager.MdiActiveDocument.Editor;
-var result = editor.GetString("Enter file path:");
-
-if (result.Status == PromptStatus.OK &&
-    File.Exists(result.StringResult))
+var result = Editor.GetString("Enter file path:", s => File.Exists(s));
+      
+if (result.Status == PromptStatus.OK)
 {
   using (var sourceDB = L2ADatabase.Open(result.StringResult))
   {
-    result = editor.GetString("Enter block name:");
+    result = Editor.GetString("Enter block name:",
+                              s => sourceDB.Blocks.Contains(s));
 
-    if (result.Status == PromptStatus.OK &&
-        sourceDB.Blocks.Contains(result.StringResult))
+    if (result.Status == PromptStatus.OK)
     {
       var block = sourceDB.Blocks
                           .Item(result.StringResult);
@@ -124,7 +120,7 @@ if (result.Status == PromptStatus.OK &&
                 .Import(block, true);
       }
 
-      editor.WriteMessage("\nBlock " + result.StringResult + " successfully imported");
+      Editor.WriteLine("Block " + result.StringResult + " successfully imported");
     }
   }
 }

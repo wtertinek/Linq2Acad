@@ -25,7 +25,7 @@ namespace Linq2Acad.Tests
       using (var db = L2ADatabase.Active())
       {
         db.MLeaderStyles
-          .ForEach(m => Editor.WriteMessage("\n" + m.Name));
+          .ForEach(m => Editor.WriteLine("" + m.Name));
       }
     }
 
@@ -35,7 +35,7 @@ namespace Linq2Acad.Tests
       using (var db = L2ADatabase.Active())
       {
         db.Materials
-          .ForEach(m => Editor.WriteMessage("\n" + m.Name));
+          .ForEach(m => Editor.WriteLine("" + m.Name));
       }
     }
 
@@ -45,7 +45,7 @@ namespace Linq2Acad.Tests
       using (var db = L2ADatabase.Active())
       {
         db.Layouts
-          .ForEach(l => Editor.WriteMessage("\n" + l.LayoutName));
+          .ForEach(l => Editor.WriteLine("" + l.LayoutName));
       }
     }
 
@@ -55,7 +55,7 @@ namespace Linq2Acad.Tests
       using (var db = L2ADatabase.Active())
       {
         db.Blocks
-          .ForEach(b => Editor.WriteMessage("\n" + b.Name));
+          .ForEach(b => Editor.WriteLine("" + b.Name));
       }
     }
 
@@ -64,7 +64,7 @@ namespace Linq2Acad.Tests
     {
       using (var db = L2ADatabase.Active())
       {
-        Editor.WriteMessage("\n" + db.Viewports.Current.Name);
+        Editor.WriteLine("" + db.Viewports.Current.Name);
       }
     }
 
@@ -109,7 +109,7 @@ namespace Linq2Acad.Tests
       using (var db = L2ADatabase.Active())
       {
         db.Layers
-          .ForEach(l => Editor.WriteMessage("\n" + l.Name));
+          .ForEach(l => Editor.WriteLine("" + l.Name));
       }
     }
 
@@ -161,7 +161,7 @@ namespace Linq2Acad.Tests
       {
         if (db.Groups.Contains("LineGroup"))
         {
-          Editor.WriteMessage("LineGroup already exists");
+          Editor.WriteLine("LineGroup already exists");
         }
         else
         {
@@ -211,7 +211,7 @@ namespace Linq2Acad.Tests
                       .OfType<BlockReference>()
                       .Count();
 
-        Editor.WriteMessage("\n" + count + " BlockReferences");
+        Editor.WriteLine("" + count + " BlockReferences");
       }
     }
 
@@ -229,7 +229,7 @@ namespace Linq2Acad.Tests
                         .OfType<BlockReference>()
                         .Count();
 
-          Editor.WriteMessage("\n Model space BlockReferences in file " + result.StringResult + ": " + count);
+          Editor.WriteLine("Model space BlockReferences in file " + result.StringResult + ": " + count);
         }
       }
     }
@@ -258,7 +258,7 @@ namespace Linq2Acad.Tests
                       .Import(block, true);
             }
 
-            Editor.WriteMessage("\nBlock " + result.StringResult + " successfully imported");
+            Editor.WriteLine("Block " + result.StringResult + " successfully imported");
           }
         }
       }
