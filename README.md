@@ -63,23 +63,27 @@ Picking an entity and saving a string on it:
 ```c#
 var editor = Application.DocumentManager.MdiActiveDocument.Editor;
 
-using (var db = L2ADatabase.Active())
+var result1 = editor.GetEntity("Pick an entity:");
+
+if (result1.Status == PromptStatus.OK)
 {
-  var result1 = editor.GetEntity("Pick an entity:");
+  var result2 = editor.GetString("Enter key:");
 
-  if (result1.Status == PromptStatus.OK)
+  if (result2.Status == PromptStatus.OK)
   {
-    var result2 = editor.GetString("Enter key:");
+    var result3 = editor.GetString("Enter text to save:");
 
-    if (result2.Status == PromptStatus.OK)
+    if (result3.Status == PromptStatus.OK)
     {
-      var result3 = editor.GetString("Enter text to save:");
-
-      if (result3.Status == PromptStatus.OK)
+      var entityID = result1.ObjectId;
+      var key = result2.StringResult;
+      var value = result3.StringResult;
+      
+      using (var db = L2ADatabase.Active())
       {
         db.ModelSpace
-          .Item(result.ObjectId)
-          .SaveData(result2.StringResult, result3.StringResult);
+          .Item(entityID)
+          .SaveData(key, value);
       }
     }
   }
