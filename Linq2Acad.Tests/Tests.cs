@@ -142,14 +142,10 @@ namespace Linq2Acad.Tests
       using (var db = L2ADatabase.Active())
       {
         db.ModelSpace
-          .Add(new Line(new Point3d(5, 5, 0),
-                        new Point3d(12, 3, 0)));
-
-        db.ModelSpace
-          .Add(new [] { new Line(new Point3d(5, 5, 0),
-                                 new Point3d(12, 3, 0)),
-                        new Line(new Point3d(500, 500, 0),
-                                 new Point3d(1200, 300, 0)) });
+          .Add(EntityFactory.Create()
+                            .Line(5, 5, 0, 12, 3, 0)
+                            .Line(500, 500, 0, 1200, 300, 0)
+                            .Build());
       }
     }
 
