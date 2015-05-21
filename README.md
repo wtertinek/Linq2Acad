@@ -90,6 +90,34 @@ if (result1.Status == PromptStatus.OK)
 }
 ```
 
+Picking an entity and reading a string on it:
+
+```c#
+var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+
+var result1 = editor.GetEntity("Pick an entity:");
+
+if (result1.Status == PromptStatus.OK)
+{
+  var result2 = editor.GetString("Enter key:");
+
+  if (result2.Status == PromptStatus.OK)
+  {
+    var entityID = result1.ObjectId;
+    var key = result2.StringResult;
+      
+    using (var db = L2ADatabase.Active())
+    {
+      var value = db.ModelSpace
+                    .Item(entityID)
+                    .GetData<string>(key);
+      
+      editor.WriteLine("Value: " + value);
+    }
+  }
+}
+```
+
 Picking an entity and turning off all layers, except the entity's layer:
 
 ```c#
