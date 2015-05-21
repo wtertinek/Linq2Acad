@@ -177,7 +177,7 @@ namespace Linq2Acad.Tests
     {
       using (var db = L2ADatabase.Active())
       {
-        var result = Editor.GetEntity("Select an entity");
+        var result = Editor.GetEntity("Pick an entity");
 
         if (result.Status == PromptStatus.OK)
         {
@@ -286,6 +286,50 @@ namespace Linq2Acad.Tests
             }
 
             Editor.WriteLine("Block " + result.StringResult + " successfully imported");
+          }
+        }
+      }
+    }
+
+    [CommandMethod("TestSaveData")]
+    public static void TestSaveData()
+    {
+      using (var db = L2ADatabase.Active())
+      {
+        var result = Editor.GetEntity("Pick an entity:");
+
+        if (result.Status == PromptStatus.OK)
+        {
+          var result2 = Editor.GetString("Enter key:");
+
+          if (result2.Status == PromptStatus.OK)
+          {
+              db.ModelSpace
+                .Item(result.ObjectId)
+                .SaveData(result2.StringResult, new [] { 1, 2 });
+          }
+        }
+      }
+    }
+
+    [CommandMethod("TestGetData")]
+    public static void TestGetData()
+    {
+      using (var db = L2ADatabase.Active())
+      {
+        var result = Editor.GetEntity("Pick an entity:");
+
+        if (result.Status == PromptStatus.OK)
+        {
+          var result2 = Editor.GetString("Enter key:");
+
+          if (result2.Status == PromptStatus.OK)
+          {
+            var value = db.ModelSpace
+                          .Item(result.ObjectId)
+                          .GetData<int[]>(result2.StringResult);
+
+            Editor.WriteLine(result2.StringResult + ": " + value[0], ", " + value[1]);
           }
         }
       }

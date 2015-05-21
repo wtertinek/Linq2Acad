@@ -58,6 +58,34 @@ using (var db = L2ADatabase.Active())
 }
 ```
 
+Picking an entity and saving a string on it:
+
+```c#
+var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+
+using (var db = L2ADatabase.Active())
+{
+  var result1 = editor.GetEntity("Pick an entity:");
+
+  if (result1.Status == PromptStatus.OK)
+  {
+    var result2 = editor.GetString("Enter key:");
+
+    if (result2.Status == PromptStatus.OK)
+    {
+      var result3 = editor.GetString("Enter text to save:");
+
+      if (result3.Status == PromptStatus.OK)
+      {
+        db.ModelSpace
+          .Item(result.ObjectId)
+          .SaveData(result2.StringResult, result3.StringResult);
+      }
+    }
+  }
+}
+```
+
 Picking an entity and turning off all layers, except the entity's layer:
 
 ```c#
