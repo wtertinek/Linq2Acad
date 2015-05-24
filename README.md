@@ -90,7 +90,7 @@ if (result1.Status == PromptStatus.OK)
 }
 ```
 
-Picking an entity and reading a string on it:
+Picking an entity and reading a string from it:
 
 ```c#
 var editor = Application.DocumentManager.MdiActiveDocument.Editor;
