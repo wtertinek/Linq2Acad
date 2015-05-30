@@ -163,8 +163,8 @@ using (var db = L2ADatabase.Active())
                             .ObjectId;
 
       db.ModelSpace
-        .Where(l => l.LayerId == targetLayerID)
-        .ForEach(l => l.LayerId = sourceLayerID);
+        .Where(l => l.LayerId == sourceLayerID)
+        .ForEach(l => l.LayerId = targetLayerID);
     }
   }
 }
