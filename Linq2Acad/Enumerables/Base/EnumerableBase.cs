@@ -63,12 +63,12 @@ namespace Linq2Acad
       }
     }
 
-    public T Item(ObjectId id)
+    public T ByID(ObjectId id)
     {
       return (T)transaction.GetObject(id, OpenMode.ForRead);
     }
 
-    public IEnumerable<T> Items(IEnumerable<ObjectId> ids)
+    public IEnumerable<T> ByID(IEnumerable<ObjectId> ids)
     {
       var table = (IEnumerable)transaction.GetObject(ID, OpenMode.ForRead);
 

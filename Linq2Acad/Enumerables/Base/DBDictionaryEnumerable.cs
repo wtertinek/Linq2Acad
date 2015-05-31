@@ -36,24 +36,21 @@ namespace Linq2Acad
       return ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Contains(id);
     }
 
-    public override sealed T this[string name]
+    public override sealed T ByName(string name)
     {
-      get
-      {
-        var dict = (DBDictionary)transaction.GetObject(ID, OpenMode.ForRead);
+      var dict = (DBDictionary)transaction.GetObject(ID, OpenMode.ForRead);
 
-        try
-        {
-          return (T)transaction.GetObject(dict.GetAt(name), OpenMode.ForRead);
-        }
-        catch
-        {
-          throw new KeyNotFoundException("No element with key " + name + " found");
-        }
+      try
+      {
+        return (T)transaction.GetObject(dict.GetAt(name), OpenMode.ForRead);
+      }
+      catch
+      {
+        throw new KeyNotFoundException("No element with key " + name + " found");
       }
     }
 
-    public override sealed IEnumerable<T> Items(IEnumerable<string> names)
+    public override sealed IEnumerable<T> ByName(IEnumerable<string> names)
     {
       var dict = (DBDictionary)transaction.GetObject(ID, OpenMode.ForRead);
 

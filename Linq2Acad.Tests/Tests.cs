@@ -130,7 +130,9 @@ namespace Linq2Acad.Tests
       {
         if (db.Layers.Contains("0"))
         {
-          var name = db.Layers["0"].Name;
+          var name = db.Layers
+                       .ByName("0")
+                       .Name;
           Debug.Assert(name == "0");
         }
       }
@@ -196,7 +198,8 @@ namespace Linq2Acad.Tests
 
         if (result.Status == PromptStatus.OK)
         {
-          var sourceLayerID = db.Layers[result.StringResult]
+          var sourceLayerID = db.Layers
+                                .ByName(result.StringResult)
                                 .ObjectId;
 
           result = Editor.GetString("Enter target layer name:",
@@ -204,7 +207,8 @@ namespace Linq2Acad.Tests
 
           if (result.Status == PromptStatus.OK)
           {
-            var targetLayerID = db.Layers[result.StringResult]
+            var targetLayerID = db.Layers
+                                  .ByName(result.StringResult)
                                   .ObjectId;
 
             db.ModelSpace
@@ -273,7 +277,8 @@ namespace Linq2Acad.Tests
 
           if (result.Status == PromptStatus.OK)
           {
-            var block = sourceDB.Blocks[result.StringResult];
+            var block = sourceDB.Blocks
+                                .ByName(result.StringResult);
 
             using (var activeDB = L2ADatabase.Active())
             {
@@ -301,7 +306,7 @@ namespace Linq2Acad.Tests
           if (result2.Status == PromptStatus.OK)
           {
               db.ModelSpace
-                .Item(result.ObjectId)
+                .ByID(result.ObjectId)
                 .SaveData(result2.StringResult, new [] { 1, 2 });
           }
         }
@@ -322,7 +327,7 @@ namespace Linq2Acad.Tests
           if (result2.Status == PromptStatus.OK)
           {
             var value = db.ModelSpace
-                          .Item(result.ObjectId)
+                          .ByID(result.ObjectId)
                           .GetData<int[]>(result2.StringResult);
 
             Editor.WriteLine(result2.StringResult + ": " + value[0], ", " + value[1]);

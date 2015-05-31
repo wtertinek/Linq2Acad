@@ -82,7 +82,7 @@ if (result1.Status == PromptStatus.OK)
       using (var db = L2ADatabase.Active())
       {
         db.ModelSpace
-          .Item(entityID)
+          .ByID(entityID)
           .SaveData(key, value);
       }
     }
@@ -109,7 +109,7 @@ if (result1.Status == PromptStatus.OK)
     using (var db = L2ADatabase.Active())
     {
       var value = db.ModelSpace
-                    .Item(entityID)
+                    .ByID(entityID)
                     .GetData<string>(key);
       
       editor.WriteLine("Value: " + value);
@@ -130,7 +130,7 @@ using (var db = L2ADatabase.Active())
   if (result.Status == PromptStatus.OK)
   {
     var layerID = db.CurrentSpace
-                    .Item(result.ObjectId)
+                    .ByID(result.ObjectId)
                     .LayerId;
     db.Layers
       .Where(l => l.Id != layerID)
@@ -151,7 +151,8 @@ using (var db = L2ADatabase.Active())
 
   if (result.Status == PromptStatus.OK)
   {
-    var sourceLayerID = db.Layers[result.StringResult]
+    var sourceLayerID = db.Layers
+                          .ByName(result.StringResult)
                           .ObjectId;
 
     result = editor.GetString("Enter target layer name:",
@@ -159,7 +160,8 @@ using (var db = L2ADatabase.Active())
 
     if (result.Status == PromptStatus.OK)
     {
-      var targetLayerID = db.Layers[result.StringResult]
+      var targetLayerID = db.Layers
+                            .ByName(result.StringResult)
                             .ObjectId;
 
       db.ModelSpace
@@ -204,7 +206,7 @@ if (result.Status == PromptStatus.OK)
 
     if (result.Status == PromptStatus.OK)
     {
-      var block = sourceDB.Blocks[result.StringResult];
+      var block = sourceDB.Blocks.ByName(result.StringResult);
 
       using (var activeDB = L2ADatabase.Active())
       {
