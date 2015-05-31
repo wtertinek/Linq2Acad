@@ -48,6 +48,9 @@ namespace Linq2Acad
     {
       var container = (IEnumerable)transaction.GetObject(ID, OpenMode.ForRead);
       var idEnumerator = container.GetEnumerator();
+      /* TODO: Doesn't work if TResult is a derived type
+         class MyLine : Line { }
+         OfType<MyLine>() would return all Lines instead of MyLines only*/
       var filterType = RXClass.GetClass(typeof(TResult));
 
       while (idEnumerator.MoveNext())
