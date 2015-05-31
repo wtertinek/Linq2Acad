@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Linq2Acad
 {
-  public class DBVisualStyles : DBDictionaryEnumerable<DBVisualStyle>
+  public class DBVisualStyleContainer : DBDictionaryEnumerable<DBVisualStyle>
   {
-    internal DBVisualStyles(Database database, Transaction transaction, ObjectId containerID)
+    internal DBVisualStyleContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
     {
     }
@@ -20,9 +20,9 @@ namespace Linq2Acad
     }
   }
 
-  public class DetailViewStyles : DBDictionaryEnumerable<DetailViewStyle>
+  public class DetailViewStyleContainer : DBDictionaryEnumerable<DetailViewStyle>
   {
-    internal DetailViewStyles(Database database, Transaction transaction, ObjectId containerID)
+    internal DetailViewStyleContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
     {
     }
@@ -33,9 +33,9 @@ namespace Linq2Acad
     }
   }
 
-  public class Groups : DBDictionaryEnumerable<Group>
+  public class GroupContainer : DBDictionaryEnumerable<Group>
   {
-    internal Groups(Database database, Transaction transaction, ObjectId containerID)
+    internal GroupContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
     {
     }
@@ -54,9 +54,9 @@ namespace Linq2Acad
     }
   }
 
-  public class Layouts : DBDictionaryEnumerable<Layout>
+  public class LayoutContainer : DBDictionaryEnumerable<Layout>
   {
-    internal Layouts(Database database, Transaction transaction, ObjectId containerID)
+    internal LayoutContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
     {
     }
@@ -67,9 +67,9 @@ namespace Linq2Acad
     }
   }
 
-  public class Materials : DBDictionaryEnumerable<Material>
+  public class MaterialContainer : DBDictionaryEnumerable<Material>
   {
-    internal Materials(Database database, Transaction transaction, ObjectId containerID)
+    internal MaterialContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
     {
     }
@@ -80,9 +80,9 @@ namespace Linq2Acad
     }
   }
 
-  public class MLeaderStyles : DBDictionaryEnumerable<MLeaderStyle>
+  public class MLeaderStyleContainer : DBDictionaryEnumerable<MLeaderStyle>
   {
-    internal MLeaderStyles(Database database, Transaction transaction, ObjectId containerID)
+    internal MLeaderStyleContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
     {
     }
@@ -93,9 +93,9 @@ namespace Linq2Acad
     }
   }
 
-  public class MlineStyles : DBDictionaryEnumerable<MlineStyle>
+  public class MlineStyleContainer : DBDictionaryEnumerable<MlineStyle>
   {
-    internal MlineStyles(Database database, Transaction transaction, ObjectId containerID)
+    internal MlineStyleContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
     {
     }
@@ -106,9 +106,9 @@ namespace Linq2Acad
     }
   }
 
-  public class PlotSettingss : DBDictionaryEnumerable<PlotSettings>
+  public class PlotSettingsContainer : DBDictionaryEnumerable<PlotSettings>
   {
-    internal PlotSettingss(Database database, Transaction transaction, ObjectId containerID)
+    internal PlotSettingsContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
     {
     }
@@ -120,9 +120,9 @@ namespace Linq2Acad
     }
   }
 
-  public class SectionViewStyles : DBDictionaryEnumerable<SectionViewStyle>
+  public class SectionViewStyleContainer : DBDictionaryEnumerable<SectionViewStyle>
   {
-    internal SectionViewStyles(Database database, Transaction transaction, ObjectId containerID)
+    internal SectionViewStyleContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
     {
     }
@@ -133,9 +133,9 @@ namespace Linq2Acad
     }
   }
 
-  public class TableStyles : DBDictionaryEnumerable<TableStyle>
+  public class TableStyleContainer : DBDictionaryEnumerable<TableStyle>
   {
-    internal TableStyles(Database database, Transaction transaction, ObjectId containerID)
+    internal TableStyleContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
     {
     }

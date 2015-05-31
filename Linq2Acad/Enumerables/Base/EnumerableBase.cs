@@ -54,7 +54,7 @@ namespace Linq2Acad
       {
         var id = GetObjectID(idEnumerator.Current);
 
-        if (id.ObjectClass.IsDerivedFrom(filterType))
+        if (!id.ObjectClass.IsDerivedFrom(filterType))
         {
           continue;
         }
@@ -87,7 +87,7 @@ namespace Linq2Acad
     {
       if (items.Any(i => i.Database == database))
       {
-        throw new Exception("All items must be from a different database");
+        throw new Exception("Wrong database origin");
       }
       
       var ids = new ObjectIdCollection(items.Select(o => o.ObjectId).ToArray());

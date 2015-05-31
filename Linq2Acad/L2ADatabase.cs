@@ -85,127 +85,127 @@ namespace Linq2Acad
 
     #region Tables
 
-    public Blocks Blocks
+    public BlockContainer Blocks
     {
-      get { return new Blocks(AcadDatabase, transaction, AcadDatabase.BlockTableId); }
+      get { return new BlockContainer(AcadDatabase, transaction, AcadDatabase.BlockTableId); }
     }
 
-    public Layers Layers
+    public LayerContainer Layers
     {
-      get { return new Layers(AcadDatabase, transaction, AcadDatabase.LayerTableId); }
+      get { return new LayerContainer(AcadDatabase, transaction, AcadDatabase.LayerTableId); }
     }
 
-    public DimStyles DimStyles
+    public DimStyleContainer DimStyles
     {
-      get { return new DimStyles(AcadDatabase, transaction, AcadDatabase.DimStyleTableId); }
+      get { return new DimStyleContainer(AcadDatabase, transaction, AcadDatabase.DimStyleTableId); }
     }
 
-    public Linetypes Linetypes
+    public LinetypeContainer Linetypes
     {
-      get { return new Linetypes(AcadDatabase, transaction, AcadDatabase.LinetypeTableId); }
+      get { return new LinetypeContainer(AcadDatabase, transaction, AcadDatabase.LinetypeTableId); }
     }
 
-    public RegApps RegApps
+    public RegAppContainer RegApps
     {
-      get { return new RegApps(AcadDatabase, transaction, AcadDatabase.RegAppTableId); }
+      get { return new RegAppContainer(AcadDatabase, transaction, AcadDatabase.RegAppTableId); }
     }
 
-    public TextStyles TextStyles
+    public TextStyleContainer TextStyles
     {
-      get { return new TextStyles(AcadDatabase, transaction, AcadDatabase.TextStyleTableId); }
+      get { return new TextStyleContainer(AcadDatabase, transaction, AcadDatabase.TextStyleTableId); }
     }
 
-    public Ucss Ucss
+    public UcsContainer Ucss
     {
-      get { return new Ucss(AcadDatabase, transaction, AcadDatabase.UcsTableId); }
+      get { return new UcsContainer(AcadDatabase, transaction, AcadDatabase.UcsTableId); }
     }
 
-    public Viewports Viewports
+    public ViewportContainer Viewports
     {
-      get { return new Viewports(AcadDatabase, transaction, AcadDatabase.ViewportTableId); }
+      get { return new ViewportContainer(AcadDatabase, transaction, AcadDatabase.ViewportTableId); }
     }
 
-    public Views Views
+    public ViewContainer Views
     {
-      get { return new Views(AcadDatabase, transaction, AcadDatabase.ViewTableId); }
+      get { return new ViewContainer(AcadDatabase, transaction, AcadDatabase.ViewTableId); }
     }
 
     #endregion
 
     #region Dictionaries
 
-    public Layouts Layouts
+    public LayoutContainer Layouts
     {
-      get { return new Layouts(AcadDatabase, transaction, AcadDatabase.LayoutDictionaryId); }
+      get { return new LayoutContainer(AcadDatabase, transaction, AcadDatabase.LayoutDictionaryId); }
     }
 
-    public Groups Groups
+    public GroupContainer Groups
     {
-      get { return new Groups(AcadDatabase, transaction, AcadDatabase.GroupDictionaryId); }
+      get { return new GroupContainer(AcadDatabase, transaction, AcadDatabase.GroupDictionaryId); }
     }
 
-    public MLeaderStyles MLeaderStyles
+    public MLeaderStyleContainer MLeaderStyles
     {
-      get { return new MLeaderStyles(AcadDatabase, transaction, AcadDatabase.MLeaderStyleDictionaryId); }
+      get { return new MLeaderStyleContainer(AcadDatabase, transaction, AcadDatabase.MLeaderStyleDictionaryId); }
     }
 
-    public MlineStyles MlineStyles
+    public MlineStyleContainer MlineStyles
     {
-      get { return new MlineStyles(AcadDatabase, transaction, AcadDatabase.MLStyleDictionaryId); }
+      get { return new MlineStyleContainer(AcadDatabase, transaction, AcadDatabase.MLStyleDictionaryId); }
     }
 
-    public Materials Materials
+    public MaterialContainer Materials
     {
-      get { return new Materials(AcadDatabase, transaction, AcadDatabase.MaterialDictionaryId); }
+      get { return new MaterialContainer(AcadDatabase, transaction, AcadDatabase.MaterialDictionaryId); }
     }
 
-    public DBVisualStyles DBVisualStyles
+    public DBVisualStyleContainer DBVisualStyles
     {
-      get { return new DBVisualStyles(AcadDatabase, transaction, AcadDatabase.VisualStyleDictionaryId); }
+      get { return new DBVisualStyleContainer(AcadDatabase, transaction, AcadDatabase.VisualStyleDictionaryId); }
     }
 
-    public PlotSettingss PlotSettings
+    public PlotSettingsContainer PlotSettings
     {
-      get { return new PlotSettingss(AcadDatabase, transaction, AcadDatabase.PlotSettingsDictionaryId); }
+      get { return new PlotSettingsContainer(AcadDatabase, transaction, AcadDatabase.PlotSettingsDictionaryId); }
     }
 
-    public TableStyles TableStyles
+    public TableStyleContainer TableStyles
     {
-      get { return new TableStyles(AcadDatabase, transaction, AcadDatabase.TableStyleDictionaryId); }
+      get { return new TableStyleContainer(AcadDatabase, transaction, AcadDatabase.TableStyleDictionaryId); }
     }
 
-    public SectionViewStyles SectionViewStyles
+    public SectionViewStyleContainer SectionViewStyles
     {
-      get { return new SectionViewStyles(AcadDatabase, transaction, AcadDatabase.SectionViewStyleDictionaryId); }
+      get { return new SectionViewStyleContainer(AcadDatabase, transaction, AcadDatabase.SectionViewStyleDictionaryId); }
     }
 
-    public DetailViewStyles DetailViewStyles
+    public DetailViewStyleContainer DetailViewStyles
     {
-      get { return new DetailViewStyles(AcadDatabase, transaction, AcadDatabase.DetailViewStyleDictionaryId); }
+      get { return new DetailViewStyleContainer(AcadDatabase, transaction, AcadDatabase.DetailViewStyleDictionaryId); }
     }
 
     #endregion
 
     #region Model/Paper space
 
-    public Entities CurrentSpace
+    public EntityContainer CurrentSpace
     {
-      get { return new Entities(AcadDatabase, transaction, AcadDatabase.CurrentSpaceId); }
+      get { return new EntityContainer(AcadDatabase, transaction, AcadDatabase.CurrentSpaceId); }
     }
 
-    public Entities ModelSpace
+    public EntityContainer ModelSpace
     {
       get { return GetSpace(BlockTableRecord.ModelSpace); }
     }
-    public Entities PaperSpace
+    public EntityContainer PaperSpace
     {
       get { return GetSpace(BlockTableRecord.PaperSpace); }
     }
 
-    private Entities GetSpace(string name)
+    private EntityContainer GetSpace(string name)
     {
       var spaceID = ((BlockTable)transaction.GetObject(AcadDatabase.BlockTableId, OpenMode.ForRead))[name];
-      return new Entities(AcadDatabase, transaction, spaceID);
+      return new EntityContainer(AcadDatabase, transaction, spaceID);
     }
 
     #endregion

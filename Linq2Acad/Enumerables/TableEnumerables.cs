@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Linq2Acad
 {
-  public class Blocks : SymbolTableEnumerable<BlockTableRecord>
+  public class BlockContainer : SymbolTableEnumerable<BlockTableRecord>
   {
-    internal Blocks(Database database, Transaction transaction, ObjectId containerID)
+    internal BlockContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
     {
     }
@@ -20,9 +20,9 @@ namespace Linq2Acad
     }
   }
 
-  public class DimStyles : SymbolTableEnumerable<DimStyleTableRecord>
+  public class DimStyleContainer : SymbolTableEnumerable<DimStyleTableRecord>
   {
-    internal DimStyles(Database database, Transaction transaction, ObjectId containerID)
+    internal DimStyleContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
     {
     }
@@ -33,9 +33,9 @@ namespace Linq2Acad
     }
   }
 
-  public class Layers : SymbolTableEnumerable<LayerTableRecord>
+  public class LayerContainer : SymbolTableEnumerable<LayerTableRecord>
   {
-    internal Layers(Database database, Transaction transaction, ObjectId containerID)
+    internal LayerContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
     {
     }
@@ -46,9 +46,9 @@ namespace Linq2Acad
     }
   }
 
-  public class Linetypes : SymbolTableEnumerable<LinetypeTableRecord>
+  public class LinetypeContainer : SymbolTableEnumerable<LinetypeTableRecord>
   {
-    internal Linetypes(Database database, Transaction transaction, ObjectId containerID)
+    internal LinetypeContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
     {
     }
@@ -59,9 +59,9 @@ namespace Linq2Acad
     }
   }
 
-  public class RegApps : SymbolTableEnumerable<RegAppTableRecord>
+  public class RegAppContainer : SymbolTableEnumerable<RegAppTableRecord>
   {
-    internal RegApps(Database database, Transaction transaction, ObjectId containerID)
+    internal RegAppContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
     {
     }
@@ -72,9 +72,9 @@ namespace Linq2Acad
     }
   }
 
-  public class TextStyles : SymbolTableEnumerable<TextStyleTableRecord>
+  public class TextStyleContainer : SymbolTableEnumerable<TextStyleTableRecord>
   {
-    internal TextStyles(Database database, Transaction transaction, ObjectId containerID)
+    internal TextStyleContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
     {
     }
@@ -85,9 +85,9 @@ namespace Linq2Acad
     }
   }
 
-  public class Ucss : SymbolTableEnumerable<UcsTableRecord>
+  public class UcsContainer : SymbolTableEnumerable<UcsTableRecord>
   {
-    internal Ucss(Database database, Transaction transaction, ObjectId containerID)
+    internal UcsContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
     {
     }
@@ -98,9 +98,9 @@ namespace Linq2Acad
     }
   }
 
-  public class Viewports : SymbolTableEnumerable<ViewportTableRecord>
+  public class ViewportContainer : SymbolTableEnumerable<ViewportTableRecord>
   {
-    internal Viewports(Database database, Transaction transaction, ObjectId containerID)
+    internal ViewportContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
     {
     }
@@ -116,9 +116,9 @@ namespace Linq2Acad
     }
   }
 
-  public class Views : DBDictionaryEnumerable<ViewTableRecord>
+  public class ViewContainer : DBDictionaryEnumerable<ViewTableRecord>
   {
-    internal Views(Database database, Transaction transaction, ObjectId containerID)
+    internal ViewContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
     {
     }
@@ -129,9 +129,9 @@ namespace Linq2Acad
     }
   }
 
-  public class Entities : EnumerableBase<Entity>
+  public class EntityContainer : EnumerableBase<Entity>
   {
-    public Entities(Database database, Transaction transaction, ObjectId containerID)
+    public EntityContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
     {
     }
@@ -171,16 +171,16 @@ namespace Linq2Acad
       var btr = (BlockTableRecord)transaction.GetObject(ID, OpenMode.ForWrite);
 
       return items.Select(i =>
-      {
-        if (!noDatabaseDefaults)
-        {
-          i.SetDatabaseDefaults();
-        }
+                   {
+                     if (!noDatabaseDefaults)
+                     {
+                       i.SetDatabaseDefaults();
+                     }
 
-        var id = btr.AppendEntity(i);
-        transaction.AddNewlyCreatedDBObject(i, true);
-        return id;
-      }).ToArray();
+                     var id = btr.AppendEntity(i);
+                     transaction.AddNewlyCreatedDBObject(i, true);
+                     return id;
+                   }).ToArray();
     }
   }
 }

@@ -9,6 +9,26 @@ namespace Linq2Acad
 {
   public static class DbObjectsExtensions
   {
+    private static void WrapInTransaction(DBObject source, Action<Transaction> action)
+    {
+      var tr = source.Database.TransactionManager.TopTransaction;
+      var newTransaction = false;
+
+      if (tr == null)
+      {
+        tr = source.Database.TransactionManager.StartTransaction();
+        newTransaction = true;
+      }
+
+      action(tr);
+
+      if (newTransaction)
+      {
+        tr.Commit();
+        tr.Dispose();
+      }
+    }
+
     public static void SaveData<T>(this DBObject source, string key, T data)
     {
       Action<ResultBuffer> saveData = buffer =>
@@ -23,23 +43,23 @@ namespace Linq2Acad
                                           source.CreateExtensionDictionary();
                                         }
 
-                                        // TODO: We have to change this...
-                                        Transaction tr = source.Database.TransactionManager.TopTransaction;
+                                        WrapInTransaction(source, tr =>
+                                                                  {
+                                                                    var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForWrite);
 
-                                        var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForWrite);
-
-                                        if (dict.Contains(key))
-                                        {
-                                          var xRecord = (Xrecord)tr.GetObject(dict.GetAt(key), OpenMode.ForWrite);
-                                          xRecord.Data = buffer;
-                                        }
-                                        else
-                                        {
-                                          var xRecord = new Xrecord();
-                                          xRecord.Data = buffer;
-                                          dict.SetAt(key, xRecord);
-                                          tr.AddNewlyCreatedDBObject(xRecord, true);
-                                        }
+                                                                    if (dict.Contains(key))
+                                                                    {
+                                                                      var xRecord = (Xrecord)tr.GetObject(dict.GetAt(key), OpenMode.ForWrite);
+                                                                      xRecord.Data = buffer;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                      var xRecord = new Xrecord();
+                                                                      xRecord.Data = buffer;
+                                                                      dict.SetAt(key, xRecord);
+                                                                      tr.AddNewlyCreatedDBObject(xRecord, true);
+                                                                    }
+                                                                  });
                                       };
 
       Func<DxfCode, ResultBuffer> getResultBuffer = code => new ResultBuffer(new[] { new TypedValue((int)code, data) });
@@ -84,32 +104,34 @@ namespace Linq2Acad
         throw new KeyNotFoundException();
       }
 
-      // TODO: We have to change this...
-      Transaction tr = source.Database.TransactionManager.TopTransaction;
+      var items = new TypedValue[0];
 
-      var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForRead);
+      WrapInTransaction(source, tr =>
+                                {
+                                  var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForRead);
 
-      if (dict.Contains(key))
+                                  if (dict.Contains(key))
+                                  {
+                                    var xRecord = (Xrecord)tr.GetObject(dict.GetAt(key), OpenMode.ForRead);
+                                    items = xRecord.Data
+                                                   .Cast<TypedValue>()
+                                                   .ToArray();
+                                  }
+                                  else
+                                  {
+                                    throw new KeyNotFoundException();
+                                  }
+                                });
+
+      if (items.Length == 1 &&
+          items[0].TypeCode != (int)DxfCode.BinaryChunk)
       {
-        var xRecord = (Xrecord)tr.GetObject(dict.GetAt(key), OpenMode.ForRead);
-        var items = xRecord.Data
-                           .Cast<TypedValue>()
-                           .ToArray();
-
-        if (items.Length == 1 &&
-            items[0].TypeCode != (int)DxfCode.BinaryChunk)
-        {
-          return (T)items[0].Value;
-        }
-        else
-        {
-          return Helpers.Deserialize<T>(items.SelectMany(i => (byte[])i.Value)
-                                             .ToArray());
-        }
+        return (T)items[0].Value;
       }
       else
       {
-        throw new KeyNotFoundException();
+        return Helpers.Deserialize<T>(items.SelectMany(i => (byte[])i.Value)
+                                            .ToArray());
       }
     }
 
@@ -117,7 +139,7 @@ namespace Linq2Acad
     {
       foreach (var item in items)
       {
-        Helpers.WriteCheck(item, () => action(item));
+        Helpers.WriteWrap(item, () => action(item));
       }
     }
 
