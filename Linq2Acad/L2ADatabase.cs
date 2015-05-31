@@ -202,7 +202,7 @@ namespace Linq2Acad
       get { return GetSpace(BlockTableRecord.PaperSpace); }
     }
 
-    private EntityContainer GetSpace(string name)
+    public EntityContainer GetSpace(string name)
     {
       var spaceID = ((BlockTable)transaction.GetObject(AcadDatabase.BlockTableId, OpenMode.ForRead))[name];
       return new EntityContainer(AcadDatabase, transaction, spaceID);

@@ -198,22 +198,19 @@ namespace Linq2Acad.Tests
 
         if (result.Status == PromptStatus.OK)
         {
-          var sourceLayerID = db.Layers
-                                .ByName(result.StringResult)
-                                .ObjectId;
+          var sourceLayer = db.Layers
+                              .ByName(result.StringResult);
 
           result = Editor.GetString("Enter target layer name:",
                                     s => db.Layers.Contains(s));
 
           if (result.Status == PromptStatus.OK)
           {
-            var targetLayerID = db.Layers
-                                  .ByName(result.StringResult)
-                                  .ObjectId;
-
-            db.ModelSpace
-              .Where(l => l.LayerId == targetLayerID)
-              .ForEach(l => l.LayerId = sourceLayerID);
+            var entities = db.ModelSpace
+                             .Where(e => e.Layer == result.StringResult);
+            db.Layers
+              .ByName(result.StringResult)
+              .AddRange(entities);
           }
         }
       }
