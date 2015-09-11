@@ -72,14 +72,26 @@ namespace Linq2Acad
 
     public T Item<T>(ObjectId id) where T : DBObject
     {
-      return (T)transaction.GetObject(id, OpenMode.ForRead);
+      return Item<T>(id, false);
+    }
+
+    public T Item<T>(ObjectId id, bool forWrite) where T : DBObject
+    {
+      return (T)transaction.GetObject(id, forWrite ? OpenMode.ForWrite : OpenMode.ForRead);
     }
 
     public IEnumerable<T> Items<T>(IEnumerable<ObjectId> ids) where T : DBObject
     {
+      return Items<T>(ids, false);
+    }
+
+    public IEnumerable<T> Items<T>(IEnumerable<ObjectId> ids, bool forWrite) where T : DBObject
+    {
+      var openMode = forWrite ? OpenMode.ForWrite : OpenMode.ForRead;
+
       foreach (var id in ids)
       {
-        yield return (T)transaction.GetObject(id, OpenMode.ForRead);
+        yield return (T)transaction.GetObject(id, openMode);
       }
     }
 

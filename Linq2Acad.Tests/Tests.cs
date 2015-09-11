@@ -236,7 +236,7 @@ namespace Linq2Acad.Tests
                       .OfType<BlockReference>()
                       .Count();
 
-        Editor.WriteLine("" + count + " BlockReferences");
+        Editor.WriteLine(count + " BlockReferences");
       }
     }
 
@@ -254,7 +254,7 @@ namespace Linq2Acad.Tests
                         .OfType<BlockReference>()
                         .Count();
 
-          Editor.WriteLine("Model space BlockReferences in file " + result.StringResult + ": " + count);
+          Editor.WriteLine(count + " model space BlockReferences found in file " + result.StringResult);
         }
       }
     }
