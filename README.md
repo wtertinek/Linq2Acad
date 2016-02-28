@@ -3,11 +3,6 @@
 
 In general, the library should be a more intuitive API for working with the drawing database, making the learning curve for beginners less steep.
 
-###Note
-In order to be able to compile the solution, you have to add the AutoCAD assembly path to the project's reference path.
-
-As an example, let's assume your AutoCAD installation folder is *C:\Program Files\Autodesk\AutoCAD 2016*. To add the reference paths, open the solution, go to the project properties, select the tab *Reference Paths* and add the folder *C:\Program Files\Autodesk\AutoCAD 2016*. Do this for both projects, Linq2Acad and Linq2Acad.Tests.
-
 ###Examples
 As an example, erasing all BlockReferences from the model space can be done like this:
 
@@ -221,6 +216,9 @@ if (result.Status == PromptStatus.OK)
   }
 }
 ```
+
+### Note
+See Setup.md on how to reference the AutoCAD assemblies.
 
 ### TODO
 I just started the project, at the moment it's just a working prototype for AutoCAD 2016. If you have any comments or suggestions, **I'm very happy to hear from you**.
