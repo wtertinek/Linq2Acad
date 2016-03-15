@@ -18,10 +18,10 @@ namespace Linq2Acad
     private bool disposeDatabase;
     private bool abort;
 
-    private L2ADatabase(Database database, bool disposeDatabase = false)
+    private L2ADatabase(Database database, bool keepOpen)
       : this(database, database.TransactionManager.StartTransaction(), true, true)
     {
-      this.disposeDatabase = disposeDatabase;
+      disposeDatabase = !keepOpen;
     }
 
     private L2ADatabase(Database database, Transaction transaction, bool commit, bool dispose)
@@ -93,6 +93,11 @@ namespace Linq2Acad
       {
         yield return (T)transaction.GetObject(id, openMode);
       }
+    }
+
+    public void SaveAs(string fileName)
+    {
+      AcadDatabase.SaveAs(fileName, DwgVersion.Newest);
     }
 
     #region Tables
@@ -224,9 +229,19 @@ namespace Linq2Acad
 
     #region Factory methods
 
+    public static L2ADatabase CreateNew(bool keepOpen = false)
+    {
+      return CreateNew(false, keepOpen);
+    }
+
+    public static L2ADatabase CreateNew(bool createDocument, bool keepOpen = false)
+    {
+      return new L2ADatabase(new Database(true, !createDocument), keepOpen);
+    }
+
     public static L2ADatabase Active()
     {
-      return new L2ADatabase(Application.DocumentManager.MdiActiveDocument.Database);
+      return new L2ADatabase(Application.DocumentManager.MdiActiveDocument.Database, true);
     }
 
     public static L2ADatabase Active(Transaction tr, bool commit, bool dispose)
@@ -236,7 +251,7 @@ namespace Linq2Acad
 
     public static L2ADatabase Use(Database database)
     {
-      return new L2ADatabase(database);
+      return new L2ADatabase(database, true);
     }
 
     public static L2ADatabase Use(Database database, Transaction tr, bool commit, bool dispose)
@@ -244,29 +259,29 @@ namespace Linq2Acad
       return new L2ADatabase(database, tr, commit, dispose);
     }
 
-    public static L2ADatabase Open(string fileName)
+    public static L2ADatabase Open(string fileName, bool keepOpen = false)
     {
-      return Open(fileName, false, null);
+      return Open(fileName, false, null, keepOpen);
     }
 
-    public static L2ADatabase Open(string fileName, string password)
+    public static L2ADatabase Open(string fileName, string password, bool keepOpen = false)
     {
-      return Open(fileName, false, password);
+      return Open(fileName, false, password, keepOpen);
     }
 
-    public static L2ADatabase Open(string fileName, bool forWrite)
+    public static L2ADatabase Open(string fileName, bool forWrite, bool keepOpen = false)
     {
-      return Open(fileName, forWrite, null);
+      return Open(fileName, forWrite, null, keepOpen);
     }
 
-    public static L2ADatabase Open(string fileName, bool forWrite, string password)
+    public static L2ADatabase Open(string fileName, bool forWrite, string password, bool keepOpen = false)
     {
       if (!File.Exists(fileName)) { throw new FileNotFoundException(); }
 
       var database = new Database(false, true);
       database.ReadDwgFile(fileName, forWrite ? FileOpenMode.OpenForReadAndWriteNoShare : FileOpenMode.OpenForReadAndAllShare, false, password);
       database.CloseInput(true);
-      return new L2ADatabase(database, true);
+      return new L2ADatabase(database, keepOpen);
     }
 
     #endregion

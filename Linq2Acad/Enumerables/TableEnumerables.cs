@@ -156,9 +156,9 @@ namespace Linq2Acad
       return Add(item, false);
     }
 
-    public ObjectId Add(Entity item, bool noDatabaseDefaults)
+    public ObjectId Add(Entity item, bool setDatabaseDefaults)
     {
-      return Add(new[] { item }, noDatabaseDefaults).First();
+      return Add(new[] { item }, setDatabaseDefaults).First();
     }
 
     public IEnumerable<ObjectId> Add(IEnumerable<Entity> items)
@@ -166,13 +166,13 @@ namespace Linq2Acad
       return Add(items, false);
     }
 
-    public IEnumerable<ObjectId> Add(IEnumerable<Entity> items, bool noDatabaseDefaults)
+    public IEnumerable<ObjectId> Add(IEnumerable<Entity> items, bool setDatabaseDefaults)
     {
       var btr = (BlockTableRecord)transaction.GetObject(ID, OpenMode.ForWrite);
 
       return items.Select(i =>
                    {
-                     if (!noDatabaseDefaults)
+                     if (setDatabaseDefaults)
                      {
                        i.SetDatabaseDefaults();
                      }

@@ -77,6 +77,7 @@
   <ItemGroup>
     <Compile Include="EditorExtensions.cs" />
     <Compile Include="EntityFactory.cs" />
+    <Compile Include="Enumerables\Base\ImportResult.cs" />
     <Compile Include="Enumerables\Base\NameBasedEnumerable.cs" />
     <Compile Include="Enumerables\Base\DBDictionaryEnumerable.cs" />
     <Compile Include="Enumerables\DictionaryEnumerables.cs" />
