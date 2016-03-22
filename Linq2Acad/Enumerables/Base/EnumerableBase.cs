@@ -46,18 +46,17 @@ namespace Linq2Acad
 
     public IEnumerable<TResult> OfType<TResult>() where TResult : T
     {
-      var container = (IEnumerable)transaction.GetObject(ID, OpenMode.ForRead);
-      var idEnumerator = container.GetEnumerator();
+      var enumerator = ((IEnumerable)transaction.GetObject(ID, OpenMode.ForRead)).GetEnumerator();
       /* TODO: Doesn't work if TResult is a derived type
          class MyLine : Line { }
          OfType<MyLine>() would return all Lines instead of MyLines only*/
-      var filterType = RXClass.GetClass(typeof(TResult));
+      var rxType = RXClass.GetClass(typeof(TResult));
 
-      while (idEnumerator.MoveNext())
+      while (enumerator.MoveNext())
       {
-        var id = GetObjectID(idEnumerator.Current);
+        var id = GetObjectID(enumerator.Current);
 
-        if (!id.ObjectClass.IsDerivedFrom(filterType))
+        if (!id.ObjectClass.IsDerivedFrom(rxType))
         {
           continue;
         }

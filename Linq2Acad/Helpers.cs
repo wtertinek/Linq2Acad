@@ -39,16 +39,28 @@ namespace Linq2Acad
 
     public static int GetCount(Transaction transaction, ObjectId containerID)
     {
-      return ((IEnumerable)transaction.GetObject(containerID, OpenMode.ForRead))
-             .Cast<object>()
-             .Count();
+      int count = 0;
+      var enumerator = ((IEnumerable)transaction.GetObject(containerID, OpenMode.ForRead)).GetEnumerator();
+
+      while (enumerator.MoveNext())
+      {
+        count++;
+      }
+
+      return count;
     }
 
     public static long GetLongCount(Transaction transaction, ObjectId containerID)
     {
-      return ((IEnumerable)transaction.GetObject(containerID, OpenMode.ForRead))
-             .Cast<object>()
-             .LongCount();
+      long count = 0;
+      var enumerator = ((IEnumerable)transaction.GetObject(containerID, OpenMode.ForRead)).GetEnumerator();
+
+      while (enumerator.MoveNext())
+      {
+        count++;
+      }
+
+      return count;
     }
 
     private const int ChunkSize = 127;

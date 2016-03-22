@@ -18,7 +18,6 @@ namespace Linq2Acad
 
     public abstract bool Contains(ObjectId id);
 
-
     public abstract T ByName(string name);
 
     public abstract IEnumerable<T> ByName(IEnumerable<string> names);

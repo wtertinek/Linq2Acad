@@ -78,7 +78,7 @@ namespace Linq2Acad
 
     public override sealed long LongCount()
     {
-      return ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Count;
+      return Count();
     }
 
     public ObjectId Add(string name, T item)
