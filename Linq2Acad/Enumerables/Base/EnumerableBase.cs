@@ -77,24 +77,24 @@ namespace Linq2Acad
       }
     }
 
-    public ImportResult Import(T item)
+    public ImportResult<T> Import(T item)
     {
       return Import(item, false);
     }
 
-    public ImportResult Import(T item, bool replaceIfDuplicate)
+    public ImportResult<T> Import(T item, bool replaceIfDuplicate)
     {
       return Import(new[] { item }, replaceIfDuplicate).First();
     }
 
-    public IReadOnlyCollection<ImportResult> Import(IEnumerable<T> items, bool replaceIfDuplicate)
+    public IReadOnlyCollection<ImportResult<T>> Import(IEnumerable<T> items, bool replaceIfDuplicate)
     {
       if (items.Any(i => i.Database == database))
       {
         throw new Exception("Wrong database origin");
       }
 
-      var result = new List<ImportResult>();
+      var result = new List<ImportResult<T>>();
 
       foreach (var item in items)
       {
@@ -102,8 +102,8 @@ namespace Linq2Acad
         var mapping = new IdMapping();
         var type = replaceIfDuplicate ? DuplicateRecordCloning.Replace : DuplicateRecordCloning.Ignore;
         database.WblockCloneObjects(ids, ID, mapping, type, false);
-        
-        result.Add(new ImportResult((BlockTableRecord)transaction.GetObject(mapping[item.ObjectId].Value, OpenMode.ForRead), mapping));
+
+        result.Add(new ImportResult<T>((T)transaction.GetObject(mapping[item.ObjectId].Value, OpenMode.ForRead), mapping));
       }
 
       return result;
