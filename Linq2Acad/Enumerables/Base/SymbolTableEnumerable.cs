@@ -33,14 +33,14 @@ namespace Linq2Acad
       }
     }
 
-    public override sealed bool Contains(string name)
-    {
-      return ((SymbolTable)transaction.GetObject(ID, OpenMode.ForRead)).Has(name);
-    }
-
     public override sealed bool Contains(ObjectId id)
     {
       return ((SymbolTable)transaction.GetObject(ID, OpenMode.ForRead)).Has(id);
+    }
+
+    public override sealed bool Contains(string name)
+    {
+      return ((SymbolTable)transaction.GetObject(ID, OpenMode.ForRead)).Has(name);
     }
 
     public override sealed T Element(string name)

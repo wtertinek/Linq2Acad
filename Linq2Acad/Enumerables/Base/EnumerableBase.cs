@@ -40,6 +40,13 @@ namespace Linq2Acad
 
     protected abstract ObjectId GetObjectID(object iteratorItem);
 
+    public abstract bool Contains(ObjectId id);
+
+    public T Element(ObjectId id)
+    {
+      return (T)transaction.GetObject(id, OpenMode.ForRead);
+    }
+
     public abstract int Count();
 
     public abstract long LongCount();

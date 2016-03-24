@@ -16,8 +16,6 @@ namespace Linq2Acad
 
     public abstract bool Contains(string name);
 
-    public abstract bool Contains(ObjectId id);
-
     public abstract T Element(string name);
   }
 }

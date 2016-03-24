@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace Linq2Acad
 {
@@ -139,6 +140,12 @@ namespace Linq2Acad
     protected override ObjectId GetObjectID(object iteratorItem)
     {
       return (ObjectId)iteratorItem;
+    }
+
+    public override bool Contains(ObjectId id)
+    {
+      return ((IEnumerable)transaction.GetObject(ID, OpenMode.ForRead)).Cast<ObjectId>()
+                                                                       .Any(oid => oid.Equals(id));
     }
 
     public override int Count()
