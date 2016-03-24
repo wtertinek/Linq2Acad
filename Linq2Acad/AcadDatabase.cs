@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Linq2Acad
 {
-  public class L2ADatabase : IDisposable
+  public class AcadDatabase : IDisposable
   {
     private Transaction transaction;
     private bool commit;
@@ -18,24 +18,24 @@ namespace Linq2Acad
     private bool disposeDatabase;
     private bool abort;
 
-    private L2ADatabase(Database database, bool keepOpen)
+    private AcadDatabase(Database database, bool keepOpen)
       : this(database, database.TransactionManager.StartTransaction(), true, true)
     {
       disposeDatabase = !keepOpen;
     }
 
-    private L2ADatabase(Database database, Transaction transaction, bool commit, bool dispose)
+    private AcadDatabase(Database database, Transaction transaction, bool commit, bool dispose)
     {
       if (database == null) { throw new ArgumentNullException("database"); }
       if (transaction == null) { throw new ArgumentNullException("transaction"); }
 
-      AcadDatabase = database;
+      Database = database;
       this.transaction = transaction;
       this.commit = commit;
       this.dispose = dispose;
     }
 
-    public Database AcadDatabase { get; private set; }
+    public Database Database { get; private set; }
 
     public void DiscardChanges()
     {
@@ -66,7 +66,7 @@ namespace Linq2Acad
 
       if (disposeDatabase)
       {
-        AcadDatabase.Dispose();
+        Database.Dispose();
       }
     }
 
@@ -97,54 +97,54 @@ namespace Linq2Acad
 
     public void SaveAs(string fileName)
     {
-      AcadDatabase.SaveAs(fileName, DwgVersion.Newest);
+      Database.SaveAs(fileName, DwgVersion.Newest);
     }
 
     #region Tables
 
     public BlockContainer Blocks
     {
-      get { return new BlockContainer(AcadDatabase, transaction, AcadDatabase.BlockTableId); }
+      get { return new BlockContainer(Database, transaction, Database.BlockTableId); }
     }
 
     public LayerContainer Layers
     {
-      get { return new LayerContainer(AcadDatabase, transaction, AcadDatabase.LayerTableId); }
+      get { return new LayerContainer(Database, transaction, Database.LayerTableId); }
     }
 
     public DimStyleContainer DimStyles
     {
-      get { return new DimStyleContainer(AcadDatabase, transaction, AcadDatabase.DimStyleTableId); }
+      get { return new DimStyleContainer(Database, transaction, Database.DimStyleTableId); }
     }
 
     public LinetypeContainer Linetypes
     {
-      get { return new LinetypeContainer(AcadDatabase, transaction, AcadDatabase.LinetypeTableId); }
+      get { return new LinetypeContainer(Database, transaction, Database.LinetypeTableId); }
     }
 
     public RegAppContainer RegApps
     {
-      get { return new RegAppContainer(AcadDatabase, transaction, AcadDatabase.RegAppTableId); }
+      get { return new RegAppContainer(Database, transaction, Database.RegAppTableId); }
     }
 
     public TextStyleContainer TextStyles
     {
-      get { return new TextStyleContainer(AcadDatabase, transaction, AcadDatabase.TextStyleTableId); }
+      get { return new TextStyleContainer(Database, transaction, Database.TextStyleTableId); }
     }
 
     public UcsContainer Ucss
     {
-      get { return new UcsContainer(AcadDatabase, transaction, AcadDatabase.UcsTableId); }
+      get { return new UcsContainer(Database, transaction, Database.UcsTableId); }
     }
 
     public ViewportContainer Viewports
     {
-      get { return new ViewportContainer(AcadDatabase, transaction, AcadDatabase.ViewportTableId); }
+      get { return new ViewportContainer(Database, transaction, Database.ViewportTableId); }
     }
 
     public ViewContainer Views
     {
-      get { return new ViewContainer(AcadDatabase, transaction, AcadDatabase.ViewTableId); }
+      get { return new ViewContainer(Database, transaction, Database.ViewTableId); }
     }
 
     #endregion
@@ -153,52 +153,52 @@ namespace Linq2Acad
 
     public LayoutContainer Layouts
     {
-      get { return new LayoutContainer(AcadDatabase, transaction, AcadDatabase.LayoutDictionaryId); }
+      get { return new LayoutContainer(Database, transaction, Database.LayoutDictionaryId); }
     }
 
     public GroupContainer Groups
     {
-      get { return new GroupContainer(AcadDatabase, transaction, AcadDatabase.GroupDictionaryId); }
+      get { return new GroupContainer(Database, transaction, Database.GroupDictionaryId); }
     }
 
     public MLeaderStyleContainer MLeaderStyles
     {
-      get { return new MLeaderStyleContainer(AcadDatabase, transaction, AcadDatabase.MLeaderStyleDictionaryId); }
+      get { return new MLeaderStyleContainer(Database, transaction, Database.MLeaderStyleDictionaryId); }
     }
 
     public MlineStyleContainer MlineStyles
     {
-      get { return new MlineStyleContainer(AcadDatabase, transaction, AcadDatabase.MLStyleDictionaryId); }
+      get { return new MlineStyleContainer(Database, transaction, Database.MLStyleDictionaryId); }
     }
 
     public MaterialContainer Materials
     {
-      get { return new MaterialContainer(AcadDatabase, transaction, AcadDatabase.MaterialDictionaryId); }
+      get { return new MaterialContainer(Database, transaction, Database.MaterialDictionaryId); }
     }
 
     public DBVisualStyleContainer DBVisualStyles
     {
-      get { return new DBVisualStyleContainer(AcadDatabase, transaction, AcadDatabase.VisualStyleDictionaryId); }
+      get { return new DBVisualStyleContainer(Database, transaction, Database.VisualStyleDictionaryId); }
     }
 
     public PlotSettingsContainer PlotSettings
     {
-      get { return new PlotSettingsContainer(AcadDatabase, transaction, AcadDatabase.PlotSettingsDictionaryId); }
+      get { return new PlotSettingsContainer(Database, transaction, Database.PlotSettingsDictionaryId); }
     }
 
     public TableStyleContainer TableStyles
     {
-      get { return new TableStyleContainer(AcadDatabase, transaction, AcadDatabase.TableStyleDictionaryId); }
+      get { return new TableStyleContainer(Database, transaction, Database.TableStyleDictionaryId); }
     }
 
     public SectionViewStyleContainer SectionViewStyles
     {
-      get { return new SectionViewStyleContainer(AcadDatabase, transaction, AcadDatabase.SectionViewStyleDictionaryId); }
+      get { return new SectionViewStyleContainer(Database, transaction, Database.SectionViewStyleDictionaryId); }
     }
 
     public DetailViewStyleContainer DetailViewStyles
     {
-      get { return new DetailViewStyleContainer(AcadDatabase, transaction, AcadDatabase.DetailViewStyleDictionaryId); }
+      get { return new DetailViewStyleContainer(Database, transaction, Database.DetailViewStyleDictionaryId); }
     }
 
     #endregion
@@ -207,7 +207,7 @@ namespace Linq2Acad
 
     public EntityContainer CurrentSpace
     {
-      get { return new EntityContainer(AcadDatabase, transaction, AcadDatabase.CurrentSpaceId); }
+      get { return new EntityContainer(Database, transaction, Database.CurrentSpaceId); }
     }
 
     public EntityContainer ModelSpace
@@ -221,67 +221,67 @@ namespace Linq2Acad
 
     public EntityContainer GetSpace(string name)
     {
-      var spaceID = ((BlockTable)transaction.GetObject(AcadDatabase.BlockTableId, OpenMode.ForRead))[name];
-      return new EntityContainer(AcadDatabase, transaction, spaceID);
+      var spaceID = ((BlockTable)transaction.GetObject(Database.BlockTableId, OpenMode.ForRead))[name];
+      return new EntityContainer(Database, transaction, spaceID);
     }
 
     #endregion
 
     #region Factory methods
 
-    public static L2ADatabase CreateNew(bool keepOpen = false)
+    public static AcadDatabase CreateNew(bool keepOpen = false)
     {
       return CreateNew(false, keepOpen);
     }
 
-    public static L2ADatabase CreateNew(bool createDocument, bool keepOpen = false)
+    public static AcadDatabase CreateNew(bool createDocument, bool keepOpen = false)
     {
-      return new L2ADatabase(new Database(true, !createDocument), keepOpen);
+      return new AcadDatabase(new Database(true, !createDocument), keepOpen);
     }
 
-    public static L2ADatabase Active()
+    public static AcadDatabase FromActiveDocument()
     {
-      return new L2ADatabase(Application.DocumentManager.MdiActiveDocument.Database, true);
+      return new AcadDatabase(Application.DocumentManager.MdiActiveDocument.Database, true);
     }
 
-    public static L2ADatabase Active(Transaction tr, bool commit, bool dispose)
+    public static AcadDatabase FromActiveDocument(Transaction tr, bool commit, bool dispose)
     {
-      return new L2ADatabase(Application.DocumentManager.MdiActiveDocument.Database, tr, commit, dispose);
+      return new AcadDatabase(Application.DocumentManager.MdiActiveDocument.Database, tr, commit, dispose);
     }
 
-    public static L2ADatabase Use(Database database)
+    public static AcadDatabase FromOpenDatabase(Database database)
     {
-      return new L2ADatabase(database, true);
+      return new AcadDatabase(database, true);
     }
 
-    public static L2ADatabase Use(Database database, Transaction tr, bool commit, bool dispose)
+    public static AcadDatabase FromOpenDatabase(Database database, Transaction tr, bool commit, bool dispose)
     {
-      return new L2ADatabase(database, tr, commit, dispose);
+      return new AcadDatabase(database, tr, commit, dispose);
     }
 
-    public static L2ADatabase Open(string fileName, bool keepOpen = false)
+    public static AcadDatabase FromFile(string fileName, bool keepOpen = false)
     {
-      return Open(fileName, false, null, keepOpen);
+      return FromFile(fileName, false, null, keepOpen);
     }
 
-    public static L2ADatabase Open(string fileName, string password, bool keepOpen = false)
+    public static AcadDatabase FromFile(string fileName, string password, bool keepOpen = false)
     {
-      return Open(fileName, false, password, keepOpen);
+      return FromFile(fileName, false, password, keepOpen);
     }
 
-    public static L2ADatabase Open(string fileName, bool forWrite, bool keepOpen = false)
+    public static AcadDatabase FromFile(string fileName, bool forWrite, bool keepOpen = false)
     {
-      return Open(fileName, forWrite, null, keepOpen);
+      return FromFile(fileName, forWrite, null, keepOpen);
     }
 
-    public static L2ADatabase Open(string fileName, bool forWrite, string password, bool keepOpen = false)
+    public static AcadDatabase FromFile(string fileName, bool forWrite, string password, bool keepOpen = false)
     {
       if (!File.Exists(fileName)) { throw new FileNotFoundException(); }
 
       var database = new Database(false, true);
       database.ReadDwgFile(fileName, forWrite ? FileOpenMode.OpenForReadAndWriteNoShare : FileOpenMode.OpenForReadAndAllShare, false, password);
       database.CloseInput(true);
-      return new L2ADatabase(database, keepOpen);
+      return new AcadDatabase(database, keepOpen);
     }
 
     #endregion
