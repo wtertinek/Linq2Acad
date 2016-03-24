@@ -54,9 +54,7 @@ namespace Linq2Acad
     public IEnumerable<TResult> OfType<TResult>() where TResult : T
     {
       var enumerator = ((IEnumerable)transaction.GetObject(ID, OpenMode.ForRead)).GetEnumerator();
-      /* TODO: Doesn't work if TResult is a derived type
-         class MyLine : Line { }
-         OfType<MyLine>() would return all Lines instead of MyLines only*/
+      // TODO: To check: What is the RXClass of a derived type? RXClass of the base type?
       var rxType = RXClass.GetClass(typeof(TResult));
 
       while (enumerator.MoveNext())
@@ -68,7 +66,14 @@ namespace Linq2Acad
           continue;
         }
 
-        yield return (TResult)transaction.GetObject(id, OpenMode.ForRead);
+        var item = transaction.GetObject(id, OpenMode.ForRead) as TResult;
+
+        if (item == null)
+        {
+          continue;
+        }
+
+        yield return item;
       }
     }
 
