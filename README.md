@@ -7,7 +7,7 @@ In general, the library should be a more intuitive API for working with the draw
 As an example, erasing all BlockReferences from the model space can be done like this:
 
 ```c#
-using (var db = L2ADatabase.Active())
+using (var db = AcadDatabase.FromActiveDocument())
 {
   db.ModelSpace
     .OfType<BlockReference>()
@@ -18,7 +18,7 @@ using (var db = L2ADatabase.Active())
 Adding a line to the model space:
 
 ```c#
-using (var db = L2ADatabase.Active())
+using (var db = AcadDatabase.FromActiveDocument())
 {
   db.ModelSpace
     .Add(new Line(new Point3d(5, 5, 0),
@@ -29,20 +29,21 @@ using (var db = L2ADatabase.Active())
 Printing all layer names:
 
 ```c#
-var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+var editor = Application.DocumentManager.MdiFromActiveDocumentDocument.Editor;
 
-using (var db = L2ADatabase.Active())
+using (var db = AcadDatabase.FromActiveDocument())
 {
-  db.Layers.ForEach(l => editor.WriteLine(l.Name));
+  db.Layers
+    .ForEach(l => editor.WriteLine(l.Name));
 }
 ```
 
 Creating a group and adding all lines in the model space to it:
 
 ```c#
-var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+var editor = Application.DocumentManager.MdiFromActiveDocumentDocument.Editor;
 
-using (var db = L2ADatabase.Active())
+using (var db = AcadDatabase.FromActiveDocument())
 {
   if (db.Groups.Contains("LineGroup"))
   {
@@ -61,7 +62,7 @@ using (var db = L2ADatabase.Active())
 Picking an entity and saving a string on it:
 
 ```c#
-var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+var editor = Application.DocumentManager.MdiFromActiveDocumentDocument.Editor;
 
 var result1 = editor.GetEntity("Pick an entity:");
 
@@ -79,10 +80,10 @@ if (result1.Status == PromptStatus.OK)
       var key = result2.StringResult;
       var value = result3.StringResult;
       
-      using (var db = L2ADatabase.Active())
+      using (var db = AcadDatabase.FromActiveDocument())
       {
         db.ModelSpace
-          .ByID(entityID)
+          .Element(entityID)
           .SaveData(key, value);
       }
     }
@@ -93,7 +94,7 @@ if (result1.Status == PromptStatus.OK)
 Picking an entity and reading a string from it:
 
 ```c#
-var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+var editor = Application.DocumentManager.MdiFromActiveDocumentDocument.Editor;
 
 var result1 = editor.GetEntity("Pick an entity:");
 
@@ -106,10 +107,10 @@ if (result1.Status == PromptStatus.OK)
     var entityID = result1.ObjectId;
     var key = result2.StringResult;
       
-    using (var db = L2ADatabase.Active())
+    using (var db = AcadDatabase.FromActiveDocument())
     {
       var value = db.ModelSpace
-                    .ByID(entityID)
+                    .Element(entityID)
                     .GetData<string>(key);
       
       editor.WriteLine("Value: " + value);
@@ -121,16 +122,16 @@ if (result1.Status == PromptStatus.OK)
 Picking an entity and turning off all layers, except the entity's layer:
 
 ```c#
-var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+var editor = Application.DocumentManager.MdiFromActiveDocumentDocument.Editor;
 
-using (var db = L2ADatabase.Active())
+using (var db = AcadDatabase.FromActiveDocument())
 {
   var result = editor.GetEntity("Select an entity");
 
   if (result.Status == PromptStatus.OK)
   {
     var layerID = db.CurrentSpace
-                    .ByID(result.ObjectId)
+                    .Element(result.ObjectId)
                     .LayerId;
     db.Layers
       .Where(l => l.Id != layerID)
@@ -142,9 +143,9 @@ using (var db = L2ADatabase.Active())
 Moving entities from one layer to another:
 
 ```c#
-var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+var editor = Application.DocumentManager.MdiFromActiveDocumentDocument.Editor;
 
-using (var db = L2ADatabase.Active())
+using (var db = AcadDatabase.FromActiveDocument())
 {
   var result = editor.GetString("Enter source layer name:",
                                 s => db.Layers.Contains(s));
@@ -152,7 +153,7 @@ using (var db = L2ADatabase.Active())
   if (result.Status == PromptStatus.OK)
   {
     var sourceLayer = db.Layers
-                        .ByName(result.StringResult);
+                        .Element(result.StringResult);
 
     result = Editor.GetString("Enter target layer name:",
                               s => db.Layers.Contains(s));
@@ -162,7 +163,7 @@ using (var db = L2ADatabase.Active())
       var entities = db.ModelSpace
                         .Where(e => e.Layer == result.StringResult);
       db.Layers
-        .ByName(result.StringResult)
+        .Element(result.StringResult)
         .AddRange(entities);
     }
   }
@@ -172,12 +173,12 @@ using (var db = L2ADatabase.Active())
 Opening a drawing from file and count the BlockReferences in the model space:
 
 ```c#
-var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+var editor = Application.DocumentManager.MdiFromActiveDocumentDocument.Editor;
 var result = editor.GetString("Enter file path:", s => File.Exists(s));
 
 if (result.Status == PromptStatus.OK)
 {
-  using (var db = L2ADatabase.Open(result.StringResult))
+  using (var db = AcadDatabase.FromFile(result.StringResult))
   {
     var count = db.ModelSpace
                   .OfType<BlockReference>()
@@ -191,21 +192,22 @@ if (result.Status == PromptStatus.OK)
 Importing a block from a drawing file:
 
 ```c#
-var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+var editor = Application.DocumentManager.MdiFromActiveDocumentDocument.Editor;
 var result = editor.GetString("Enter file path:", s => File.Exists(s));
       
 if (result.Status == PromptStatus.OK)
 {
-  using (var sourceDB = L2ADatabase.Open(result.StringResult))
+  using (var sourceDB = AcadDatabase.FromFile(result.StringResult))
   {
     result = editor.GetString("Enter block name:",
                               s => sourceDB.Blocks.Contains(s));
 
     if (result.Status == PromptStatus.OK)
     {
-      var block = sourceDB.Blocks.ByName(result.StringResult);
+      var block = sourceDB.Blocks
+                          .Element(result.StringResult);
 
-      using (var activeDB = L2ADatabase.Active())
+      using (var activeDB = AcadDatabase.FromActiveDocument())
       {
         activeDB.Blocks
                 .Import(block, true);
