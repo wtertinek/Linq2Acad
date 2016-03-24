@@ -1,11 +1,8 @@
 ﻿using Autodesk.AutoCAD.DatabaseServices;
-using RXClass = Autodesk.AutoCAD.Runtime.RXClass;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Linq2Acad
 {
@@ -33,12 +30,30 @@ namespace Linq2Acad
       }
     }
 
-    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+    private IEnumerable<ObjectId> IDs
+    {
+      get
+      {
+        var enumerable = (IEnumerable)transaction.GetObject(ID, OpenMode.ForRead);
+
+        foreach (var item in enumerable)
+        {
+          yield return GetObjectID(item);
+        }
+      }
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
     {
       return GetEnumerator();
     }
 
     protected abstract ObjectId GetObjectID(object iteratorItem);
+
+    public bool Contains(T value)
+    {
+      return Contains(value.ObjectId);
+    }
 
     public abstract bool Contains(ObjectId id);
 
@@ -47,35 +62,83 @@ namespace Linq2Acad
       return (T)transaction.GetObject(id, OpenMode.ForRead);
     }
 
+    #region IEnumerable<T> implementations
+
+    public IEnumerable<T> Concat(IEnumerable<T> second)
+    {
+      return new ObjectIdIterator<T>(transaction, IDs).Concat(second);
+    }
+
     public abstract int Count();
+
+    public IEnumerable<T> Distinct()
+    {
+      return new ObjectIdIterator<T>(transaction, IDs).Distinct();
+    }
+
+    public T ElementAt(int index)
+    {
+      return new ObjectIdIterator<T>(transaction, IDs).ElementAt(index);
+    }
+
+    public T ElementAtOrDefault(int index)
+    {
+      return new ObjectIdIterator<T>(transaction, IDs).ElementAtOrDefault(index);
+    }
+
+    public IEnumerable<T> Except(IEnumerable<T> second)
+    {
+      return new ObjectIdIterator<T>(transaction, IDs).Except(second);
+    }
+
+    public IEnumerable<T> Intersect(IEnumerable<T> second)
+    {
+      return new ObjectIdIterator<T>(transaction, IDs).Intersect(second);
+    }
+
+    public T Last()
+    {
+      return new ObjectIdIterator<T>(transaction, IDs).Last();
+    }
+
+    public T LastOrDefault()
+    {
+      return new ObjectIdIterator<T>(transaction, IDs).LastOrDefault();
+    }
 
     public abstract long LongCount();
 
     public IEnumerable<TResult> OfType<TResult>() where TResult : T
     {
-      var enumerator = ((IEnumerable)transaction.GetObject(ID, OpenMode.ForRead)).GetEnumerator();
-      // TODO: To check: What is the RXClass of a derived type? RXClass of the base type?
-      var rxType = RXClass.GetClass(typeof(TResult));
-
-      while (enumerator.MoveNext())
-      {
-        var id = GetObjectID(enumerator.Current);
-
-        if (!id.ObjectClass.IsDerivedFrom(rxType))
-        {
-          continue;
-        }
-
-        var item = transaction.GetObject(id, OpenMode.ForRead) as TResult;
-
-        if (item == null)
-        {
-          continue;
-        }
-
-        yield return item;
-      }
+      return new ObjectIdIterator<T>(transaction, IDs).OfType<TResult>();
     }
+
+    public IEnumerable<T> Reverse()
+    {
+      return new ObjectIdIterator<T>(transaction, IDs).Reverse();
+    }
+
+    public bool SequenceEqual(IEnumerable<T> second)
+    {
+      return new ObjectIdIterator<T>(transaction, IDs).SequenceEqual(second);
+    }
+
+    public IEnumerable<T> Skip(int count)
+    {
+      return new ObjectIdIterator<T>(transaction, IDs).Skip(count);
+    }
+
+    public IEnumerable<T> Take(int count)
+    {
+      return new ObjectIdIterator<T>(transaction, IDs).Take(count);
+    }
+
+    public IEnumerable<T> Union(IEnumerable<T> second)
+    {
+      return new ObjectIdIterator<T>(transaction, IDs).Union(second);
+    }
+
+    #endregion
 
     public ImportResult<T> Import(T item)
     {
