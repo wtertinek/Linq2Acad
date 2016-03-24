@@ -8,7 +8,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Linq2Acad
 {
-  public abstract class DBDictionaryEnumerable<T> : NameBasedEnumerable<T> where T : DBObject
+  public abstract class DBDictionaryEnumerable<T> : NameBasedEnumerableBase<T> where T : DBObject
   {
     protected DBDictionaryEnumerable(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
@@ -26,14 +26,14 @@ namespace Linq2Acad
       return true;
     }
 
-    public override sealed bool Contains(string name)
-    {
-      return ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Contains(name);
-    }
-
     public override sealed bool Contains(ObjectId id)
     {
       return ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Contains(id);
+    }
+
+    public override sealed bool Contains(string name)
+    {
+      return ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Contains(name);
     }
 
     public override sealed T Element(string name)

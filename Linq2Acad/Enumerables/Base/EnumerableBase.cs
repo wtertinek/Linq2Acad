@@ -109,4 +109,16 @@ namespace Linq2Acad
       return result;
     }
   }
+
+  public abstract class NameBasedEnumerableBase<T> : EnumerableBase<T> where T : DBObject
+  {
+    protected NameBasedEnumerableBase(Database database, Transaction transaction, ObjectId containerID)
+      : base(database, transaction, containerID)
+    {
+    }
+
+    public abstract bool Contains(string name);
+
+    public abstract T Element(string name);
+  }
 }

@@ -8,7 +8,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Linq2Acad
 {
-  public abstract class SymbolTableEnumerable<T> : NameBasedEnumerable<T> where T : SymbolTableRecord
+  public abstract class SymbolTableEnumerable<T> : NameBasedEnumerableBase<T> where T : SymbolTableRecord
   {
     protected SymbolTableEnumerable(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
