@@ -66,6 +66,7 @@ namespace Linq2Acad
 
     public IEnumerable<T> Concat(IEnumerable<T> second)
     {
+      if (second == null) throw new ArgumentNullException("second");
       return new ObjectIdIterator<T>(transaction, IDs).Concat(second);
     }
 
@@ -88,11 +89,13 @@ namespace Linq2Acad
 
     public IEnumerable<T> Except(IEnumerable<T> second)
     {
+      if (second == null) throw new ArgumentNullException("second");
       return new ObjectIdIterator<T>(transaction, IDs).Except(second);
     }
 
     public IEnumerable<T> Intersect(IEnumerable<T> second)
     {
+      if (second == null) throw new ArgumentNullException("second");
       return new ObjectIdIterator<T>(transaction, IDs).Intersect(second);
     }
 
@@ -120,6 +123,7 @@ namespace Linq2Acad
 
     public bool SequenceEqual(IEnumerable<T> second)
     {
+      if (second == null) throw new ArgumentNullException("second");
       return new ObjectIdIterator<T>(transaction, IDs).SequenceEqual(second);
     }
 
@@ -135,6 +139,7 @@ namespace Linq2Acad
 
     public IEnumerable<T> Union(IEnumerable<T> second)
     {
+      if (second == null) throw new ArgumentNullException("second");
       return new ObjectIdIterator<T>(transaction, IDs).Union(second);
     }
 
@@ -147,11 +152,14 @@ namespace Linq2Acad
 
     public ImportResult<T> Import(T item, bool replaceIfDuplicate)
     {
+      if (item == null) throw new ArgumentNullException("item");
       return Import(new[] { item }, replaceIfDuplicate).First();
     }
 
     public IReadOnlyCollection<ImportResult<T>> Import(IEnumerable<T> items, bool replaceIfDuplicate)
     {
+      if (items == null) throw new ArgumentNullException("items");
+
       if (items.Any(i => i.Database == database))
       {
         throw new Exception("Wrong database origin");
