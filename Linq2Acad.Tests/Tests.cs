@@ -179,7 +179,7 @@ namespace Linq2Acad.Tests
 
         if (result.Status == PromptStatus.OK)
         {
-          var layerID = db.Item<Entity>(result.ObjectId)
+          var layerID = db.Element<Entity>(result.ObjectId)
                           .LayerId;
           db.Layers
             .Where(l => l.Id != layerID)
@@ -302,7 +302,7 @@ namespace Linq2Acad.Tests
 
           if (result2.Status == PromptStatus.OK)
           {
-              db.Item<Entity>(result.ObjectId)
+              db.Element<Entity>(result.ObjectId)
                 .SaveData(result2.StringResult, new [] { 1, 2 });
           }
         }
@@ -322,7 +322,7 @@ namespace Linq2Acad.Tests
 
           if (result2.Status == PromptStatus.OK)
           {
-            var value = db.Item<Entity>(result.ObjectId)
+            var value = db.Element<Entity>(result.ObjectId)
                           .GetData<int[]>(result2.StringResult);
 
             Editor.WriteLine(result2.StringResult + ": " + value[0], ", " + value[1]);
