@@ -131,7 +131,7 @@ namespace Linq2Acad.Tests
         if (db.Layers.Contains("0"))
         {
           var name = db.Layers
-                       .ByName("0")
+                       .Element("0")
                        .Name;
           Debug.Assert(name == "0");
         }
@@ -199,7 +199,7 @@ namespace Linq2Acad.Tests
         if (result.Status == PromptStatus.OK)
         {
           var sourceLayer = db.Layers
-                              .ByName(result.StringResult);
+                              .Element(result.StringResult);
 
           result = Editor.GetString("Enter target layer name:",
                                     s => db.Layers.Contains(s));
@@ -209,7 +209,7 @@ namespace Linq2Acad.Tests
             var entities = db.ModelSpace
                              .Where(e => e.Layer == result.StringResult);
             db.Layers
-              .ByName(result.StringResult)
+              .Element(result.StringResult)
               .AddRange(entities);
           }
         }
@@ -275,7 +275,7 @@ namespace Linq2Acad.Tests
           if (result.Status == PromptStatus.OK)
           {
             var block = sourceDB.Blocks
-                                .ByName(result.StringResult);
+                                .Element(result.StringResult);
 
             using (var activeDB = L2ADatabase.Active())
             {
@@ -302,8 +302,7 @@ namespace Linq2Acad.Tests
 
           if (result2.Status == PromptStatus.OK)
           {
-              db.ModelSpace
-                .ByID(result.ObjectId)
+              db.Item<Entity>(result.ObjectId)
                 .SaveData(result2.StringResult, new [] { 1, 2 });
           }
         }
@@ -323,8 +322,7 @@ namespace Linq2Acad.Tests
 
           if (result2.Status == PromptStatus.OK)
           {
-            var value = db.ModelSpace
-                          .ByID(result.ObjectId)
+            var value = db.Item<Entity>(result.ObjectId)
                           .GetData<int[]>(result2.StringResult);
 
             Editor.WriteLine(result2.StringResult + ": " + value[0], ", " + value[1]);

@@ -65,21 +65,6 @@ namespace Linq2Acad
       }
     }
 
-    public T ByID(ObjectId id)
-    {
-      return (T)transaction.GetObject(id, OpenMode.ForRead);
-    }
-
-    public IEnumerable<T> ByID(IEnumerable<ObjectId> ids)
-    {
-      var table = (IEnumerable)transaction.GetObject(ID, OpenMode.ForRead);
-
-      foreach (var id in ids)
-      {
-        yield return (T)transaction.GetObject(id, OpenMode.ForRead);
-      }
-    }
-
     public ImportResult Import(T item)
     {
       return Import(item, false);
