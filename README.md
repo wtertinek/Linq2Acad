@@ -119,22 +119,22 @@ if (result1.Status == PromptStatus.OK)
 }
 ```
 
-Picking an entity and turning off all layers, except the entity's layer:
+Turning off all layers, except the one the user enters:
 
 ```c#
 var editor = Application.DocumentManager.MdiFromActiveDocumentDocument.Editor;
 
 using (var db = AcadDatabase.FromActiveDocument())
 {
-  var result = editor.GetEntity("Select an entity");
+  var result = editor.GetString("Enter layer name",
+                                s => db.Layers.Contains(s));
 
   if (result.Status == PromptStatus.OK)
   {
-    var layerID = db.CurrentSpace
-                    .Element(result.ObjectId)
-                    .LayerId;
+    var layer = db.Layers.Element(result.StringResult);
+
     db.Layers
-      .Where(l => l.Id != layerID)
+      .Except(new[] { layer })
       .ForEach(l => l.IsOff = true);
   }
 }

@@ -171,7 +171,26 @@ namespace Linq2Acad.Tests
     }
 
     [CommandMethod("TestTurnOffLayers")]
-    public static void TestTurnOffLayers()
+    public static void TestTurnOffLayers1()
+    {
+      using (var db = AcadDatabase.FromActiveDocument())
+      {
+        var result = Editor.GetString("Enter layer name",
+                                      s => db.Layers.Contains(s));
+
+        if (result.Status == PromptStatus.OK)
+        {
+          var layer = db.Layers.Element(result.StringResult);
+
+          db.Layers
+            .Except(new[] { layer })
+            .ForEach(l => l.IsOff = true);
+        }
+      }
+    }
+
+    [CommandMethod("TestTurnOffLayers")]
+    public static void TestTurnOffLayers2()
     {
       using (var db = AcadDatabase.FromActiveDocument())
       {
