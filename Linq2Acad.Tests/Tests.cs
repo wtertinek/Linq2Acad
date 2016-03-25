@@ -25,7 +25,7 @@ namespace Linq2Acad.Tests
       using (var db = AcadDatabase.FromActiveDocument())
       {
         db.MLeaderStyles
-          .ForEach(m => Editor.WriteLine("" + m.Name));
+          .ForEach(m => Editor.WriteLine(m.Name));
       }
     }
 
@@ -35,7 +35,7 @@ namespace Linq2Acad.Tests
       using (var db = AcadDatabase.FromActiveDocument())
       {
         db.Materials
-          .ForEach(m => Editor.WriteLine("" + m.Name));
+          .ForEach(m => Editor.WriteLine(m.Name));
       }
     }
 
@@ -45,7 +45,7 @@ namespace Linq2Acad.Tests
       using (var db = AcadDatabase.FromActiveDocument())
       {
         db.Layouts
-          .ForEach(l => Editor.WriteLine("" + l.LayoutName));
+          .ForEach(l => Editor.WriteLine(l.LayoutName));
       }
     }
 
@@ -55,7 +55,7 @@ namespace Linq2Acad.Tests
       using (var db = AcadDatabase.FromActiveDocument())
       {
         db.Blocks
-          .ForEach(b => Editor.WriteLine("" + b.Name));
+          .ForEach(b => Editor.WriteLine(b.Name));
       }
     }
 
@@ -64,7 +64,7 @@ namespace Linq2Acad.Tests
     {
       using (var db = AcadDatabase.FromActiveDocument())
       {
-        Editor.WriteLine("" + db.Viewports.Current.Name);
+        Editor.WriteLine(db.Viewports.Current.Name);
       }
     }
 
@@ -109,7 +109,7 @@ namespace Linq2Acad.Tests
       using (var db = AcadDatabase.FromActiveDocument())
       {
         db.Layers
-          .ForEach(l => Editor.WriteLine("" + l.Name));
+          .ForEach(l => Editor.WriteLine(l.Name));
       }
     }
 
@@ -170,7 +170,7 @@ namespace Linq2Acad.Tests
       }
     }
 
-    [CommandMethod("TestTurnOffLayers")]
+    [CommandMethod("TestTurnOffLayers1")]
     public static void TestTurnOffLayers1()
     {
       using (var db = AcadDatabase.FromActiveDocument())
@@ -189,7 +189,7 @@ namespace Linq2Acad.Tests
       }
     }
 
-    [CommandMethod("TestTurnOffLayers")]
+    [CommandMethod("TestTurnOffLayers2")]
     public static void TestTurnOffLayers2()
     {
       using (var db = AcadDatabase.FromActiveDocument())

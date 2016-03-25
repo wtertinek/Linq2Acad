@@ -57,16 +57,6 @@ namespace Linq2Acad
       }
     }
 
-    public override sealed int Count()
-    {
-      return Helpers.GetCount(transaction, ID);
-    }
-
-    public override sealed long LongCount()
-    {
-      return Helpers.GetLongCount(transaction, ID);
-    }
-
     public ObjectId Add(T item)
     {
       return AddRange(new[] { item }).First();

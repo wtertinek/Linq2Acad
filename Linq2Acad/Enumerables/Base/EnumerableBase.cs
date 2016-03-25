@@ -55,7 +55,10 @@ namespace Linq2Acad
       return Contains(value.ObjectId);
     }
 
-    public abstract bool Contains(ObjectId id);
+    public virtual bool Contains(ObjectId id)
+    {
+      return IDs.Any(oid => oid.Equals(id));
+    }
 
     public T Element(ObjectId id)
     {
@@ -70,7 +73,10 @@ namespace Linq2Acad
       return new ObjectIdIterator<T>(transaction, IDs).Concat(second);
     }
 
-    public abstract int Count();
+    public virtual int Count()
+    {
+      return new ObjectIdIterator<Table>(transaction, IDs).Count();
+    }
 
     public IEnumerable<T> Distinct()
     {
@@ -109,7 +115,10 @@ namespace Linq2Acad
       return new ObjectIdIterator<T>(transaction, IDs).LastOrDefault();
     }
 
-    public abstract long LongCount();
+    public virtual long LongCount()
+    {
+      return new ObjectIdIterator<Table>(transaction, IDs).LongCount();
+    }
 
     public IEnumerable<TResult> OfType<TResult>() where TResult : T
     {

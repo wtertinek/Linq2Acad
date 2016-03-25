@@ -142,22 +142,6 @@ namespace Linq2Acad
       return (ObjectId)iteratorItem;
     }
 
-    public override bool Contains(ObjectId id)
-    {
-      return ((IEnumerable)transaction.GetObject(ID, OpenMode.ForRead)).Cast<ObjectId>()
-                                                                       .Any(oid => oid.Equals(id));
-    }
-
-    public override int Count()
-    {
-      return Helpers.GetCount(transaction, ID);
-    }
-
-    public override long LongCount()
-    {
-      return Helpers.GetLongCount(transaction, ID);
-    }
-
     public ObjectId Add(Entity item)
     {
       return Add(item, false);
