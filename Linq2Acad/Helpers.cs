@@ -56,7 +56,7 @@ namespace Linq2Acad
 
                                    if (memoryStream.Read(chunk, (int)memoryStream.Position, size) != size)
                                    {
-                                     throw new IOException("Error reading from MemoryStream");
+                                     throw Error.IO("Error reading from MemoryStream");
                                    }
 
                                    return chunk;

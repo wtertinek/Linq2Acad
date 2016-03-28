@@ -35,7 +35,7 @@ namespace Linq2Acad
       }
       catch
       {
-        throw new KeyNotFoundException("No element with key " + name + " found");
+        throw Error.KeyNotFound("No element with key " + name + " found");
       }
     }
 

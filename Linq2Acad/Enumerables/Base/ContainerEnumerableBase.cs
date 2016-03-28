@@ -44,17 +44,17 @@ namespace Linq2Acad
 
     public ImportResult<T> Import(T item, bool replaceIfDuplicate)
     {
-      if (item == null) throw new ArgumentNullException("item");
+      if (item == null) Error.ArgumentNull("item");
       return Import(new[] { item }, replaceIfDuplicate).First();
     }
 
     public IReadOnlyCollection<ImportResult<T>> Import(IEnumerable<T> items, bool replaceIfDuplicate)
     {
-      if (items == null) throw new ArgumentNullException("items");
+      if (items == null) Error.ArgumentNull("items");
 
       if (items.Any(i => i.Database == database))
       {
-        throw new Exception("Wrong database origin");
+        throw Error.Generic("Wrong database origin");
       }
 
       var result = new List<ImportResult<T>>();

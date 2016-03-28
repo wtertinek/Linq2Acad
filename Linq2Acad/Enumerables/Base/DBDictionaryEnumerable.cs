@@ -35,7 +35,7 @@ namespace Linq2Acad
       }
       catch
       {
-        throw new KeyNotFoundException("No element with key " + name + " found");
+        throw Error.KeyNotFound("No element with key " + name + " found");
       }
     }
 
@@ -55,7 +55,7 @@ namespace Linq2Acad
 
       if (dict.Contains(name))
       {
-        throw new Exception(typeof(T).Name + " " + name + " already exists");
+        throw Error.Generic(typeof(T).Name + " " + name + " already exists");
       }
 
       var id = dict.SetAt(name, item);

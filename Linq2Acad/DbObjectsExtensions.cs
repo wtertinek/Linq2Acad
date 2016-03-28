@@ -119,7 +119,7 @@ namespace Linq2Acad
                                   }
                                   else
                                   {
-                                    throw new KeyNotFoundException();
+                                    throw Error.KeyNotFound(key);
                                   }
                                 });
 
