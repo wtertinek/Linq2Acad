@@ -54,7 +54,7 @@ namespace Linq2Acad
       return Count();
     }
 
-    public ObjectId Add(string name, T item)
+    public void Add(string name, T item)
     {
       if (!AcadDatabase.IsNameValid(name))
       {
@@ -70,7 +70,6 @@ namespace Linq2Acad
 
       var id = dict.SetAt(name, item);
       transaction.AddNewlyCreatedDBObject(item, true);
-      return id;
     }
 
     protected abstract T CreateNew();

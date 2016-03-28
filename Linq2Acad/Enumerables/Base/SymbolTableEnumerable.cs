@@ -44,17 +44,17 @@ namespace Linq2Acad
       }
     }
 
-    public ObjectId Add(T item)
+    public void Add(T item)
     {
       if (!AcadDatabase.IsNameValid(item.Name))
       {
         throw Error.InvalidName(item.Name);
       }
 
-      return AddRange(new[] { item }).First();
+      AddRange(new[] { item });
     }
 
-    public IEnumerable<ObjectId> AddRange(IEnumerable<T> items)
+    public void AddRange(IEnumerable<T> items)
     {
       var table = (SymbolTable)transaction.GetObject(ID, OpenMode.ForWrite);
 
@@ -62,7 +62,6 @@ namespace Linq2Acad
       {
         var id = table.Add(item);
         transaction.AddNewlyCreatedDBObject(item, true);
-        yield return id;
       }
     }
 

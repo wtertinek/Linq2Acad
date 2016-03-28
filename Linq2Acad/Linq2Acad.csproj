@@ -86,6 +86,7 @@
     <Compile Include="AcadDatabase.cs" />
     <Compile Include="Enumerables\Base\SymbolTableEnumerable.cs" />
     <Compile Include="DbObjectsExtensions.cs" />
+    <Compile Include="Error.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="LayerTableRecordExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
