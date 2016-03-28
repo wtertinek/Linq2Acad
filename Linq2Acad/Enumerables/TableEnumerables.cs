@@ -133,13 +133,8 @@ namespace Linq2Acad
   public class EntityContainer : EnumerableBase<Entity>
   {
     public EntityContainer(Database database, Transaction transaction, ObjectId containerID)
-      : base(database, transaction, containerID)
+      : base(database, transaction, containerID, i => (ObjectId)i)
     {
-    }
-
-    protected override ObjectId GetObjectID(object iteratorItem)
-    {
-      return (ObjectId)iteratorItem;
     }
 
     public ObjectId Add(Entity item)

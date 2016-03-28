@@ -6,7 +6,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Linq2Acad
 {
-  class ObjectIdEnumerable<T> : IEnumerable<T> where T : DBObject
+  public class ObjectIdEnumerable<T> : IEnumerable<T> where T : DBObject
   {
     private Transaction transaction;
 
@@ -16,8 +16,19 @@ namespace Linq2Acad
       IDs = ids;
     }
 
-    public IEnumerable<ObjectId> IDs { get; private set; }
+    internal IEnumerable<ObjectId> IDs { get; private set; }
 
+    public IEnumerator<T> GetEnumerator()
+    {
+      return IDs.Select(id => (T)transaction.GetObject(id, OpenMode.ForRead)).GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+      return GetEnumerator();
+    }
+
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public IEnumerable<T> Concat(IEnumerable<T> second)
     {
       if (second is ObjectIdEnumerable<T>)
@@ -43,26 +54,31 @@ namespace Linq2Acad
       }
     }
 
-    public bool Contains(T value)
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+    public virtual bool Contains(T value)
     {
       return IDs.Contains(value.ObjectId);
     }
 
-    public int Count()
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+    public virtual int Count()
     {
       return IDs.Count();
     }
 
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public IEnumerable<T> Distinct()
     {
       return new ObjectIdEnumerable<T>(transaction, IDs.Distinct());
     }
 
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public T ElementAt(int index)
     {
       return (T)transaction.GetObject(IDs.ElementAt(index), OpenMode.ForRead);
     }
 
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public T ElementAtOrDefault(int index)
     {
       var id = IDs.ElementAtOrDefault(index);
@@ -77,6 +93,7 @@ namespace Linq2Acad
       }
     }
 
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public IEnumerable<T> Except(IEnumerable<T> second)
     {
       if (second is ObjectIdEnumerable<T>)
@@ -89,6 +106,7 @@ namespace Linq2Acad
       }
     }
 
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public IEnumerable<T> Intersect(IEnumerable<T> second)
     {
       if (second is ObjectIdEnumerable<T>)
@@ -102,11 +120,13 @@ namespace Linq2Acad
       }
     }
 
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public T Last()
     {
       return (T)transaction.GetObject(IDs.Last(), OpenMode.ForRead);
     }
 
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public T LastOrDefault()
     {
       var id = IDs.LastOrDefault();
@@ -121,11 +141,13 @@ namespace Linq2Acad
       }
     }
 
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public long LongCount()
     {
       return IDs.LongCount();
     }
 
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public IEnumerable<TResult> OfType<TResult>() where TResult : T
     {
       // TODO: What is TResult's RXClass if it is a derived type?
@@ -133,11 +155,13 @@ namespace Linq2Acad
       return new ObjectIdEnumerable<TResult>(transaction, IDs.Where(id => id.ObjectClass.IsDerivedFrom(rxType)));
     }
 
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public IEnumerable<T> Reverse()
     {
       return new ObjectIdEnumerable<T>(transaction, IDs.Reverse());
     }
 
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public bool SequenceEqual(IEnumerable<T> second)
     {
       if (second is ObjectIdEnumerable<T>)
@@ -150,16 +174,19 @@ namespace Linq2Acad
       }
     }
 
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public IEnumerable<T> Skip(int count)
     {
       return new ObjectIdEnumerable<T>(transaction, IDs.Skip(count));
     }
 
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public IEnumerable<T> Take(int count)
     {
       return new ObjectIdEnumerable<T>(transaction, IDs.Take(count));
     }
 
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public IEnumerable<T> Union(IEnumerable<T> second)
     {
       if (second is ObjectIdEnumerable<T>)
@@ -186,16 +213,6 @@ namespace Linq2Acad
       {
         yield return (T)transaction.GetObject(id, OpenMode.ForRead);
       }
-    }
-
-    public IEnumerator<T> GetEnumerator()
-    {
-      return IDs.Select(id => (T)transaction.GetObject(id, OpenMode.ForRead)).GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-      return GetEnumerator();
     }
   }
 }

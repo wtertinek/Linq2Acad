@@ -11,13 +11,8 @@ namespace Linq2Acad
   public abstract class SymbolTableEnumerable<T> : NameBasedEnumerableBase<T> where T : SymbolTableRecord
   {
     protected SymbolTableEnumerable(Database database, Transaction transaction, ObjectId containerID)
-      : base(database, transaction, containerID)
+      : base(database, transaction, containerID, i => (ObjectId)i)
     {
-    }
-
-    protected override sealed ObjectId GetObjectID(object iteratorItem)
-    {
-      return (ObjectId)iteratorItem;
     }
 
     public override sealed bool Contains(ObjectId id)

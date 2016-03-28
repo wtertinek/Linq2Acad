@@ -11,13 +11,8 @@ namespace Linq2Acad
   public abstract class DBDictionaryEnumerable<T> : NameBasedEnumerableBase<T> where T : DBObject
   {
     protected DBDictionaryEnumerable(Database database, Transaction transaction, ObjectId containerID)
-      : base(database, transaction, containerID)
+      : base(database, transaction, containerID, i => ((DBDictionaryEntry)i).Value)
     {
-    }
-
-    protected override sealed ObjectId GetObjectID(object iteratorItem)
-    {
-      return ((DBDictionaryEntry)iteratorItem).Value;
     }
 
     public override sealed bool Contains(ObjectId id)
@@ -47,11 +42,6 @@ namespace Linq2Acad
     public override sealed int Count()
     {
       return ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Count;
-    }
-
-    public override sealed long LongCount()
-    {
-      return Count();
     }
 
     public void Add(string name, T item)
