@@ -22,7 +22,7 @@ namespace Linq2Acad
     {
       if (second is ObjectIdIterator<T>)
       {
-        return new ObjectIdIterator<T>(transaction, IDs.Except((second as ObjectIdIterator<T>).IDs));
+        return new ObjectIdIterator<T>(transaction, IDs.Concat((second as ObjectIdIterator<T>).IDs));
       }
       else
       {
