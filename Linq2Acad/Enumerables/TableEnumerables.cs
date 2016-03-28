@@ -130,7 +130,7 @@ namespace Linq2Acad
     }
   }
 
-  public class EntityContainer : EnumerableBase<Entity>
+  public class EntityContainer : ContainerEnumerableBase<Entity>
   {
     public EntityContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID, i => (ObjectId)i)

@@ -7,7 +7,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Linq2Acad
 {
-  public abstract class NameBasedEnumerableBase<T> : EnumerableBase<T> where T : DBObject
+  public abstract class NameBasedEnumerableBase<T> : ContainerEnumerableBase<T> where T : DBObject
   {
     protected NameBasedEnumerableBase(Database database, Transaction transaction,
                                       ObjectId containerID, Func<object, ObjectId> getID)

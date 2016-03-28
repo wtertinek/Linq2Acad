@@ -6,27 +6,18 @@ using System.Linq;
 
 namespace Linq2Acad
 {
-  public abstract class EnumerableBase<T> : ObjectIdEnumerable<T> where T : DBObject
+  public abstract class ContainerEnumerableBase<T> : DbObjectEnumerable<T> where T : DBObject
   {
     protected Database database;
     protected Transaction transaction;
 
-    protected EnumerableBase(Database database, Transaction transaction, ObjectId containerID, Func<object, ObjectId> getID)
-      : base(transaction, GetIDs(transaction, containerID, getID))
+    internal protected ContainerEnumerableBase(Database database, Transaction transaction, ObjectId containerID,
+                                               Func<object, ObjectId> getID)
+      : base(transaction, new ObjectIdEnumerable(transaction, containerID, getID))
     {
       this.database = database;
       this.transaction = transaction;
       ID = containerID;
-    }
-
-    private static IEnumerable<ObjectId> GetIDs(Transaction transaction, ObjectId containerID, Func<object, ObjectId> getID)
-    {
-      var enumerable = (IEnumerable)transaction.GetObject(containerID, OpenMode.ForRead);
-
-      foreach (var item in enumerable)
-      {
-        yield return getID(item);
-      }
     }
 
     internal ObjectId ID { get; private set; }
