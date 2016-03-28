@@ -6,11 +6,11 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Linq2Acad
 {
-  class ObjectIdIterator<T> : IEnumerable<T> where T : DBObject
+  class ObjectIdEnumerable<T> : IEnumerable<T> where T : DBObject
   {
     private Transaction transaction;
 
-    public ObjectIdIterator(Transaction transaction, IEnumerable<ObjectId> ids)
+    public ObjectIdEnumerable(Transaction transaction, IEnumerable<ObjectId> ids)
     {
       this.transaction = transaction;
       IDs = ids;
@@ -20,9 +20,9 @@ namespace Linq2Acad
 
     public IEnumerable<T> Concat(IEnumerable<T> second)
     {
-      if (second is ObjectIdIterator<T>)
+      if (second is ObjectIdEnumerable<T>)
       {
-        return new ObjectIdIterator<T>(transaction, IDs.Concat((second as ObjectIdIterator<T>).IDs));
+        return new ObjectIdEnumerable<T>(transaction, IDs.Concat((second as ObjectIdEnumerable<T>).IDs));
       }
       else
       {
@@ -55,7 +55,7 @@ namespace Linq2Acad
 
     public IEnumerable<T> Distinct()
     {
-      return new ObjectIdIterator<T>(transaction, IDs.Distinct());
+      return new ObjectIdEnumerable<T>(transaction, IDs.Distinct());
     }
 
     public T ElementAt(int index)
@@ -79,21 +79,21 @@ namespace Linq2Acad
 
     public IEnumerable<T> Except(IEnumerable<T> second)
     {
-      if (second is ObjectIdIterator<T>)
+      if (second is ObjectIdEnumerable<T>)
       {
-        return new ObjectIdIterator<T>(transaction, IDs.Except((second as ObjectIdIterator<T>).IDs));
+        return new ObjectIdEnumerable<T>(transaction, IDs.Except((second as ObjectIdEnumerable<T>).IDs));
       }
       else
       {
-        return new ObjectIdIterator<T>(transaction, IDs.Except(second.Select(e => e.ObjectId)));
+        return new ObjectIdEnumerable<T>(transaction, IDs.Except(second.Select(e => e.ObjectId)));
       }
     }
 
     public IEnumerable<T> Intersect(IEnumerable<T> second)
     {
-      if (second is ObjectIdIterator<T>)
+      if (second is ObjectIdEnumerable<T>)
       {
-        return new ObjectIdIterator<T>(transaction, IDs.Intersect((second as ObjectIdIterator<T>).IDs));
+        return new ObjectIdEnumerable<T>(transaction, IDs.Intersect((second as ObjectIdEnumerable<T>).IDs));
       }
       else
       {
@@ -130,19 +130,19 @@ namespace Linq2Acad
     {
       // TODO: What is TResult's RXClass if it is a derived type?
       var rxType = Autodesk.AutoCAD.Runtime.RXClass.GetClass(typeof(TResult));
-      return new ObjectIdIterator<TResult>(transaction, IDs.Where(id => id.ObjectClass.IsDerivedFrom(rxType)));
+      return new ObjectIdEnumerable<TResult>(transaction, IDs.Where(id => id.ObjectClass.IsDerivedFrom(rxType)));
     }
 
     public IEnumerable<T> Reverse()
     {
-      return new ObjectIdIterator<T>(transaction, IDs.Reverse());
+      return new ObjectIdEnumerable<T>(transaction, IDs.Reverse());
     }
 
     public bool SequenceEqual(IEnumerable<T> second)
     {
-      if (second is ObjectIdIterator<T>)
+      if (second is ObjectIdEnumerable<T>)
       {
-        return IDs.SequenceEqual((second as ObjectIdIterator<T>).IDs);
+        return IDs.SequenceEqual((second as ObjectIdEnumerable<T>).IDs);
       }
       else
       {
@@ -152,19 +152,19 @@ namespace Linq2Acad
 
     public IEnumerable<T> Skip(int count)
     {
-      return new ObjectIdIterator<T>(transaction, IDs.Skip(count));
+      return new ObjectIdEnumerable<T>(transaction, IDs.Skip(count));
     }
 
     public IEnumerable<T> Take(int count)
     {
-      return new ObjectIdIterator<T>(transaction, IDs.Take(count));
+      return new ObjectIdEnumerable<T>(transaction, IDs.Take(count));
     }
 
     public IEnumerable<T> Union(IEnumerable<T> second)
     {
-      if (second is ObjectIdIterator<T>)
+      if (second is ObjectIdEnumerable<T>)
       {
-        return new ObjectIdIterator<T>(transaction, IDs.Union((second as ObjectIdIterator<T>).IDs));
+        return new ObjectIdEnumerable<T>(transaction, IDs.Union((second as ObjectIdEnumerable<T>).IDs));
       }
       else
       {

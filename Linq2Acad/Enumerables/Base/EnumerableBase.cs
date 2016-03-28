@@ -70,86 +70,86 @@ namespace Linq2Acad
     public IEnumerable<T> Concat(IEnumerable<T> second)
     {
       if (second == null) throw new ArgumentNullException("second");
-      return new ObjectIdIterator<T>(transaction, IDs).Concat(second);
+      return new ObjectIdEnumerable<T>(transaction, IDs).Concat(second);
     }
 
     public virtual int Count()
     {
-      return new ObjectIdIterator<Table>(transaction, IDs).Count();
+      return new ObjectIdEnumerable<Table>(transaction, IDs).Count();
     }
 
     public IEnumerable<T> Distinct()
     {
-      return new ObjectIdIterator<T>(transaction, IDs).Distinct();
+      return new ObjectIdEnumerable<T>(transaction, IDs).Distinct();
     }
 
     public T ElementAt(int index)
     {
-      return new ObjectIdIterator<T>(transaction, IDs).ElementAt(index);
+      return new ObjectIdEnumerable<T>(transaction, IDs).ElementAt(index);
     }
 
     public T ElementAtOrDefault(int index)
     {
-      return new ObjectIdIterator<T>(transaction, IDs).ElementAtOrDefault(index);
+      return new ObjectIdEnumerable<T>(transaction, IDs).ElementAtOrDefault(index);
     }
 
     public IEnumerable<T> Except(IEnumerable<T> second)
     {
       if (second == null) throw new ArgumentNullException("second");
-      return new ObjectIdIterator<T>(transaction, IDs).Except(second);
+      return new ObjectIdEnumerable<T>(transaction, IDs).Except(second);
     }
 
     public IEnumerable<T> Intersect(IEnumerable<T> second)
     {
       if (second == null) throw new ArgumentNullException("second");
-      return new ObjectIdIterator<T>(transaction, IDs).Intersect(second);
+      return new ObjectIdEnumerable<T>(transaction, IDs).Intersect(second);
     }
 
     public T Last()
     {
-      return new ObjectIdIterator<T>(transaction, IDs).Last();
+      return new ObjectIdEnumerable<T>(transaction, IDs).Last();
     }
 
     public T LastOrDefault()
     {
-      return new ObjectIdIterator<T>(transaction, IDs).LastOrDefault();
+      return new ObjectIdEnumerable<T>(transaction, IDs).LastOrDefault();
     }
 
     public virtual long LongCount()
     {
-      return new ObjectIdIterator<Table>(transaction, IDs).LongCount();
+      return new ObjectIdEnumerable<Table>(transaction, IDs).LongCount();
     }
 
     public IEnumerable<TResult> OfType<TResult>() where TResult : T
     {
-      return new ObjectIdIterator<T>(transaction, IDs).OfType<TResult>();
+      return new ObjectIdEnumerable<T>(transaction, IDs).OfType<TResult>();
     }
 
     public IEnumerable<T> Reverse()
     {
-      return new ObjectIdIterator<T>(transaction, IDs).Reverse();
+      return new ObjectIdEnumerable<T>(transaction, IDs).Reverse();
     }
 
     public bool SequenceEqual(IEnumerable<T> second)
     {
       if (second == null) throw new ArgumentNullException("second");
-      return new ObjectIdIterator<T>(transaction, IDs).SequenceEqual(second);
+      return new ObjectIdEnumerable<T>(transaction, IDs).SequenceEqual(second);
     }
 
     public IEnumerable<T> Skip(int count)
     {
-      return new ObjectIdIterator<T>(transaction, IDs).Skip(count);
+      return new ObjectIdEnumerable<T>(transaction, IDs).Skip(count);
     }
 
     public IEnumerable<T> Take(int count)
     {
-      return new ObjectIdIterator<T>(transaction, IDs).Take(count);
+      return new ObjectIdEnumerable<T>(transaction, IDs).Take(count);
     }
 
     public IEnumerable<T> Union(IEnumerable<T> second)
     {
       if (second == null) throw new ArgumentNullException("second");
-      return new ObjectIdIterator<T>(transaction, IDs).Union(second);
+      return new ObjectIdEnumerable<T>(transaction, IDs).Union(second);
     }
 
     #endregion

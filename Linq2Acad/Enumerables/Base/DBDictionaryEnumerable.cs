@@ -20,12 +20,6 @@ namespace Linq2Acad
       return ((DBDictionaryEntry)iteratorItem).Value;
     }
 
-    public bool IsValidName(string name)
-    {
-      // TODO: Implement
-      return true;
-    }
-
     public override sealed bool Contains(ObjectId id)
     {
       return ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Contains(id);
@@ -62,6 +56,11 @@ namespace Linq2Acad
 
     public ObjectId Add(string name, T item)
     {
+      if (!AcadDatabase.IsNameValid(name))
+      {
+        throw Error.InvalidName(name);
+      }
+
       var dict = (DBDictionary)transaction.GetObject(ID, OpenMode.ForWrite);
 
       if (dict.Contains(name))
@@ -78,6 +77,11 @@ namespace Linq2Acad
 
     public T Create(string name)
     {
+      if (!AcadDatabase.IsNameValid(name))
+      {
+        throw Error.InvalidName(name);
+      }
+
       var item = CreateNew();
       Add(name, item);
       return item;

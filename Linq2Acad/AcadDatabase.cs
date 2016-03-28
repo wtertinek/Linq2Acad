@@ -26,8 +26,8 @@ namespace Linq2Acad
 
     private AcadDatabase(Database database, Transaction transaction, bool commit, bool dispose)
     {
-      if (database == null) { throw new ArgumentNullException("database"); }
-      if (transaction == null) { throw new ArgumentNullException("transaction"); }
+      if (database == null) { throw Error.ArgumentNull("database"); }
+      if (transaction == null) { throw Error.ArgumentNull("transaction"); }
 
       Database = database;
       this.transaction = transaction;
@@ -87,6 +87,7 @@ namespace Linq2Acad
 
     public IEnumerable<T> Elements<T>(IEnumerable<ObjectId> ids, bool forWrite) where T : DBObject
     {
+      if (ids == null) { throw Error.ArgumentNull("ids"); }
       var openMode = forWrite ? OpenMode.ForWrite : OpenMode.ForRead;
 
       foreach (var id in ids)
@@ -97,6 +98,7 @@ namespace Linq2Acad
 
     public void SaveAs(string fileName)
     {
+      if (fileName == null) { throw Error.ArgumentNull("fileName"); }
       Database.SaveAs(fileName, DwgVersion.Newest);
     }
 
@@ -221,6 +223,7 @@ namespace Linq2Acad
 
     public EntityContainer GetSpace(string name)
     {
+      if (name == null) { throw Error.ArgumentNull("name"); }
       var spaceID = ((BlockTable)transaction.GetObject(Database.BlockTableId, OpenMode.ForRead))[name];
       return new EntityContainer(Database, transaction, spaceID);
     }
@@ -276,7 +279,8 @@ namespace Linq2Acad
 
     public static AcadDatabase FromFile(string fileName, bool forWrite, string password, bool keepOpen = false)
     {
-      if (!File.Exists(fileName)) { throw new FileNotFoundException(); }
+      if (fileName == null) { throw Error.ArgumentNull("fileName"); }
+      if (!File.Exists(fileName)) { throw Error.FileNotFound(fileName); }
 
       var database = new Database(false, true);
       database.ReadDwgFile(fileName, forWrite ? FileOpenMode.OpenForReadAndWriteNoShare : FileOpenMode.OpenForReadAndAllShare, false, password);
@@ -285,5 +289,18 @@ namespace Linq2Acad
     }
 
     #endregion
+
+    public static bool IsNameValid(string name)
+    {
+      try
+      {
+        SymbolUtilityServices.ValidateSymbolName(name, false);
+        return true;
+      }
+      catch
+      {
+        return false;
+      }
+    }
   }
 }

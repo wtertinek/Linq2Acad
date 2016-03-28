@@ -20,19 +20,6 @@ namespace Linq2Acad
       return (ObjectId)iteratorItem;
     }
 
-    public bool IsValidName(string name)
-    {
-      try
-      {
-        SymbolUtilityServices.ValidateSymbolName(name, false);
-        return true;
-      }
-      catch
-      {
-        return false;
-      }
-    }
-
     public override sealed bool Contains(ObjectId id)
     {
       return ((SymbolTable)transaction.GetObject(ID, OpenMode.ForRead)).Has(id);
@@ -59,6 +46,11 @@ namespace Linq2Acad
 
     public ObjectId Add(T item)
     {
+      if (!AcadDatabase.IsNameValid(item.Name))
+      {
+        throw Error.InvalidName(item.Name);
+      }
+
       return AddRange(new[] { item }).First();
     }
 
@@ -78,6 +70,11 @@ namespace Linq2Acad
 
     public T Create(string name)
     {
+      if (!AcadDatabase.IsNameValid(name))
+      {
+        throw Error.InvalidName(name);
+      }
+
       var item = CreateNew();
       Add(item);
       item.Name = name;
@@ -86,6 +83,13 @@ namespace Linq2Acad
 
     public IEnumerable<T> Create(IEnumerable<string> names)
     {
+      var invalidName = names.FirstOrDefault(n => !AcadDatabase.IsNameValid(n));
+
+      if (invalidName != null)
+      {
+        throw Error.InvalidName(invalidName);
+      }
+
       var items = names.Select(n => CreateNew())
                       .ToArray();
       AddRange(items);
