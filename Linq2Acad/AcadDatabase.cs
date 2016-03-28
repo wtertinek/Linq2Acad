@@ -19,7 +19,7 @@ namespace Linq2Acad
     private bool abort;
 
     private AcadDatabase(Database database, bool keepOpen)
-      : this(database, database.TransactionManager.StartTransaction(), true, true)
+      : this(database, database.TransactionManager.StartOpenCloseTransaction(), true, true)
     {
       disposeDatabase = !keepOpen;
     }
