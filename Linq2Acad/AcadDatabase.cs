@@ -232,52 +232,52 @@ namespace Linq2Acad
 
     #region Factory methods
 
-    public static AcadDatabase CreateNew(bool keepOpen = false)
+    public static AcadDatabase Create(bool keepOpen = false)
     {
-      return CreateNew(false, keepOpen);
+      return Create(false, keepOpen);
     }
 
-    public static AcadDatabase CreateNew(bool createDocument, bool keepOpen = false)
+    public static AcadDatabase Create(bool createDocument, bool keepOpen = false)
     {
       return new AcadDatabase(new Database(true, !createDocument), keepOpen);
     }
 
-    public static AcadDatabase FromActiveDocument()
+    public static AcadDatabase Active()
     {
       return new AcadDatabase(Application.DocumentManager.MdiActiveDocument.Database, true);
     }
 
-    public static AcadDatabase FromActiveDocument(Transaction tr, bool commit, bool dispose)
+    public static AcadDatabase Active(Transaction tr, bool commit, bool dispose)
     {
       return new AcadDatabase(Application.DocumentManager.MdiActiveDocument.Database, tr, commit, dispose);
     }
 
-    public static AcadDatabase FromOpenDatabase(Database database)
+    public static AcadDatabase Use(Database database)
     {
       return new AcadDatabase(database, true);
     }
 
-    public static AcadDatabase FromOpenDatabase(Database database, Transaction tr, bool commit, bool dispose)
+    public static AcadDatabase Use(Database database, Transaction tr, bool commit, bool dispose)
     {
       return new AcadDatabase(database, tr, commit, dispose);
     }
 
-    public static AcadDatabase FromFile(string fileName, bool keepOpen = false)
+    public static AcadDatabase Open(string fileName, bool keepOpen = false)
     {
-      return FromFile(fileName, false, null, keepOpen);
+      return Open(fileName, false, null, keepOpen);
     }
 
-    public static AcadDatabase FromFile(string fileName, string password, bool keepOpen = false)
+    public static AcadDatabase Open(string fileName, string password, bool keepOpen = false)
     {
-      return FromFile(fileName, false, password, keepOpen);
+      return Open(fileName, false, password, keepOpen);
     }
 
-    public static AcadDatabase FromFile(string fileName, bool forWrite, bool keepOpen = false)
+    public static AcadDatabase Open(string fileName, bool forWrite, bool keepOpen = false)
     {
-      return FromFile(fileName, forWrite, null, keepOpen);
+      return Open(fileName, forWrite, null, keepOpen);
     }
 
-    public static AcadDatabase FromFile(string fileName, bool forWrite, string password, bool keepOpen = false)
+    public static AcadDatabase Open(string fileName, bool forWrite, string password, bool keepOpen = false)
     {
       if (fileName == null) { throw Error.ArgumentNull("fileName"); }
       if (!File.Exists(fileName)) { throw Error.FileNotFound(fileName); }
