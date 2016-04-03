@@ -13,8 +13,8 @@ namespace Linq2Acad
   public class AcadDatabase : IDisposable
   {
     private Transaction transaction;
-    private bool commit;
-    private bool dispose;
+    private bool commitTransaction;
+    private bool disposeTransaction;
     private bool disposeDatabase;
     private bool abort;
 
@@ -24,15 +24,15 @@ namespace Linq2Acad
       disposeDatabase = !keepOpen;
     }
 
-    private AcadDatabase(Database database, Transaction transaction, bool commit, bool dispose)
+    private AcadDatabase(Database database, Transaction transaction, bool commitTransaction, bool disposeTransaction)
     {
       if (database == null) { throw Error.ArgumentNull("database"); }
       if (transaction == null) { throw Error.ArgumentNull("transaction"); }
 
       Database = database;
       this.transaction = transaction;
-      this.commit = commit;
-      this.dispose = dispose;
+      this.commitTransaction = commitTransaction;
+      this.disposeTransaction = disposeTransaction;
     }
 
     public Database Database { get; private set; }
@@ -52,12 +52,12 @@ namespace Linq2Acad
         }
         else
         {
-          if (commit)
+          if (commitTransaction)
           {
             transaction.Commit();
           }
 
-          if (dispose)
+          if (disposeTransaction)
           {
             transaction.Dispose();
           }
@@ -262,22 +262,27 @@ namespace Linq2Acad
       return new AcadDatabase(database, tr, commit, dispose);
     }
 
-    public static AcadDatabase Open(string fileName, bool keepOpen = false)
+    public static AcadDatabase Open(string fileName)
     {
-      return Open(fileName, false, null, keepOpen);
+      return Open(fileName, false, false, null);
     }
 
-    public static AcadDatabase Open(string fileName, string password, bool keepOpen = false)
+    public static AcadDatabase Open(string fileName, bool keepOpen)
     {
-      return Open(fileName, false, password, keepOpen);
+      return Open(fileName, keepOpen, false, null);
     }
 
-    public static AcadDatabase Open(string fileName, bool forWrite, bool keepOpen = false)
+    public static AcadDatabase Open(string fileName, bool keepOpen, string password)
     {
-      return Open(fileName, forWrite, null, keepOpen);
+      return Open(fileName, keepOpen, false, password);
     }
 
-    public static AcadDatabase Open(string fileName, bool forWrite, string password, bool keepOpen = false)
+    public static AcadDatabase Open(string fileName, bool keepOpen, bool forWrite)
+    {
+      return Open(fileName, keepOpen, forWrite, null);
+    }
+
+    public static AcadDatabase Open(string fileName, bool keepOpen, bool forWrite, string password)
     {
       if (fileName == null) { throw Error.ArgumentNull("fileName"); }
       if (!File.Exists(fileName)) { throw Error.FileNotFound(fileName); }
