@@ -16,7 +16,7 @@ namespace Linq2Acad
 
       if (tr == null)
       {
-        tr = source.Database.TransactionManager.StartOpenCloseTransaction();
+        tr = source.Database.TransactionManager.StartTransaction();
         newTransaction = true;
       }
 
