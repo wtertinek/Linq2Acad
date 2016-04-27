@@ -15,6 +15,11 @@ namespace Linq2Acad
     {
     }
 
+    public IEnumerable<EntityContainer> AsEntityContainer()
+    {
+      return this.Select(b => new EntityContainer(database, transaction, b.ObjectId));
+    }
+
     protected override BlockTableRecord CreateNew()
     {
       return new BlockTableRecord();
@@ -137,6 +142,11 @@ namespace Linq2Acad
     {
     }
 
+    public ObjectId ObjectId
+    {
+      get { return ID; }
+    }
+
     public ObjectId Add(Entity item)
     {
       return Add(item, false);
@@ -167,6 +177,11 @@ namespace Linq2Acad
                      transaction.AddNewlyCreatedDBObject(i, true);
                      return id;
                    }).ToArray();
+    }
+
+    public void Clear()
+    {
+      this.ForEach(e => e.Erase());
     }
   }
 }

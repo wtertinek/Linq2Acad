@@ -55,7 +55,7 @@ namespace Linq2Acad
 
       foreach (var item in items)
       {
-        var id = table.Add(item);
+        table.Add(item);
         transaction.AddNewlyCreatedDBObject(item, true);
       }
     }
@@ -70,8 +70,8 @@ namespace Linq2Acad
       }
 
       var item = CreateNew();
-      Add(item);
       item.Name = name;
+      Add(item);
       return item;
     }
 
