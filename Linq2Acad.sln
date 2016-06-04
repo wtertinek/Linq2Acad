@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linq2Acad", "Linq2Acad\Linq2Acad.csproj", "{7702E342-FABC-49A4-9337-BFC9B5B3B99E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linq2Acad.Tests", "Linq2Acad.Tests\Linq2Acad.Tests.csproj", "{2013C16C-B9F5-44D5-B5F6-93C90DE6DD57}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linq2Acad.Examples", "Linq2Acad.Examples\Linq2Acad.Examples.csproj", "{362C5E5D-7917-4B4A-8A5F-AFB997127AB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,14 +21,12 @@ Global
 		{7702E342-FABC-49A4-9337-BFC9B5B3B99E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7702E342-FABC-49A4-9337-BFC9B5B3B99E}.Release|x86.ActiveCfg = Release|x86
 		{7702E342-FABC-49A4-9337-BFC9B5B3B99E}.Release|x86.Build.0 = Release|x86
-		{2013C16C-B9F5-44D5-B5F6-93C90DE6DD57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2013C16C-B9F5-44D5-B5F6-93C90DE6DD57}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2013C16C-B9F5-44D5-B5F6-93C90DE6DD57}.Debug|x86.ActiveCfg = Debug|x86
-		{2013C16C-B9F5-44D5-B5F6-93C90DE6DD57}.Debug|x86.Build.0 = Debug|x86
-		{2013C16C-B9F5-44D5-B5F6-93C90DE6DD57}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2013C16C-B9F5-44D5-B5F6-93C90DE6DD57}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2013C16C-B9F5-44D5-B5F6-93C90DE6DD57}.Release|x86.ActiveCfg = Release|x86
-		{2013C16C-B9F5-44D5-B5F6-93C90DE6DD57}.Release|x86.Build.0 = Release|x86
+		{362C5E5D-7917-4B4A-8A5F-AFB997127AB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{362C5E5D-7917-4B4A-8A5F-AFB997127AB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{362C5E5D-7917-4B4A-8A5F-AFB997127AB8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{362C5E5D-7917-4B4A-8A5F-AFB997127AB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{362C5E5D-7917-4B4A-8A5F-AFB997127AB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{362C5E5D-7917-4B4A-8A5F-AFB997127AB8}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
