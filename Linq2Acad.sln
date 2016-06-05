@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linq2Acad", "Linq2Acad\Linq
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linq2Acad.Examples", "Linq2Acad.Examples\Linq2Acad.Examples.csproj", "{362C5E5D-7917-4B4A-8A5F-AFB997127AB8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linq2Acad.Tests", "Linq2Acad.Tests\Linq2Acad.Tests.csproj", "{632DFBAA-CBDD-4659-AA8B-C4065B5BB501}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,12 @@ Global
 		{362C5E5D-7917-4B4A-8A5F-AFB997127AB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{362C5E5D-7917-4B4A-8A5F-AFB997127AB8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{362C5E5D-7917-4B4A-8A5F-AFB997127AB8}.Release|x86.ActiveCfg = Release|Any CPU
+		{632DFBAA-CBDD-4659-AA8B-C4065B5BB501}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{632DFBAA-CBDD-4659-AA8B-C4065B5BB501}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{632DFBAA-CBDD-4659-AA8B-C4065B5BB501}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{632DFBAA-CBDD-4659-AA8B-C4065B5BB501}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{632DFBAA-CBDD-4659-AA8B-C4065B5BB501}.Release|Any CPU.Build.0 = Release|Any CPU
+		{632DFBAA-CBDD-4659-AA8B-C4065B5BB501}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

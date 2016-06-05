@@ -13,11 +13,21 @@ namespace Linq2Acad
 
     internal protected ContainerEnumerableBase(Database database, Transaction transaction, ObjectId containerID,
                                                Func<object, ObjectId> getID)
-      : base(transaction, new ObjectIdEnumerable(transaction, containerID, getID))
+      : base(transaction, new LazyIdEnumerable<ObjectId>(GetIDs(transaction, containerID), getID))
     {
       this.database = database;
       this.transaction = transaction;
       ID = containerID;
+    }
+
+    private static IEnumerable<object> GetIDs(Transaction transaction, ObjectId containerID)
+    {
+      var enumerable = (IEnumerable)transaction.GetObject(containerID, OpenMode.ForRead);
+
+      foreach (var item in enumerable)
+      {
+        yield return item;
+      }
     }
 
     internal ObjectId ID { get; private set; }

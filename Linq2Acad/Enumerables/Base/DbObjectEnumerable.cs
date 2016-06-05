@@ -10,13 +10,13 @@ namespace Linq2Acad
   {
     private Transaction transaction;
 
-    internal DbObjectEnumerable(Transaction transaction, IEnumerable<ObjectId> ids)
+    internal DbObjectEnumerable(Transaction transaction, IdEnumerableBase<ObjectId> ids)
     {
       this.transaction = transaction;
       IDs = ids;
     }
 
-    internal IEnumerable<ObjectId> IDs { get; private set; }
+    internal IdEnumerableBase<ObjectId> IDs { get; private set; }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public IEnumerator<T> GetEnumerator()
@@ -155,7 +155,7 @@ namespace Linq2Acad
     {
       // TODO: What is TResult's RXClass if it is a derived type?
       var rxType = Autodesk.AutoCAD.Runtime.RXClass.GetClass(typeof(TResult));
-      return new DbObjectEnumerable<TResult>(transaction, IDs.Where(id => id.ObjectClass.IsDerivedFrom(rxType)));
+      return new DbObjectEnumerable<TResult>(transaction, new IdEnumerable<ObjectId>(IDs.Where(id => id.ObjectClass.IsDerivedFrom(rxType))));
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
