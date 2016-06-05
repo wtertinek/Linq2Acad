@@ -77,16 +77,16 @@
   <ItemGroup>
     <Compile Include="EditorExtensions.cs" />
     <Compile Include="EntityFactory.cs" />
+    <Compile Include="Enumerables\Base\ElementEnumerable.cs" />
     <Compile Include="Enumerables\Base\IdEnumerable.cs" />
     <Compile Include="Enumerables\Base\NameBasedEnumerableBase.cs" />
-    <Compile Include="Enumerables\Base\DbObjectEnumerable.cs" />
-    <Compile Include="Enumerables\Base\ImportResult.cs" />
-    <Compile Include="Enumerables\Base\DBDictionaryEnumerable.cs" />
-    <Compile Include="Enumerables\DictionaryEnumerables.cs" />
+    <Compile Include="ImportResult.cs" />
+    <Compile Include="Enumerables\DBDictionaryEnumerable.cs" />
+    <Compile Include="Enumerables\DBDictionaryEnumerables.cs" />
     <Compile Include="Enumerables\Base\ContainerEnumerableBase.cs" />
-    <Compile Include="Enumerables\TableEnumerables.cs" />
+    <Compile Include="Enumerables\SymbolTableEnumerables.cs" />
     <Compile Include="AcadDatabase.cs" />
-    <Compile Include="Enumerables\Base\SymbolTableEnumerable.cs" />
+    <Compile Include="Enumerables\SymbolTableEnumerable.cs" />
     <Compile Include="DbObjectsExtensions.cs" />
     <Compile Include="Error.cs" />
     <Compile Include="Helpers.cs" />

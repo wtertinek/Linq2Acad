@@ -52,7 +52,7 @@ namespace Linq2Acad
     public override IdEnumerableBase<T> Distinct()
     {
       return new IdEnumerable<T>(IDs.Distinct()
-                                         .Select(id => getID(id)));
+                                    .Select(id => getID(id)));
     }
 
     public override T ElementAt(int index)
@@ -64,13 +64,13 @@ namespace Linq2Acad
     {
       var id = IDs.ElementAtOrDefault(index);
 
-      if (id != null)
+      if (Object.Equals(id, default(T)))
       {
-        return getID(id);
+        return default(T);
       }
       else
       {
-        return default(T);
+        return getID(id);
       }
     }
 
@@ -109,13 +109,13 @@ namespace Linq2Acad
     {
       var id = IDs.LastOrDefault();
 
-      if (id != null)
+      if (Object.Equals(id, default(T)))
       {
-        return getID(id);
+        return default(T);
       }
       else
       {
-        return default(T);
+        return getID(id);
       }
     }
 
@@ -171,6 +171,10 @@ namespace Linq2Acad
 
   public abstract class IdEnumerableBase<T> : IEnumerable<T>
   {
+    protected IdEnumerableBase()
+    {
+    }
+
     public abstract IEnumerator<T> GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator()

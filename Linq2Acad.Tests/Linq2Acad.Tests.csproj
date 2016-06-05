@@ -62,6 +62,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ElementEnumerableTests.cs" />
     <Compile Include="IdEnumerableTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

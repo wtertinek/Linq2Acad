@@ -6,14 +6,16 @@ using System.Linq;
 
 namespace Linq2Acad
 {
-  public abstract class ContainerEnumerableBase<T> : DbObjectEnumerable<T> where T : DBObject
+  public abstract class ContainerEnumerableBase<T> : LazyElementEnumerable<T, ObjectId> where T : DBObject
   {
     protected Database database;
     protected Transaction transaction;
 
     internal protected ContainerEnumerableBase(Database database, Transaction transaction, ObjectId containerID,
                                                Func<object, ObjectId> getID)
-      : base(transaction, new LazyIdEnumerable<ObjectId>(GetIDs(transaction, containerID), getID))
+      : base(new LazyIdEnumerable<ObjectId>(GetIDs(transaction, containerID), getID),
+             id => (T)transaction.GetObject(id, OpenMode.ForRead),
+             e => e.ObjectId)
     {
       this.database = database;
       this.transaction = transaction;
