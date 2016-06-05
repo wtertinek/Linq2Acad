@@ -31,11 +31,20 @@ namespace Linq2Acad
 
       try
       {
-        return (T)transaction.GetObject(dict.GetAt(name), OpenMode.ForRead);
+        var id = dict.GetAt(name);
+
+        if (id.IsValid)
+        {
+          return (T)transaction.GetObject(id, OpenMode.ForRead);
+        }
+        else
+        {
+          throw Error.KeyNotFound(name);
+        }
       }
       catch
       {
-        throw Error.KeyNotFound("No element with key " + name + " found");
+        throw Error.KeyNotFound(name);
       }
     }
 
@@ -46,6 +55,22 @@ namespace Linq2Acad
 
     public void Add(string name, T item)
     {
+      Set(name, item, dict =>
+                      {
+                        if (dict.Contains(name))
+                        {
+                          throw Error.Generic(typeof(T).Name + " " + name + " already exists");
+                        }
+                      });
+    }
+
+    public void Set(string name, T item)
+    {
+      Set(name, item, null);
+    }
+
+    private void Set(string name, T item, Action<DBDictionary> check)
+    {
       if (!AcadDatabase.IsNameValid(name))
       {
         throw Error.InvalidName(name);
@@ -53,12 +78,12 @@ namespace Linq2Acad
 
       var dict = (DBDictionary)transaction.GetObject(ID, OpenMode.ForWrite);
 
-      if (dict.Contains(name))
+      if (check != null)
       {
-        throw Error.Generic(typeof(T).Name + " " + name + " already exists");
+        check(dict);
       }
 
-      var id = dict.SetAt(name, item);
+      dict.SetAt(name, item);
       transaction.AddNewlyCreatedDBObject(item, true);
     }
 
