@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Linq2Acad
 {
-  public abstract class ContainerEnumerableBase<T> : LazyElementEnumerable<T, ObjectId> where T : DBObject
+  public abstract class ContainerEnumerableBase<T> : LazyElementEnumerable<T, ObjectId, DBObject> where T : DBObject
   {
     protected Database database;
     protected Transaction transaction;
@@ -14,8 +14,7 @@ namespace Linq2Acad
     internal protected ContainerEnumerableBase(Database database, Transaction transaction, ObjectId containerID,
                                                Func<object, ObjectId> getID)
       : base(new LazyIdEnumerable<ObjectId>(((IEnumerable)transaction.GetObject(containerID, OpenMode.ForRead)).Cast<object>(), getID),
-             id => (T)transaction.GetObject(id, OpenMode.ForRead),
-             e => e.ObjectId)
+             new DataProvider(transaction))
     {
       this.database = database;
       this.transaction = transaction;
@@ -73,5 +72,36 @@ namespace Linq2Acad
 
       return result;
     }
+
+    #region Nested class DataProvider
+
+    private class DataProvider : IDataProvider<ObjectId, DBObject>
+    {
+      private Transaction transaction;
+
+      public DataProvider(Transaction transaction)
+      {
+        this.transaction = transaction;
+      }
+
+      public T GetElement<T>(ObjectId id) where T : DBObject
+      {
+        return (T)transaction.GetObject(id, OpenMode.ForRead);
+      }
+
+      public ObjectId GetId<T>(T element) where T : DBObject
+      {
+        return element.ObjectId;
+      }
+
+      public IdEnumerable<ObjectId> Filter<T>(IdEnumerable<ObjectId> ids) where T : DBObject
+      {
+        // TODO: What is T's RXClass if it is a derived type?
+        var rxType = Autodesk.AutoCAD.Runtime.RXClass.GetClass(typeof(T));
+        return new MaterializedIdEnumerable<ObjectId>(ids.Where(id => id.ObjectClass.IsDerivedFrom(rxType)));
+      }
+    }
+
+    #endregion
   }
 }

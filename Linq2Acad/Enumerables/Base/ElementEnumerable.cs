@@ -58,16 +58,14 @@ namespace Linq2Acad
 
   #region Class LazyElementEnumerable
 
-  public class LazyElementEnumerable<T, TId> : ElementEnumerable<T, TId>
+  public class LazyElementEnumerable<T, TId, TConstraint> : ElementEnumerable<T, TId> where T : TConstraint
   {
-    private Func<TId, T> getElement;
-    private Func<T, TId> getID;
+    private IDataProvider<TId, TConstraint> dataProvider;
 
-    public LazyElementEnumerable(IdEnumerable<TId> ids, Func<TId, T> getElement, Func<T, TId> getID)
+    public LazyElementEnumerable(IdEnumerable<TId> ids, IDataProvider<TId, TConstraint> dataProvider)
     {
-      this.getElement = getElement;
-      this.getID = getID;
       IDs = ids;
+      this.dataProvider = dataProvider;
     }
 
     internal IdEnumerable<TId> IDs { get; private set; }
@@ -75,20 +73,20 @@ namespace Linq2Acad
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed IEnumerator<T> GetEnumerator()
     {
-      return IDs.Select(id => getElement(id))
+      return IDs.Select(id => dataProvider.GetElement<T>(id))
                 .GetEnumerator();
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed ElementEnumerable<T, TId> Concat(IEnumerable<T> second)
     {
-      if (second is LazyElementEnumerable<T, TId>)
+      if (second is LazyElementEnumerable<T, TId, TConstraint>)
       {
-        return new LazyElementEnumerable<T, TId>(IDs.Concat((second as LazyElementEnumerable<T, TId>).IDs), getElement, getID);
+        return new LazyElementEnumerable<T, TId, TConstraint>(IDs.Concat((second as LazyElementEnumerable<T, TId, TConstraint>).IDs), dataProvider);
       }
       else
       {
-        return new MaterializedElementEnumerable<T, TId>(IDs.Select(id => getElement(id))
+        return new MaterializedElementEnumerable<T, TId>(IDs.Select(id => dataProvider.GetElement<T>(id))
                                                             .Concat(second));
       }
     }
@@ -96,7 +94,7 @@ namespace Linq2Acad
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override bool Contains(T value)
     {
-      return IDs.Contains(getID(value));
+      return IDs.Contains(dataProvider.GetId(value));
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
@@ -108,13 +106,13 @@ namespace Linq2Acad
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed ElementEnumerable<T, TId> Distinct()
     {
-      return new LazyElementEnumerable<T, TId>(IDs.Distinct(), getElement, getID);
+      return new LazyElementEnumerable<T, TId, TConstraint>(IDs.Distinct(), dataProvider);
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed T ElementAt(int index)
     {
-      return getElement(IDs.ElementAt(index));
+      return dataProvider.GetElement<T>(IDs.ElementAt(index));
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
@@ -128,20 +126,20 @@ namespace Linq2Acad
       }
       else
       {
-        return getElement(id);
+        return dataProvider.GetElement<T>(id);
       }
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed ElementEnumerable<T, TId> Except(IEnumerable<T> second)
     {
-      if (second is LazyElementEnumerable<T, TId>)
+      if (second is LazyElementEnumerable<T, TId, TConstraint>)
       {
-        return new LazyElementEnumerable<T, TId>(IDs.Except((second as LazyElementEnumerable<T, TId>).IDs), getElement, getID);
+        return new LazyElementEnumerable<T, TId, TConstraint>(IDs.Except((second as LazyElementEnumerable<T, TId, TConstraint>).IDs), dataProvider);
       }
       else
       {
-        return new MaterializedElementEnumerable<T, TId>(IDs.Select(id => getElement(id))
+        return new MaterializedElementEnumerable<T, TId>(IDs.Select(id => dataProvider.GetElement<T>(id))
                                                             .Except(second));
       }
     }
@@ -149,21 +147,21 @@ namespace Linq2Acad
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed ElementEnumerable<T, TId> Intersect(IEnumerable<T> second)
     {
-      if (second is LazyElementEnumerable<T, TId>)
+      if (second is LazyElementEnumerable<T, TId, TConstraint>)
       {
-        return new LazyElementEnumerable<T, TId>(IDs.Intersect((second as LazyElementEnumerable<T, TId>).IDs), getElement, getID);
+        return new LazyElementEnumerable<T, TId, TConstraint>(IDs.Intersect((second as LazyElementEnumerable<T, TId, TConstraint>).IDs), dataProvider);
       }
       else
       {
         var set = new HashSet<TId>(IDs);
-        return new MaterializedElementEnumerable<T, TId>(second.Where(e => set.Remove(getID(e))));
+        return new MaterializedElementEnumerable<T, TId>(second.Where(e => set.Remove(dataProvider.GetId(e))));
       }
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed T Last()
     {
-      return getElement(IDs.Last());
+      return dataProvider.GetElement<T>(IDs.Last());
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
@@ -177,7 +175,7 @@ namespace Linq2Acad
       }
       else
       {
-        return getElement(id);
+        return dataProvider.GetElement<T>(id);
       }
     }
 
@@ -190,47 +188,46 @@ namespace Linq2Acad
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public ElementEnumerable<TResult, TId> OfType<TResult>() where TResult : T
     {
-      // TODO: Implement conversion
-      throw new NotImplementedException();
+      return new LazyElementEnumerable<TResult, TId, TConstraint>(dataProvider.Filter<TResult>(IDs), dataProvider);
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed ElementEnumerable<T, TId> Reverse()
     {
-      return new LazyElementEnumerable<T, TId>(IDs.Reverse(), getElement, getID);
+      return new LazyElementEnumerable<T, TId, TConstraint>(IDs.Reverse(), dataProvider);
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed bool SequenceEqual(IEnumerable<T> second)
     {
-      if (second is LazyElementEnumerable<T, TId>)
+      if (second is LazyElementEnumerable<T, TId, TConstraint>)
       {
-        return IDs.SequenceEqual((second as LazyElementEnumerable<T, TId>).IDs);
+        return IDs.SequenceEqual((second as LazyElementEnumerable<T, TId, TConstraint>).IDs);
       }
       else
       {
-        return IDs.SequenceEqual(second.Select(e => getID(e)));
+        return IDs.SequenceEqual(second.Select(e => dataProvider.GetId(e)));
       }
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed ElementEnumerable<T, TId> Skip(int count)
     {
-      return new LazyElementEnumerable<T, TId>(IDs.Skip(count), getElement, getID);
+      return new LazyElementEnumerable<T, TId, TConstraint>(IDs.Skip(count), dataProvider);
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed ElementEnumerable<T, TId> Take(int count)
     {
-      return new LazyElementEnumerable<T, TId>(IDs.Take(count), getElement, getID);
+      return new LazyElementEnumerable<T, TId, TConstraint>(IDs.Take(count), dataProvider);
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed ElementEnumerable<T, TId> Union(IEnumerable<T> second)
     {
-      if (second is LazyElementEnumerable<T, TId>)
+      if (second is LazyElementEnumerable<T, TId, TConstraint>)
       {
-        return new LazyElementEnumerable<T, TId>(IDs.Union((second as LazyElementEnumerable<T, TId>).IDs), getElement, getID);
+        return new LazyElementEnumerable<T, TId, TConstraint>(IDs.Union((second as LazyElementEnumerable<T, TId, TConstraint>).IDs), dataProvider);
       }
       else
       {
@@ -244,13 +241,13 @@ namespace Linq2Acad
 
       foreach (var element in second)
       {
-        set.Add(getID(element));
+        set.Add(dataProvider.GetId(element));
         yield return element;
       }
 
       foreach (var id in IDs.Where(id => set.Add(id)))
       {
-        yield return getElement(id);
+        yield return dataProvider.GetElement<T>(id);
       }
     }
   }
@@ -355,4 +352,13 @@ namespace Linq2Acad
   }
 
   #endregion
+
+  public interface IDataProvider<TId, TConstraint>
+  {
+    T GetElement<T>(TId id) where T : TConstraint;
+
+    TId GetId<T>(T element) where T : TConstraint;
+
+    IdEnumerable<TId> Filter<T>(IdEnumerable<TId> ids) where T : TConstraint;
+  }
 }
