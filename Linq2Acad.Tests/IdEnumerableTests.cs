@@ -10,27 +10,7 @@ namespace Linq2Acad
   public class IdEnumerableTests
   {
     [TestMethod]
-    public void TestConcatWithArrayNotMaterialized()
-    {
-      var accessed = new List<int>();
-      var enumerable = new IntegerEnumerable(0, 4, id => accessed.Add(id));
-      enumerable.Concat(new [] { 0, 1 });
-
-      Assert.AreEqual(0, accessed.Count);
-    }
-
-    [TestMethod]
-    public void TestConcatWithIdEnumerableNotMaterialized()
-    {
-      var accessed = new List<int>();
-      var enumerable = new IntegerEnumerable(0, 2, id => accessed.Add(id));
-      enumerable.Concat(new IntegerEnumerable(0, 2, id => accessed.Add(id)));
-
-      Assert.AreEqual(0, accessed.Count);
-    }
-
-    [TestMethod]
-    public void TestConcatWithArrayMaterialized()
+    public void TestConcatWithArray()
     {
       var accessed = new List<int>();
       var enumerable = new IntegerEnumerable(0, 2, id => accessed.Add(id));
@@ -41,7 +21,7 @@ namespace Linq2Acad
     }
 
     [TestMethod]
-    public void TestConcatWithIdEnumerableMaterialized()
+    public void TestConcatWithIdEnumerable()
     {
       var accessed = new List<int>();
       var enumerable = new IntegerEnumerable(0, 2, id => accessed.Add(id));
@@ -62,18 +42,7 @@ namespace Linq2Acad
     }
 
     [TestMethod]
-    public void TestConcatWithIdEnumerableFollowedBySkipNotMaterialized()
-    {
-      var accessed = new List<int>();
-      var enumerable = new IntegerEnumerable(0, 2, id => accessed.Add(id));
-      var result = enumerable.Concat(new IntegerEnumerable(2, 2, id => accessed.Add(id)))
-                             .Skip(2);
-
-      Assert.AreEqual(0, accessed.Count);
-    }
-
-    [TestMethod]
-    public void TestConcatWithIdEnumerableFollowedBySkipMaterialized()
+    public void TestConcatWithIdEnumerableFollowedBySkip()
     {
       var accessed = new List<int>();
       var enumerable = new IntegerEnumerable(0, 2, id => accessed.Add(id));
@@ -161,17 +130,7 @@ namespace Linq2Acad
     }
 
     [TestMethod]
-    public void TestSkipNotMaterialized()
-    {
-      var accessed = new List<int>();
-      var enumerable = new IntegerEnumerable(0, 4, id => accessed.Add(id));
-      enumerable.Skip(2);
-
-      Assert.AreEqual(0, accessed.Count);
-    }
-
-    [TestMethod]
-    public void TestSkipMaterialized()
+    public void TestSkip()
     {
       var accessed = new List<int>();
       var enumerable = new IntegerEnumerable(0, 4, id => accessed.Add(id));
@@ -187,6 +146,54 @@ namespace Linq2Acad
       Assert.AreEqual(3, result[1]);
     }
 
+    [TestMethod]
+    public void TestFirstOrDefaultWithoutElements()
+    {
+      var accessed = new List<string>();
+      var enumerable = new StringEnumerable(id => accessed.Add(id));
+      var result = enumerable.FirstOrDefault();
+
+      Assert.AreEqual(0, accessed.Count);
+      Assert.IsNull(result);
+    }
+
+    [TestMethod]
+    public void TestFirstOrDefaultWithThreeElement()
+    {
+      var accessed = new List<int>();
+      var enumerable = new IntegerEnumerable(3, 3, id => accessed.Add(id));
+      var result = enumerable.FirstOrDefault();
+
+      Assert.AreEqual(1, accessed.Count);
+      Assert.AreEqual(3, accessed.First());
+      Assert.AreEqual(3, result);
+    }
+
+    [TestMethod]
+    public void TestLastOrDefaultWithoutElements()
+    {
+      var accessed = new List<string>();
+      var enumerable = new StringEnumerable(id => accessed.Add(id));
+      var result = enumerable.LastOrDefault();
+
+      Assert.AreEqual(0, accessed.Count);
+      Assert.IsNull(result);
+    }
+
+    [TestMethod]
+    public void TestLastOrDefaultWithThreeElement()
+    {
+      var accessed = new List<int>();
+      var enumerable = new IntegerEnumerable(3, 3, id => accessed.Add(id));
+      var result = enumerable.LastOrDefault();
+
+      Assert.AreEqual(1, accessed.Count);
+      Assert.AreEqual(5, accessed.First());
+      Assert.AreEqual(5, result);
+    }
+
+    #region Enumerables
+
     [DebuggerStepThrough]
     private class IntegerEnumerable : LazyIdEnumerable<int>
     {
@@ -196,5 +203,17 @@ namespace Linq2Acad
       {
       }
     }
+
+    [DebuggerStepThrough]
+    private class StringEnumerable : LazyIdEnumerable<string>
+    {
+      public StringEnumerable(Action<string> accessed, params string[] ids)
+        : base(ids.Select(id => (object)id),
+               obj => { var id = (string)obj; accessed(id); return id; })
+      {
+      }
+    }
+
+    #endregion
   }
 }

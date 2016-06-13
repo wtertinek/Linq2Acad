@@ -6,19 +6,71 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Linq2Acad
 {
-  public class LazyElementEnumerable<T, TId> : ElementEnumerableBase<T, TId>
+  #region Base class ElementEnumerable
+
+  public abstract class ElementEnumerable<T, TId> : IEnumerable<T>
+  {
+    protected ElementEnumerable()
+    {
+    }
+
+    public abstract IEnumerator<T> GetEnumerator();
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+      return GetEnumerator();
+    }
+
+    public abstract ElementEnumerable<T, TId> Concat(IEnumerable<T> second);
+
+    public abstract bool Contains(T value);
+
+    public abstract int Count();
+
+    public abstract ElementEnumerable<T, TId> Distinct();
+
+    public abstract T ElementAt(int index);
+
+    public abstract T ElementAtOrDefault(int index);
+
+    public abstract ElementEnumerable<T, TId> Except(IEnumerable<T> second);
+
+    public abstract ElementEnumerable<T, TId> Intersect(IEnumerable<T> second);
+
+    public abstract T Last();
+
+    public abstract T LastOrDefault();
+
+    public abstract long LongCount();
+
+    public abstract ElementEnumerable<T, TId> Reverse();
+
+    public abstract bool SequenceEqual(IEnumerable<T> second);
+
+    public abstract ElementEnumerable<T, TId> Skip(int count);
+
+    public abstract ElementEnumerable<T, TId> Take(int count);
+
+    public abstract ElementEnumerable<T, TId> Union(IEnumerable<T> second);
+  }
+
+  #endregion
+
+  #region Class LazyElementEnumerable
+
+  public class LazyElementEnumerable<T, TId> : ElementEnumerable<T, TId>
   {
     private Func<TId, T> getElement;
     private Func<T, TId> getID;
 
-    public LazyElementEnumerable(IdEnumerableBase<TId> ids, Func<TId, T> getElement, Func<T, TId> getID)
+    public LazyElementEnumerable(IdEnumerable<TId> ids, Func<TId, T> getElement, Func<T, TId> getID)
     {
       this.getElement = getElement;
       this.getID = getID;
       IDs = ids;
     }
 
-    internal IdEnumerableBase<TId> IDs { get; private set; }
+    internal IdEnumerable<TId> IDs { get; private set; }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed IEnumerator<T> GetEnumerator()
@@ -28,7 +80,7 @@ namespace Linq2Acad
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-    public override sealed ElementEnumerableBase<T, TId> Concat(IEnumerable<T> second)
+    public override sealed ElementEnumerable<T, TId> Concat(IEnumerable<T> second)
     {
       if (second is LazyElementEnumerable<T, TId>)
       {
@@ -36,8 +88,8 @@ namespace Linq2Acad
       }
       else
       {
-        return new ElementEnumerable<T, TId>(IDs.Select(id => getElement(id))
-                                                .Concat(second));
+        return new MaterializedElementEnumerable<T, TId>(IDs.Select(id => getElement(id))
+                                                            .Concat(second));
       }
     }
 
@@ -54,7 +106,7 @@ namespace Linq2Acad
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-    public override sealed ElementEnumerableBase<T, TId> Distinct()
+    public override sealed ElementEnumerable<T, TId> Distinct()
     {
       return new LazyElementEnumerable<T, TId>(IDs.Distinct(), getElement, getID);
     }
@@ -81,7 +133,7 @@ namespace Linq2Acad
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-    public override sealed ElementEnumerableBase<T, TId> Except(IEnumerable<T> second)
+    public override sealed ElementEnumerable<T, TId> Except(IEnumerable<T> second)
     {
       if (second is LazyElementEnumerable<T, TId>)
       {
@@ -89,13 +141,13 @@ namespace Linq2Acad
       }
       else
       {
-        return new ElementEnumerable<T, TId>(IDs.Select(id => getElement(id))
-                                                .Except(second));
+        return new MaterializedElementEnumerable<T, TId>(IDs.Select(id => getElement(id))
+                                                            .Except(second));
       }
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-    public override sealed ElementEnumerableBase<T, TId> Intersect(IEnumerable<T> second)
+    public override sealed ElementEnumerable<T, TId> Intersect(IEnumerable<T> second)
     {
       if (second is LazyElementEnumerable<T, TId>)
       {
@@ -104,7 +156,7 @@ namespace Linq2Acad
       else
       {
         var set = new HashSet<TId>(IDs);
-        return new ElementEnumerable<T, TId>(second.Where(e => set.Remove(getID(e))));
+        return new MaterializedElementEnumerable<T, TId>(second.Where(e => set.Remove(getID(e))));
       }
     }
 
@@ -136,14 +188,14 @@ namespace Linq2Acad
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-    public ElementEnumerableBase<TResult, TId> OfType<TResult>() where TResult : T
+    public ElementEnumerable<TResult, TId> OfType<TResult>() where TResult : T
     {
       // TODO: Implement conversion
       throw new NotImplementedException();
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-    public override sealed ElementEnumerableBase<T, TId> Reverse()
+    public override sealed ElementEnumerable<T, TId> Reverse()
     {
       return new LazyElementEnumerable<T, TId>(IDs.Reverse(), getElement, getID);
     }
@@ -162,19 +214,19 @@ namespace Linq2Acad
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-    public override sealed ElementEnumerableBase<T, TId> Skip(int count)
+    public override sealed ElementEnumerable<T, TId> Skip(int count)
     {
       return new LazyElementEnumerable<T, TId>(IDs.Skip(count), getElement, getID);
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-    public override sealed ElementEnumerableBase<T, TId> Take(int count)
+    public override sealed ElementEnumerable<T, TId> Take(int count)
     {
       return new LazyElementEnumerable<T, TId>(IDs.Take(count), getElement, getID);
     }
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-    public override sealed ElementEnumerableBase<T, TId> Union(IEnumerable<T> second)
+    public override sealed ElementEnumerable<T, TId> Union(IEnumerable<T> second)
     {
       if (second is LazyElementEnumerable<T, TId>)
       {
@@ -182,7 +234,7 @@ namespace Linq2Acad
       }
       else
       {
-        return new ElementEnumerable<T, TId>(UnionIterator(second));
+        return new MaterializedElementEnumerable<T, TId>(UnionIterator(second));
       }
     }
 
@@ -203,63 +255,15 @@ namespace Linq2Acad
     }
   }
 
-  #region Base class ElementEnumerableBase
-
-  public abstract class ElementEnumerableBase<T, TId> : IEnumerable<T>
-  {
-    protected ElementEnumerableBase()
-    {
-    }
-
-    public abstract IEnumerator<T> GetEnumerator();
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-      return GetEnumerator();
-    }
-
-    public abstract ElementEnumerableBase<T, TId> Concat(IEnumerable<T> second);
-
-    public abstract bool Contains(T value);
-
-    public abstract int Count();
-
-    public abstract ElementEnumerableBase<T, TId> Distinct();
-
-    public abstract T ElementAt(int index);
-
-    public abstract T ElementAtOrDefault(int index);
-
-    public abstract ElementEnumerableBase<T, TId> Except(IEnumerable<T> second);
-
-    public abstract ElementEnumerableBase<T, TId> Intersect(IEnumerable<T> second);
-
-    public abstract T Last();
-
-    public abstract T LastOrDefault();
-
-    public abstract long LongCount();
-
-    public abstract ElementEnumerableBase<T, TId> Reverse();
-
-    public abstract bool SequenceEqual(IEnumerable<T> second);
-
-    public abstract ElementEnumerableBase<T, TId> Skip(int count);
-
-    public abstract ElementEnumerableBase<T, TId> Take(int count);
-
-    public abstract ElementEnumerableBase<T, TId> Union(IEnumerable<T> second);
-  }
-
   #endregion
 
-  #region ElementEnumerable
+  #region Class MaterializedElementEnumerable
 
-  class ElementEnumerable<T, TId> : ElementEnumerableBase<T, TId>
+  class MaterializedElementEnumerable<T, TId> : ElementEnumerable<T, TId>
   {
     private IEnumerable<T> elements;
 
-    public ElementEnumerable(IEnumerable<T> elements)
+    public MaterializedElementEnumerable(IEnumerable<T> elements)
     {
       this.elements = elements;
     }
@@ -269,9 +273,9 @@ namespace Linq2Acad
       return elements.GetEnumerator();
     }
 
-    public override sealed ElementEnumerableBase<T, TId> Concat(IEnumerable<T> second)
+    public override sealed ElementEnumerable<T, TId> Concat(IEnumerable<T> second)
     {
-      return new ElementEnumerable<T, TId>(elements.Concat(second));
+      return new MaterializedElementEnumerable<T, TId>(elements.Concat(second));
     }
 
     public override sealed bool Contains(T value)
@@ -284,9 +288,9 @@ namespace Linq2Acad
       return elements.Count();
     }
 
-    public override sealed ElementEnumerableBase<T, TId> Distinct()
+    public override sealed ElementEnumerable<T, TId> Distinct()
     {
-      return new ElementEnumerable<T, TId>(elements.Distinct());
+      return new MaterializedElementEnumerable<T, TId>(elements.Distinct());
     }
 
     public override sealed T ElementAt(int index)
@@ -299,14 +303,14 @@ namespace Linq2Acad
       return elements.ElementAtOrDefault(index);
     }
 
-    public override sealed ElementEnumerableBase<T, TId> Except(IEnumerable<T> second)
+    public override sealed ElementEnumerable<T, TId> Except(IEnumerable<T> second)
     {
-      return new ElementEnumerable<T, TId>(elements.Except(second));
+      return new MaterializedElementEnumerable<T, TId>(elements.Except(second));
     }
 
-    public override sealed ElementEnumerableBase<T, TId> Intersect(IEnumerable<T> second)
+    public override sealed ElementEnumerable<T, TId> Intersect(IEnumerable<T> second)
     {
-      return new ElementEnumerable<T, TId>(elements.Intersect(second));
+      return new MaterializedElementEnumerable<T, TId>(elements.Intersect(second));
     }
 
     public override sealed T Last()
@@ -324,9 +328,9 @@ namespace Linq2Acad
       return elements.LongCount();
     }
 
-    public override sealed ElementEnumerableBase<T, TId> Reverse()
+    public override sealed ElementEnumerable<T, TId> Reverse()
     {
-      return new ElementEnumerable<T, TId>(elements.Reverse());
+      return new MaterializedElementEnumerable<T, TId>(elements.Reverse());
     }
 
     public override sealed bool SequenceEqual(IEnumerable<T> second)
@@ -334,19 +338,19 @@ namespace Linq2Acad
       return elements.SequenceEqual(second);
     }
 
-    public override sealed ElementEnumerableBase<T, TId> Skip(int count)
+    public override sealed ElementEnumerable<T, TId> Skip(int count)
     {
-      return new ElementEnumerable<T, TId>(elements.Skip(count));
+      return new MaterializedElementEnumerable<T, TId>(elements.Skip(count));
     }
 
-    public override sealed ElementEnumerableBase<T, TId> Take(int count)
+    public override sealed ElementEnumerable<T, TId> Take(int count)
     {
-      return new ElementEnumerable<T, TId>(elements.Take(count));
+      return new MaterializedElementEnumerable<T, TId>(elements.Take(count));
     }
 
-    public override sealed ElementEnumerableBase<T, TId> Union(IEnumerable<T> second)
+    public override sealed ElementEnumerable<T, TId> Union(IEnumerable<T> second)
     {
-      return new ElementEnumerable<T, TId>(elements.Union(second));
+      return new MaterializedElementEnumerable<T, TId>(elements.Union(second));
     }
   }
 

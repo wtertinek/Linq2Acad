@@ -7,7 +7,59 @@ using System.Threading.Tasks;
 
 namespace Linq2Acad
 {
-  public class LazyIdEnumerable<T> : IdEnumerableBase<T>
+  #region Base class IdEnumerable
+
+  public abstract class IdEnumerable<T> : IEnumerable<T>
+  {
+    protected IdEnumerable()
+    {
+    }
+
+    public abstract IEnumerator<T> GetEnumerator();
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+      return GetEnumerator();
+    }
+
+    public abstract IdEnumerable<T> Concat(IEnumerable<T> second);
+
+    public abstract bool Contains(T value);
+
+    public abstract int Count();
+
+    public abstract IdEnumerable<T> Distinct();
+
+    public abstract T ElementAt(int index);
+
+    public abstract T ElementAtOrDefault(int index);
+
+    public abstract IdEnumerable<T> Except(IEnumerable<T> second);
+
+    public abstract IdEnumerable<T> Intersect(IEnumerable<T> second);
+
+    public abstract T Last();
+
+    public abstract T LastOrDefault();
+
+    public abstract long LongCount();
+
+    public abstract IdEnumerable<T> Reverse();
+
+    public abstract bool SequenceEqual(IEnumerable<T> second);
+
+    public abstract IdEnumerable<T> Skip(int count);
+
+    public abstract IdEnumerable<T> Take(int count);
+
+    public abstract IdEnumerable<T> Union(IEnumerable<T> second);
+  }
+
+  #endregion
+
+  #region Class LazyIdEnumerable
+
+  public class LazyIdEnumerable<T> : IdEnumerable<T>
   {
     private Func<object, T> getID;
 
@@ -25,7 +77,7 @@ namespace Linq2Acad
 
     internal IEnumerable<object> IDs { get; private set; }
 
-    public override IdEnumerableBase<T> Concat(IEnumerable<T> second)
+    public override IdEnumerable<T> Concat(IEnumerable<T> second)
     {
       if (second is LazyIdEnumerable<T>)
       {
@@ -33,8 +85,8 @@ namespace Linq2Acad
       }
       else
       {
-        return new IdEnumerable<T>(IDs.Select(id => getID(id))
-                                      .Concat(second));
+        return new MaterializedIdEnumerable<T>(IDs.Select(id => getID(id))
+                                                  .Concat(second));
       }
     }
 
@@ -49,10 +101,10 @@ namespace Linq2Acad
       return IDs.Count();
     }
 
-    public override IdEnumerableBase<T> Distinct()
+    public override IdEnumerable<T> Distinct()
     {
-      return new IdEnumerable<T>(IDs.Distinct()
-                                    .Select(id => getID(id)));
+      return new MaterializedIdEnumerable<T>(IDs.Distinct()
+                                                .Select(id => getID(id)));
     }
 
     public override T ElementAt(int index)
@@ -74,7 +126,7 @@ namespace Linq2Acad
       }
     }
 
-    public override IdEnumerableBase<T> Except(IEnumerable<T> second)
+    public override IdEnumerable<T> Except(IEnumerable<T> second)
     {
       if (second is LazyIdEnumerable<T>)
       {
@@ -82,12 +134,12 @@ namespace Linq2Acad
       }
       else
       {
-        return new IdEnumerable<T>(IDs.Select(id => getID(id))
-                                      .Except(second));
+        return new MaterializedIdEnumerable<T>(IDs.Select(id => getID(id))
+                                                  .Except(second));
       }
     }
 
-    public override IdEnumerableBase<T> Intersect(IEnumerable<T> second)
+    public override IdEnumerable<T> Intersect(IEnumerable<T> second)
     {
       if (second is LazyIdEnumerable<T>)
       {
@@ -96,7 +148,7 @@ namespace Linq2Acad
       else
       {
         var set = new HashSet<T>(IDs.Select(id => getID(id)));
-        return new IdEnumerable<T>(second.Where(id => set.Remove(id)));
+        return new MaterializedIdEnumerable<T>(second.Where(id => set.Remove(id)));
       }
     }
 
@@ -124,7 +176,7 @@ namespace Linq2Acad
       return IDs.LongCount();
     }
 
-    public override IdEnumerableBase<T> Reverse()
+    public override IdEnumerable<T> Reverse()
     {
       return new LazyIdEnumerable<T>(IDs.Reverse(), getID);
     }
@@ -135,19 +187,19 @@ namespace Linq2Acad
                 .SequenceEqual(second);
     }
 
-    public override IdEnumerableBase<T> Skip(int count)
+    public override IdEnumerable<T> Skip(int count)
     {
       return new LazyIdEnumerable<T>(IDs.Skip(count), getID);
     }
 
-    public override IdEnumerableBase<T> Take(int count)
+    public override IdEnumerable<T> Take(int count)
     {
       return new LazyIdEnumerable<T>(IDs.Take(count), getID);
     }
 
-    public override IdEnumerableBase<T> Union(IEnumerable<T> second)
+    public override IdEnumerable<T> Union(IEnumerable<T> second)
     {
-      return new IdEnumerable<T>(UnionIterator(second));
+      return new MaterializedIdEnumerable<T>(UnionIterator(second));
     }
 
     private IEnumerable<T> UnionIterator(IEnumerable<T> second)
@@ -167,63 +219,15 @@ namespace Linq2Acad
     }
   }
 
-  #region Base class IdEnumerableBase
-
-  public abstract class IdEnumerableBase<T> : IEnumerable<T>
-  {
-    protected IdEnumerableBase()
-    {
-    }
-
-    public abstract IEnumerator<T> GetEnumerator();
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-      return GetEnumerator();
-    }
-
-    public abstract IdEnumerableBase<T> Concat(IEnumerable<T> second);
-
-    public abstract bool Contains(T value);
-
-    public abstract int Count();
-
-    public abstract IdEnumerableBase<T> Distinct();
-
-    public abstract T ElementAt(int index);
-
-    public abstract T ElementAtOrDefault(int index);
-
-    public abstract IdEnumerableBase<T> Except(IEnumerable<T> second);
-
-    public abstract IdEnumerableBase<T> Intersect(IEnumerable<T> second);
-
-    public abstract T Last();
-
-    public abstract T LastOrDefault();
-
-    public abstract long LongCount();
-
-    public abstract IdEnumerableBase<T> Reverse();
-
-    public abstract bool SequenceEqual(IEnumerable<T> second);
-
-    public abstract IdEnumerableBase<T> Skip(int count);
-
-    public abstract IdEnumerableBase<T> Take(int count);
-
-    public abstract IdEnumerableBase<T> Union(IEnumerable<T> second);
-  }
-
   #endregion
 
-  #region IdEnumerable
+  #region Class MaterializedIdEnumerable
 
-  class IdEnumerable<T> : IdEnumerableBase<T>
+  class MaterializedIdEnumerable<T> : IdEnumerable<T>
   {
     private IEnumerable<T> ids;
 
-    public IdEnumerable(IEnumerable<T> ids)
+    public MaterializedIdEnumerable(IEnumerable<T> ids)
     {
       this.ids = ids;
     }
@@ -233,9 +237,9 @@ namespace Linq2Acad
       return ids.GetEnumerator();
     }
 
-    public override IdEnumerableBase<T> Concat(IEnumerable<T> second)
+    public override IdEnumerable<T> Concat(IEnumerable<T> second)
     {
-      return new IdEnumerable<T>(ids.Concat(second));
+      return new MaterializedIdEnumerable<T>(ids.Concat(second));
     }
 
     public override bool Contains(T value)
@@ -248,9 +252,9 @@ namespace Linq2Acad
       return ids.Count();
     }
 
-    public override IdEnumerableBase<T> Distinct()
+    public override IdEnumerable<T> Distinct()
     {
-      return new IdEnumerable<T>(ids.Distinct());
+      return new MaterializedIdEnumerable<T>(ids.Distinct());
     }
 
     public override T ElementAt(int index)
@@ -263,14 +267,14 @@ namespace Linq2Acad
       return ids.ElementAtOrDefault(index);
     }
 
-    public override IdEnumerableBase<T> Except(IEnumerable<T> second)
+    public override IdEnumerable<T> Except(IEnumerable<T> second)
     {
-      return new IdEnumerable<T>(ids.Except(second));
+      return new MaterializedIdEnumerable<T>(ids.Except(second));
     }
 
-    public override IdEnumerableBase<T> Intersect(IEnumerable<T> second)
+    public override IdEnumerable<T> Intersect(IEnumerable<T> second)
     {
-      return new IdEnumerable<T>(ids.Intersect(second));
+      return new MaterializedIdEnumerable<T>(ids.Intersect(second));
     }
 
     public override T Last()
@@ -288,9 +292,9 @@ namespace Linq2Acad
       return ids.LongCount();
     }
 
-    public override IdEnumerableBase<T> Reverse()
+    public override IdEnumerable<T> Reverse()
     {
-      return new IdEnumerable<T>(ids.Reverse());
+      return new MaterializedIdEnumerable<T>(ids.Reverse());
     }
 
     public override bool SequenceEqual(IEnumerable<T> second)
@@ -298,19 +302,19 @@ namespace Linq2Acad
       return ids.SequenceEqual(second);
     }
 
-    public override IdEnumerableBase<T> Skip(int count)
+    public override IdEnumerable<T> Skip(int count)
     {
-      return new IdEnumerable<T>(ids.Skip(count));
+      return new MaterializedIdEnumerable<T>(ids.Skip(count));
     }
 
-    public override IdEnumerableBase<T> Take(int count)
+    public override IdEnumerable<T> Take(int count)
     {
-      return new IdEnumerable<T>(ids.Take(count));
+      return new MaterializedIdEnumerable<T>(ids.Take(count));
     }
 
-    public override IdEnumerableBase<T> Union(IEnumerable<T> second)
+    public override IdEnumerable<T> Union(IEnumerable<T> second)
     {
-      return new IdEnumerable<T>(ids.Union(second));
+      return new MaterializedIdEnumerable<T>(ids.Union(second));
     }
   }
 
