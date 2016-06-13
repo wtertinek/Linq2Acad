@@ -12,12 +12,12 @@ using Autodesk.AutoCAD.Runtime;
 
 namespace Linq2Acad
 {
-  public class Examples
+  public class Examples : IExtensionApplication
   {
     /// <summary>
     /// Adding a line to the model space
     /// </summary>
-    [CommandMethod("AddingALineToTheModelSpace")]
+    [CommandMethod("Linq2AcadExample1")]
     public void AddingALineToTheModelSpace()
     {
       using (var db = AcadDatabase.Active())
@@ -31,7 +31,7 @@ namespace Linq2Acad
     /// <summary>
     /// Erasing all BlockReferences from the model space
     /// </summary>
-    [CommandMethod("ErasingAllBlockReferencesFromTheModelSpace")]
+    [CommandMethod("Linq2AcadExample2")]
     public void ErasingAllBlockReferencesFromTheModelSpace()
     {
       using (var db = AcadDatabase.Active())
@@ -45,7 +45,7 @@ namespace Linq2Acad
     /// <summary>
     /// Printing all layer names
     /// </summary>
-    [CommandMethod("PrintingAllLayerNames")]
+    [CommandMethod("Linq2AcadExample3")]
     public void PrintingAllLayerNames()
     {
       var editor = Application.DocumentManager.MdiActiveDocument.Editor;
@@ -60,7 +60,7 @@ namespace Linq2Acad
     /// <summary>
     /// Turning off all layers, except the one the user enters
     /// </summary>
-    [CommandMethod("TurningOffAllLayersExceptTheOneTheUserEnters")]
+    [CommandMethod("Linq2AcadExample4")]
     public void TurningOffAllLayersExceptTheOneTheUserEnters()
     {
       var editor = Application.DocumentManager.MdiActiveDocument.Editor;
@@ -84,7 +84,7 @@ namespace Linq2Acad
     /// <summary>
     /// Moving entities from one layer to another
     /// </summary>
-    [CommandMethod("MovingEntitiesFromOneLayerToAnother")]
+    [CommandMethod("Linq2AcadExample5")]
     public void MovingEntitiesFromOneLayerToAnother()
     {
       var editor = Application.DocumentManager.MdiActiveDocument.Editor;
@@ -117,7 +117,7 @@ namespace Linq2Acad
     /// <summary>
     /// Importing a block from a drawing file
     /// </summary>
-    [CommandMethod("ImportingABlockFromADrawingFile")]
+    [CommandMethod("Linq2AcadExample6")]
     public void ImportingABlockFromADrawingFile()
     {
       var editor = Application.DocumentManager.MdiActiveDocument.Editor;
@@ -150,7 +150,7 @@ namespace Linq2Acad
     /// <summary>
     /// Opening a drawing from file and counting the BlockReferences in the model space
     /// </summary>
-    [CommandMethod("OpeningADrawingFromFileAndCountingTheBlockReferencesInTheModelSpace")]
+    [CommandMethod("Linq2AcadExample7")]
     public void OpeningADrawingFromFileAndCountingTheBlockReferencesInTheModelSpace()
     {
       var editor = Application.DocumentManager.MdiActiveDocument.Editor;
@@ -172,7 +172,7 @@ namespace Linq2Acad
     /// <summary>
     /// Picking an entity and saving a string on it
     /// </summary>
-    [CommandMethod("PickingAnEntityAndSavingAStringOnIt")]
+    [CommandMethod("Linq2AcadExample8")]
     public void PickingAnEntityAndSavingAStringOnIt()
     {
       var editor = Application.DocumentManager.MdiActiveDocument.Editor;
@@ -207,7 +207,7 @@ namespace Linq2Acad
     /// <summary>
     /// Picking an entity and reading a string from it
     /// </summary>
-    [CommandMethod("PickingAnEntityAndReadingAStringFromIt")]
+    [CommandMethod("Linq2AcadExample9")]
     public void PickingAnEntityAndReadingAStringFromIt()
     {
       var editor = Application.DocumentManager.MdiActiveDocument.Editor;
@@ -238,7 +238,7 @@ namespace Linq2Acad
     /// <summary>
     /// Creating a group and adding all lines in the model space to it
     /// </summary>
-    [CommandMethod("CreatingAGroupAndAddingAllLinesInTheModelSpaceToIt")]
+    [CommandMethod("Linq2AcadExample10")]
     public void CreatingAGroupAndAddingAllLinesInTheModelSpaceToIt()
     {
       var editor = Application.DocumentManager.MdiActiveDocument.Editor;
@@ -257,6 +257,14 @@ namespace Linq2Acad
             .Create("LineGroup", lines);
         }
       }
+    }
+
+    public void Initialize()
+    {
+    }
+
+    public void Terminate()
+    {
     }
   }
 }
