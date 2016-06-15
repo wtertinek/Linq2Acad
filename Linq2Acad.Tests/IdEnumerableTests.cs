@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections;
 
 namespace Linq2Acad
 {
@@ -10,208 +11,181 @@ namespace Linq2Acad
   public class IdEnumerableTests
   {
     [TestMethod]
-    public void TestConcatWithArray()
+    public void TestContains()
     {
-      var accessed = new List<int>();
-      var enumerable = new IntegerEnumerable(0, 2, id => accessed.Add(id));
-      var result = enumerable.Concat(new[] { 2, 3 })
-                             .ToArray();
+      var enumerated = new List<object>();
+      var enumerable = new IdEnumerable<int>(new IntegerEnumerable(0, 3), id => { enumerated.Add(id); return (int)id; });
+      var result = enumerable.Contains(1);
 
-      Assert.AreEqual(2, accessed.Count);
+      Assert.AreEqual(2, enumerated.Count);
+      Assert.IsTrue(result);
     }
 
     [TestMethod]
-    public void TestConcatWithIdEnumerable()
+    public void TestCount()
     {
-      var accessed = new List<int>();
-      var enumerable = new IntegerEnumerable(0, 2, id => accessed.Add(id));
-      var result = enumerable.Concat(new IntegerEnumerable(2, 2, id => accessed.Add(id)))
-                             .ToArray();
+      var enumerated = new List<object>();
+      var enumerable = new IdEnumerable<int>(new IntegerEnumerable(0, 3), id => { enumerated.Add(id); return (int)id; });
+      var result = enumerable.Count();
 
-      Assert.AreEqual(4, accessed.Count);
-      Assert.AreEqual(0, accessed[0]);
-      Assert.AreEqual(1, accessed[1]);
-      Assert.AreEqual(2, accessed[2]);
-      Assert.AreEqual(3, accessed[3]);
-
-      Assert.AreEqual(4, result.Length);
-      Assert.AreEqual(0, result[0]);
-      Assert.AreEqual(1, result[1]);
-      Assert.AreEqual(2, result[2]);
-      Assert.AreEqual(3, result[3]);
+      Assert.AreEqual(0, enumerated.Count);
+      Assert.AreEqual(3, result);
     }
 
     [TestMethod]
-    public void TestConcatWithIdEnumerableFollowedBySkip()
+    public void TestElementAt()
     {
-      var accessed = new List<int>();
-      var enumerable = new IntegerEnumerable(0, 2, id => accessed.Add(id));
-      var result = enumerable.Concat(new IntegerEnumerable(2, 2, id => accessed.Add(id)))
-                             .Skip(2)
-                             .ToArray();
+      var enumerated = new List<object>();
+      var enumerable = new IdEnumerable<int>(new IntegerEnumerable(0, 3), id => { enumerated.Add(id); return (int)id; });
+      var result = enumerable.ElementAt(1);
 
-      Assert.AreEqual(2, accessed.Count);
-      Assert.AreEqual(2, accessed[0]);
-      Assert.AreEqual(3, accessed[1]);
-
-      Assert.AreEqual(2, result.Length);
-      Assert.AreEqual(2, result[0]);
-      Assert.AreEqual(3, result[1]);
+      Assert.AreEqual(1, enumerated.Count);
+      Assert.AreEqual(1, result);
     }
 
     [TestMethod]
-    public void TestSkipFollowedByTake()
+    public void TestElementAtOrDefault()
     {
-      var accessed = new List<int>();
-      var enumerable = new IntegerEnumerable(0, 6, id => accessed.Add(id));
-      var result = enumerable.Skip(2)
-                             .Take(2)
-                             .ToArray();
+      var enumerated = new List<object>();
+      var enumerable = new IdEnumerable<int>(new IntegerEnumerable(0, 3), id => { enumerated.Add(id); return (int)id; });
+      var result = enumerable.ElementAtOrDefault(1);
 
-      Assert.AreEqual(2, accessed.Count);
-      Assert.AreEqual(2, accessed[0]);
-      Assert.AreEqual(3, accessed[1]);
-
-      Assert.AreEqual(2, result.Length);
-      Assert.AreEqual(2, result[0]);
-      Assert.AreEqual(3, result[1]);
+      Assert.AreEqual(1, enumerated.Count);
+      Assert.AreEqual(1, result);
     }
 
     [TestMethod]
     public void TestLast()
     {
-      var accessed = new List<int>();
-      var enumerable = new IntegerEnumerable(0, 3, id => accessed.Add(id));
+      var enumerated = new List<object>();
+      var enumerable = new IdEnumerable<int>(new IntegerEnumerable(0, 3), id => { enumerated.Add(id); return (int)id; });
       var result = enumerable.Last();
 
-      Assert.AreEqual(1, accessed.Count);
-      Assert.AreEqual(2, accessed[0]);
-
+      Assert.AreEqual(1, enumerated.Count);
       Assert.AreEqual(2, result);
     }
 
     [TestMethod]
-    public void TestConcatFollowedByLast()
+    public void TestLastOrDefault()
     {
-      var accessed = new List<int>();
-      var result = new IntegerEnumerable(0, 2, id => accessed.Add(id))
-                   .Concat(new IntegerEnumerable(2, 2, id => accessed.Add(id)))
-                   .Last();
+      var enumerated = new List<object>();
+      var enumerable = new IdEnumerable<int>(new IntegerEnumerable(0, 3), id => { enumerated.Add(id); return (int)id; });
+      var result = enumerable.LastOrDefault();
 
-      Assert.AreEqual(1, accessed.Count);
-      Assert.AreEqual(3, accessed[0]);
+      Assert.AreEqual(1, enumerated.Count);
+      Assert.AreEqual(2, result);
+    }
 
+    [TestMethod]
+    public void TestLongCount()
+    {
+      var enumerated = new List<object>();
+      var enumerable = new IdEnumerable<int>(new IntegerEnumerable(0, 3), id => { enumerated.Add(id); return (int)id; });
+      var result = enumerable.LongCount();
+
+      Assert.AreEqual(0, enumerated.Count);
       Assert.AreEqual(3, result);
     }
 
     [TestMethod]
-    public void TestConcatAndCount()
+    public void TestSequenceEqual()
     {
-      var accessed = new List<int>();
-      var result = new IntegerEnumerable(0, 2, id => accessed.Add(id))
-                   .Concat(new IntegerEnumerable(2, 2, id => accessed.Add(id)))
-                   .Count();
+      var enumerated = new List<object>();
+      var enumerable = new IdEnumerable<int>(new IntegerEnumerable(0, 3), id => { enumerated.Add(id); return (int)id; });
+      var result = enumerable.SequenceEqual(new [] { 0, 1, 2 });
 
-      Assert.AreEqual(0, accessed.Count);
-      Assert.AreEqual(4, result);
-    }
-
-    [TestMethod]
-    public void TestConcatWithArrayAndCount()
-    {
-      var accessed = new List<int>();
-      var result = new IntegerEnumerable(0, 2, id => accessed.Add(id))
-                   .Concat(new[] { 2, 3 })
-                   .Concat(new IntegerEnumerable(4, 2, id => accessed.Add(id)))
-                   .Count();
-
-      Assert.AreEqual(4, accessed.Count);
-      Assert.AreEqual(6, result);
+      Assert.AreEqual(3, enumerated.Count);
+      Assert.IsTrue(result);
     }
 
     [TestMethod]
     public void TestSkip()
     {
-      var accessed = new List<int>();
-      var enumerable = new IntegerEnumerable(0, 4, id => accessed.Add(id));
+      var enumerated = new List<object>();
+      var enumerable = new IdEnumerable<int>(new IntegerEnumerable(0, 3), id => { enumerated.Add(id); return (int)id; });
       var result = enumerable.Skip(2)
                              .ToArray();
 
-      Assert.AreEqual(2, accessed.Count);
-      Assert.AreEqual(2, accessed[0]);
-      Assert.AreEqual(3, accessed[1]);
-
-      Assert.AreEqual(2, result.Length);
+      Assert.AreEqual(1, enumerated.Count);
+      Assert.AreEqual(1, result.Length);
       Assert.AreEqual(2, result[0]);
-      Assert.AreEqual(3, result[1]);
     }
 
     [TestMethod]
-    public void TestFirstOrDefaultWithoutElements()
+    public void TestTake()
     {
-      var accessed = new List<string>();
-      var enumerable = new StringEnumerable(id => accessed.Add(id));
-      var result = enumerable.FirstOrDefault();
+      var enumerated = new List<object>();
+      var enumerable = new IdEnumerable<int>(new IntegerEnumerable(0, 3), id => { enumerated.Add(id); return (int)id; });
+      var result = enumerable.Take(2)
+                             .ToArray();
 
-      Assert.AreEqual(0, accessed.Count);
-      Assert.IsNull(result);
+      Assert.AreEqual(2, enumerated.Count);
+      Assert.AreEqual(2, result.Length);
+      Assert.AreEqual(0, result[0]);
+      Assert.AreEqual(1, result[1]);
     }
 
-    [TestMethod]
-    public void TestFirstOrDefaultWithThreeElement()
+    #region IntegerEnumerable
+
+    public class IntegerEnumerable : IEnumerable
     {
-      var accessed = new List<int>();
-      var enumerable = new IntegerEnumerable(3, 3, id => accessed.Add(id));
-      var result = enumerable.FirstOrDefault();
+      private int startIndex;
+      private int count;
 
-      Assert.AreEqual(1, accessed.Count);
-      Assert.AreEqual(3, accessed.First());
-      Assert.AreEqual(3, result);
-    }
-
-    [TestMethod]
-    public void TestLastOrDefaultWithoutElements()
-    {
-      var accessed = new List<string>();
-      var enumerable = new StringEnumerable(id => accessed.Add(id));
-      var result = enumerable.LastOrDefault();
-
-      Assert.AreEqual(0, accessed.Count);
-      Assert.IsNull(result);
-    }
-
-    [TestMethod]
-    public void TestLastOrDefaultWithThreeElement()
-    {
-      var accessed = new List<int>();
-      var enumerable = new IntegerEnumerable(3, 3, id => accessed.Add(id));
-      var result = enumerable.LastOrDefault();
-
-      Assert.AreEqual(1, accessed.Count);
-      Assert.AreEqual(5, accessed.First());
-      Assert.AreEqual(5, result);
-    }
-
-    #region Enumerables
-
-    [DebuggerStepThrough]
-    private class IntegerEnumerable : LazyIdEnumerable<int>
-    {
-      public IntegerEnumerable(int startIndex, int count, Action<int> accessed)
-        : base(Enumerable.Range(startIndex, count).Select(id => (object)id),
-               obj => { var id = (int)obj; accessed(id); return id; })
+      [DebuggerStepThrough]
+      public IntegerEnumerable(int startIndex, int count)
       {
+        this.startIndex = startIndex;
+        this.count = count;
       }
-    }
 
-    [DebuggerStepThrough]
-    private class StringEnumerable : LazyIdEnumerable<string>
-    {
-      public StringEnumerable(Action<string> accessed, params string[] ids)
-        : base(ids.Select(id => (object)id),
-               obj => { var id = (string)obj; accessed(id); return id; })
+      public IEnumerator GetEnumerator()
       {
+        return new IntegerEnumerator(startIndex, count);
       }
+
+      #region IntegerEnumerator
+
+      private class IntegerEnumerator : IEnumerator
+      {
+        private int startIndex;
+        private int count;
+        private int current;
+
+        [DebuggerStepThrough]
+        public IntegerEnumerator(int startIndex, int count)
+        {
+          this.startIndex = startIndex;
+          this.count = count;
+          this.current = startIndex - 1;
+        }
+
+        public object Current
+        {
+          get { return current; }
+        }
+
+        public bool MoveNext()
+        {
+          if (current < (startIndex + count - 1))
+          {
+            current++;
+            return true;
+          }
+          else
+          {
+            return false;
+          }
+        }
+
+        public void Reset()
+        {
+          current = startIndex - 1;
+        }
+      }
+
+      #endregion
+
     }
 
     #endregion

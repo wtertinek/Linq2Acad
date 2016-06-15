@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Autodesk.AutoCAD.DatabaseServices;
+using System.Diagnostics;
 
 namespace Linq2Acad
 {
@@ -10,6 +11,7 @@ namespace Linq2Acad
 
   public abstract class ElementEnumerable<T, TId> : IEnumerable<T>
   {
+    [DebuggerStepThrough]
     protected ElementEnumerable()
     {
     }
@@ -62,14 +64,14 @@ namespace Linq2Acad
   {
     private IDataProvider<TId, TConstraint> dataProvider;
 
-    public LazyElementEnumerable(IdEnumerable<TId> ids, IDataProvider<TId, TConstraint> dataProvider)
+    public LazyElementEnumerable(IEnumerable<TId> ids, IDataProvider<TId, TConstraint> dataProvider)
     {
       IDs = ids;
       this.dataProvider = dataProvider;
     }
 
-    internal IdEnumerable<TId> IDs { get; private set; }
-
+    internal IEnumerable<TId> IDs { get; private set; }
+    
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed IEnumerator<T> GetEnumerator()
     {
@@ -359,6 +361,6 @@ namespace Linq2Acad
 
     TId GetId<T>(T element) where T : TConstraint;
 
-    IdEnumerable<TId> Filter<T>(IdEnumerable<TId> ids) where T : TConstraint;
+    IEnumerable<TId> Filter<T>(IEnumerable<TId> ids) where T : TConstraint;
   }
 }

@@ -13,7 +13,7 @@ namespace Linq2Acad
 
     internal protected ContainerEnumerableBase(Database database, Transaction transaction, ObjectId containerID,
                                                Func<object, ObjectId> getID)
-      : base(new LazyIdEnumerable<ObjectId>(((IEnumerable)transaction.GetObject(containerID, OpenMode.ForRead)).Cast<object>(), getID),
+      : base(new IdEnumerable<ObjectId>(((IEnumerable)transaction.GetObject(containerID, OpenMode.ForRead)).Cast<object>(), getID),
              new DataProvider(transaction))
     {
       this.database = database;
@@ -84,21 +84,21 @@ namespace Linq2Acad
         this.transaction = transaction;
       }
 
-      public T GetElement<T>(ObjectId id) where T : DBObject
+      public TElement GetElement<TElement>(ObjectId id) where TElement : DBObject
       {
-        return (T)transaction.GetObject(id, OpenMode.ForRead);
+        return (TElement)transaction.GetObject(id, OpenMode.ForRead);
       }
 
-      public ObjectId GetId<T>(T element) where T : DBObject
+      public ObjectId GetId<TElement>(TElement element) where TElement : DBObject
       {
         return element.ObjectId;
       }
 
-      public IdEnumerable<ObjectId> Filter<T>(IdEnumerable<ObjectId> ids) where T : DBObject
+      public IEnumerable<ObjectId> Filter<TElement>(IEnumerable<ObjectId> ids) where TElement : DBObject
       {
-        // TODO: What is T's RXClass if it is a derived type?
-        var rxType = Autodesk.AutoCAD.Runtime.RXClass.GetClass(typeof(T));
-        return new MaterializedIdEnumerable<ObjectId>(ids.Where(id => id.ObjectClass.IsDerivedFrom(rxType)));
+        // TODO: What is TElement's RXClass if it is a derived type?
+        var rxType = Autodesk.AutoCAD.Runtime.RXClass.GetClass(typeof(TElement));
+        return ids.Where(id => id.ObjectClass.IsDerivedFrom(rxType));
       }
     }
 
