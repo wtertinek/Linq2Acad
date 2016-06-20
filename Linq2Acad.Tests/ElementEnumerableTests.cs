@@ -12,10 +12,10 @@ namespace Linq2Acad
     [TestMethod]
     public void TestConcatWithLazyEnumerable()
     {
-      var elements = new List<Element>();
       var ids = new List<int>();
-      var result = new DummyEnumerable(0, 2, e => elements.Add(e), id => ids.Add(id))
-                   .Concat(new DummyEnumerable(2, 2, e => elements.Add(e), id => ids.Add(id)))
+      var elements = new List<Element>();
+      var result = new DummyEnumerable(e => elements.Add(e), id => ids.Add(id), 0, 2)
+                   .Concat(new DummyEnumerable(e => elements.Add(e), id => ids.Add(id), 2, 2))
                    .ToArray();
 
       Assert.AreEqual(4, elements.Count);
@@ -40,9 +40,9 @@ namespace Linq2Acad
     [TestMethod]
     public void TestConcatWithArray()
     {
-      var elements = new List<Element>();
       var ids = new List<int>();
-      var result = new DummyEnumerable(0, 2, e => elements.Add(e), id => ids.Add(id))
+      var elements = new List<Element>();
+      var result = new DummyEnumerable(e => elements.Add(e), id => ids.Add(id), 0, 2)
                    .Concat(new [] { new Element(2), new Element(3) })
                    .ToArray();
 
@@ -66,7 +66,7 @@ namespace Linq2Acad
     {
       var ids = new List<int>();
       var elements = new List<Element>();
-      var result = new DummyEnumerable(0, 4, e => elements.Add(e), id => ids.Add(id))
+      var result = new DummyEnumerable(e => elements.Add(e), id => ids.Add(id), 0, 4)
                    .Count();
 
       Assert.AreEqual(0, elements.Count);
@@ -79,7 +79,7 @@ namespace Linq2Acad
     {
       var ids = new List<int>();
       var elements = new List<Element>();
-      var result = new DummyEnumerable(0, 2, e => elements.Add(e), id => ids.Add(id))
+      var result = new DummyEnumerable(e => elements.Add(e), id => ids.Add(id), 0, 2)
                    .Concat(new[] { new Element(3), new Element(4) })
                    .Count();
 
@@ -93,29 +93,61 @@ namespace Linq2Acad
     {
       var ids = new List<int>();
       var elements = new List<Element>();
-      var result = new DummyEnumerable(0, 2, e => elements.Add(e), id => ids.Add(id))
-                   .Concat(new DummyEnumerable(0, 2, e => elements.Add(e), id => ids.Add(id)))
+      var result = new DummyEnumerable(e => elements.Add(e), id => ids.Add(id), 0, 2)
+                   .Concat(new DummyEnumerable(e => elements.Add(e), id => ids.Add(id), 0, 2))
                    .Count();
 
       Assert.AreEqual(0, elements.Count);
-      Assert.AreEqual(4, ids.Count);
+      Assert.AreEqual(0, ids.Count);
       Assert.AreEqual(4, result);
+    }
+
+    [TestMethod]
+    public void TestCountAfterConcatWithTwoLazyEnumerables()
+    {
+      var ids = new List<int>();
+      var elements = new List<Element>();
+      var result = new DummyEnumerable(e => elements.Add(e), id => ids.Add(id), 0, 2)
+                   .Concat(new DummyEnumerable(e => elements.Add(e), id => ids.Add(id), 2, 2))
+                   .Concat(new DummyEnumerable(e => elements.Add(e), id => ids.Add(id), 4, 2))
+                   .Count();
+
+      Assert.AreEqual(0, elements.Count);
+      Assert.AreEqual(0, ids.Count);
+      Assert.AreEqual(6, result);
     }
 
     [TestMethod]
     public void TestLastAfterConcat()
     {
-      var elements = new List<Element>();
       var ids = new List<int>();
-      var result = new DummyEnumerable(0, 2, e => elements.Add(e), id => ids.Add(id))
-                   .Concat(new DummyEnumerable(2, 2, e => elements.Add(e), id => ids.Add(id)))
+      var elements = new List<Element>();
+      var result = new DummyEnumerable(e => elements.Add(e), id => ids.Add(id), 0, 2)
+                   .Concat(new DummyEnumerable(e => elements.Add(e), id => ids.Add(id), 2, 2))
                    .Last();
 
       Assert.AreEqual(1, elements.Count);
       Assert.AreEqual(3, elements[0].ID);
-      Assert.AreEqual(4, ids.Count);
+      Assert.AreEqual(1, ids.Count);
 
       Assert.AreEqual(3, result.ID);
+    }
+
+    [TestMethod]
+    public void TestOfType()
+    {
+      var ids = new List<int>();
+      var elements = new List<Element>();
+      var result = new DummyEnumerable(e => elements.Add(e), id => ids.Add(id), 0, 3, new Element(0), new DerivedElement(1), new Element(2))
+                   .OfType<DerivedElement>()
+                   .ToArray();
+
+      Assert.AreEqual(1, elements.Count);
+      Assert.AreEqual(1, elements[0].ID);
+      Assert.AreEqual(3, ids.Count);
+
+      Assert.AreEqual(1, result.Length);
+      Assert.AreEqual(1, result[0].ID);
     }
 
     [TestMethod]
@@ -123,8 +155,8 @@ namespace Linq2Acad
     {
       var ids = new List<int>();
       var elements = new List<Element>();
-      var result = new DummyEnumerable(0, 2, e => elements.Add(e), id => ids.Add(id))
-                   .SequenceEqual(new DummyEnumerable(0, 2, e => elements.Add(e), id => ids.Add(id)));
+      var result = new DummyEnumerable(e => elements.Add(e), id => ids.Add(id), 0, 2)
+                   .SequenceEqual(new DummyEnumerable(e => elements.Add(e), id => ids.Add(id), 0, 2));
 
       Assert.AreEqual(0, elements.Count);
       Assert.AreEqual(4, ids.Count);
@@ -136,7 +168,7 @@ namespace Linq2Acad
     {
       var ids = new List<int>();
       var elements = new List<Element>();
-      var result = new DummyEnumerable(0, 4, e => elements.Add(e), id => ids.Add(id))
+      var result = new DummyEnumerable(e => elements.Add(e), id => ids.Add(id), 0, 4)
                    .Skip(2)
                    .ToArray();
 
@@ -148,121 +180,57 @@ namespace Linq2Acad
       Assert.AreEqual(3, result[1].ID);
     }
 
+    #region Nested class DummyEnumerable
+
     [DebuggerStepThrough]
     private class DummyEnumerable : LazyElementEnumerable<Element, int, Element>
     {
-      public DummyEnumerable(int startIndex, int count, Action<Element> elementAccessed, Action<int> idAccessed)
-        : base(new IntegerEnumerable(startIndex, count, idAccessed), new DataProvider(elementAccessed, idAccessed))
+      public DummyEnumerable(Action<Element> elementAccessed, Action<int> idAccessed, int startIndex, int count)
+        : base(new LazayIdEnumerable<int>(new IntegerEnumerable(startIndex, count), id => { idAccessed((int)id); return (int)id; }), new ElementDataProvider(GetElements(startIndex, count), elementAccessed, idAccessed))
       {
       }
-    }
 
-    #region IntegerEnumerable
-
-    public class IntegerEnumerable : IEnumerable<int>
-    {
-      private int startIndex;
-      private int count;
-      private Action<int> accessed;
-
-      [DebuggerStepThrough]
-      public IntegerEnumerable(int startIndex, int count, Action<int> accessed)
+      public DummyEnumerable(Action<Element> elementAccessed, Action<int> idAccessed, int startIndex, int count, params Element[] elements)
+        : base(new LazayIdEnumerable<int>(new IntegerEnumerable(startIndex, count), id => { idAccessed((int)id); return (int)id; }), new ElementDataProvider(elements.ToDictionary(e => e.ID, e => e), elementAccessed, idAccessed))
       {
-        this.startIndex = startIndex;
-        this.count = count;
-        this.accessed = accessed;
       }
 
-      public IEnumerator<int> GetEnumerator()
+      private static Dictionary<int, Element> GetElements(int startIndex, int count)
       {
-        return new IntegerEnumerator(startIndex, count, accessed);
-      }
-
-      System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-      {
-        return GetEnumerator();
+        return Enumerable.Range(startIndex, count)
+                         .Select(id => new Element(id))
+                         .ToDictionary(e => e.ID, e => e);
       }
     }
 
     #endregion
 
-    #region IntegerEnumerator
-
-    private class IntegerEnumerator : IEnumerator<int>
-    {
-      private int startIndex;
-      private int count;
-      private int current;
-      private Action<int> accessed;
-
-      [DebuggerStepThrough]
-      public IntegerEnumerator(int startIndex, int count, Action<int> accessed)
-      {
-        this.startIndex = startIndex;
-        this.count = count;
-        this.accessed = accessed;
-        this.current = startIndex - 1;
-      }
-
-      public int Current
-      {
-        get
-        {
-          accessed(current);
-          return current;
-        }
-      }
-
-      public void Dispose()
-      {
-
-      }
-
-      object System.Collections.IEnumerator.Current
-      {
-        get { return Current; }
-      }
-
-      public bool MoveNext()
-      {
-        if (current < (startIndex + count - 1))
-        {
-          current++;
-          return true;
-        }
-        else
-        {
-          return false;
-        }
-      }
-
-      public void Reset()
-      {
-        current = startIndex - 1;
-      }
-    }
-
-    #endregion
-
-    #region Nested class DataProvider
+    #region Nested class ElementDataProvider
 
     [DebuggerStepThrough]
-    class DataProvider : IDataProvider<int, Element>
+    class ElementDataProvider : IDataProvider<int, Element>
     {
+      private Dictionary<int, Element> elements;
       private Action<Element> elementAccessed;
       private Action<int> idAccessed;
 
-      public DataProvider(Action<Element> elementAccessed, Action<int> idAccessed)
+      public ElementDataProvider(Dictionary<int, Element> elements, Action<Element> elementAccessed, Action<int> idAccessed)
       {
+        this.elements = elements;
         this.elementAccessed = elementAccessed;
         this.idAccessed = idAccessed;
       }
 
       public T GetElement<T>(int id) where T : Element
       {
-        var tmp = (T)new Element(id);
-        elementAccessed(tmp);
-        return tmp;
+        if (!elements.ContainsKey(id))
+        {
+          elements[id] = new Element(id);
+        }
+
+        var element = (T)elements[id];
+        elementAccessed(element);
+        return element;
       }
 
       public int GetId<T>(T element) where T : Element
@@ -273,7 +241,7 @@ namespace Linq2Acad
 
       public IEnumerable<int> Filter<T>(IEnumerable<int> ids) where T : Element
       {
-        return ids;
+        return ids.Where(id => elements[id] is T);
       }
     }
 
@@ -290,6 +258,19 @@ namespace Linq2Acad
       }
 
       public int ID { get; private set; }
+    }
+
+    #endregion
+
+    #region Nested class DerivedElement
+
+    [DebuggerStepThrough]
+    class DerivedElement : Element
+    {
+      public DerivedElement(int id)
+        : base(id)
+      {
+      }
     }
 
     #endregion

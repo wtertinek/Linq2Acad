@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="ElementEnumerableTests.cs" />
     <Compile Include="IdEnumerableTests.cs" />
+    <Compile Include="IntegerEnumerable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
