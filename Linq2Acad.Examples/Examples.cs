@@ -23,6 +23,8 @@ namespace Linq2Acad
         db.ModelSpace
           .Clear();
       }
+
+      WriteMessage("Model space cleared");
     }
 
     /// <summary>
@@ -37,6 +39,8 @@ namespace Linq2Acad
           .OfType<BlockReference>()
           .ForEach(br => br.Erase());
       }
+
+      WriteMessage("All block references removed from model space");
     }
 
     /// <summary>
@@ -51,6 +55,8 @@ namespace Linq2Acad
           .Add(new Line(new Point3d(0, 0, 0),
                         new Point3d(100, 100, 0)));
       }
+
+      WriteMessage("Line added to model space");
     }
 
     /// <summary>
@@ -72,9 +78,10 @@ namespace Linq2Acad
     [CommandMethod("Linq2AcadExample5")]
     public void TurningOffAllLayersExceptTheOneTheUserEnters()
     {
+      var layerName = GetString("Enter layer name");
+
       using (var db = AcadDatabase.Active())
       {
-        var layerName = GetString("Enter layer name");
         var layer = db.Layers
                       .Element(layerName);
 
@@ -82,6 +89,8 @@ namespace Linq2Acad
           .Except(new[] { layer })
           .ForEach(l => l.IsOff = true);
       }
+
+      WriteMessage("All layers (except " + layerName + ") turned off");
     }
 
     /// <summary>
@@ -101,6 +110,8 @@ namespace Linq2Acad
           .Element(targetLayerName)
           .AddRange(entities);
       }
+
+      WriteMessage("All entities on layer " + sourceLayerName + " moved to layer " + targetLayerName);
     }
 
     /// <summary>
@@ -122,9 +133,9 @@ namespace Linq2Acad
           activeDb.Blocks
                   .Import(block);
         }
-
-        WriteMessage("Block " + blockName + " successfully imported");
       }
+
+      WriteMessage("Block " + blockName + " imported");
     }
 
     /// <summary>
@@ -141,7 +152,7 @@ namespace Linq2Acad
                       .OfType<BlockReference>()
                       .Count();
 
-        WriteMessage("Model space BlockReferences in file " + filePath + ": " + count);
+        WriteMessage("Model space block references in file " + filePath + ": " + count);
       }
     }
 
@@ -161,6 +172,8 @@ namespace Linq2Acad
           .Element(entityId)
           .SaveData(key, str);
       }
+
+      WriteMessage("Key-value-pair " + key + ":" + str + " saved on entity");
     }
 
     /// <summary>
@@ -174,11 +187,11 @@ namespace Linq2Acad
 
       using (var db = AcadDatabase.Active())
       {
-        var entity = db.CurrentSpace
-                       .Element(entityId);
+        var str = db.CurrentSpace
+                       .Element(entityId)
+                       .GetData<string>(key);
 
-        var str = entity.GetData<string>(key);
-        WriteMessage("String: " + str);
+        WriteMessage("String " + str + " read from entity");
       }
     }
 
@@ -192,10 +205,13 @@ namespace Linq2Acad
 
       using (var db = AcadDatabase.Active())
       {
-          var lines = db.ModelSpace
-                        .OfType<Line>();
-          db.Groups
-            .Create(groupName, lines);
+        var lines = db.ModelSpace
+                      .OfType<Line>()
+                      .ToArray();
+        db.Groups
+          .Create(groupName, lines);
+
+        WriteMessage("Group " + groupName + " created and " + lines.Length + " entities added");
       }
     }
   }

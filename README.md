@@ -6,14 +6,14 @@ In general, the library should be a more intuitive API for working with the draw
 ###Examples
 Removing all entities from the model space:
 
-Removing all entities from the model space:
-
 ```c#
 using (var db = AcadDatabase.Active())
 {
   db.ModelSpace
     .Clear();
 }
+
+WriteMessage("Model space cleared");
 ```
 
 Erasing all BlockReferences from the model space:
@@ -25,6 +25,8 @@ using (var db = AcadDatabase.Active())
     .OfType<BlockReference>()
     .ForEach(br => br.Erase());
 }
+
+WriteMessage("All block references removed from model space");
 ```
 
 Adding a line to the model space:
@@ -36,6 +38,8 @@ using (var db = AcadDatabase.Active())
     .Add(new Line(new Point3d(0, 0, 0),
                   new Point3d(100, 100, 0)));
 }
+
+WriteMessage("Line added to model space");
 ```
 
 Printing all layer names:
@@ -51,9 +55,10 @@ using (var db = AcadDatabase.Active())
 Turning off all layers, except the one the user enters:
 
 ```c#
+var layerName = GetString("Enter layer name");
+
 using (var db = AcadDatabase.Active())
 {
-  var layerName = GetString("Enter layer name");
   var layer = db.Layers
                 .Element(layerName);
 
@@ -61,6 +66,8 @@ using (var db = AcadDatabase.Active())
     .Except(new[] { layer })
     .ForEach(l => l.IsOff = true);
 }
+
+WriteMessage("All layers (except " + layerName + ") turned off");
 ```
 
 Moving entities from one layer to another:
@@ -77,6 +84,8 @@ using (var db = AcadDatabase.Active())
     .Element(targetLayerName)
     .AddRange(entities);
 }
+
+WriteMessage("All entities on layer " + sourceLayerName + " moved to layer " + targetLayerName);
 ```
 
 Importing a block from a drawing file:
@@ -95,9 +104,9 @@ using (var sourceDb = AcadDatabase.Open(filePath))
     activeDb.Blocks
             .Import(block);
   }
-
-  WriteMessage("Block " + blockName + " successfully imported");
 }
+
+WriteMessage("Block " + blockName + " imported");
 ```
 
 Opening a drawing from file and counting the BlockReferences in the model space:
@@ -111,7 +120,7 @@ using (var db = AcadDatabase.Open(filePath))
                 .OfType<BlockReference>()
                 .Count();
 
-  WriteMessage("Model space BlockReferences in file " + filePath + ": " + count);
+  WriteMessage("Model space block references in file " + filePath + ": " + count);
 }
 ```
 
@@ -128,6 +137,8 @@ using (var db = AcadDatabase.Active())
     .Element(entityId)
     .SaveData(key, str);
 }
+
+WriteMessage("Key-value-pair " + key + ":" + str + " saved on entity");
 ```
 
 Picking an entity and reading a string from it:
@@ -138,11 +149,11 @@ var key = GetString("Enter key");
 
 using (var db = AcadDatabase.Active())
 {
-  var entity = db.CurrentSpace
-                 .Element(entityId);
+  var str = db.CurrentSpace
+                 .Element(entityId)
+                 .GetData<string>(key);
 
-  var str = entity.GetData<string>(key);
-  WriteMessage("String: " + str);
+  WriteMessage("String " + str + " read from entity");
 }
 ```
 
@@ -153,10 +164,13 @@ var groupName = GetString("Enter group name");
 
 using (var db = AcadDatabase.Active())
 {
-    var lines = db.ModelSpace
-                  .OfType<Line>();
-    db.Groups
-      .Create(groupName, lines);
+  var lines = db.ModelSpace
+                .OfType<Line>()
+                .ToArray();
+  db.Groups
+    .Create(groupName, lines);
+
+  WriteMessage("Group " + groupName + " created and " + lines.Length + " entities added");
 }
 ```
 
