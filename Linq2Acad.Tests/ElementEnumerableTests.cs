@@ -138,7 +138,9 @@ namespace Linq2Acad
     {
       var ids = new List<int>();
       var elements = new List<Element>();
-      var result = new DummyEnumerable(e => elements.Add(e), id => ids.Add(id), 0, 3, new Element(0), new DerivedElement(1), new Element(2))
+      var result = new DummyEnumerable(e => elements.Add(e), id => ids.Add(id), 0, 3, new Element(0),
+                                                                                      new DerivedElement(1),
+                                                                                      new Element(2))
                    .OfType<DerivedElement>()
                    .ToArray();
 

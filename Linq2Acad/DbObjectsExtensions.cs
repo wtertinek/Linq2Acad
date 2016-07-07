@@ -135,6 +135,25 @@ namespace Linq2Acad
       }
     }
 
+    public static bool HasData(this DBObject source, string key)
+    {
+      if (source.ExtensionDictionary.IsNull)
+      {
+        return false;
+      }
+      else
+      {
+        var hasData = false;
+        WrapInTransaction(source, tr =>
+                                  {
+                                    var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForRead);
+                                    hasData = dict.Contains(key);
+                                  });
+
+        return hasData;
+      }
+    }
+
     public static void ForEach<T>(this IEnumerable<T> items, Action<T> action) where T : DBObject
     {
       foreach (var item in items)

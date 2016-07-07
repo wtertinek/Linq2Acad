@@ -1,17 +1,18 @@
 ###Linq2Acad
-**Linq2Acad** is a library that aims to simplify .NET AutoCAD addin code. The use of transactions is abstracted away through extension methods and ```IEnumerable<T>``` implementations which enumerate the datatabase objects. This provides the possibility to execute LINQ queries on database-resident objects. The AutoCAD .NET API already offers a way to use LINQ queries through the ```dynamic``` keyword, which has the drawback of losing all type information. Using Linq2Acad the type information is preserved.
+**Linq2Acad** is a library that aims to simplify .NET AutoCAD addin code. The use of transactions is abstracted away through extension methods and ```IEnumerable<T>``` implementations which enumerate the datatabase objects. This provides the possibility to execute LINQ queries on database-resident objects. The AutoCAD .NET API already offers a way to use LINQ queries through the ```dynamic``` keyword, which has the drawback of losing all type information (no IntelliSense) and having some performance implications. Using Linq2Acad the type information is preserved and there are no performance implications.
 
 In general, the library should be a more intuitive API for working with the drawing database, making the learning curve for beginners less steep.
 
 ###Examples
-Adding a line to the model space:
+Removing all entities from the model space:
+
+Removing all entities from the model space:
 
 ```c#
 using (var db = AcadDatabase.Active())
 {
   db.ModelSpace
-    .Add(new Line(new Point3d(5, 5, 0),
-                  new Point3d(12, 3, 0)));
+    .Clear();
 }
 ```
 
@@ -26,196 +27,136 @@ using (var db = AcadDatabase.Active())
 }
 ```
 
+Adding a line to the model space:
+
+```c#
+using (var db = AcadDatabase.Active())
+{
+  db.ModelSpace
+    .Add(new Line(new Point3d(0, 0, 0),
+                  new Point3d(100, 100, 0)));
+}
+```
+
 Printing all layer names:
 
 ```c#
-var editor = Application.DocumentManager.MdiActiveDocument.Editor;
-
 using (var db = AcadDatabase.Active())
 {
   db.Layers
-    .ForEach(l => editor.WriteLine(l.Name));
+    .ForEach(l => WriteMessage(l.Name));
 }
 ```
 
 Turning off all layers, except the one the user enters:
 
 ```c#
-var editor = Application.DocumentManager.MdiActiveDocument.Editor;
-
 using (var db = AcadDatabase.Active())
 {
-  var result = editor.GetString("Enter layer name",
-                                s => db.Layers.Contains(s));
+  var layerName = GetString("Enter layer name");
+  var layer = db.Layers
+                .Element(layerName);
 
-  if (result.Status == PromptStatus.OK)
-  {
-    var layer = db.Layers.Element(result.StringResult);
-
-    db.Layers
-      .Except(new[] { layer })
-      .ForEach(l => l.IsOff = true);
-  }
+  db.Layers
+    .Except(new[] { layer })
+    .ForEach(l => l.IsOff = true);
 }
 ```
 
 Moving entities from one layer to another:
 
 ```c#
-var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+var sourceLayerName = GetString("Enter source layer name");
+var targetLayerName = GetString("Enter target layer name");
 
 using (var db = AcadDatabase.Active())
 {
-  var result = editor.GetString("Enter source layer name:",
-                                s => db.Layers.Contains(s));
-
-  if (result.Status == PromptStatus.OK)
-  {
-    var sourceLayer = db.Layers
-                        .Element(result.StringResult);
-
-    result = editor.GetString("Enter target layer name:",
-                              s => db.Layers.Contains(s));
-
-    if (result.Status == PromptStatus.OK)
-    {
-      var entities = db.ModelSpace
-                        .Where(e => e.Layer == result.StringResult);
-      db.Layers
-        .Element(result.StringResult)
-        .AddRange(entities);
-    }
-  }
+  var entities = db.CurrentSpace
+                   .Where(e => e.Layer == sourceLayerName);
+  db.Layers
+    .Element(targetLayerName)
+    .AddRange(entities);
 }
 ```
 
 Importing a block from a drawing file:
 
 ```c#
-var editor = Application.DocumentManager.MdiActiveDocument.Editor;
-var result = editor.GetString("Enter file path:", s => File.Exists(s));
+var filePath = GetString("Enter file path");
+var blockName = GetString("Enter block name");
 
-if (result.Status == PromptStatus.OK)
+using (var sourceDb = AcadDatabase.Open(filePath))
 {
-  using (var sourceDB = AcadDatabase.Open(result.StringResult))
+  var block = sourceDb.Blocks
+                      .Element(blockName);
+
+  using (var activeDb = AcadDatabase.Active())
   {
-    result = editor.GetString("Enter block name:",
-                              s => sourceDB.Blocks.Contains(s));
-
-    if (result.Status == PromptStatus.OK)
-    {
-      var block = sourceDB.Blocks
-                          .Element(result.StringResult);
-
-      using (var activeDB = AcadDatabase.Active())
-      {
-        activeDB.Blocks
-                .Import(block, true);
-      }
-
-      editor.WriteLine("Block " + result.StringResult + " successfully imported");
-    }
+    activeDb.Blocks
+            .Import(block);
   }
+
+  WriteMessage("Block " + blockName + " successfully imported");
 }
 ```
 
 Opening a drawing from file and counting the BlockReferences in the model space:
 
 ```c#
-var editor = Application.DocumentManager.MdiActiveDocument.Editor;
-var result = editor.GetString("Enter file path:", s => File.Exists(s));
+var filePath = GetString("Enter file path");
 
-if (result.Status == PromptStatus.OK)
+using (var db = AcadDatabase.Open(filePath))
 {
-  using (var db = AcadDatabase.Open(result.StringResult))
-  {
-    var count = db.ModelSpace
-                  .OfType<BlockReference>()
-                  .Count();
+  var count = db.ModelSpace
+                .OfType<BlockReference>()
+                .Count();
 
-    editor.WriteLine("Model space BlockReferences in file " + result.StringResult + ": " + count);
-  }
+  WriteMessage("Model space BlockReferences in file " + filePath + ": " + count);
 }
 ```
 
 Picking an entity and saving a string on it:
 
 ```c#
-var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+var entityId = GetEntity("Pick an entity");
+var key = GetString("Enter key");
+var str = GetString("Enter string to save");
 
-var result1 = editor.GetEntity("Pick an entity:");
-
-if (result1.Status == PromptStatus.OK)
+using (var db = AcadDatabase.Active())
 {
-  var result2 = editor.GetString("Enter key:");
-
-  if (result2.Status == PromptStatus.OK)
-  {
-    var result3 = editor.GetString("Enter text to save:");
-
-    if (result3.Status == PromptStatus.OK)
-    {
-      var entityID = result1.ObjectId;
-      var key = result2.StringResult;
-      var value = result3.StringResult;
-
-      using (var db = AcadDatabase.Active())
-      {
-        db.ModelSpace
-          .Element(entityID)
-          .SaveData(key, value);
-      }
-    }
-  }
+  db.CurrentSpace
+    .Element(entityId)
+    .SaveData(key, str);
 }
 ```
 
 Picking an entity and reading a string from it:
 
 ```c#
-var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+var entityId = GetEntity("Pick an entity");
+var key = GetString("Enter key");
 
-var result1 = editor.GetEntity("Pick an entity:");
-
-if (result1.Status == PromptStatus.OK)
+using (var db = AcadDatabase.Active())
 {
-  var result2 = editor.GetString("Enter key:");
+  var entity = db.CurrentSpace
+                 .Element(entityId);
 
-  if (result2.Status == PromptStatus.OK)
-  {
-    var entityID = result1.ObjectId;
-    var key = result2.StringResult;
-
-    using (var db = AcadDatabase.Active())
-    {
-      var value = db.ModelSpace
-                    .Element(entityID)
-                    .GetData<string>(key);
-
-      editor.WriteLine("Value: " + value);
-    }
-  }
+  var str = entity.GetData<string>(key);
+  WriteMessage("String: " + str);
 }
 ```
 
 Creating a group and adding all lines in the model space to it:
 
 ```c#
-var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+var groupName = GetString("Enter group name");
 
 using (var db = AcadDatabase.Active())
 {
-  if (db.Groups.Contains("LineGroup"))
-  {
-    editor.WriteLine("LineGroup already exists");
-  }
-  else
-  {
     var lines = db.ModelSpace
                   .OfType<Line>();
     db.Groups
-      .Create("LineGroup", lines);
-  }
+      .Create(groupName, lines);
 }
 ```
 

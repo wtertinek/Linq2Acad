@@ -16,16 +16,31 @@ namespace Linq2Acad
 
     public static PromptResult GetString(this Editor editor, string message, Func<string, bool> validate)
     {
+      return GetString(editor, message, validate, null);
+    }
+
+    public static PromptResult GetString(this Editor editor, string message, Func<string, bool> validate, string errorMessage)
+    {
       PromptResult result = null;
 
       while(true)
       {
         result = editor.GetString(message);
 
-        if (result.Status != PromptStatus.OK ||
-            result.Status == PromptStatus.OK && validate(result.StringResult))
+        if (result.Status != PromptStatus.OK)
         {
           break;
+        }
+        else
+        {
+          if (validate(result.StringResult))
+          {
+            break;
+          }
+          else if (errorMessage != null)
+          {
+            editor.WriteLine(errorMessage);
+          }
         }
       }
 
