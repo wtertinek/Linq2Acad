@@ -4,6 +4,8 @@
 In general, the library should be a more intuitive API for working with the drawing database, making the learning curve for beginners less steep.
 
 ###Examples
+From [Examples.cs](https://github.com/wtertinek/Linq2Acad/blob/master/Linq2Acad.Examples/Examples.cs)
+
 Removing all entities from the model space:
 
 ```c#
@@ -150,8 +152,8 @@ var key = GetString("Enter key");
 using (var db = AcadDatabase.Active())
 {
   var str = db.CurrentSpace
-                 .Element(entityId)
-                 .GetData<string>(key);
+              .Element(entityId)
+              .GetData<string>(key);
 
   WriteMessage("String " + str + " read from entity");
 }

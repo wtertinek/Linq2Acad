@@ -188,8 +188,8 @@ namespace Linq2Acad
       using (var db = AcadDatabase.Active())
       {
         var str = db.CurrentSpace
-                       .Element(entityId)
-                       .GetData<string>(key);
+                    .Element(entityId)
+                    .GetData<string>(key);
 
         WriteMessage("String " + str + " read from entity");
       }
