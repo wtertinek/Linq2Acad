@@ -44,6 +44,11 @@ namespace Linq2Acad
 
     public void Dispose()
     {
+      Dispose(false);
+    }
+
+    public void Dispose(bool force)
+    {
       if (!transaction.IsDisposed)
       {
         if (abort)
@@ -57,14 +62,15 @@ namespace Linq2Acad
             transaction.Commit();
           }
 
-          if (disposeTransaction)
+          if (disposeTransaction || force)
           {
             transaction.Dispose();
           }
         }
       }
 
-      if (disposeDatabase)
+      if ((disposeDatabase || force) &&
+          !Database.IsDisposed)
       {
         Database.Dispose();
       }
