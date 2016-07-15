@@ -20,6 +20,17 @@ namespace Linq2Acad
     }
 
     /// <summary>
+    /// Creates a generic exception of type System.Exception.
+    /// </summary>
+    /// <param name="message">The message that describes the error.</param>
+    /// <param name="innerException">The that is the cause of the current exception.</param>
+    /// <returns>A new instance of System.Exception.</returns>
+    public static Exception Generic(string message, Exception innerException)
+    {
+      return new Exception(message, innerException);
+    }
+
+    /// <summary>
     /// Creates an exception of type System.ArgumentNullException.
     /// </summary>
     /// <param name="paramName">The name of the parameter that caused the exception.</param>
@@ -79,13 +90,24 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Creates an exception of type System.Exception that indicates that the given object is invalid.
+    /// Creates an exception of type InvalidObjectException that indicates that the given object is invalid.
     /// </summary>
     /// <param name="objectTypeName">The type name of the given object.</param>
-    /// <returns>A new instance of System.Exception.</returns>
-    public static Exception InvalidObject(string objectTypeName)
+    /// <returns>A new instance of InvalidObjectException.</returns>
+    public static InvalidObjectException InvalidObject(string objectTypeName)
     {
-      return new Exception("The given " + objectTypeName + " is invalid");
+      return new InvalidObjectException(objectTypeName);
+    }
+  }
+
+  /// <summary>
+  /// An exception that indicates that an object is invalid.
+  /// </summary>
+  internal class InvalidObjectException : Exception
+  {
+    public InvalidObjectException(string objectTypeName)
+      : base("The given " + objectTypeName + " is invalid")
+    {
     }
   }
 }

@@ -146,11 +146,24 @@ namespace Linq2Acad
     /// <typeparam name="T">The type of the objects.</typeparam>
     /// <param name="ids">The ids of the objects.</param>
     /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>ids</i> is null.</exception>
+    /// <exception cref="System.Exception">Thrown when an ObjectId is invalid or getting an element throws an exception.</exception>
     /// <returns>The objects with the given ObjectIds.</returns>
     public IEnumerable<T> Elements<T>(IEnumerable<ObjectId> ids) where T : DBObject
     {
       if (ids == null) throw Error.ArgumentNull("ids");
-      return ElementsInternal<T>(ids, false);
+      
+      try
+      {
+        return ElementsInternal<T>(ids, false);
+      }
+      catch (InvalidObjectException e)
+      {
+        throw Error.Generic(e.Message);
+      }
+      catch (Exception e)
+      {
+        throw Error.Generic("Error getting elements", e);
+      }
     }
 
     /// <summary>
@@ -160,11 +173,77 @@ namespace Linq2Acad
     /// <param name="ids">The ids of the objects.</param>
     /// <param name="forWrite">True, if the objects should be opened for-write.</param>
     /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>ids</i> is null.</exception>
+    /// <exception cref="System.Exception">Thrown when an ObjectId is invalid or getting an element throws an exception.</exception>
     /// <returns>The objects with the given ObjectIds.</returns>
     public IEnumerable<T> Elements<T>(IEnumerable<ObjectId> ids, bool forWrite) where T : DBObject
     {
       if (ids == null) throw Error.ArgumentNull("ids");
-      return ElementsInternal<T>(ids, forWrite);
+
+      try
+      {
+        return ElementsInternal<T>(ids, forWrite);
+      }
+      catch (InvalidObjectException e)
+      {
+        throw Error.Generic(e.Message);
+      }
+      catch (Exception e)
+      {
+        throw Error.Generic("Error getting elements", e);
+      }
+    }
+
+    /// <summary>
+    /// Returns the database objects with the given ObjectIds. The objects are readonly.
+    /// </summary>
+    /// <typeparam name="T">The type of the objects.</typeparam>
+    /// <param name="ids">The ids of the objects.</param>
+    /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>ids</i> is null.</exception>
+    /// <exception cref="System.Exception">Thrown when an ObjectId is invalid or getting an element throws an exception.</exception>
+    /// <returns>The objects with the given ObjectIds.</returns>
+    public IEnumerable<T> Elements<T>(ObjectIdCollection ids) where T : DBObject
+    {
+      if (ids == null) throw Error.ArgumentNull("ids");
+      
+      try
+      {
+        return ElementsInternal<T>(ids.Cast<ObjectId>(), false);
+      }
+      catch (InvalidObjectException e)
+      {
+        throw Error.Generic(e.Message);
+      }
+      catch (Exception e)
+      {
+        throw Error.Generic("Error getting elements", e);
+      }
+    }
+
+    /// <summary>
+    /// Returns the database objects with the given ObjectIds.
+    /// </summary>
+    /// <typeparam name="T">The type of the objects.</typeparam>
+    /// <param name="ids">The ids of the objects.</param>
+    /// <param name="forWrite">True, if the objects should be opened for-write.</param>
+    /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>ids</i> is null.</exception>
+    /// <exception cref="System.Exception">Thrown when an ObjectId is invalid or getting an element throws an exception.</exception>
+    /// <returns>The objects with the given ObjectIds.</returns>
+    public IEnumerable<T> Elements<T>(ObjectIdCollection ids, bool forWrite) where T : DBObject
+    {
+      if (ids == null) throw Error.ArgumentNull("ids");
+
+      try
+      {
+        return ElementsInternal<T>(ids.Cast<ObjectId>(), forWrite);
+      }
+      catch (InvalidObjectException e)
+      {
+        throw Error.Generic(e.Message);
+      }
+      catch (Exception e)
+      {
+        throw Error.Generic("Error getting elements", e);
+      }
     }
 
     /// <summary>
@@ -176,11 +255,11 @@ namespace Linq2Acad
     /// <returns>The objects with the given ObjectIds.</returns>
     private IEnumerable<T> ElementsInternal<T>(IEnumerable<ObjectId> ids, bool forWrite) where T : DBObject
     {
-      if (ids == null) throw Error.ArgumentNull("ids");
       var openMode = forWrite ? OpenMode.ForWrite : OpenMode.ForRead;
 
       foreach (var id in ids)
       {
+        if (!id.IsValid) throw Error.InvalidObject("ObjectId");
         yield return (T)transaction.GetObject(id, openMode);
       }
     }
@@ -189,11 +268,20 @@ namespace Linq2Acad
     /// Saves the drawing database to the file with the given name. The newest DWG version is used.
     /// </summary>
     /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>fileName</i> is null.</exception>
+    /// <exception cref="System.Exception">Thrown when saving the drawing database throws an exception.</exception>
     /// <param name="fileName">The name of the file.</param>
     public void SaveAs(string fileName)
     {
       if (fileName == null) throw Error.ArgumentNull("fileName");
-      Database.SaveAs(fileName, DwgVersion.Newest);
+
+      try
+      {
+        Database.SaveAs(fileName, DwgVersion.Newest);
+      }
+      catch (Exception e)
+      {
+        throw Error.Generic("Error saving drawing database to file " + fileName, e);
+      }
     }
 
     #region Tables
@@ -317,7 +405,7 @@ namespace Linq2Acad
 
     private EntityContainer GetSpace(string name)
     {
-      if (name == null) { throw Error.ArgumentNull("name"); }
+      if (name == null) throw Error.ArgumentNull("name");
       var spaceID = ((BlockTable)transaction.GetObject(Database.BlockTableId, OpenMode.ForRead))[name];
       return new EntityContainer(Database, transaction, spaceID);
     }
@@ -329,20 +417,36 @@ namespace Linq2Acad
     /// <summary>
     /// Provides access to a newly created drawing database.
     /// </summary>
+    /// <exception cref="System.Exception">Thrown when creating the drawing database throws an exception.</exception>
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Create()
     {
-      return Create(false);
+      try
+      {
+        return new AcadDatabase(new Database(true, true), false);
+      }
+      catch (Exception e)
+      {
+        throw Error.Generic("Error creating the drawing database", e);
+      }
     }
 
     /// <summary>
     /// Provides access to a newly created drawing database.
     /// </summary>
     /// <param name="keepOpen">True, if the database should be kept open after it has been used. False, if the database should be closed.</param>
+    /// <exception cref="System.Exception">Thrown when creating the drawing database throws an exception.</exception>
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Create(bool keepOpen)
     {
-      return new AcadDatabase(new Database(true, true), keepOpen);
+      try
+      {
+        return new AcadDatabase(new Database(true, true), keepOpen);
+      }
+      catch (Exception e)
+      {
+        throw Error.Generic("Error creating the drawing database", e);
+      }
     }
 
     /// <summary>
@@ -368,8 +472,8 @@ namespace Linq2Acad
     public static AcadDatabase Active(Transaction transaction, bool commitTransaction, bool disposeTransaction)
     {
       if (Application.DocumentManager.MdiActiveDocument == null) Error.NoActiveDocument();
-      if (transaction == null) { throw Error.ArgumentNull("transaction"); }
-      if (transaction.IsDisposed) { throw Error.InvalidObject("Transaction"); }
+      if (transaction == null) throw Error.ArgumentNull("transaction");
+      if (transaction.IsDisposed) throw Error.InvalidObject("Transaction");
       return new AcadDatabase(Application.DocumentManager.MdiActiveDocument.Database, transaction, commitTransaction, disposeTransaction);
     }
 
@@ -382,8 +486,8 @@ namespace Linq2Acad
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Use(Database database)
     {
-      if (database == null) { throw Error.ArgumentNull("database"); }
-      if (database.IsDisposed) { throw Error.InvalidObject("Database"); }
+      if (database == null) throw Error.ArgumentNull("database");
+      if (database.IsDisposed) throw Error.InvalidObject("Database");
       return new AcadDatabase(database, true);
     }
 
@@ -399,9 +503,9 @@ namespace Linq2Acad
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Use(Database database, Transaction transaction, bool commitTransaction, bool disposeTransaction)
     {
-      if (database == null) { throw Error.ArgumentNull("database"); }
-      if (database.IsDisposed) { throw Error.InvalidObject("Database"); }
-      if (transaction == null) { throw Error.ArgumentNull("transaction"); }
+      if (database == null) throw Error.ArgumentNull("database");
+      if (database.IsDisposed) throw Error.InvalidObject("Database");
+      if (transaction == null) throw Error.ArgumentNull("transaction");
       return new AcadDatabase(database, transaction, commitTransaction, disposeTransaction);
     }
 
@@ -412,12 +516,21 @@ namespace Linq2Acad
     /// <param name="openMode">The mode in which the drawing database should be opened.</param>
     /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>fileName</i> is null.</exception>
     /// <exception cref="System.IO.FileNotFoundException">Thrown when the file cannot be found.</exception>
+    /// <exception cref="System.Exception">Thrown when opening the darwing database throws an exception.</exception>
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Open(string fileName, DwgOpenMode openMode)
     {
-      if (fileName == null) { throw Error.ArgumentNull("fileName"); }
-      if (!File.Exists(fileName)) { throw Error.FileNotFound(fileName); }
-      return OpenInternal(fileName, openMode, null, false);
+      if (fileName == null) throw Error.ArgumentNull("fileName");
+      if (!File.Exists(fileName)) throw Error.FileNotFound(fileName);
+
+      try
+      {
+        return OpenInternal(fileName, openMode, null, false);
+      }
+      catch (Exception e)
+      {
+        throw Error.Generic("Error opening drawing file " + fileName, e);
+      }
     }
 
     /// <summary>
@@ -428,12 +541,21 @@ namespace Linq2Acad
     /// <param name="keepOpen">True, if the database should be kept open after it has been used. False, if the database should be closed.</param>
     /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>fileName</i> is null.</exception>
     /// <exception cref="System.IO.FileNotFoundException">Thrown when the file cannot be found.</exception>
+    /// <exception cref="System.Exception">Thrown when opening the darwing database throws an exception.</exception>
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Open(string fileName, DwgOpenMode openMode, bool keepOpen)
     {
-      if (fileName == null) { throw Error.ArgumentNull("fileName"); }
-      if (!File.Exists(fileName)) { throw Error.FileNotFound(fileName); }
-      return OpenInternal(fileName, openMode, null, keepOpen);
+      if (fileName == null) throw Error.ArgumentNull("fileName");
+      if (!File.Exists(fileName)) throw Error.FileNotFound(fileName);
+      
+      try
+      {
+        return OpenInternal(fileName, openMode, null, keepOpen);
+      }
+      catch (Exception e)
+      {
+        throw Error.Generic("Error opening drawing file " + fileName, e);
+      }
     }
 
     /// <summary>
@@ -444,12 +566,21 @@ namespace Linq2Acad
     /// <param name="password">The password for the darwing database.</param>
     /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>fileName</i> is null.</exception>
     /// <exception cref="System.IO.FileNotFoundException">Thrown when the file cannot be found.</exception>
+    /// <exception cref="System.Exception">Thrown when opening the darwing database throws an exception.</exception>
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Open(string fileName, DwgOpenMode openMode, string password)
     {
-      if (fileName == null) { throw Error.ArgumentNull("fileName"); }
-      if (!File.Exists(fileName)) { throw Error.FileNotFound(fileName); }
-      return OpenInternal(fileName, openMode, password, false);
+      if (fileName == null) throw Error.ArgumentNull("fileName");
+      if (!File.Exists(fileName)) throw Error.FileNotFound(fileName);
+      
+      try
+      {
+        return OpenInternal(fileName, openMode, password, false);
+      }
+      catch (Exception e)
+      {
+        throw Error.Generic("Error opening drawing file " + fileName, e);
+      }
     }
 
     /// <summary>
@@ -461,12 +592,21 @@ namespace Linq2Acad
     /// <param name="keepOpen">True, if the database should be kept open after it has been used. False, if the database should be closed.</param>
     /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>fileName</i> is null.</exception>
     /// <exception cref="System.IO.FileNotFoundException">Thrown when the file cannot be found.</exception>
+    /// <exception cref="System.Exception">Thrown when opening the darwing database throws an exception.</exception>
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Open(string fileName, DwgOpenMode openMode, string password, bool keepOpen)
     {
-      if (fileName == null) { throw Error.ArgumentNull("fileName"); }
-      if (!File.Exists(fileName)) { throw Error.FileNotFound(fileName); }
-      return OpenInternal(fileName, openMode, password, keepOpen);
+      if (fileName == null) throw Error.ArgumentNull("fileName");
+      if (!File.Exists(fileName)) throw Error.FileNotFound(fileName);
+
+      try
+      {
+        return OpenInternal(fileName, openMode, password, keepOpen);
+      }
+      catch (Exception e)
+      {
+        throw Error.Generic("Error opening drawing file " + fileName, e);
+      }
     }
 
     /// <summary>
@@ -476,8 +616,6 @@ namespace Linq2Acad
     /// <param name="openMode">The mode in which the drawing database should be opened.</param>
     /// <param name="password">The password for the darwing database.</param>
     /// <param name="keepOpen">True, if the database should be kept open after it has been used. False, if the database should be closed.</param>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>fileName</i> is null.</exception>
-    /// <exception cref="System.IO.FileNotFoundException">Thrown when the file cannot be found.</exception>
     /// <returns>The AcadDatabase instance.</returns>
     private static AcadDatabase OpenInternal(string fileName, DwgOpenMode openMode, string password, bool keepOpen)
     {
