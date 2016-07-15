@@ -71,7 +71,7 @@ namespace Linq2Acad
 
     private void Set(string name, T item, Action<DBDictionary> check)
     {
-      if (!AcadDatabase.IsNameValid(name))
+      if (!Helpers.IsNameValid(name))
       {
         throw Error.InvalidName(name);
       }
@@ -91,7 +91,7 @@ namespace Linq2Acad
 
     public T Create(string name)
     {
-      if (!AcadDatabase.IsNameValid(name))
+      if (!Helpers.IsNameValid(name))
       {
         throw Error.InvalidName(name);
       }

@@ -123,7 +123,7 @@ namespace Linq2Acad
       var filePath = GetString("Enter file path");
       var blockName = GetString("Enter block name");
 
-      using (var sourceDb = AcadDatabase.Open(filePath))
+      using (var sourceDb = AcadDatabase.Open(filePath, DwgOpenMode.ReadOnly))
       {
         var block = sourceDb.Blocks
                             .Element(blockName);
@@ -146,7 +146,7 @@ namespace Linq2Acad
     {
       var filePath = GetString("Enter file path");
 
-      using (var db = AcadDatabase.Open(filePath))
+      using (var db = AcadDatabase.Open(filePath, DwgOpenMode.ReadOnly))
       {
         var count = db.ModelSpace
                       .OfType<BlockReference>()

@@ -41,7 +41,7 @@ namespace Linq2Acad
 
     public void Add(T item)
     {
-      if (!AcadDatabase.IsNameValid(item.Name))
+      if (!Helpers.IsNameValid(item.Name))
       {
         throw Error.InvalidName(item.Name);
       }
@@ -64,7 +64,7 @@ namespace Linq2Acad
 
     public T Create(string name)
     {
-      if (!AcadDatabase.IsNameValid(name))
+      if (!Helpers.IsNameValid(name))
       {
         throw Error.InvalidName(name);
       }
@@ -77,7 +77,7 @@ namespace Linq2Acad
 
     public IEnumerable<T> Create(IEnumerable<string> names)
     {
-      var invalidName = names.FirstOrDefault(n => !AcadDatabase.IsNameValid(n));
+      var invalidName = names.FirstOrDefault(n => !Helpers.IsNameValid(n));
 
       if (invalidName != null)
       {

@@ -22,13 +22,20 @@ namespace Linq2Acad
 
     private string GetString(string message)
     {
-      var editor = Application.DocumentManager.MdiActiveDocument.Editor;
-      
-      var result = editor.GetString(message + ":");
-
-      if (result.Status == PromptStatus.OK)
+      if (Application.DocumentManager.MdiActiveDocument != null)
       {
-        return result.StringResult;
+        var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+
+        var result = editor.GetString(message + ":");
+
+        if (result.Status == PromptStatus.OK)
+        {
+          return result.StringResult;
+        }
+        else
+        {
+          return null;
+        }
       }
       else
       {
@@ -38,12 +45,19 @@ namespace Linq2Acad
 
     private ObjectId GetEntity(string message)
     {
-      var editor = Application.DocumentManager.MdiActiveDocument.Editor;
-      var result = editor.GetEntity(message + ":");
-
-      if (result.Status == PromptStatus.OK)
+      if (Application.DocumentManager.MdiActiveDocument != null)
       {
-        return result.ObjectId;
+        var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+        var result = editor.GetEntity(message + ":");
+
+        if (result.Status == PromptStatus.OK)
+        {
+          return result.ObjectId;
+        }
+        else
+        {
+          return ObjectId.Null;
+        }
       }
       else
       {
@@ -53,8 +67,11 @@ namespace Linq2Acad
 
     private void WriteMessage(string message)
     {
-      var editor = Application.DocumentManager.MdiActiveDocument.Editor;
-      editor.WriteLine(message);
+      if (Application.DocumentManager.MdiActiveDocument != null)
+      {
+        var editor = Application.DocumentManager.MdiActiveDocument.Editor;
+        editor.WriteLine(message);
+      }
     }
   }
 }
