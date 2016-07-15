@@ -315,7 +315,7 @@ namespace Linq2Acad
       get { return GetSpace(BlockTableRecord.PaperSpace); }
     }
 
-    public EntityContainer GetSpace(string name)
+    private EntityContainer GetSpace(string name)
     {
       if (name == null) { throw Error.ArgumentNull("name"); }
       var spaceID = ((BlockTable)transaction.GetObject(Database.BlockTableId, OpenMode.ForRead))[name];
