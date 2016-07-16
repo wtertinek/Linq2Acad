@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Linq2Acad
 {
   /// <summary>
-  /// The mode in which a darwing database should be opened from file.
+  /// The mode in which a drawing database should be opened from file.
   /// </summary>
   public enum DwgOpenMode
   {

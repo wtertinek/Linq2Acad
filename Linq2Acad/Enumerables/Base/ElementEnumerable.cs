@@ -74,14 +74,12 @@ namespace Linq2Acad
 
     internal IdEnumerable<TId> IDs { get; private set; }
     
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed IEnumerator<T> GetEnumerator()
     {
       return IDs.Select(id => dataProvider.GetElement<T>(id))
                 .GetEnumerator();
     }
 
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed ElementEnumerable<T, TId> Concat(IEnumerable<T> second)
     {
       if (second is LazyElementEnumerable<T, TId, TConstraint>)
@@ -95,31 +93,26 @@ namespace Linq2Acad
       }
     }
 
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override bool Contains(T value)
     {
       return IDs.Contains(dataProvider.GetId(value));
     }
 
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override int Count()
     {
       return IDs.Count();
     }
 
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed ElementEnumerable<T, TId> Distinct()
     {
       return new LazyElementEnumerable<T, TId, TConstraint>(new MaterializedIdEnumerable<TId>(IDs.Distinct()), dataProvider);
     }
 
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed T ElementAt(int index)
     {
       return dataProvider.GetElement<T>(IDs.ElementAt(index));
     }
 
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed T ElementAtOrDefault(int index)
     {
       var id = IDs.ElementAtOrDefault(index);
@@ -134,7 +127,6 @@ namespace Linq2Acad
       }
     }
 
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed ElementEnumerable<T, TId> Except(IEnumerable<T> second)
     {
       if (second is LazyElementEnumerable<T, TId, TConstraint>)
@@ -148,7 +140,6 @@ namespace Linq2Acad
       }
     }
 
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed ElementEnumerable<T, TId> Intersect(IEnumerable<T> second)
     {
       if (second is LazyElementEnumerable<T, TId, TConstraint>)
@@ -162,13 +153,11 @@ namespace Linq2Acad
       }
     }
 
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed T Last()
     {
       return dataProvider.GetElement<T>(IDs.Last());
     }
 
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed T LastOrDefault()
     {
       var id = IDs.LastOrDefault();
@@ -183,25 +172,21 @@ namespace Linq2Acad
       }
     }
 
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed long LongCount()
     {
       return IDs.LongCount();
     }
 
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override ElementEnumerable<TResult, TId> OfType<TResult>()
     {
       return new LazyElementEnumerable<TResult, TId, TConstraint>(new MaterializedIdEnumerable<TId>(dataProvider.Filter<TResult>(IDs)), dataProvider);
     }
 
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed ElementEnumerable<T, TId> Reverse()
     {
       return new LazyElementEnumerable<T, TId, TConstraint>(new MaterializedIdEnumerable<TId>(IDs.Reverse()), dataProvider);
     }
 
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed bool SequenceEqual(IEnumerable<T> second)
     {
       if (second is LazyElementEnumerable<T, TId, TConstraint>)
@@ -214,19 +199,16 @@ namespace Linq2Acad
       }
     }
 
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed ElementEnumerable<T, TId> Skip(int count)
     {
       return new LazyElementEnumerable<T, TId, TConstraint>(new MaterializedIdEnumerable<TId>(IDs.Skip(count)), dataProvider);
     }
 
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed ElementEnumerable<T, TId> Take(int count)
     {
       return new LazyElementEnumerable<T, TId, TConstraint>(new MaterializedIdEnumerable<TId>(IDs.Take(count)), dataProvider);
     }
 
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override sealed ElementEnumerable<T, TId> Union(IEnumerable<T> second)
     {
       if (second is LazyElementEnumerable<T, TId, TConstraint>)

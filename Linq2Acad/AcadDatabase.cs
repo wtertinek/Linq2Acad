@@ -107,11 +107,20 @@ namespace Linq2Acad
     /// <typeparam name="T">The type of the object.</typeparam>
     /// <param name="id">The id of the object.</param>
     /// <exception cref="System.ArgumentOutOfRangeException">Thrown when an invalid ObjectId is passed.</exception>
+    /// <exception cref="System.Exception">Thrown when getting the element throws an exception.</exception>
     /// <returns>The object with the given ObjectId.</returns>
     public T Element<T>(ObjectId id) where T : DBObject
     {
       if (!id.IsValid) throw Error.InvalidObject("ObjectId");
-      return ElementInternal<T>(id, false);
+      
+      try
+      {
+        return ElementInternal<T>(id, false);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
 
     /// <summary>
@@ -121,11 +130,20 @@ namespace Linq2Acad
     /// <param name="id">The id of the object.</param>
     /// <param name="forWrite">True, if the object should be opened for-write.</param>
     /// <exception cref="System.ArgumentOutOfRangeException">Thrown when an invalid ObjectId is passed.</exception>
+    /// <exception cref="System.Exception">Thrown when getting the element throws an exception.</exception>
     /// <returns>The object with the given ObjectId.</returns>
     public T Element<T>(ObjectId id, bool forWrite) where T : DBObject
     {
       if (!id.IsValid) throw Error.InvalidObject("ObjectId");
-      return ElementInternal<T>(id, forWrite);
+
+      try
+      {
+        return ElementInternal<T>(id, forWrite);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
 
     /// <summary>
@@ -162,7 +180,7 @@ namespace Linq2Acad
       }
       catch (Exception e)
       {
-        throw Error.Generic("Error getting elements", e);
+        throw Error.AutoCadException(e);
       }
     }
 
@@ -189,7 +207,7 @@ namespace Linq2Acad
       }
       catch (Exception e)
       {
-        throw Error.Generic("Error getting elements", e);
+        throw Error.AutoCadException(e);
       }
     }
 
@@ -215,7 +233,7 @@ namespace Linq2Acad
       }
       catch (Exception e)
       {
-        throw Error.Generic("Error getting elements", e);
+        throw Error.AutoCadException(e);
       }
     }
 
@@ -242,7 +260,7 @@ namespace Linq2Acad
       }
       catch (Exception e)
       {
-        throw Error.Generic("Error getting elements", e);
+        throw Error.AutoCadException(e);
       }
     }
 
@@ -387,27 +405,99 @@ namespace Linq2Acad
 
     #endregion
 
-    #region Model/Paper space
+    #region Model/Paper/Current space
 
+    /// <summary>
+    /// Provides access to the entities of the space that is currently active.
+    /// </summary>
     public EntityContainer CurrentSpace
     {
-      get { return new EntityContainer(Database, transaction, Database.CurrentSpaceId); }
+      get
+      {
+        try
+        {
+          return new EntityContainer(Database, transaction, Database.CurrentSpaceId);
+        }
+        catch (Exception e)
+        {
+          throw Error.AutoCadException(e);
+        }
+      }
     }
 
+    /// <summary>
+    /// Provides access to the model space entities.
+    /// </summary>
     public EntityContainer ModelSpace
     {
-      get { return GetSpace(BlockTableRecord.ModelSpace); }
-    }
-    public EntityContainer PaperSpace
-    {
-      get { return GetSpace(BlockTableRecord.PaperSpace); }
+      get
+      {
+        try
+        {
+          var modelSpaceId = ((BlockTable)transaction.GetObject(Database.BlockTableId, OpenMode.ForRead))[BlockTableRecord.ModelSpace];
+          return new EntityContainer(Database, transaction, modelSpaceId);
+        }
+        catch (Exception e)
+        {
+          throw Error.AutoCadException(e);
+        }
+      }
     }
 
-    private EntityContainer GetSpace(string name)
+    /// <summary>
+    /// Provides access to the entities of all layouts. Each element provides access to the entities of one layout.
+    /// The elements are in the order of the AutoCAD layout tabs.
+    /// </summary>
+    /// <returns>An IEnumerable&lt;EntityContainer&gt;. Each EntityContainer provides access to the entities of one layout.</returns>
+    public IEnumerable<EntityContainer> PaperSpace()
+    {
+      foreach (var layout in Layouts.OrderBy(l => l.TabOrder))
+      {
+        yield return new EntityContainer(Database, transaction, layout.BlockTableRecordId);
+      }
+    }
+
+    /// <summary>
+    /// Provides access to the entities of the layout with the given tab index.
+    /// </summary>
+    /// <param name="index">The zero-based tab index of the layout.</param>
+    /// <returns>An EntityContainer to access the layout's entities.</returns>
+    public EntityContainer PaperSpace(int index)
+    {
+      var layouts = Layouts.ToArray();
+      if (index <= 0 || index >= layouts.Length) throw Error.IndexOutOfRange("index", layouts.Length);
+      
+      var blockId = Layouts.OrderBy(l => l.TabOrder)
+                           .ElementAt(index)
+                           .BlockTableRecordId;
+      try
+      {
+        return new EntityContainer(Database, transaction, blockId);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
+    /// <summary>
+    /// Provides access to the entities of the layout with the given name.
+    /// </summary>
+    /// <param name="name">The name of the layout.</param>
+    /// <returns>An EntityContainer to access the layout's entities.</returns>
+    public EntityContainer PaperSpace(string name)
     {
       if (name == null) throw Error.ArgumentNull("name");
-      var spaceID = ((BlockTable)transaction.GetObject(Database.BlockTableId, OpenMode.ForRead))[name];
-      return new EntityContainer(Database, transaction, spaceID);
+
+      try
+      {
+        var layout = Layouts.Element(name);
+        return new EntityContainer(Database, transaction, layout.BlockTableRecordId);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
 
     #endregion
@@ -421,14 +511,18 @@ namespace Linq2Acad
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Create()
     {
+      Database db = null;
+
       try
       {
-        return new AcadDatabase(new Database(true, true), false);
+        db = new Database(true, true);
       }
       catch (Exception e)
       {
-        throw Error.Generic("Error creating the drawing database", e);
+        throw Error.AutoCadException(e);
       }
+
+      return new AcadDatabase(db, false);
     }
 
     /// <summary>
@@ -439,14 +533,18 @@ namespace Linq2Acad
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Create(bool keepOpen)
     {
+      Database db = null;
+
       try
       {
-        return new AcadDatabase(new Database(true, true), keepOpen);
+        db = new Database(true, true);
       }
       catch (Exception e)
       {
-        throw Error.Generic("Error creating the drawing database", e);
+        throw Error.AutoCadException(e);
       }
+
+      return new AcadDatabase(db, keepOpen);
     }
 
     /// <summary>
@@ -498,14 +596,15 @@ namespace Linq2Acad
     /// <param name="transaction">The transaction to use.</param>
     /// <param name="commitTransaction">True, if the transaction in use should be committed when this instance is disposed of.</param>
     /// <param name="disposeTransaction">True, if the transaction in use should be disposed of when this instance is disposed of.</param>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>database</i> or <i>transaction</i> is null.</exception>
-    /// <exception cref="System.Exception">Thrown when the database is invalid.</exception>
+    /// <exception cref="System.ArgumentNullException">Thrown when parameters <i>database</i> or <i>transaction</i> is null.</exception>
+    /// <exception cref="System.Exception">Thrown when the database or the transaction is invalid.</exception>
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Use(Database database, Transaction transaction, bool commitTransaction, bool disposeTransaction)
     {
       if (database == null) throw Error.ArgumentNull("database");
       if (database.IsDisposed) throw Error.InvalidObject("Database");
       if (transaction == null) throw Error.ArgumentNull("transaction");
+      if (transaction.IsDisposed) throw Error.InvalidObject("Transaction");
       return new AcadDatabase(database, transaction, commitTransaction, disposeTransaction);
     }
 
@@ -529,7 +628,7 @@ namespace Linq2Acad
       }
       catch (Exception e)
       {
-        throw Error.Generic("Error opening drawing file " + fileName, e);
+        throw Error.AutoCadException(e, "Error opening drawing file " + fileName);
       }
     }
 
@@ -554,7 +653,7 @@ namespace Linq2Acad
       }
       catch (Exception e)
       {
-        throw Error.Generic("Error opening drawing file " + fileName, e);
+        throw Error.AutoCadException(e, "Error opening drawing file " + fileName);
       }
     }
 
@@ -579,7 +678,7 @@ namespace Linq2Acad
       }
       catch (Exception e)
       {
-        throw Error.Generic("Error opening drawing file " + fileName, e);
+        throw Error.AutoCadException(e, "Error opening drawing file " + fileName);
       }
     }
 
@@ -605,7 +704,7 @@ namespace Linq2Acad
       }
       catch (Exception e)
       {
-        throw Error.Generic("Error opening drawing file " + fileName, e);
+        throw Error.AutoCadException(e, "Error opening drawing file " + fileName);
       }
     }
 

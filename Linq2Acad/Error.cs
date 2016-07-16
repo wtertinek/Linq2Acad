@@ -98,6 +98,48 @@ namespace Linq2Acad
     {
       return new InvalidObjectException(objectTypeName);
     }
+
+    /// <summary>
+    /// Creates an exception of type System.Exception that indicates that an AutoCAD exception occured.
+    /// </summary>
+    /// <param name="innerException">The that is the cause of the current exception.</param>
+    /// <returns>A new instance of System.Exception.</returns>
+    public static Exception AutoCadException(Exception innerException)
+    {
+      return AutoCadException(innerException, "An AutoCAD error occured");
+    }
+
+    /// <summary>
+    /// Creates an exception of type System.Exception that indicates that an AutoCAD exception occured.
+    /// </summary>
+    /// <param name="innerException">The that is the cause of the current exception.</param>
+    /// <param name="message">The message that describes the error.</param>
+    /// <returns>A new instance of System.Exception.</returns>
+    public static Exception AutoCadException(Exception innerException, string message)
+    {
+      // TODO: We can add some code here to make sense of AutoCAD exception messages like eWasOpenForWrite
+
+      if (innerException.Message == "eWasOpenForWrite")
+      {
+        // TODO: Add further context information
+        return new Exception(message, innerException);
+      }
+      else
+      {
+        return new Exception(message, innerException);
+      }
+    }
+
+    /// <summary>
+    /// Creates an exception of type System.IndexOutOfRangeException that indicates that an index was out of bounds.
+    /// </summary>
+    /// <param name="paramName">The name of the parameter that is out of bounds.</param>
+    /// <param name="upperBound">The upper bound that has been exceeded.</param>
+    /// <returns>A new instance of System.IndexOutOfRangeException.</returns>
+    public static IndexOutOfRangeException IndexOutOfRange(string paramName, int upperBound)
+    {
+      return new IndexOutOfRangeException(paramName + " has to be >= 0 and <= " + upperBound);
+    }
   }
 
   /// <summary>
