@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
@@ -60,9 +61,27 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Printing all layer names
+    /// Creating a new layer
     /// </summary>
     [CommandMethod("Linq2AcadExample4")]
+    public void CreatingANewLayer()
+    {
+      var name = GetString("Enter layer name");
+      var colorName = GetString("Enter color name");
+
+      using (var db = AcadDatabase.Active())
+      {
+        var layer = db.Layers.Create(name);
+        layer.Color = Color.FromDictionaryName(colorName);
+      }
+
+      WriteMessage("Layer " + name + "created");
+    }
+
+    /// <summary>
+    /// Printing all layer names
+    /// </summary>
+    [CommandMethod("Linq2AcadExample5")]
     public void PrintingAllLayerNames()
     {
       using (var db = AcadDatabase.Active())
@@ -75,7 +94,7 @@ namespace Linq2Acad
     /// <summary>
     /// Turning off all layers, except the one the user enters
     /// </summary>
-    [CommandMethod("Linq2AcadExample5")]
+    [CommandMethod("Linq2AcadExample6")]
     public void TurningOffAllLayersExceptTheOneTheUserEnters()
     {
       var layerName = GetString("Enter layer name");
@@ -96,7 +115,7 @@ namespace Linq2Acad
     /// <summary>
     /// Moving entities from one layer to another
     /// </summary>
-    [CommandMethod("Linq2AcadExample6")]
+    [CommandMethod("Linq2AcadExample7")]
     public void MovingEntitiesFromOneLayerToAnother()
     {
       var sourceLayerName = GetString("Enter source layer name");
@@ -117,7 +136,7 @@ namespace Linq2Acad
     /// <summary>
     /// Importing a block from a drawing file
     /// </summary>
-    [CommandMethod("Linq2AcadExample7")]
+    [CommandMethod("Linq2AcadExample8")]
     public void ImportingABlockFromADrawingFile()
     {
       var filePath = GetString("Enter file path");
@@ -141,7 +160,7 @@ namespace Linq2Acad
     /// <summary>
     /// Opening a drawing from file and counting the BlockReferences in the model space
     /// </summary>
-    [CommandMethod("Linq2AcadExample8")]
+    [CommandMethod("Linq2AcadExample9")]
     public void OpeningADrawingFromFileAndCountingTheBlockReferencesInTheModelSpace()
     {
       var filePath = GetString("Enter file path");
@@ -159,7 +178,7 @@ namespace Linq2Acad
     /// <summary>
     /// Picking an entity and saving a string on it
     /// </summary>
-    [CommandMethod("Linq2AcadExample9")]
+    [CommandMethod("Linq2AcadExample10")]
     public void PickingAnEntityAndSavingAStringOnIt()
     {
       var entityId = GetEntity("Pick an entity");
@@ -179,7 +198,7 @@ namespace Linq2Acad
     /// <summary>
     /// Picking an entity and reading a string from it
     /// </summary>
-    [CommandMethod("Linq2AcadExample10")]
+    [CommandMethod("Linq2AcadExample11")]
     public void PickingAnEntityAndReadingAStringFromIt()
     {
       var entityId = GetEntity("Pick an entity");
@@ -198,7 +217,7 @@ namespace Linq2Acad
     /// <summary>
     /// Creating a group and adding all lines in the model space to it
     /// </summary>
-    [CommandMethod("Linq2AcadExample11")]
+    [CommandMethod("Linq2AcadExample12")]
     public void CreatingAGroupAndAddingAllLinesInTheModelSpaceToIt()
     {
       var groupName = GetString("Enter group name");

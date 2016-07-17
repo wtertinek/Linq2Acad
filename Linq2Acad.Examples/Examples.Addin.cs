@@ -26,7 +26,7 @@ namespace Linq2Acad
       {
         var editor = Application.DocumentManager.MdiActiveDocument.Editor;
 
-        var result = editor.GetString(message + ":");
+        var result = editor.GetString(message.EndsWith(":") ? message : (message + ":"));
 
         if (result.Status == PromptStatus.OK)
         {

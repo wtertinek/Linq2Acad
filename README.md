@@ -44,6 +44,21 @@ using (var db = AcadDatabase.Active())
 WriteMessage("Line added to model space");
 ```
 
+Creating a new layer:
+
+```c#
+var name = GetString("Enter layer name");
+var colorName = GetString("Enter color name");
+
+using (var db = AcadDatabase.Active())
+{
+  var layer = db.Layers.Create(name);
+  layer.Color = Color.FromDictionaryName(colorName);
+}
+
+WriteMessage("Layer " + name + "created");
+```
+
 Printing all layer names:
 
 ```c#
