@@ -27,20 +27,11 @@ namespace Linq2Acad
 
     public override sealed T Element(string name)
     {
-      var dict = (DBDictionary)transaction.GetObject(ID, OpenMode.ForRead);
+      if (name == null) throw Error.ArgumentNull("name");
 
       try
       {
-        var id = dict.GetAt(name);
-
-        if (id.IsValid)
-        {
-          return (T)transaction.GetObject(id, OpenMode.ForRead);
-        }
-        else
-        {
-          throw Error.KeyNotFound(name);
-        }
+        return ElementInternal(name, false);
       }
       catch
       {
@@ -48,57 +39,93 @@ namespace Linq2Acad
       }
     }
 
+    public override T Element(string name, bool forWrite)
+    {
+      if (name == null) throw Error.ArgumentNull("name");
+
+      try
+      {
+        return ElementInternal(name, forWrite);
+      }
+      catch
+      {
+        throw Error.KeyNotFound(name);
+      }
+    }
+
+    private T ElementInternal(string name, bool forWrite)
+    {
+      var dict = (DBDictionary)transaction.GetObject(ID, OpenMode.ForRead);
+      var id = dict.GetAt(name);
+      return (T)transaction.GetObject(id, forWrite ? OpenMode.ForWrite : OpenMode.ForRead);
+    }
+
+    public override sealed T ElementOrDefault(string name)
+    {
+      if (name == null) throw Error.ArgumentNull("name");
+
+      try
+      {
+        return ElementOrDefaultInternal(name, false);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
+    public override T ElementOrDefault(string name, bool forWrite)
+    {
+      if (name == null) throw Error.ArgumentNull("name");
+
+      try
+      {
+        return ElementOrDefaultInternal(name, forWrite);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
+    private T ElementOrDefaultInternal(string name, bool forWrite)
+    {
+      var dict = (DBDictionary)transaction.GetObject(ID, forWrite ? OpenMode.ForWrite : OpenMode.ForRead);
+
+      if (dict.Contains(name))
+      {
+        var id = dict.GetAt(name);
+        return (T)transaction.GetObject(id, OpenMode.ForRead);
+      }
+      else
+      {
+        return null;
+      }
+    }
+
     public override sealed int Count()
     {
-      return ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Count;
-    }
-
-    public void Add(string name, T item)
-    {
-      Set(name, item, dict =>
-                      {
-                        if (dict.Contains(name))
-                        {
-                          throw Error.Generic(typeof(T).Name + " " + name + " already exists");
-                        }
-                      });
-    }
-
-    public void Set(string name, T item)
-    {
-      Set(name, item, null);
-    }
-
-    private void Set(string name, T item, Action<DBDictionary> check)
-    {
-      if (!Helpers.IsNameValid(name))
+      try
       {
-        throw Error.InvalidName(name);
+        return ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Count;
       }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
 
+    protected override void AddRangeInternal(IEnumerable<T> items, IEnumerable<string> names)
+    {
       var dict = (DBDictionary)transaction.GetObject(ID, OpenMode.ForWrite);
+      var mItems = items.ToArray();
+      var mNames = names.ToArray();
 
-      if (check != null)
+      for (int i = 0; i < mItems.Length; i++)
       {
-        check(dict);
+        dict.SetAt(mNames[i], mItems[i]);
+        transaction.AddNewlyCreatedDBObject(mItems[i], true);
       }
-
-      dict.SetAt(name, item);
-      transaction.AddNewlyCreatedDBObject(item, true);
-    }
-
-    protected abstract T CreateNew();
-
-    public T Create(string name)
-    {
-      if (!Helpers.IsNameValid(name))
-      {
-        throw Error.InvalidName(name);
-      }
-
-      var item = CreateNew();
-      Add(name, item);
-      return item;
     }
   }
 }

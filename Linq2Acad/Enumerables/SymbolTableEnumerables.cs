@@ -20,9 +20,9 @@ namespace Linq2Acad
       return this.Select(b => new EntityContainer(database, transaction, b.ObjectId));
     }
 
-    protected override BlockTableRecord CreateNew()
+    protected override BlockTableRecord CreateNew(string name)
     {
-      return new BlockTableRecord();
+      return new BlockTableRecord() { Name = name };
     }
   }
 
@@ -33,9 +33,9 @@ namespace Linq2Acad
     {
     }
 
-    protected override DimStyleTableRecord CreateNew()
+    protected override DimStyleTableRecord CreateNew(string name)
     {
-      return new DimStyleTableRecord();
+      return new DimStyleTableRecord() { Name = name };
     }
   }
 
@@ -46,9 +46,9 @@ namespace Linq2Acad
     {
     }
 
-    protected override LayerTableRecord CreateNew()
+    protected override LayerTableRecord CreateNew(string name)
     {
-      return new LayerTableRecord();
+      return new LayerTableRecord() { Name = name };
     }
   }
 
@@ -59,9 +59,9 @@ namespace Linq2Acad
     {
     }
 
-    protected override LinetypeTableRecord CreateNew()
+    protected override LinetypeTableRecord CreateNew(string name)
     {
-      return new LinetypeTableRecord();
+      return new LinetypeTableRecord() { Name = name };
     }
   }
 
@@ -72,9 +72,9 @@ namespace Linq2Acad
     {
     }
 
-    protected override RegAppTableRecord CreateNew()
+    protected override RegAppTableRecord CreateNew(string name)
     {
-      return new RegAppTableRecord();
+      return new RegAppTableRecord() { Name = name };
     }
   }
 
@@ -85,9 +85,9 @@ namespace Linq2Acad
     {
     }
 
-    protected override TextStyleTableRecord CreateNew()
+    protected override TextStyleTableRecord CreateNew(string name)
     {
-      return new TextStyleTableRecord();
+      return new TextStyleTableRecord() { Name = name };
     }
   }
 
@@ -98,9 +98,9 @@ namespace Linq2Acad
     {
     }
 
-    protected override UcsTableRecord CreateNew()
+    protected override UcsTableRecord CreateNew(string name)
     {
-      return new UcsTableRecord();
+      return new UcsTableRecord() { Name = name };
     }
   }
 
@@ -116,9 +116,9 @@ namespace Linq2Acad
       get { return (ViewportTableRecord)transaction.GetObject(database.CurrentViewportTableRecordId, OpenMode.ForRead); }
     }
 
-    protected override ViewportTableRecord CreateNew()
+    protected override ViewportTableRecord CreateNew(string name)
     {
-      return new ViewportTableRecord();
+      return new ViewportTableRecord() { Name = name };
     }
   }
 
@@ -129,59 +129,9 @@ namespace Linq2Acad
     {
     }
 
-    protected override ViewTableRecord CreateNew()
+    protected override ViewTableRecord CreateNew(string name)
     {
-      return new ViewTableRecord();
-    }
-  }
-
-  public class EntityContainer : ContainerEnumerableBase<Entity>
-  {
-    public EntityContainer(Database database, Transaction transaction, ObjectId containerID)
-      : base(database, transaction, containerID, i => (ObjectId)i)
-    {
-    }
-
-    public ObjectId ObjectId
-    {
-      get { return ID; }
-    }
-
-    public ObjectId Add(Entity item)
-    {
-      return Add(item, false);
-    }
-
-    public ObjectId Add(Entity item, bool setDatabaseDefaults)
-    {
-      return Add(new[] { item }, setDatabaseDefaults).First();
-    }
-
-    public IEnumerable<ObjectId> Add(IEnumerable<Entity> items)
-    {
-      return Add(items, false);
-    }
-
-    public IEnumerable<ObjectId> Add(IEnumerable<Entity> items, bool setDatabaseDefaults)
-    {
-      var btr = (BlockTableRecord)transaction.GetObject(ID, OpenMode.ForWrite);
-
-      return items.Select(i =>
-                   {
-                     if (setDatabaseDefaults)
-                     {
-                       i.SetDatabaseDefaults();
-                     }
-
-                     var id = btr.AppendEntity(i);
-                     transaction.AddNewlyCreatedDBObject(i, true);
-                     return id;
-                   }).ToArray();
-    }
-
-    public void Clear()
-    {
-      this.ForEach(e => e.Erase());
+      return new ViewTableRecord() { Name = name };
     }
   }
 }

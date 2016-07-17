@@ -19,6 +19,7 @@ namespace Linq2Acad
     /// <param name="source">The source object to write the object to.</param>
     /// <param name="key">A string that acts as the key in the extension dictionary.</param>
     /// <param name="data">The object to store.</param>
+    /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     public static void SaveData<T>(this DBObject source, string key, T data)
     {
       Action<ResultBuffer> saveData = buffer =>
@@ -54,42 +55,49 @@ namespace Linq2Acad
 
       Func<DxfCode, ResultBuffer> getResultBuffer = code => new ResultBuffer(new[] { new TypedValue((int)code, data) });
 
-      // TODO: Add further types for types
+      try
+      {
+        // TODO: Add further types for types
 
-      if (typeof(T) == typeof(bool))
-      {
-        saveData(getResultBuffer(DxfCode.Bool));
+        if (typeof(T) == typeof(bool))
+        {
+          saveData(getResultBuffer(DxfCode.Bool));
+        }
+        else if (typeof(T) == typeof(double))
+        {
+          saveData(getResultBuffer(DxfCode.Real));
+        }
+        else if (typeof(T) == typeof(byte))
+        {
+          saveData(getResultBuffer(DxfCode.Int8));
+        }
+        else if (typeof(T) == typeof(char) ||
+                 typeof(T) == typeof(short))
+        {
+          saveData(getResultBuffer(DxfCode.Int16));
+        }
+        else if (typeof(T) == typeof(int))
+        {
+          saveData(getResultBuffer(DxfCode.Int32));
+        }
+        else if (typeof(T) == typeof(long))
+        {
+          saveData(getResultBuffer(DxfCode.Int64));
+        }
+        else if (typeof(T) == typeof(string))
+        {
+          saveData(getResultBuffer(DxfCode.Text));
+        }
+        else
+        {
+          saveData(new ResultBuffer(Helpers.Serialize(data)
+                                           .Select(a => new TypedValue((int)DxfCode.BinaryChunk, a))
+                                           .ToArray()));
+        }
       }
-      else if (typeof(T) == typeof(double))
+      catch (Exception e)
       {
-        saveData(getResultBuffer(DxfCode.Real));
-      }
-      else if (typeof(T) == typeof(byte))
-      {
-        saveData(getResultBuffer(DxfCode.Int8));
-      }
-      else if (typeof(T) == typeof(char) ||
-               typeof(T) == typeof(short))
-      {
-        saveData(getResultBuffer(DxfCode.Int16));
-      }
-      else if (typeof(T) == typeof(int))
-      {
-        saveData(getResultBuffer(DxfCode.Int32));
-      }
-      else if (typeof(T) == typeof(long))
-      {
-        saveData(getResultBuffer(DxfCode.Int64));
-      }
-      else if (typeof(T) == typeof(string))
-      {
-        saveData(getResultBuffer(DxfCode.Text));
-      }
-      else
-      {
-        saveData(new ResultBuffer(Helpers.Serialize(data)
-                                         .Select(a => new TypedValue((int)DxfCode.BinaryChunk, a))
-                                         .ToArray()));
+        throw Error.AutoCadException(e);
       }
     }
 
@@ -99,6 +107,7 @@ namespace Linq2Acad
     /// <typeparam name="T">The type of the object to read.</typeparam>
     /// <param name="source">The source object to read the object from.</param>
     /// <param name="key">A string that acts as the key in the extension dictionary.</param>
+    /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     /// <returns>The object in the extension dictionary.</returns>
     public static T GetData<T>(this DBObject source, string key)
     {
@@ -107,34 +116,41 @@ namespace Linq2Acad
         throw new KeyNotFoundException();
       }
 
-      var items = new TypedValue[0];
-
-      Helpers.WrapInTransaction(source, tr =>
-                                        {
-                                          var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForRead);
-
-                                          if (dict.Contains(key))
-                                          {
-                                            var xRecord = (Xrecord)tr.GetObject(dict.GetAt(key), OpenMode.ForRead);
-                                            items = xRecord.Data
-                                                           .Cast<TypedValue>()
-                                                           .ToArray();
-                                          }
-                                          else
-                                          {
-                                            throw Error.KeyNotFound(key);
-                                          }
-                                        });
-
-      if (items.Length == 1 &&
-          items[0].TypeCode != (int)DxfCode.BinaryChunk)
+      try
       {
-        return (T)items[0].Value;
+        var items = new TypedValue[0];
+
+        Helpers.WrapInTransaction(source, tr =>
+                                          {
+                                            var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForRead);
+
+                                            if (dict.Contains(key))
+                                            {
+                                              var xRecord = (Xrecord)tr.GetObject(dict.GetAt(key), OpenMode.ForRead);
+                                              items = xRecord.Data
+                                                             .Cast<TypedValue>()
+                                                             .ToArray();
+                                            }
+                                            else
+                                            {
+                                              throw Error.KeyNotFound(key);
+                                            }
+                                          });
+
+        if (items.Length == 1 &&
+            items[0].TypeCode != (int)DxfCode.BinaryChunk)
+        {
+          return (T)items[0].Value;
+        }
+        else
+        {
+          return Helpers.Deserialize<T>(items.SelectMany(i => (byte[])i.Value)
+                                              .ToArray());
+        }
       }
-      else
+      catch (Exception e)
       {
-        return Helpers.Deserialize<T>(items.SelectMany(i => (byte[])i.Value)
-                                            .ToArray());
+        throw Error.AutoCadException(e);
       }
     }
 
@@ -143,23 +159,31 @@ namespace Linq2Acad
     /// </summary>
     /// <param name="source">The source object to check.</param>
     /// <param name="key">A string that acts as the key in the extension dictionary.</param>
+    /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     /// <returns>True, if the extension dictionary contains an entry with the given key.</returns>
     public static bool HasData(this DBObject source, string key)
     {
-      if (source.ExtensionDictionary.IsNull)
+      try
       {
-        return false;
-      }
-      else
-      {
-        var hasData = false;
-        Helpers.WrapInTransaction(source, tr =>
-                                          {
-                                            var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForRead);
-                                            hasData = dict.Contains(key);
-                                          });
+        if (source.ExtensionDictionary.IsNull)
+        {
+          return false;
+        }
+        else
+        {
+          var hasData = false;
+          Helpers.WrapInTransaction(source, tr =>
+                                            {
+                                              var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForRead);
+                                              hasData = dict.Contains(key);
+                                            });
 
-        return hasData;
+          return hasData;
+        }
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
       }
     }
   }

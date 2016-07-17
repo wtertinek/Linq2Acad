@@ -25,52 +25,173 @@ namespace Linq2Acad
 
     public override bool Contains(T value)
     {
-      return Contains(value.ObjectId);
+      if (value == null)
+      {
+        return false;
+      }
+      else
+      {
+        return Contains(value.ObjectId);
+      }
     }
 
     public virtual bool Contains(ObjectId id)
     {
-      return IDs.Any(oid => oid.Equals(id));
+      if (id.IsValid)
+      {
+        return IDs.Any(oid => oid.Equals(id));
+      }
+      else
+      {
+        return false;
+      }
     }
 
     public T Element(ObjectId id)
     {
-      return (T)transaction.GetObject(id, OpenMode.ForRead);
+      if (!id.IsValid) throw Error.InvalidObject("ObjectId");
+
+      try
+      {
+        return ElementInternal(id, false);
+      }
+      catch (InvalidCastException e)
+      {
+        throw e;
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
+    public T Element(ObjectId id, bool forWrite)
+    {
+      if (!id.IsValid) throw Error.InvalidObject("ObjectId");
+      
+      try
+      {
+        return ElementInternal(id, forWrite);
+      }
+      catch (InvalidCastException e)
+      {
+        throw e;
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
+    public T ElementOrDefault(ObjectId id)
+    {
+      if (id.IsValid)
+      {
+        try
+        {
+          return ElementInternal(id, false);
+        }
+        catch (InvalidCastException e)
+        {
+          throw e;
+        }
+        catch (Exception e)
+        {
+          throw Error.AutoCadException(e);
+        }
+      }
+      else
+      {
+        return null;
+      }
+    }
+
+    public T ElementOrDefault(ObjectId id, bool forWrite)
+    {
+      if (id.IsValid)
+      {
+        try
+        {
+          return ElementInternal(id, forWrite);
+        }
+        catch (InvalidCastException e)
+        {
+          throw e;
+        }
+        catch (Exception e)
+        {
+          throw Error.AutoCadException(e);
+        }
+      }
+      else
+      {
+        return null;
+      }
+    }
+
+    private T ElementInternal(ObjectId id, bool forWrite)
+    {
+      return (T)transaction.GetObject(id, forWrite ? OpenMode.ForWrite : OpenMode.ForRead);
     }
 
     public ImportResult<T> Import(T item)
     {
-      return Import(item, false);
+      if (item == null) Error.ArgumentNull("item");
+
+      try
+      {
+        return ImportInternal(item, false);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
 
     public ImportResult<T> Import(T item, bool replaceIfDuplicate)
     {
       if (item == null) Error.ArgumentNull("item");
-      return Import(new[] { item }, replaceIfDuplicate).First();
+
+      try
+      {
+        return ImportInternal(item, replaceIfDuplicate);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
 
     public IReadOnlyCollection<ImportResult<T>> Import(IEnumerable<T> items, bool replaceIfDuplicate)
     {
       if (items == null) Error.ArgumentNull("items");
-
-      if (items.Any(i => i.Database == database))
-      {
-        throw Error.Generic("Wrong database origin");
-      }
+      if (items.Any(i => i.Database == database)) throw Error.Generic("Wrong database origin");
 
       var result = new List<ImportResult<T>>();
 
       foreach (var item in items)
       {
-        var ids = new ObjectIdCollection(new [] { item.ObjectId });
-        var mapping = new IdMapping();
-        var type = replaceIfDuplicate ? DuplicateRecordCloning.Replace : DuplicateRecordCloning.Ignore;
-        database.WblockCloneObjects(ids, ID, mapping, type, false);
-
-        result.Add(new ImportResult<T>((T)transaction.GetObject(mapping[item.ObjectId].Value, OpenMode.ForRead), mapping));
+        try
+        {
+          result.Add(ImportInternal(item, replaceIfDuplicate));
+        }
+        catch (Exception e)
+        {
+          throw Error.AutoCadException(e);
+        }
       }
 
       return result;
+    }
+
+    private ImportResult<T> ImportInternal(T item, bool replaceIfDuplicate)
+    {
+      var ids = new ObjectIdCollection(new[] { item.ObjectId });
+      var mapping = new IdMapping();
+      var type = replaceIfDuplicate ? DuplicateRecordCloning.Replace : DuplicateRecordCloning.Ignore;
+      database.WblockCloneObjects(ids, ID, mapping, type, false);
+
+      return new ImportResult<T>((T)transaction.GetObject(mapping[item.ObjectId].Value, OpenMode.ForRead), mapping);
     }
 
     #region Nested class DataProvider

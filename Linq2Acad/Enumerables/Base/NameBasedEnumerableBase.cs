@@ -18,5 +18,45 @@ namespace Linq2Acad
     public abstract bool Contains(string name);
 
     public abstract T Element(string name);
+
+    public abstract T Element(string name, bool forWrite);
+
+    public abstract T ElementOrDefault(string name);
+
+    public abstract T ElementOrDefault(string name, bool forWrite);
+
+    protected abstract T CreateNew(string name);
+
+    protected abstract void AddRangeInternal(IEnumerable<T> items, IEnumerable<string> names);
+
+    public T Create(string name)
+    {
+      if (name == null) throw Error.ArgumentNull("name");
+      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
+      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+
+      var item = CreateNew(name);
+      AddRangeInternal(new[] { item }, new[] { name });
+
+      return item;
+    }
+
+    public IEnumerable<T> Create(IEnumerable<string> names)
+    {
+      if (names == null) throw Error.ArgumentNull("names");
+      var invalidName = names.FirstOrDefault(n => !Helpers.IsNameValid(n));
+      if (invalidName != null) throw Error.InvalidName(invalidName);
+      var existingName = names.FirstOrDefault(n => Contains(n));
+      if (existingName != null) throw Error.Generic("An object with name " + existingName + " already exists");
+
+      var items = names.Select(n =>
+                               {
+                                 var item = CreateNew(n);
+                                 return item;
+                               });
+      AddRangeInternal(items, names);
+
+      return items;
+    }
   }
 }

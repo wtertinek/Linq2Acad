@@ -27,29 +27,104 @@ namespace Linq2Acad
 
     public override sealed T Element(string name)
     {
-      var table = (SymbolTable)transaction.GetObject(ID, OpenMode.ForRead);
+      if (name == null) throw Error.ArgumentNull("name");
 
       try
       {
-        return (T)transaction.GetObject(table[name], OpenMode.ForRead);
+        return ElementInternal(name, false);
       }
       catch
       {
-        throw Error.KeyNotFound("No element with key " + name + " found");
+        throw Error.KeyNotFound(name);
+      }
+    }
+
+    public override T Element(string name, bool forWrite)
+    {
+      if (name == null) throw Error.ArgumentNull("name");
+
+      try
+      {
+        return ElementInternal(name, forWrite);
+      }
+      catch
+      {
+        throw Error.KeyNotFound(name);
+      }
+    }
+
+    private T ElementInternal(string name, bool forWrite)
+    {
+      var table = (SymbolTable)transaction.GetObject(ID, OpenMode.ForRead);
+      return (T)transaction.GetObject(table[name], forWrite ? OpenMode.ForWrite : OpenMode.ForRead);
+    }
+
+    public override sealed T ElementOrDefault(string name)
+    {
+      if (name == null) throw Error.ArgumentNull("name");
+
+      try
+      {
+        return ElementOrDefaultInternal(name, false);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
+    public override T ElementOrDefault(string name, bool forWrite)
+    {
+      if (name == null) throw Error.ArgumentNull("name");
+
+      try
+      {
+        return ElementOrDefaultInternal(name, forWrite);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
+    private T ElementOrDefaultInternal(string name, bool forWrite)
+    {
+      var table = (SymbolTable)transaction.GetObject(ID, OpenMode.ForRead);
+
+      if (table.Has(name))
+      {
+        return (T)transaction.GetObject(table[name], forWrite ? OpenMode.ForWrite : OpenMode.ForRead);
+      }
+      else
+      {
+        return null;
       }
     }
 
     public void Add(T item)
     {
-      if (!Helpers.IsNameValid(item.Name))
-      {
-        throw Error.InvalidName(item.Name);
-      }
+      if (item == null) throw Error.ArgumentNull("item");
+      if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
+      if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
 
-      AddRange(new[] { item });
+      AddRangeInternal(new[] { item }, new [] { item.Name });
     }
 
     public void AddRange(IEnumerable<T> items)
+    {
+      if (items == null) throw Error.ArgumentNull("items");
+
+      foreach (var item in items)
+      {
+        if (item == null) throw Error.ArgumentNull("item");
+        if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
+        if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+      }
+
+      AddRangeInternal(items, items.Select(i => i.Name));
+    }
+
+    protected override sealed void AddRangeInternal(IEnumerable<T> items, IEnumerable<string> names)
     {
       var table = (SymbolTable)transaction.GetObject(ID, OpenMode.ForWrite);
 
@@ -58,40 +133,6 @@ namespace Linq2Acad
         table.Add(item);
         transaction.AddNewlyCreatedDBObject(item, true);
       }
-    }
-
-    protected abstract T CreateNew();
-
-    public T Create(string name)
-    {
-      if (!Helpers.IsNameValid(name))
-      {
-        throw Error.InvalidName(name);
-      }
-
-      var item = CreateNew();
-      item.Name = name;
-      Add(item);
-      return item;
-    }
-
-    public IEnumerable<T> Create(IEnumerable<string> names)
-    {
-      var invalidName = names.FirstOrDefault(n => !Helpers.IsNameValid(n));
-
-      if (invalidName != null)
-      {
-        throw Error.InvalidName(invalidName);
-      }
-
-      var items = names.Select(n => CreateNew())
-                      .ToArray();
-      AddRange(items);
-      return items.Zip(names, (i, n) =>
-                              {
-                                i.Name = n;
-                                return i;
-                              });
     }
   }
 }

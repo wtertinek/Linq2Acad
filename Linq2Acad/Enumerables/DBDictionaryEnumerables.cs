@@ -14,9 +14,46 @@ namespace Linq2Acad
     {
     }
 
-    protected override DBVisualStyle CreateNew()
+    protected override DBVisualStyle CreateNew(string name)
     {
       return new DBVisualStyle();
+    }
+
+    public void Add(DBVisualStyle item)
+    {
+      if (item == null) throw Error.ArgumentNull("item");
+      if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
+      if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+
+      try
+      {
+        AddRangeInternal(new[] { item }, new[] { item.Name });
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
+    public void AddRange(IEnumerable<DBVisualStyle> items)
+    {
+      if (items == null) throw Error.ArgumentNull("items");
+
+      foreach (var item in items)
+      {
+        if (item == null) throw Error.ArgumentNull("item");
+        if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
+        if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+      }
+
+      try
+      {
+        AddRangeInternal(items, items.Select(i => i.Name));
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
   }
 
@@ -27,9 +64,46 @@ namespace Linq2Acad
     {
     }
 
-    protected override DetailViewStyle CreateNew()
+    protected override DetailViewStyle CreateNew(string name)
     {
-      return new DetailViewStyle();
+      return new DetailViewStyle() { Name = name };
+    }
+
+    public void Add(DetailViewStyle item)
+    {
+      if (item == null) throw Error.ArgumentNull("item");
+      if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
+      if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+
+      try
+      {
+        AddRangeInternal(new[] { item }, new[] { item.Name });
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
+    public void AddRange(IEnumerable<DetailViewStyle> items)
+    {
+      if (items == null) throw Error.ArgumentNull("items");
+
+      foreach (var item in items)
+      {
+        if (item == null) throw Error.ArgumentNull("item");
+        if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
+        if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+      }
+
+      try
+      {
+        AddRangeInternal(items, items.Select(i => i.Name));
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
   }
 
@@ -40,9 +114,9 @@ namespace Linq2Acad
     {
     }
 
-    protected override Group CreateNew()
+    protected override Group CreateNew(string name)
     {
-      return new Group();
+      return new Group() { Name = name };
     }
 
     public Group Create(string name, IEnumerable<Entity> entities)
@@ -51,6 +125,43 @@ namespace Linq2Acad
       group.Append(new ObjectIdCollection(entities.Select(e => e.ObjectId)
                                                   .ToArray()));
       return group;
+    }
+
+    public void Add(Group item)
+    {
+      if (item == null) throw Error.ArgumentNull("item");
+      if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
+      if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+
+      try
+      {
+        AddRangeInternal(new[] { item }, new[] { item.Name });
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
+    public void AddRange(IEnumerable<Group> items)
+    {
+      if (items == null) throw Error.ArgumentNull("items");
+
+      foreach (var item in items)
+      {
+        if (item == null) throw Error.ArgumentNull("item");
+        if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
+        if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+      }
+
+      try
+      {
+        AddRangeInternal(items, items.Select(i => i.Name));
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
   }
 
@@ -61,9 +172,46 @@ namespace Linq2Acad
     {
     }
 
-    protected override Layout CreateNew()
+    protected override Layout CreateNew(string name)
     {
-      return new Layout();
+      return new Layout() { LayoutName = name };
+    }
+
+    public void Add(Layout item)
+    {
+      if (item == null) throw Error.ArgumentNull("item");
+      if (!Helpers.IsNameValid(item.LayoutName)) throw Error.InvalidName(item.LayoutName);
+      if (Contains(item.LayoutName)) throw Error.Generic("An object with name " + item.LayoutName + " already exists");
+
+      try
+      {
+        AddRangeInternal(new[] { item }, new[] { item.LayoutName });
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
+    public void AddRange(IEnumerable<Layout> items)
+    {
+      if (items == null) throw Error.ArgumentNull("items");
+
+      foreach (var item in items)
+      {
+        if (item == null) throw Error.ArgumentNull("item");
+        if (!Helpers.IsNameValid(item.LayoutName)) throw Error.InvalidName(item.LayoutName);
+        if (Contains(item.LayoutName)) throw Error.Generic("An object with name " + item.LayoutName + " already exists");
+      }
+
+      try
+      {
+        AddRangeInternal(items, items.Select(i => i.LayoutName));
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
   }
 
@@ -74,9 +222,46 @@ namespace Linq2Acad
     {
     }
 
-    protected override Material CreateNew()
+    protected override Material CreateNew(string name)
     {
-      return new Material();
+      return new Material() { Name = name };
+    }
+
+    public void Add(Material item)
+    {
+      if (item == null) throw Error.ArgumentNull("item");
+      if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
+      if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+
+      try
+      {
+        AddRangeInternal(new[] { item }, new[] { item.Name });
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
+    public void AddRange(IEnumerable<Material> items)
+    {
+      if (items == null) throw Error.ArgumentNull("items");
+
+      foreach (var item in items)
+      {
+        if (item == null) throw Error.ArgumentNull("item");
+        if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
+        if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+      }
+
+      try
+      {
+        AddRangeInternal(items, items.Select(i => i.Name));
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
   }
 
@@ -87,9 +272,46 @@ namespace Linq2Acad
     {
     }
 
-    protected override MLeaderStyle CreateNew()
+    protected override MLeaderStyle CreateNew(string name)
     {
-      return new MLeaderStyle();
+      return new MLeaderStyle() { Name = name };
+    }
+
+    public void Add(MLeaderStyle item)
+    {
+      if (item == null) throw Error.ArgumentNull("item");
+      if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
+      if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+
+      try
+      {
+        AddRangeInternal(new[] { item }, new[] { item.Name });
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
+    public void AddRange(IEnumerable<MLeaderStyle> items)
+    {
+      if (items == null) throw Error.ArgumentNull("items");
+
+      foreach (var item in items)
+      {
+        if (item == null) throw Error.ArgumentNull("item");
+        if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
+        if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+      }
+
+      try
+      {
+        AddRangeInternal(items, items.Select(i => i.Name));
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
   }
 
@@ -100,9 +322,46 @@ namespace Linq2Acad
     {
     }
 
-    protected override MlineStyle CreateNew()
+    protected override MlineStyle CreateNew(string name)
     {
-      return new MlineStyle();
+      return new MlineStyle() { Name = name };
+    }
+
+    public void Add(MlineStyle item)
+    {
+      if (item == null) throw Error.ArgumentNull("item");
+      if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
+      if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+
+      try
+      {
+        AddRangeInternal(new[] { item }, new[] { item.Name });
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
+    public void AddRange(IEnumerable<MlineStyle> items)
+    {
+      if (items == null) throw Error.ArgumentNull("items");
+
+      foreach (var item in items)
+      {
+        if (item == null) throw Error.ArgumentNull("item");
+        if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
+        if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+      }
+
+      try
+      {
+        AddRangeInternal(items, items.Select(i => i.Name));
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
   }
 
@@ -113,10 +372,47 @@ namespace Linq2Acad
     {
     }
 
-    protected override PlotSettings CreateNew()
+    protected override PlotSettings CreateNew(string name)
     {
       // TODO: Select correct type
-      return new PlotSettings(true);
+      return new PlotSettings(true) { PlotSettingsName = name };
+    }
+
+    public void Add(PlotSettings item)
+    {
+      if (item == null) throw Error.ArgumentNull("item");
+      if (!Helpers.IsNameValid(item.PlotSettingsName)) throw Error.InvalidName(item.PlotSettingsName);
+      if (Contains(item.PlotSettingsName)) throw Error.Generic("An object with name " + item.PlotSettingsName + " already exists");
+
+      try
+      {
+        AddRangeInternal(new[] { item }, new[] { item.PlotSettingsName });
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
+    public void AddRange(IEnumerable<PlotSettings> items)
+    {
+      if (items == null) throw Error.ArgumentNull("items");
+
+      foreach (var item in items)
+      {
+        if (item == null) throw Error.ArgumentNull("item");
+        if (!Helpers.IsNameValid(item.PlotSettingsName)) throw Error.InvalidName(item.PlotSettingsName);
+        if (Contains(item.PlotSettingsName)) throw Error.Generic("An object with name " + item.PlotSettingsName + " already exists");
+      }
+
+      try
+      {
+        AddRangeInternal(items, items.Select(i => i.PlotSettingsName));
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
   }
 
@@ -127,9 +423,46 @@ namespace Linq2Acad
     {
     }
 
-    protected override SectionViewStyle CreateNew()
+    protected override SectionViewStyle CreateNew(string name)
     {
-      return new SectionViewStyle();
+      return new SectionViewStyle() { Name = name };
+    }
+
+    public void Add(SectionViewStyle item)
+    {
+      if (item == null) throw Error.ArgumentNull("item");
+      if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
+      if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+
+      try
+      {
+        AddRangeInternal(new[] { item }, new[] { item.Name });
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
+    public void AddRange(IEnumerable<SectionViewStyle> items)
+    {
+      if (items == null) throw Error.ArgumentNull("items");
+
+      foreach (var item in items)
+      {
+        if (item == null) throw Error.ArgumentNull("item");
+        if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
+        if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+      }
+
+      try
+      {
+        AddRangeInternal(items, items.Select(i => i.Name));
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
   }
 
@@ -140,9 +473,46 @@ namespace Linq2Acad
     {
     }
 
-    protected override TableStyle CreateNew()
+    protected override TableStyle CreateNew(string name)
     {
-      return new TableStyle();
+      return new TableStyle() { Name = name };
+    }
+
+    public void Add(TableStyle item)
+    {
+      if (item == null) throw Error.ArgumentNull("item");
+      if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
+      if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+
+      try
+      {
+        AddRangeInternal(new[] { item }, new[] { item.Name });
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
+    public void AddRange(IEnumerable<TableStyle> items)
+    {
+      if (items == null) throw Error.ArgumentNull("items");
+
+      foreach (var item in items)
+      {
+        if (item == null) throw Error.ArgumentNull("item");
+        if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
+        if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+      }
+
+      try
+      {
+        AddRangeInternal(items, items.Select(i => i.Name));
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
   }
 }

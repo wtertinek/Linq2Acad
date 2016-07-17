@@ -17,12 +17,20 @@ namespace Linq2Acad
     /// </summary>
     /// <typeparam name="T">The type of elements in this System.Collections.Generic.IEnumerable&lt;DBObject&gt;.</typeparam>
     /// <param name="items">The System.Collections.Generic.IEnumerable&lt;DBObject&gt; instance.</param>
-    /// <param name="action"></param>
+    /// <param name="action">The action to execute.</param>
+    /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     public static void ForEach<T>(this IEnumerable<T> items, Action<T> action) where T : DBObject
     {
       foreach (var item in items)
       {
-        Helpers.WriteWrap(item, () => action(item));
+        try
+        {
+          Helpers.WriteWrap(item, () => action(item));
+        }
+        catch (Exception e)
+        {
+          throw Error.AutoCadException(e);
+        }
       }
     }
 
@@ -31,14 +39,22 @@ namespace Linq2Acad
     /// </summary>
     /// <typeparam name="T">The type of elements in this System.Collections.Generic.IEnumerable&lt;DBObject&gt;.</typeparam>
     /// <param name="source">The System.Collections.Generic.IEnumerable&lt;DBObject&gt; instance.</param>
-    /// <returns></returns>
+    /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
+    /// <returns>The given elements in OpenMode.ForWrite.</returns>
     public static IEnumerable<T> UpgradeOpen<T>(this IEnumerable<T> source) where T : DBObject
     {
       foreach (var item in source)
       {
-        if (!item.IsWriteEnabled)
+        try
         {
-          item.UpgradeOpen();
+          if (!item.IsWriteEnabled)
+          {
+            item.UpgradeOpen();
+          }
+        }
+        catch (Exception e)
+        {
+          throw Error.AutoCadException(e);
         }
 
         yield return item;
@@ -50,14 +66,21 @@ namespace Linq2Acad
     /// </summary>
     /// <typeparam name="T">The type of elements in this System.Collections.Generic.IEnumerable&lt;DBObject&gt;.</typeparam>
     /// <param name="source">The System.Collections.Generic.IEnumerable&lt;DBObject&gt; instance.</param>
-    /// <returns></returns>
+    /// <returns>The given elements in OpenMode.ForWrite.</returns>
     public static IEnumerable<T> DowngradeOpen<T>(this IEnumerable<T> source) where T : DBObject
     {
       foreach (var item in source)
       {
-        if (!item.IsReadEnabled)
+        try
         {
-          item.DowngradeOpen();
+          if (!item.IsReadEnabled)
+          {
+            item.DowngradeOpen();
+          }
+        }
+        catch (Exception e)
+        {
+          throw Error.AutoCadException(e);
         }
 
         yield return item;
