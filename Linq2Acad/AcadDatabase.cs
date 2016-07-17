@@ -53,7 +53,7 @@ namespace Linq2Acad
     public Database Database { get; private set; }
 
     /// <summary>
-    /// Discards all changes to the underlying transaction.
+    /// Discards all changes on the underlying transaction.
     /// </summary>
     public void DiscardChanges()
     {
@@ -61,18 +61,41 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Frees all resources.
+    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
     /// </summary>
     public void Dispose()
     {
-      Dispose(false);
+      try
+      {
+        DisposeInternal(false);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
 
     /// <summary>
-    /// Frees all resources forcefully.
+    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
     /// </summary>
     /// <param name="force">True, if the drawing database and the transaction should be disposed of, even if keepOpen was used.</param>
     public void Dispose(bool force)
+    {
+      try
+      {
+        DisposeInternal(force);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
+    /// <summary>
+    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+    /// </summary>
+    /// <param name="force">True, if the drawing database and the transaction should be disposed of, even if keepOpen was used.</param>
+    private void DisposeInternal(bool force)
     {
       if (!transaction.IsDisposed)
       {
@@ -102,11 +125,34 @@ namespace Linq2Acad
     }
 
     /// <summary>
+    /// Saves the drawing database to the file with the given name. The newest DWG version is used.
+    /// </summary>
+    /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>fileName</i> is null.</exception>
+    /// <exception cref="System.Exception">Thrown when saving the drawing database throws an exception.</exception>
+    /// <param name="fileName">The name of the file.</param>
+    public void SaveAs(string fileName)
+    {
+      if (fileName == null) throw Error.ArgumentNull("fileName");
+
+      try
+      {
+        Database.SaveAs(fileName, DwgVersion.Newest);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e, "Error saving drawing database to file " + fileName);
+      }
+    }
+
+    #region Element | Elements
+
+    /// <summary>
     /// Returns the database object with the given ObjectId. The object is readonly.
     /// </summary>
     /// <typeparam name="T">The type of the object.</typeparam>
     /// <param name="id">The id of the object.</param>
     /// <exception cref="System.ArgumentOutOfRangeException">Thrown when an invalid ObjectId is passed.</exception>
+    /// <exception cref="System.InvalidCastException">Thrown when the object cannot be casted to the target type.</exception>
     /// <exception cref="System.Exception">Thrown when getting the element throws an exception.</exception>
     /// <returns>The object with the given ObjectId.</returns>
     public T Element<T>(ObjectId id) where T : DBObject
@@ -116,6 +162,10 @@ namespace Linq2Acad
       try
       {
         return ElementInternal<T>(id, false);
+      }
+      catch (InvalidCastException e)
+      {
+        throw e;
       }
       catch (Exception e)
       {
@@ -130,6 +180,7 @@ namespace Linq2Acad
     /// <param name="id">The id of the object.</param>
     /// <param name="forWrite">True, if the object should be opened for-write.</param>
     /// <exception cref="System.ArgumentOutOfRangeException">Thrown when an invalid ObjectId is passed.</exception>
+    /// <exception cref="System.InvalidCastException">Thrown when the object cannot be casted to the target type.</exception>
     /// <exception cref="System.Exception">Thrown when getting the element throws an exception.</exception>
     /// <returns>The object with the given ObjectId.</returns>
     public T Element<T>(ObjectId id, bool forWrite) where T : DBObject
@@ -140,9 +191,78 @@ namespace Linq2Acad
       {
         return ElementInternal<T>(id, forWrite);
       }
+      catch (InvalidCastException e)
+      {
+        throw e;
+      }
       catch (Exception e)
       {
         throw Error.AutoCadException(e);
+      }
+    }
+
+    /// <summary>
+    /// Returns the database object with the given ObjectId, or a default value if the element does not exist. The object is readonly.
+    /// </summary>
+    /// <typeparam name="T">The type of the object.</typeparam>
+    /// <param name="id">The id of the object.</param>
+    /// <exception cref="System.ArgumentOutOfRangeException">Thrown when an invalid ObjectId is passed.</exception>
+    /// <exception cref="System.InvalidCastException">Thrown when the object cannot be casted to the target type.</exception>
+    /// <exception cref="System.Exception">Thrown when getting the element throws an exception.</exception>
+    /// <returns>The object with the given ObjectId.</returns>
+    public T ElementOrDefault<T>(ObjectId id) where T : DBObject
+    {
+      if (!id.IsValid)
+      {
+        return null;
+      }
+      else
+      {
+        try
+        {
+          return ElementInternal<T>(id, false);
+        }
+        catch (InvalidCastException e)
+        {
+          throw e;
+        }
+        catch (Exception e)
+        {
+          throw Error.AutoCadException(e);
+        }
+      }
+    }
+
+    /// <summary>
+    /// Returns the database object with the given ObjectId, or a default value if the element does not exist.
+    /// </summary>
+    /// <typeparam name="T">The type of the object.</typeparam>
+    /// <param name="id">The id of the object.</param>
+    /// <param name="forWrite">True, if the object should be opened for-write.</param>
+    /// <exception cref="System.ArgumentOutOfRangeException">Thrown when an invalid ObjectId is passed.</exception>
+    /// <exception cref="System.InvalidCastException">Thrown when the object cannot be casted to the target type.</exception>
+    /// <exception cref="System.Exception">Thrown when getting the element throws an exception.</exception>
+    /// <returns>The object with the given ObjectId.</returns>
+    public T ElementOrDefault<T>(ObjectId id, bool forWrite) where T : DBObject
+    {
+      if (!id.IsValid)
+      {
+        return null;
+      }
+      else
+      {
+        try
+        {
+          return ElementInternal<T>(id, forWrite);
+        }
+        catch (InvalidCastException e)
+        {
+          throw e;
+        }
+        catch (Exception e)
+        {
+          throw Error.AutoCadException(e);
+        }
       }
     }
 
@@ -164,6 +284,7 @@ namespace Linq2Acad
     /// <typeparam name="T">The type of the objects.</typeparam>
     /// <param name="ids">The ids of the objects.</param>
     /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>ids</i> is null.</exception>
+    /// <exception cref="System.InvalidCastException">Thrown when an object cannot be casted to the target type.</exception>
     /// <exception cref="System.Exception">Thrown when an ObjectId is invalid or getting an element throws an exception.</exception>
     /// <returns>The objects with the given ObjectIds.</returns>
     public IEnumerable<T> Elements<T>(IEnumerable<ObjectId> ids) where T : DBObject
@@ -178,6 +299,10 @@ namespace Linq2Acad
       {
         throw Error.Generic(e.Message);
       }
+      catch (InvalidCastException e)
+      {
+        throw e;
+      }
       catch (Exception e)
       {
         throw Error.AutoCadException(e);
@@ -191,6 +316,7 @@ namespace Linq2Acad
     /// <param name="ids">The ids of the objects.</param>
     /// <param name="forWrite">True, if the objects should be opened for-write.</param>
     /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>ids</i> is null.</exception>
+    /// <exception cref="System.InvalidCastException">Thrown when an object cannot be casted to the target type.</exception>
     /// <exception cref="System.Exception">Thrown when an ObjectId is invalid or getting an element throws an exception.</exception>
     /// <returns>The objects with the given ObjectIds.</returns>
     public IEnumerable<T> Elements<T>(IEnumerable<ObjectId> ids, bool forWrite) where T : DBObject
@@ -205,6 +331,10 @@ namespace Linq2Acad
       {
         throw Error.Generic(e.Message);
       }
+      catch (InvalidCastException e)
+      {
+        throw e;
+      }
       catch (Exception e)
       {
         throw Error.AutoCadException(e);
@@ -217,6 +347,7 @@ namespace Linq2Acad
     /// <typeparam name="T">The type of the objects.</typeparam>
     /// <param name="ids">The ids of the objects.</param>
     /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>ids</i> is null.</exception>
+    /// <exception cref="System.InvalidCastException">Thrown when an object cannot be casted to the target type.</exception>
     /// <exception cref="System.Exception">Thrown when an ObjectId is invalid or getting an element throws an exception.</exception>
     /// <returns>The objects with the given ObjectIds.</returns>
     public IEnumerable<T> Elements<T>(ObjectIdCollection ids) where T : DBObject
@@ -231,6 +362,10 @@ namespace Linq2Acad
       {
         throw Error.Generic(e.Message);
       }
+      catch (InvalidCastException e)
+      {
+        throw e;
+      }
       catch (Exception e)
       {
         throw Error.AutoCadException(e);
@@ -244,6 +379,7 @@ namespace Linq2Acad
     /// <param name="ids">The ids of the objects.</param>
     /// <param name="forWrite">True, if the objects should be opened for-write.</param>
     /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>ids</i> is null.</exception>
+    /// <exception cref="System.InvalidCastException">Thrown when an object cannot be casted to the target type.</exception>
     /// <exception cref="System.Exception">Thrown when an ObjectId is invalid or getting an element throws an exception.</exception>
     /// <returns>The objects with the given ObjectIds.</returns>
     public IEnumerable<T> Elements<T>(ObjectIdCollection ids, bool forWrite) where T : DBObject
@@ -257,6 +393,10 @@ namespace Linq2Acad
       catch (InvalidObjectException e)
       {
         throw Error.Generic(e.Message);
+      }
+      catch (InvalidCastException e)
+      {
+        throw e;
       }
       catch (Exception e)
       {
@@ -282,68 +422,77 @@ namespace Linq2Acad
       }
     }
 
-    /// <summary>
-    /// Saves the drawing database to the file with the given name. The newest DWG version is used.
-    /// </summary>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>fileName</i> is null.</exception>
-    /// <exception cref="System.Exception">Thrown when saving the drawing database throws an exception.</exception>
-    /// <param name="fileName">The name of the file.</param>
-    public void SaveAs(string fileName)
-    {
-      if (fileName == null) throw Error.ArgumentNull("fileName");
-
-      try
-      {
-        Database.SaveAs(fileName, DwgVersion.Newest);
-      }
-      catch (Exception e)
-      {
-        throw Error.Generic("Error saving drawing database to file " + fileName, e);
-      }
-    }
+    #endregion
 
     #region Tables
 
+    /// <summary>
+    /// Provides access to the elements of the Block table.
+    /// </summary>
     public BlockContainer Blocks
     {
       get { return new BlockContainer(Database, transaction, Database.BlockTableId); }
     }
 
+    /// <summary>
+    /// Provides access to the elements of the Layer table.
+    /// </summary>
     public LayerContainer Layers
     {
       get { return new LayerContainer(Database, transaction, Database.LayerTableId); }
     }
 
+    /// <summary>
+    /// Provides access to the elements of the DimStyle table.
+    /// </summary>
     public DimStyleContainer DimStyles
     {
       get { return new DimStyleContainer(Database, transaction, Database.DimStyleTableId); }
     }
 
+    /// <summary>
+    /// Provides access to the elements of the Linetype table.
+    /// </summary>
     public LinetypeContainer Linetypes
     {
       get { return new LinetypeContainer(Database, transaction, Database.LinetypeTableId); }
     }
 
+    /// <summary>
+    /// Provides access to the elements of the RegApp table.
+    /// </summary>
     public RegAppContainer RegApps
     {
       get { return new RegAppContainer(Database, transaction, Database.RegAppTableId); }
     }
 
+    /// <summary>
+    /// Provides access to the elements of the TextStyle table.
+    /// </summary>
     public TextStyleContainer TextStyles
     {
       get { return new TextStyleContainer(Database, transaction, Database.TextStyleTableId); }
     }
 
+    /// <summary>
+    /// Provides access to the elements of the Ucs table.
+    /// </summary>
     public UcsContainer Ucss
     {
       get { return new UcsContainer(Database, transaction, Database.UcsTableId); }
     }
 
+    /// <summary>
+    /// Provides access to the elements of the Viewport table.
+    /// </summary>
     public ViewportContainer Viewports
     {
       get { return new ViewportContainer(Database, transaction, Database.ViewportTableId); }
     }
 
+    /// <summary>
+    /// Provides access to the elements of the View table.
+    /// </summary>
     public ViewContainer Views
     {
       get { return new ViewContainer(Database, transaction, Database.ViewTableId); }
@@ -353,51 +502,81 @@ namespace Linq2Acad
 
     #region Dictionaries
 
+    /// <summary>
+    /// Provides access to the elements of the Layout dictionary.
+    /// </summary>
     public LayoutContainer Layouts
     {
       get { return new LayoutContainer(Database, transaction, Database.LayoutDictionaryId); }
     }
 
+    /// <summary>
+    /// Provides access to the elements of the Group dictionary.
+    /// </summary>
     public GroupContainer Groups
     {
       get { return new GroupContainer(Database, transaction, Database.GroupDictionaryId); }
     }
 
+    /// <summary>
+    /// Provides access to the elements of the MLeaderStyle dictionary.
+    /// </summary>
     public MLeaderStyleContainer MLeaderStyles
     {
       get { return new MLeaderStyleContainer(Database, transaction, Database.MLeaderStyleDictionaryId); }
     }
 
+    /// <summary>
+    /// Provides access to the elements of the MlineStyle dictionary.
+    /// </summary>
     public MlineStyleContainer MlineStyles
     {
       get { return new MlineStyleContainer(Database, transaction, Database.MLStyleDictionaryId); }
     }
 
+    /// <summary>
+    /// Provides access to the elements of the Material dictionary.
+    /// </summary>
     public MaterialContainer Materials
     {
       get { return new MaterialContainer(Database, transaction, Database.MaterialDictionaryId); }
     }
 
+    /// <summary>
+    /// Provides access to the elements of the DBVisualStyle dictionary.
+    /// </summary>
     public DBVisualStyleContainer DBVisualStyles
     {
       get { return new DBVisualStyleContainer(Database, transaction, Database.VisualStyleDictionaryId); }
     }
 
+    /// <summary>
+    /// Provides access to the elements of the PlotSetting dictionary.
+    /// </summary>
     public PlotSettingsContainer PlotSettings
     {
       get { return new PlotSettingsContainer(Database, transaction, Database.PlotSettingsDictionaryId); }
     }
 
+    /// <summary>
+    /// Provides access to the elements of the TableStyle dictionary.
+    /// </summary>
     public TableStyleContainer TableStyles
     {
       get { return new TableStyleContainer(Database, transaction, Database.TableStyleDictionaryId); }
     }
 
+    /// <summary>
+    /// Provides access to the elements of the SectionViewStyle dictionary.
+    /// </summary>
     public SectionViewStyleContainer SectionViewStyles
     {
       get { return new SectionViewStyleContainer(Database, transaction, Database.SectionViewStyleDictionaryId); }
     }
 
+    /// <summary>
+    /// Provides access to the elements of the DetailViewStyle dictionary.
+    /// </summary>
     public DetailViewStyleContainer DetailViewStyles
     {
       get { return new DetailViewStyleContainer(Database, transaction, Database.DetailViewStyleDictionaryId); }
@@ -405,10 +584,10 @@ namespace Linq2Acad
 
     #endregion
 
-    #region Model/Paper/Current space
+    #region CurrentSpace | ModelSpace | PaperSpace
 
     /// <summary>
-    /// Provides access to the entities of the space that is currently active.
+    /// Provides access to the entities of the currently active space.
     /// </summary>
     public EntityContainer CurrentSpace
     {
@@ -722,6 +901,34 @@ namespace Linq2Acad
       database.ReadDwgFile(fileName, openMode == DwgOpenMode.ReadWrite ? FileOpenMode.OpenForReadAndWriteNoShare : FileOpenMode.OpenForReadAndReadShare, false, password);
       database.CloseInput(true);
       return new AcadDatabase(database, keepOpen);
+    }
+
+    #endregion
+
+    #region Overrides to remove methods from IntelliSense
+
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+    public new Type GetType()
+    {
+      return base.GetType();
+    }
+
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+    public override bool Equals(object obj)
+    {
+      return base.Equals(obj);
+    }
+
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+    public override int GetHashCode()
+    {
+      return base.GetHashCode();
+    }
+
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+    public override string ToString()
+    {
+      return base.ToString();
     }
 
     #endregion
