@@ -115,7 +115,7 @@ namespace Linq2Acad
       }
     }
 
-    protected override void AddRangeInternal(IEnumerable<T> items, IEnumerable<string> names)
+    protected override sealed void AddRangeInternal(IEnumerable<T> items, IEnumerable<string> names)
     {
       var dict = (DBDictionary)transaction.GetObject(ID, OpenMode.ForWrite);
       var mItems = items.ToArray();

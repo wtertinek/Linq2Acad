@@ -20,9 +20,14 @@ namespace Linq2Acad
       return this.Select(b => new EntityContainer(database, transaction, b.ObjectId));
     }
 
-    protected override BlockTableRecord CreateNew(string name)
+    protected override BlockTableRecord CreateNew()
     {
-      return new BlockTableRecord() { Name = name };
+      return new BlockTableRecord();
+    }
+
+    protected override void SetName(BlockTableRecord item, string name)
+    {
+      item.Name = name;
     }
   }
 
@@ -33,9 +38,14 @@ namespace Linq2Acad
     {
     }
 
-    protected override DimStyleTableRecord CreateNew(string name)
+    protected override DimStyleTableRecord CreateNew()
     {
-      return new DimStyleTableRecord() { Name = name };
+      return new DimStyleTableRecord();
+    }
+
+    protected override void SetName(DimStyleTableRecord item, string name)
+    {
+      item.Name = name;
     }
   }
 
@@ -46,9 +56,14 @@ namespace Linq2Acad
     {
     }
 
-    protected override LayerTableRecord CreateNew(string name)
+    protected override LayerTableRecord CreateNew()
     {
-      return new LayerTableRecord() { Name = name };
+      return new LayerTableRecord();
+    }
+
+    protected override void SetName(LayerTableRecord item, string name)
+    {
+      item.Name = name;
     }
   }
 
@@ -59,9 +74,14 @@ namespace Linq2Acad
     {
     }
 
-    protected override LinetypeTableRecord CreateNew(string name)
+    protected override LinetypeTableRecord CreateNew()
     {
-      return new LinetypeTableRecord() { Name = name };
+      return new LinetypeTableRecord();
+    }
+
+    protected override void SetName(LinetypeTableRecord item, string name)
+    {
+      item.Name = name;
     }
   }
 
@@ -72,9 +92,14 @@ namespace Linq2Acad
     {
     }
 
-    protected override RegAppTableRecord CreateNew(string name)
+    protected override RegAppTableRecord CreateNew()
     {
-      return new RegAppTableRecord() { Name = name };
+      return new RegAppTableRecord();
+    }
+
+    protected override void SetName(RegAppTableRecord item, string name)
+    {
+      item.Name = name;
     }
   }
 
@@ -85,9 +110,14 @@ namespace Linq2Acad
     {
     }
 
-    protected override TextStyleTableRecord CreateNew(string name)
+    protected override TextStyleTableRecord CreateNew()
     {
-      return new TextStyleTableRecord() { Name = name };
+      return new TextStyleTableRecord();
+    }
+
+    protected override void SetName(TextStyleTableRecord item, string name)
+    {
+      item.Name = name;
     }
   }
 
@@ -98,9 +128,14 @@ namespace Linq2Acad
     {
     }
 
-    protected override UcsTableRecord CreateNew(string name)
+    protected override UcsTableRecord CreateNew()
     {
-      return new UcsTableRecord() { Name = name };
+      return new UcsTableRecord();
+    }
+
+    protected override void SetName(UcsTableRecord item, string name)
+    {
+      item.Name = name;
     }
   }
 
@@ -116,9 +151,14 @@ namespace Linq2Acad
       get { return (ViewportTableRecord)transaction.GetObject(database.CurrentViewportTableRecordId, OpenMode.ForRead); }
     }
 
-    protected override ViewportTableRecord CreateNew(string name)
+    protected override ViewportTableRecord CreateNew()
     {
-      return new ViewportTableRecord() { Name = name };
+      return new ViewportTableRecord();
+    }
+
+    protected override void SetName(ViewportTableRecord item, string name)
+    {
+      item.Name = name;
     }
   }
 
@@ -129,9 +169,14 @@ namespace Linq2Acad
     {
     }
 
-    protected override ViewTableRecord CreateNew(string name)
+    protected override ViewTableRecord CreateNew()
     {
-      return new ViewTableRecord() { Name = name };
+      return new ViewTableRecord();
+    }
+
+    protected override void SetName(ViewTableRecord item, string name)
+    {
+      item.Name = name;
     }
   }
 }

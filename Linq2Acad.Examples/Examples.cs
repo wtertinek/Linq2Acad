@@ -72,10 +72,10 @@ namespace Linq2Acad
       using (var db = AcadDatabase.Active())
       {
         var layer = db.Layers.Create(name);
-        layer.Color = Color.FromDictionaryName(colorName);
+        layer.Color = Color.FromColor(System.Drawing.Color.FromName(colorName));
       }
 
-      WriteMessage("Layer " + name + "created");
+      WriteMessage("Layer " + name + " created");
     }
 
     /// <summary>

@@ -25,7 +25,9 @@ namespace Linq2Acad
 
     public abstract T ElementOrDefault(string name, bool forWrite);
 
-    protected abstract T CreateNew(string name);
+    protected abstract T CreateNew();
+
+    protected virtual void SetName(T item, string name) { }
 
     protected abstract void AddRangeInternal(IEnumerable<T> items, IEnumerable<string> names);
 
@@ -35,9 +37,21 @@ namespace Linq2Acad
       if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
       if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
 
-      var item = CreateNew(name);
-      AddRangeInternal(new[] { item }, new[] { name });
+      try
+      {
+        return CreateInternal(name);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
 
+    protected virtual T CreateInternal(string name)
+    {
+      var item = CreateNew();
+      AddRangeInternal(new[] { item }, new[] { name });
+      SetName(item, name);
       return item;
     }
 
@@ -49,14 +63,29 @@ namespace Linq2Acad
       var existingName = names.FirstOrDefault(n => Contains(n));
       if (existingName != null) throw Error.Generic("An object with name " + existingName + " already exists");
 
-      var items = names.Select(n =>
-                               {
-                                 var item = CreateNew(n);
-                                 return item;
-                               });
-      AddRangeInternal(items, names);
+      try
+      {
+        var tmpNames = names.ToArray();
+        var items = new T[tmpNames.Length];
 
-      return items;
+        for (int i = 0; i < items.Length; i++)
+        {
+          items[i] = CreateNew();
+        }
+
+        AddRangeInternal(items, names);
+
+        for (int i = 0; i < items.Length; i++)
+        {
+          SetName(items[i], tmpNames[i]);
+        }
+
+        return items;
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
   }
 }

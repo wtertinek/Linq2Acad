@@ -14,7 +14,7 @@ namespace Linq2Acad
     {
     }
 
-    protected override DBVisualStyle CreateNew(string name)
+    protected override DBVisualStyle CreateNew()
     {
       return new DBVisualStyle();
     }
@@ -64,9 +64,9 @@ namespace Linq2Acad
     {
     }
 
-    protected override DetailViewStyle CreateNew(string name)
+    protected override DetailViewStyle CreateNew()
     {
-      return new DetailViewStyle() { Name = name };
+      return new DetailViewStyle();
     }
 
     public void Add(DetailViewStyle item)
@@ -114,17 +114,36 @@ namespace Linq2Acad
     {
     }
 
-    protected override Group CreateNew(string name)
+    protected override Group CreateNew()
     {
-      return new Group() { Name = name };
+      return new Group();
     }
 
     public Group Create(string name, IEnumerable<Entity> entities)
     {
-      var group = Create(name);
-      group.Append(new ObjectIdCollection(entities.Select(e => e.ObjectId)
-                                                  .ToArray()));
-      return group;
+      if (name == null) throw Error.ArgumentNull("name");
+      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
+      if (Contains(name))
+      {
+        throw Error.Generic("An object with name " + name + " already exists");
+      }
+
+      try
+      {
+        var group = CreateInternal(name);
+
+        if (entities.Any())
+        {
+          group.Append(new ObjectIdCollection(entities.Select(e => e.ObjectId)
+                                                      .ToArray()));
+        }
+
+        return group;
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
 
     public void Add(Group item)
@@ -172,9 +191,14 @@ namespace Linq2Acad
     {
     }
 
-    protected override Layout CreateNew(string name)
+    protected override Layout CreateNew()
     {
-      return new Layout() { LayoutName = name };
+      throw new NotImplementedException();
+    }
+
+    protected override Layout CreateInternal(string name)
+    {
+      return (Layout)transaction.GetObject(LayoutManager.Current.CreateLayout(name), OpenMode.ForWrite);
     }
 
     public void Add(Layout item)
@@ -222,9 +246,9 @@ namespace Linq2Acad
     {
     }
 
-    protected override Material CreateNew(string name)
+    protected override Material CreateNew()
     {
-      return new Material() { Name = name };
+      return new Material();
     }
 
     public void Add(Material item)
@@ -272,9 +296,9 @@ namespace Linq2Acad
     {
     }
 
-    protected override MLeaderStyle CreateNew(string name)
+    protected override MLeaderStyle CreateNew()
     {
-      return new MLeaderStyle() { Name = name };
+      return new MLeaderStyle();
     }
 
     public void Add(MLeaderStyle item)
@@ -322,9 +346,9 @@ namespace Linq2Acad
     {
     }
 
-    protected override MlineStyle CreateNew(string name)
+    protected override MlineStyle CreateNew()
     {
-      return new MlineStyle() { Name = name };
+      return new MlineStyle();
     }
 
     public void Add(MlineStyle item)
@@ -372,10 +396,10 @@ namespace Linq2Acad
     {
     }
 
-    protected override PlotSettings CreateNew(string name)
+    protected override PlotSettings CreateNew()
     {
       // TODO: Select correct type
-      return new PlotSettings(true) { PlotSettingsName = name };
+      return new PlotSettings(true);
     }
 
     public void Add(PlotSettings item)
@@ -423,9 +447,9 @@ namespace Linq2Acad
     {
     }
 
-    protected override SectionViewStyle CreateNew(string name)
+    protected override SectionViewStyle CreateNew()
     {
-      return new SectionViewStyle() { Name = name };
+      return new SectionViewStyle();
     }
 
     public void Add(SectionViewStyle item)
@@ -473,9 +497,9 @@ namespace Linq2Acad
     {
     }
 
-    protected override TableStyle CreateNew(string name)
+    protected override TableStyle CreateNew()
     {
-      return new TableStyle() { Name = name };
+      return new TableStyle();
     }
 
     public void Add(TableStyle item)
