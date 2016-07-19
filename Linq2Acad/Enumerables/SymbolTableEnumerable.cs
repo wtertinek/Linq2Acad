@@ -105,7 +105,7 @@ namespace Linq2Acad
     {
       if (name == null) throw Error.ArgumentNull("name");
       if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+      if (Contains(name)) throw Error.ObjectExists<T>(name);
 
       try
       {
@@ -123,7 +123,7 @@ namespace Linq2Acad
       var invalidName = names.FirstOrDefault(n => !Helpers.IsNameValid(n));
       if (invalidName != null) throw Error.InvalidName(invalidName);
       var existingName = names.FirstOrDefault(n => Contains(n));
-      if (existingName != null) throw Error.Generic("An object with name " + existingName + " already exists");
+      if (existingName != null) throw Error.ObjectExists<T>(existingName);
 
       try
       {
@@ -154,7 +154,7 @@ namespace Linq2Acad
     {
       if (item == null) throw Error.ArgumentNull("item");
       if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-      if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+      if (Contains(item.Name)) throw Error.ObjectExists<T>(item.Name);
 
       AddRangeInternal(new[] { item }, new [] { item.Name });
     }
@@ -167,7 +167,7 @@ namespace Linq2Acad
       {
         if (item == null) throw Error.ArgumentNull("item");
         if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-        if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+        if (Contains(item.Name)) throw Error.ObjectExists<T>(item.Name);
       }
 
       AddRangeInternal(items, items.Select(i => i.Name));

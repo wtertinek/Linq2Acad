@@ -15,7 +15,7 @@ namespace Linq2Acad
     {
     }
 
-    public IEnumerable<EntityContainer> AsEntityContainer()
+    public IEnumerable<EntityContainer> AsEntityContainers()
     {
       return this.Select(b => new EntityContainer(database, transaction, b.ObjectId));
     }
@@ -34,9 +34,10 @@ namespace Linq2Acad
     {
       if (name == null) throw Error.ArgumentNull("name");
       if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists"); 
-      var alreadyInBlock = entities.FirstOrDefault(e => e.ObjectId.IsValid);
-      if (alreadyInBlock != null) throw Error.Generic("Entity with ObjectId " + alreadyInBlock + " is already part of a block " + alreadyInBlock.BlockName);
+      if (Contains(name)) throw Error.ObjectExists<BlockTableRecord>(name);
+      if (entities.Any(e => e == null)) throw Error.ElementNull("entities");
+      var alreadyInBlock = entities.FirstOrDefault(e => !e.ObjectId.IsNull);
+      if (alreadyInBlock != null) throw Error.EntityBelongsToBlock(alreadyInBlock.ObjectId);
 
       try
       {
@@ -87,6 +88,28 @@ namespace Linq2Acad
     protected override void SetName(LayerTableRecord item, string name)
     {
       item.Name = name;
+    }
+
+    public LayerTableRecord Create(string name, IEnumerable<Entity> entities)
+    {
+      if (name == null) throw Error.ArgumentNull("name");
+      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
+      if (Contains(name)) throw Error.ObjectExists<BlockTableRecord>(name);
+      if (entities.Any(e => e == null)) throw Error.ElementNull("entities");
+
+      try
+      {
+        var layer = CreateInternal(name);
+
+        entities.ToList()
+                .ForEach(e => e.LayerId = layer.ObjectId);
+
+        return layer;
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
   }
 

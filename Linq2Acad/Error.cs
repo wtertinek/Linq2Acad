@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Linq2Acad
 {
@@ -38,6 +39,16 @@ namespace Linq2Acad
     public static Exception ArgumentNull(string paramName)
     {
       return new ArgumentNullException(paramName);
+    }
+
+    /// <summary>
+    /// Creates an exception of type System.Exception that indicates that an element of the given parameter is null.
+    /// </summary>
+    /// <param name="paramName">The name of the parameter that caused the exception.</param>
+    /// <returns>A new instance of System.Exception.</returns>
+    public static Exception ElementNull(string paramName)
+    {
+      return new Exception("An element of parameter " + paramName + " is null");
     }
 
     /// <summary>
@@ -139,6 +150,36 @@ namespace Linq2Acad
     public static IndexOutOfRangeException IndexOutOfRange(string paramName, int upperBound)
     {
       return new IndexOutOfRangeException(paramName + " has to be >= 0 and <= " + upperBound);
+    }
+
+    /// <summary>
+    /// Creates a new System.Excetion that indicates that an Entity belongs to another block.
+    /// </summary>
+    /// <returns>A new instance of System.Exception.</returns>
+    public static Exception EntityBelongsToBlock()
+    {
+      return new Exception("Entity belongs to another block");
+    }
+
+    /// <summary>
+    /// Creates a new System.Exception that indicates that an Entity belongs to another block.
+    /// </summary>
+    /// <param name="objectId">The ObjectId of the Entity.</param>
+    /// <returns>A new instance of System.Exception.</returns>
+    public static Exception EntityBelongsToBlock(ObjectId objectId)
+    {
+      return new Exception("Entity with ObjectId " + objectId + " belongs to another block");
+    }
+
+    /// <summary>
+    /// Creates a new System.Exception that indicates that an object with a given name already exists.
+    /// </summary>
+    /// <typeparam name="T">The type of the object.</typeparam>
+    /// <param name="name">The name that is already taken.</param>
+    /// <returns>A new instance of System.Exception.</returns>
+    public static Exception ObjectExists<T>(string name)
+    {
+      return new Exception(typeof(T).Name + " with name " + name + " already exists");
     }
   }
 

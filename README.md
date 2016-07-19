@@ -3,6 +3,14 @@
 
 In general, the library should be a more intuitive API for working with the drawing database, making the learning curve for beginners less steep.
 
+### Referencing AutoCAD assemblies
+In order to be able to compile the solution, you have to add your local AutoCAD installation folder to the *Reference Paths* of each project.
+
+Let's assume your AutoCAD installation folder is *C:\Program Files\Autodesk\AutoCAD 2016*. To add this folder as a reference path for the project Linq2Acad, go to the project properties, select the tab *Reference Paths* and add *C:\Program Files\Autodesk\AutoCAD 2016*. Repeat this procedure for Linq2Acad.Examples as well.
+
+### TODO
+The code is not yet ready for production. The implementation of the main functionality is done, but not yet thoroughly tested. Further functionality will be added little by little.
+
 ###Examples
 From [Examples.cs](https://github.com/wtertinek/Linq2Acad/blob/master/Linq2Acad.Examples/Examples.cs)
 
@@ -190,11 +198,3 @@ using (var db = AcadDatabase.Active())
   WriteMessage("Group " + groupName + " created and " + lines.Length + " entities added");
 }
 ```
-
-### Referencing AutoCAD assemblies
-In order to be able to compile the solution, you have to add your local AutoCAD installation folder to the *Reference Paths* of each project.
-
-Let's assume your AutoCAD installation folder is *C:\Program Files\Autodesk\AutoCAD 2016*. To add this folder as a reference path for the project Linq2Acad, go to the project properties, select the tab *Reference Paths* and add *C:\Program Files\Autodesk\AutoCAD 2016*. Repeat this procedure for Linq2Acad.Examples as well.
-
-### TODO
-I just started the project, at the moment it's just a working prototype for AutoCAD 2016. If you have any comments or suggestions, **I'm very happy to hear from you**.

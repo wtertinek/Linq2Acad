@@ -113,9 +113,29 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Moving entities from one layer to another
+    /// Creating a layer and adding all red lines in the model space to it
     /// </summary>
     [CommandMethod("Linq2AcadExample7")]
+    public void CreatingALayerAndAddingAllRedLinesInTheModelSpaceToIt()
+    {
+      var layerName = GetString("Enter layer name");
+
+      using (var db = AcadDatabase.Active())
+      {
+        var lines = db.ModelSpace
+                      .OfType<Line>()
+                      .Where(l => l.Color.ColorName == "Red");
+        db.Layers
+          .Create(layerName, lines);
+
+        WriteMessage("All red Lines moved to new layer " + layerName);
+      }
+    }
+
+    /// <summary>
+    /// Moving entities from one layer to another
+    /// </summary>
+    [CommandMethod("Linq2AcadExample8")]
     public void MovingEntitiesFromOneLayerToAnother()
     {
       var sourceLayerName = GetString("Enter source layer name");
@@ -136,7 +156,7 @@ namespace Linq2Acad
     /// <summary>
     /// Importing a block from a drawing file
     /// </summary>
-    [CommandMethod("Linq2AcadExample8")]
+    [CommandMethod("Linq2AcadExample9")]
     public void ImportingABlockFromADrawingFile()
     {
       var filePath = GetString("Enter file path");
@@ -160,7 +180,7 @@ namespace Linq2Acad
     /// <summary>
     /// Opening a drawing from file and counting the BlockReferences in the model space
     /// </summary>
-    [CommandMethod("Linq2AcadExample9")]
+    [CommandMethod("Linq2AcadExample10")]
     public void OpeningADrawingFromFileAndCountingTheBlockReferencesInTheModelSpace()
     {
       var filePath = GetString("Enter file path");
@@ -178,7 +198,7 @@ namespace Linq2Acad
     /// <summary>
     /// Picking an entity and saving a string on it
     /// </summary>
-    [CommandMethod("Linq2AcadExample10")]
+    [CommandMethod("Linq2AcadExample11")]
     public void PickingAnEntityAndSavingAStringOnIt()
     {
       var entityId = GetEntity("Pick an entity");
@@ -198,7 +218,7 @@ namespace Linq2Acad
     /// <summary>
     /// Picking an entity and reading a string from it
     /// </summary>
-    [CommandMethod("Linq2AcadExample11")]
+    [CommandMethod("Linq2AcadExample12")]
     public void PickingAnEntityAndReadingAStringFromIt()
     {
       var entityId = GetEntity("Pick an entity");
@@ -211,26 +231,6 @@ namespace Linq2Acad
                     .GetData<string>(key);
 
         WriteMessage("String " + str + " read from entity");
-      }
-    }
-
-    /// <summary>
-    /// Creating a group and adding all lines in the model space to it
-    /// </summary>
-    [CommandMethod("Linq2AcadExample12")]
-    public void CreatingAGroupAndAddingAllLinesInTheModelSpaceToIt()
-    {
-      var groupName = GetString("Enter group name");
-
-      using (var db = AcadDatabase.Active())
-      {
-        var lines = db.ModelSpace
-                      .OfType<Line>()
-                      .ToArray();
-        db.Groups
-          .Create(groupName, lines);
-
-        WriteMessage("Group " + groupName + " created and " + lines.Length + " entities added");
       }
     }
   }

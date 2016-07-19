@@ -23,7 +23,7 @@ namespace Linq2Acad
     {
       if (name == null) throw Error.ArgumentNull("name");
       if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+      if (Contains(name)) throw Error.ObjectExists<DBVisualStyle>(name);
 
       try
       {
@@ -39,7 +39,7 @@ namespace Linq2Acad
     {
       if (item == null) throw Error.ArgumentNull("item");
       if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-      if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+      if (Contains(item.Name)) throw Error.ObjectExists<DBVisualStyle>(item.Name);
 
       try
       {
@@ -59,7 +59,7 @@ namespace Linq2Acad
       {
         if (item == null) throw Error.ArgumentNull("item");
         if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-        if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+        if (Contains(item.Name)) throw Error.ObjectExists<DBVisualStyle>(item.Name);
       }
 
       try
@@ -89,7 +89,7 @@ namespace Linq2Acad
     {
       if (name == null) throw Error.ArgumentNull("name");
       if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+      if (Contains(name)) throw Error.ObjectExists<DetailViewStyle>(name);
 
       try
       {
@@ -105,7 +105,7 @@ namespace Linq2Acad
     {
       if (item == null) throw Error.ArgumentNull("item");
       if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-      if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+      if (Contains(item.Name)) throw Error.ObjectExists<DetailViewStyle>(item.Name);
 
       try
       {
@@ -125,7 +125,7 @@ namespace Linq2Acad
       {
         if (item == null) throw Error.ArgumentNull("item");
         if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-        if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+        if (Contains(item.Name)) throw Error.ObjectExists<DetailViewStyle>(item.Name);
       }
 
       try
@@ -155,7 +155,7 @@ namespace Linq2Acad
     {
       if (name == null) throw Error.ArgumentNull("name");
       if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+      if (Contains(name)) throw Error.ObjectExists<Group>(name);
 
       try
       {
@@ -171,7 +171,7 @@ namespace Linq2Acad
     {
       if (name == null) throw Error.ArgumentNull("name");
       if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+      if (Contains(name)) throw Error.ObjectExists<Group>(name);
 
       try
       {
@@ -195,7 +195,7 @@ namespace Linq2Acad
     {
       if (item == null) throw Error.ArgumentNull("item");
       if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-      if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+      if (Contains(item.Name)) throw Error.ObjectExists<Group>(item.Name);
 
       try
       {
@@ -215,7 +215,7 @@ namespace Linq2Acad
       {
         if (item == null) throw Error.ArgumentNull("item");
         if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-        if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+        if (Contains(item.Name)) throw Error.ObjectExists<Group>(item.Name);
       }
 
       try
@@ -250,7 +250,7 @@ namespace Linq2Acad
     {
       if (name == null) throw Error.ArgumentNull("name");
       if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+      if (Contains(name)) throw Error.ObjectExists<Layout>(name);
 
       try
       {
@@ -266,7 +266,7 @@ namespace Linq2Acad
     {
       if (item == null) throw Error.ArgumentNull("item");
       if (!Helpers.IsNameValid(item.LayoutName)) throw Error.InvalidName(item.LayoutName);
-      if (Contains(item.LayoutName)) throw Error.Generic("An object with name " + item.LayoutName + " already exists");
+      if (Contains(item.LayoutName)) throw Error.ObjectExists<Layout>(item.LayoutName);
 
       try
       {
@@ -286,7 +286,7 @@ namespace Linq2Acad
       {
         if (item == null) throw Error.ArgumentNull("item");
         if (!Helpers.IsNameValid(item.LayoutName)) throw Error.InvalidName(item.LayoutName);
-        if (Contains(item.LayoutName)) throw Error.Generic("An object with name " + item.LayoutName + " already exists");
+        if (Contains(item.LayoutName)) throw Error.ObjectExists<Layout>(item.LayoutName);
       }
 
       try
@@ -316,7 +316,7 @@ namespace Linq2Acad
     {
       if (name == null) throw Error.ArgumentNull("name");
       if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+      if (Contains(name)) throw Error.ObjectExists<Material>(name);
 
       try
       {
@@ -332,7 +332,7 @@ namespace Linq2Acad
     {
       if (item == null) throw Error.ArgumentNull("item");
       if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-      if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+      if (Contains(item.Name)) throw Error.ObjectExists<Material>(item.Name);
 
       try
       {
@@ -352,7 +352,7 @@ namespace Linq2Acad
       {
         if (item == null) throw Error.ArgumentNull("item");
         if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-        if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+        if (Contains(item.Name)) throw Error.ObjectExists<Material>(item.Name);
       }
 
       try
@@ -382,7 +382,7 @@ namespace Linq2Acad
     {
       if (name == null) throw Error.ArgumentNull("name");
       if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+      if (Contains(name)) throw Error.ObjectExists<MLeaderStyle>(name);
 
       try
       {
@@ -398,7 +398,7 @@ namespace Linq2Acad
     {
       if (item == null) throw Error.ArgumentNull("item");
       if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-      if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+      if (Contains(item.Name)) throw Error.ObjectExists<MLeaderStyle>(item.Name);
 
       try
       {
@@ -418,7 +418,7 @@ namespace Linq2Acad
       {
         if (item == null) throw Error.ArgumentNull("item");
         if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-        if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+        if (Contains(item.Name)) throw Error.ObjectExists<MLeaderStyle>(item.Name);
       }
 
       try
@@ -448,7 +448,7 @@ namespace Linq2Acad
     {
       if (name == null) throw Error.ArgumentNull("name");
       if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+      if (Contains(name)) throw Error.ObjectExists<MlineStyle>(name);
 
       try
       {
@@ -464,7 +464,7 @@ namespace Linq2Acad
     {
       if (item == null) throw Error.ArgumentNull("item");
       if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-      if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+      if (Contains(item.Name)) throw Error.ObjectExists<MlineStyle>(item.Name);
 
       try
       {
@@ -484,7 +484,7 @@ namespace Linq2Acad
       {
         if (item == null) throw Error.ArgumentNull("item");
         if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-        if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+        if (Contains(item.Name)) throw Error.ObjectExists<MlineStyle>(item.Name);
       }
 
       try
@@ -516,7 +516,7 @@ namespace Linq2Acad
     {
       if (name == null) throw Error.ArgumentNull("name");
       if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+      if (Contains(name)) throw Error.ObjectExists<PlotSettings>(name);
 
       this.modelType = modelType;
       
@@ -534,7 +534,7 @@ namespace Linq2Acad
     {
       if (item == null) throw Error.ArgumentNull("item");
       if (!Helpers.IsNameValid(item.PlotSettingsName)) throw Error.InvalidName(item.PlotSettingsName);
-      if (Contains(item.PlotSettingsName)) throw Error.Generic("An object with name " + item.PlotSettingsName + " already exists");
+      if (Contains(item.PlotSettingsName)) throw Error.ObjectExists<PlotSettings>(item.PlotSettingsName);
 
       try
       {
@@ -554,7 +554,7 @@ namespace Linq2Acad
       {
         if (item == null) throw Error.ArgumentNull("item");
         if (!Helpers.IsNameValid(item.PlotSettingsName)) throw Error.InvalidName(item.PlotSettingsName);
-        if (Contains(item.PlotSettingsName)) throw Error.Generic("An object with name " + item.PlotSettingsName + " already exists");
+        if (Contains(item.PlotSettingsName)) throw Error.ObjectExists<PlotSettings>(item.PlotSettingsName);
       }
 
       try
@@ -584,7 +584,7 @@ namespace Linq2Acad
     {
       if (name == null) throw Error.ArgumentNull("name");
       if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+      if (Contains(name)) throw Error.ObjectExists<SectionViewStyle>(name);
 
       try
       {
@@ -600,7 +600,7 @@ namespace Linq2Acad
     {
       if (item == null) throw Error.ArgumentNull("item");
       if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-      if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+      if (Contains(item.Name)) throw Error.ObjectExists<SectionViewStyle>(item.Name);
 
       try
       {
@@ -620,7 +620,7 @@ namespace Linq2Acad
       {
         if (item == null) throw Error.ArgumentNull("item");
         if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-        if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+        if (Contains(item.Name)) throw Error.ObjectExists<SectionViewStyle>(item.Name);
       }
 
       try
@@ -650,7 +650,7 @@ namespace Linq2Acad
     {
       if (name == null) throw Error.ArgumentNull("name");
       if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+      if (Contains(name)) throw Error.ObjectExists<TableStyle>(name);
 
       try
       {
@@ -666,7 +666,7 @@ namespace Linq2Acad
     {
       if (item == null) throw Error.ArgumentNull("item");
       if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-      if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+      if (Contains(item.Name)) throw Error.ObjectExists<TableStyle>(item.Name);
 
       try
       {
@@ -686,7 +686,7 @@ namespace Linq2Acad
       {
         if (item == null) throw Error.ArgumentNull("item");
         if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-        if (Contains(item.Name)) throw Error.Generic("An object with name " + item.Name + " already exists");
+        if (Contains(item.Name)) throw Error.ObjectExists<TableStyle>(item.Name);
       }
 
       try
