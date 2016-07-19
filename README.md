@@ -95,6 +95,23 @@ using (var db = AcadDatabase.Active())
 WriteMessage("All layers (except " + layerName + ") turned off");
 ```
 
+Creating a layer and adding all red lines in the model space to it:
+
+```c#
+var layerName = GetString("Enter layer name");
+
+using (var db = AcadDatabase.Active())
+{
+  var lines = db.ModelSpace
+                .OfType<Line>()
+                .Where(l => l.Color.ColorName == "Red");
+  db.Layers
+    .Create(layerName, lines);
+
+  WriteMessage("All red Lines moved to new layer " + layerName);
+}
+```
+
 Moving entities from one layer to another:
 
 ```c#
@@ -182,19 +199,3 @@ using (var db = AcadDatabase.Active())
 }
 ```
 
-Creating a group and adding all lines in the model space to it:
-
-```c#
-var groupName = GetString("Enter group name");
-
-using (var db = AcadDatabase.Active())
-{
-  var lines = db.ModelSpace
-                .OfType<Line>()
-                .ToArray();
-  db.Groups
-    .Create(groupName, lines);
-
-  WriteMessage("Group " + groupName + " created and " + lines.Length + " entities added");
-}
-```
