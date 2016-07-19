@@ -19,7 +19,6 @@ namespace Linq2Acad
     private bool commitTransaction;
     private bool disposeTransaction;
     private bool disposeDatabase;
-    private bool abort;
 
     /// <summary>
     /// Creates a new instance of AcadDatabase.
@@ -53,11 +52,22 @@ namespace Linq2Acad
     public Database Database { get; private set; }
 
     /// <summary>
-    /// Discards all changes on the underlying transaction.
+    /// Immediately discards all changes and the underlying transaction.
     /// </summary>
     public void DiscardChanges()
     {
-      abort = true;
+      try
+      {
+        if (!transaction.IsDisposed)
+        {
+          transaction.Abort();
+          transaction.Dispose();
+        }
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
 
     /// <summary>
@@ -78,7 +88,7 @@ namespace Linq2Acad
     /// <summary>
     /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
     /// </summary>
-    /// <param name="force">True, if the drawing database and the transaction should be disposed of, even if keepOpen was used.</param>
+    /// <param name="force">True, if the drawing database and the transaction should be disposed of, even if <i>keepOpen</i> was set to true.</param>
     public void Dispose(bool force)
     {
       try
@@ -99,21 +109,14 @@ namespace Linq2Acad
     {
       if (!transaction.IsDisposed)
       {
-        if (abort)
+        if (commitTransaction)
         {
-          transaction.Abort();
+          transaction.Commit();
         }
-        else
-        {
-          if (commitTransaction)
-          {
-            transaction.Commit();
-          }
 
-          if (disposeTransaction || force)
-          {
-            transaction.Dispose();
-          }
+        if (disposeTransaction || force)
+        {
+          transaction.Dispose();
         }
       }
 
