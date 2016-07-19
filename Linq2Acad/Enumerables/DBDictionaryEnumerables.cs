@@ -19,6 +19,22 @@ namespace Linq2Acad
       return new DBVisualStyle();
     }
 
+    public DBVisualStyle Create(string name)
+    {
+      if (name == null) throw Error.ArgumentNull("name");
+      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
+      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+
+      try
+      {
+        return CreateInternal(name);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
     public void Add(DBVisualStyle item)
     {
       if (item == null) throw Error.ArgumentNull("item");
@@ -67,6 +83,22 @@ namespace Linq2Acad
     protected override DetailViewStyle CreateNew()
     {
       return new DetailViewStyle();
+    }
+
+    public DetailViewStyle Create(string name)
+    {
+      if (name == null) throw Error.ArgumentNull("name");
+      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
+      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+
+      try
+      {
+        return CreateInternal(name);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
 
     public void Add(DetailViewStyle item)
@@ -119,14 +151,27 @@ namespace Linq2Acad
       return new Group();
     }
 
+    public Group Create(string name)
+    {
+      if (name == null) throw Error.ArgumentNull("name");
+      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
+      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+
+      try
+      {
+        return CreateInternal(name);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
     public Group Create(string name, IEnumerable<Entity> entities)
     {
       if (name == null) throw Error.ArgumentNull("name");
       if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name))
-      {
-        throw Error.Generic("An object with name " + name + " already exists");
-      }
+      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
 
       try
       {
@@ -201,6 +246,22 @@ namespace Linq2Acad
       return (Layout)transaction.GetObject(LayoutManager.Current.CreateLayout(name), OpenMode.ForWrite);
     }
 
+    public Layout Create(string name)
+    {
+      if (name == null) throw Error.ArgumentNull("name");
+      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
+      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+
+      try
+      {
+        return CreateInternal(name);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
     public void Add(Layout item)
     {
       if (item == null) throw Error.ArgumentNull("item");
@@ -249,6 +310,22 @@ namespace Linq2Acad
     protected override Material CreateNew()
     {
       return new Material();
+    }
+
+    public Material Create(string name)
+    {
+      if (name == null) throw Error.ArgumentNull("name");
+      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
+      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+
+      try
+      {
+        return CreateInternal(name);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
 
     public void Add(Material item)
@@ -301,6 +378,22 @@ namespace Linq2Acad
       return new MLeaderStyle();
     }
 
+    public MLeaderStyle Create(string name)
+    {
+      if (name == null) throw Error.ArgumentNull("name");
+      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
+      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+
+      try
+      {
+        return CreateInternal(name);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
     public void Add(MLeaderStyle item)
     {
       if (item == null) throw Error.ArgumentNull("item");
@@ -351,6 +444,22 @@ namespace Linq2Acad
       return new MlineStyle();
     }
 
+    public MlineStyle Create(string name)
+    {
+      if (name == null) throw Error.ArgumentNull("name");
+      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
+      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+
+      try
+      {
+        return CreateInternal(name);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
     public void Add(MlineStyle item)
     {
       if (item == null) throw Error.ArgumentNull("item");
@@ -391,6 +500,8 @@ namespace Linq2Acad
 
   public class PlotSettingsContainer : DBDictionaryEnumerable<PlotSettings>
   {
+    private bool modelType;
+
     internal PlotSettingsContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
     {
@@ -398,8 +509,25 @@ namespace Linq2Acad
 
     protected override PlotSettings CreateNew()
     {
-      // TODO: Select correct type
-      return new PlotSettings(true);
+      return new PlotSettings(modelType);
+    }
+
+    public PlotSettings Create(string name, bool modelType)
+    {
+      if (name == null) throw Error.ArgumentNull("name");
+      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
+      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+
+      this.modelType = modelType;
+      
+      try
+      {
+        return CreateInternal(name);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
 
     public void Add(PlotSettings item)
@@ -452,6 +580,22 @@ namespace Linq2Acad
       return new SectionViewStyle();
     }
 
+    public SectionViewStyle Create(string name)
+    {
+      if (name == null) throw Error.ArgumentNull("name");
+      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
+      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+
+      try
+      {
+        return CreateInternal(name);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
     public void Add(SectionViewStyle item)
     {
       if (item == null) throw Error.ArgumentNull("item");
@@ -500,6 +644,22 @@ namespace Linq2Acad
     protected override TableStyle CreateNew()
     {
       return new TableStyle();
+    }
+
+    public TableStyle Create(string name)
+    {
+      if (name == null) throw Error.ArgumentNull("name");
+      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
+      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists");
+
+      try
+      {
+        return CreateInternal(name);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
     }
 
     public void Add(TableStyle item)
