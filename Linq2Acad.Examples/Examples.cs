@@ -29,7 +29,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Erasing all BlockReferences from the model space
+    /// Removing all BlockReferences from the model space
     /// </summary>
     [CommandMethod("Linq2AcadExample2")]
     public void ErasingAllBlockReferencesFromTheModelSpace()

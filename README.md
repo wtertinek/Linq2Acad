@@ -1,5 +1,5 @@
 ###Linq2Acad
-**Linq2Acad** is a library that aims to simplify .NET AutoCAD addin code. The use of transactions is abstracted away through extension methods and ```IEnumerable<T>``` implementations which enumerate the datatabase objects. This provides the possibility to execute LINQ queries on database-resident objects. The AutoCAD .NET API already offers a way to use LINQ queries through the ```dynamic``` keyword, which has the drawback of losing all type information (no IntelliSense) and having some performance implications. Using Linq2Acad the type information is preserved and there are no performance implications.
+**Linq2Acad** is a library that aims to simplify AutoCAD .NET addin code. The use of transactions is abstracted away through extension methods and ```IEnumerable<T>``` implementations which enumerate the datatabase objects. This provides the possibility to execute LINQ queries on database-resident objects. The AutoCAD .NET API already offers a way to use LINQ queries through the ```dynamic``` keyword, which has the drawback of losing all type information (no IntelliSense) and having some performance implications. Using Linq2Acad the type information is preserved and there are no performance implications.
 
 In general, the library should be a more intuitive API for working with the drawing database, making the learning curve for beginners less steep.
 
@@ -18,7 +18,7 @@ using (var db = AcadDatabase.Active())
 WriteMessage("Model space cleared");
 ```
 
-Erasing all BlockReferences from the model space:
+Removing all BlockReferences from the model space:
 
 ```c#
 using (var db = AcadDatabase.Active())
@@ -53,10 +53,10 @@ var colorName = GetString("Enter color name");
 using (var db = AcadDatabase.Active())
 {
   var layer = db.Layers.Create(name);
-  layer.Color = Color.FromDictionaryName(colorName);
+  layer.Color = Color.FromColor(System.Drawing.Color.FromName(colorName));
 }
 
-WriteMessage("Layer " + name + "created");
+WriteMessage("Layer " + name + " created");
 ```
 
 Printing all layer names:
