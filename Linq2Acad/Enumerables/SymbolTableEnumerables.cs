@@ -29,6 +29,29 @@ namespace Linq2Acad
     {
       item.Name = name;
     }
+
+    public BlockTableRecord Create(string name, IEnumerable<Entity> entities)
+    {
+      if (name == null) throw Error.ArgumentNull("name");
+      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
+      if (Contains(name)) throw Error.Generic("An object with name " + name + " already exists"); 
+      var alreadyInBlock = entities.FirstOrDefault(e => e.ObjectId.IsValid);
+      if (alreadyInBlock != null) throw Error.Generic("Entity with ObjectId " + alreadyInBlock + " is already part of a block " + alreadyInBlock.BlockName);
+
+      try
+      {
+        var block = CreateInternal(name);
+
+        entities.ToList()
+                .ForEach(e => block.AppendEntity(e));
+
+        return block;
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
   }
 
   public class DimStyleContainer : SymbolTableEnumerable<DimStyleTableRecord>
