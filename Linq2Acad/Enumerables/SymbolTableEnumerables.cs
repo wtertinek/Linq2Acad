@@ -42,9 +42,7 @@ namespace Linq2Acad
       try
       {
         var block = CreateInternal(name);
-
-        entities.ToList()
-                .ForEach(e => block.AppendEntity(e));
+        entities.ForEach(e => block.AppendEntity(e));
 
         return block;
       }
@@ -100,9 +98,7 @@ namespace Linq2Acad
       try
       {
         var layer = CreateInternal(name);
-
-        entities.ToList()
-                .ForEach(e => e.LayerId = layer.ObjectId);
+        entities.ForEach(e => e.LayerId = layer.ObjectId);
 
         return layer;
       }

@@ -104,7 +104,7 @@ using (var db = AcadDatabase.Active())
 {
   var lines = db.ModelSpace
                 .OfType<Line>()
-                .Where(l => l.Color.ColorName == "Red");
+                .Where(l => l.Color.ColorValue.Name == "ffff0000");
   db.Layers
     .Create(layerName, lines);
 
