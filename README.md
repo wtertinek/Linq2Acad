@@ -6,7 +6,7 @@ In general, the library should be a more intuitive API for working with the draw
 ### Referencing AutoCAD assemblies
 In order to be able to compile the solution, you have to add your local AutoCAD installation folder to the *Reference Paths* of each project.
 
-Let's assume your AutoCAD installation folder is *C:\Program Files\Autodesk\AutoCAD 2016*. To add this folder as a reference path for the project Linq2Acad, go to the project properties, select the tab *Reference Paths* and add *C:\Program Files\Autodesk\AutoCAD 2016*. Repeat this procedure for Linq2Acad.Examples as well.
+Let's assume your AutoCAD installation folder is *C:\Program Files\Autodesk\AutoCAD 2017*. To add this folder as a reference path for the project Linq2Acad, go to the project properties, select the tab *Reference Paths* and add *C:\Program Files\Autodesk\AutoCAD 2017*. Repeat this procedure for Linq2Acad.Examples as well.
 
 ### TODO
 The code is not yet ready for production. The implementation of the main functionality is done, but not yet thoroughly tested. Further functionality will be added little by little.

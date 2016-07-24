@@ -434,7 +434,7 @@ namespace Linq2Acad
     /// </summary>
     public BlockContainer Blocks
     {
-      get { return new BlockContainer(Database, transaction, Database.BlockTableId); }
+      get { return new BlockContainer(Database, transaction); }
     }
 
     /// <summary>
@@ -442,7 +442,7 @@ namespace Linq2Acad
     /// </summary>
     public LayerContainer Layers
     {
-      get { return new LayerContainer(Database, transaction, Database.LayerTableId); }
+      get { return new LayerContainer(Database, transaction); }
     }
 
     /// <summary>
@@ -450,7 +450,7 @@ namespace Linq2Acad
     /// </summary>
     public DimStyleContainer DimStyles
     {
-      get { return new DimStyleContainer(Database, transaction, Database.DimStyleTableId); }
+      get { return new DimStyleContainer(Database, transaction); }
     }
 
     /// <summary>
@@ -458,7 +458,7 @@ namespace Linq2Acad
     /// </summary>
     public LinetypeContainer Linetypes
     {
-      get { return new LinetypeContainer(Database, transaction, Database.LinetypeTableId); }
+      get { return new LinetypeContainer(Database, transaction); }
     }
 
     /// <summary>
@@ -466,7 +466,7 @@ namespace Linq2Acad
     /// </summary>
     public RegAppContainer RegApps
     {
-      get { return new RegAppContainer(Database, transaction, Database.RegAppTableId); }
+      get { return new RegAppContainer(Database, transaction); }
     }
 
     /// <summary>
@@ -474,7 +474,7 @@ namespace Linq2Acad
     /// </summary>
     public TextStyleContainer TextStyles
     {
-      get { return new TextStyleContainer(Database, transaction, Database.TextStyleTableId); }
+      get { return new TextStyleContainer(Database, transaction); }
     }
 
     /// <summary>
@@ -482,7 +482,7 @@ namespace Linq2Acad
     /// </summary>
     public UcsContainer Ucss
     {
-      get { return new UcsContainer(Database, transaction, Database.UcsTableId); }
+      get { return new UcsContainer(Database, transaction); }
     }
 
     /// <summary>
@@ -490,7 +490,7 @@ namespace Linq2Acad
     /// </summary>
     public ViewportContainer Viewports
     {
-      get { return new ViewportContainer(Database, transaction, Database.ViewportTableId); }
+      get { return new ViewportContainer(Database, transaction); }
     }
 
     /// <summary>
@@ -498,7 +498,7 @@ namespace Linq2Acad
     /// </summary>
     public ViewContainer Views
     {
-      get { return new ViewContainer(Database, transaction, Database.ViewTableId); }
+      get { return new ViewContainer(Database, transaction); }
     }
 
     #endregion
@@ -749,6 +749,7 @@ namespace Linq2Acad
     /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>transaction</i> is null.</exception>
     /// <exception cref="System.Exception">Thrown when no active document is available or the transaction is invalid.</exception>
     /// <returns>The AcadDatabase instance.</returns>
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)]
     public static AcadDatabase Active(Transaction transaction, bool commitTransaction, bool disposeTransaction)
     {
       if (Application.DocumentManager.MdiActiveDocument == null) Error.NoActiveDocument();
@@ -781,6 +782,7 @@ namespace Linq2Acad
     /// <exception cref="System.ArgumentNullException">Thrown when parameters <i>database</i> or <i>transaction</i> is null.</exception>
     /// <exception cref="System.Exception">Thrown when the database or the transaction is invalid.</exception>
     /// <returns>The AcadDatabase instance.</returns>
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)]
     public static AcadDatabase Use(Database database, Transaction transaction, bool commitTransaction, bool disposeTransaction)
     {
       if (database == null) throw Error.ArgumentNull("database");
@@ -932,6 +934,18 @@ namespace Linq2Acad
     public override string ToString()
     {
       return base.ToString();
+    }
+
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+    public static new bool Equals(object objA, object objB)
+    {
+      return Object.Equals(objA, objB);
+    }
+
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+    public static new bool ReferenceEquals(object objA, object objB)
+    {
+      return Object.ReferenceEquals(objA, objB);
     }
 
     #endregion

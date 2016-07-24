@@ -15,6 +15,16 @@ namespace Linq2Acad
     {
     }
 
+    /// <summary>
+    /// Sets the name of a newly created element.
+    /// </summary>
+    /// <param name="item">The newly created element.</param>
+    /// <param name="name">The name of the element.</param>
+    protected override void SetName(T item, string name)
+    {
+      item.Name = name;
+    }
+
     public override sealed bool Contains(ObjectId id)
     {
       return ((SymbolTable)transaction.GetObject(ID, OpenMode.ForRead)).Has(id);
