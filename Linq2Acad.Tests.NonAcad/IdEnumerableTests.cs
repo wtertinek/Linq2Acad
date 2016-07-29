@@ -5,7 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections;
 
-namespace Linq2Acad
+namespace Linq2Acad.Tests
 {
   [TestClass]
   public class IdEnumerableTests

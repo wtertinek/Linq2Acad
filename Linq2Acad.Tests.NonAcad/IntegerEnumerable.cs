@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Linq2Acad
+namespace Linq2Acad.Tests
 {
   public class IntegerEnumerable : IEnumerable
   {

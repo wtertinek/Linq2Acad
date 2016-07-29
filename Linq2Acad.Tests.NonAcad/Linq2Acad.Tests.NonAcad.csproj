@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{632DFBAA-CBDD-4659-AA8B-C4065B5BB501}</ProjectGuid>
+    <ProjectGuid>{9F98E20C-8CAF-4DCA-A0BB-8174258613AF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Linq2Acad</RootNamespace>
-    <AssemblyName>Linq2Acad.Tests</AssemblyName>
+    <RootNamespace>Linq2Acad.Tests</RootNamespace>
+    <AssemblyName>Linq2Acad.Tests.NonAcad</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -49,6 +49,7 @@
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
+
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
       <ItemGroup>
