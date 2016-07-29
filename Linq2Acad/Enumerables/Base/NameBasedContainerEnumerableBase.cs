@@ -7,23 +7,27 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Linq2Acad
 {
-  public abstract class NameBasedEnumerableBase<T> : ContainerEnumerableBase<T> where T : DBObject
+  public abstract class NameBasedContainerEnumerableBase<T> : ContainerEnumerableBase<T> where T : DBObject
   {
-    protected NameBasedEnumerableBase(Database database, Transaction transaction,
-                                      ObjectId containerID, Func<object, ObjectId> getID)
+    protected NameBasedContainerEnumerableBase(Database database, Transaction transaction,
+                                               ObjectId containerID, Func<object, ObjectId> getID)
       : base(database, transaction, containerID, getID)
     {
     }
 
-    public abstract bool Contains(string name);
+    public bool Contains(string name)
+    {
+      try
+      {
+        return ContainsInternal(name);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
 
-    public abstract T Element(string name);
-
-    public abstract T Element(string name, bool forWrite);
-
-    public abstract T ElementOrDefault(string name);
-
-    public abstract T ElementOrDefault(string name, bool forWrite);
+    protected abstract bool ContainsInternal(string name);
 
     protected abstract T CreateNew();
 

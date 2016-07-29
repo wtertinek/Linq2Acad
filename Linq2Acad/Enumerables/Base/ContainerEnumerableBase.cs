@@ -25,26 +25,40 @@ namespace Linq2Acad
 
     public override bool Contains(T value)
     {
-      if (value == null)
+      if (value == null) throw Error.ArgumentNull("value");
+      
+      try
       {
-        return false;
+        return ContainsInternal(value.ObjectId);
       }
-      else
+      catch (Exception e)
       {
-        return Contains(value.ObjectId);
+        throw Error.AutoCadException(e);
       }
     }
 
-    public virtual bool Contains(ObjectId id)
+    public bool Contains(ObjectId id)
     {
-      if (id.IsValid)
-      {
-        return IDs.Any(oid => oid.Equals(id));
-      }
-      else
+      if (!id.IsValid)
       {
         return false;
       }
+      else
+      {
+        try
+        {
+          return ContainsInternal(id);
+        }
+        catch (Exception e)
+        {
+          throw Error.AutoCadException(e);
+        }
+      }
+    }
+
+    protected virtual bool ContainsInternal(ObjectId id)
+    {
+      return IDs.Any(oid => oid.Equals(id));
     }
 
     public T Element(ObjectId id)
@@ -85,7 +99,11 @@ namespace Linq2Acad
 
     public T ElementOrDefault(ObjectId id)
     {
-      if (id.IsValid)
+      if (!id.IsValid)
+      {
+        return null;
+      }
+      else
       {
         try
         {
@@ -100,15 +118,15 @@ namespace Linq2Acad
           throw Error.AutoCadException(e);
         }
       }
-      else
-      {
-        return null;
-      }
     }
 
     public T ElementOrDefault(ObjectId id, bool forWrite)
     {
-      if (id.IsValid)
+      if (!id.IsValid)
+      {
+        return null;
+      }
+      else
       {
         try
         {
@@ -122,10 +140,6 @@ namespace Linq2Acad
         {
           throw Error.AutoCadException(e);
         }
-      }
-      else
-      {
-        return null;
       }
     }
 

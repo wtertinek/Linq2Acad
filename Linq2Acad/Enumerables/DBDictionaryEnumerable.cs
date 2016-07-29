@@ -8,24 +8,24 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Linq2Acad
 {
-  public abstract class DBDictionaryEnumerable<T> : NameBasedEnumerableBase<T> where T : DBObject
+  public abstract class DBDictionaryEnumerable<T> : NameBasedContainerEnumerableBase<T> where T : DBObject
   {
     protected DBDictionaryEnumerable(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID, i => ((DBDictionaryEntry)i).Value)
     {
     }
 
-    public override sealed bool Contains(ObjectId id)
+    protected override sealed bool ContainsInternal(ObjectId id)
     {
       return ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Contains(id);
     }
 
-    public override sealed bool Contains(string name)
+    protected override sealed bool ContainsInternal(string name)
     {
       return ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Contains(name);
     }
 
-    public override sealed T Element(string name)
+    public T Element(string name)
     {
       if (name == null) throw Error.ArgumentNull("name");
 
@@ -39,7 +39,7 @@ namespace Linq2Acad
       }
     }
 
-    public override T Element(string name, bool forWrite)
+    public T Element(string name, bool forWrite)
     {
       if (name == null) throw Error.ArgumentNull("name");
 
@@ -60,7 +60,7 @@ namespace Linq2Acad
       return (T)transaction.GetObject(id, forWrite ? OpenMode.ForWrite : OpenMode.ForRead);
     }
 
-    public override sealed T ElementOrDefault(string name)
+    public T ElementOrDefault(string name)
     {
       if (name == null) throw Error.ArgumentNull("name");
 
@@ -74,7 +74,7 @@ namespace Linq2Acad
       }
     }
 
-    public override T ElementOrDefault(string name, bool forWrite)
+    public T ElementOrDefault(string name, bool forWrite)
     {
       if (name == null) throw Error.ArgumentNull("name");
 

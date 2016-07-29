@@ -82,7 +82,7 @@
     <Compile Include="Extensions\EditorExtensions.cs" />
     <Compile Include="Enumerables\Base\ElementEnumerable.cs" />
     <Compile Include="Enumerables\Base\IdEnumerable.cs" />
-    <Compile Include="Enumerables\Base\NameBasedEnumerableBase.cs" />
+    <Compile Include="Enumerables\Base\NameBasedContainerEnumerableBase.cs" />
     <Compile Include="ImportResult.cs" />
     <Compile Include="Enumerables\DBDictionaryEnumerable.cs" />
     <Compile Include="Enumerables\DBDictionaryEnumerables.cs" />

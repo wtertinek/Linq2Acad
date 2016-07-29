@@ -11,7 +11,7 @@ namespace Linq2Acad
   /// <summary>
   /// A container class that provides access to the elements of the Block table.
   /// </summary>
-  public class BlockContainer : SymbolTableEnumerable<BlockTableRecord>
+  public class BlockContainer : UniqueNameSymbolTableEnumerable<BlockTableRecord>
   {
     /// <summary>
     /// Creates a new instance of BlockContainer.
@@ -74,7 +74,7 @@ namespace Linq2Acad
   /// <summary>
   /// A container class that provides access to the elements of the DimStyle table.
   /// </summary>
-  public class DimStyleContainer : SymbolTableEnumerable<DimStyleTableRecord>
+  public class DimStyleContainer : UniqueNameSymbolTableEnumerable<DimStyleTableRecord>
   {
     /// <summary>
     /// Creates a new instance of DimStyleContainer.
@@ -109,7 +109,7 @@ namespace Linq2Acad
   /// <summary>
   /// A container class that provides access to the elements of the Layer table.
   /// </summary>
-  public class LayerContainer : SymbolTableEnumerable<LayerTableRecord>
+  public class LayerContainer : UniqueNameSymbolTableEnumerable<LayerTableRecord>
   {
     /// <summary>
     /// Creates a new instance of LayerContainer.
@@ -161,7 +161,7 @@ namespace Linq2Acad
   /// <summary>
   /// A container class that provides access to the elements of the Linetype table.
   /// </summary>
-  public class LinetypeContainer : SymbolTableEnumerable<LinetypeTableRecord>
+  public class LinetypeContainer : UniqueNameSymbolTableEnumerable<LinetypeTableRecord>
   {
     /// <summary>
     /// Creates a new instance of LinetypeContainer.
@@ -186,7 +186,7 @@ namespace Linq2Acad
   /// <summary>
   /// A container class that provides access to the elements of the RegApp table.
   /// </summary>
-  public class RegAppContainer : SymbolTableEnumerable<RegAppTableRecord>
+  public class RegAppContainer : UniqueNameSymbolTableEnumerable<RegAppTableRecord>
   {
     /// <summary>
     /// Creates a new instance of RegAppContainer.
@@ -211,7 +211,7 @@ namespace Linq2Acad
   /// <summary>
   /// A container class that provides access to the elements of the TextStyle table.
   /// </summary>
-  public class TextStyleContainer : SymbolTableEnumerable<TextStyleTableRecord>
+  public class TextStyleContainer : UniqueNameSymbolTableEnumerable<TextStyleTableRecord>
   {
     /// <summary>
     /// Creates a new instance of TextStyleContainer.
@@ -236,7 +236,7 @@ namespace Linq2Acad
   /// <summary>
   /// A container class that provides access to the elements of the Ucs table.
   /// </summary>
-  public class UcsContainer : SymbolTableEnumerable<UcsTableRecord>
+  public class UcsContainer : UniqueNameSymbolTableEnumerable<UcsTableRecord>
   {
     /// <summary>
     /// Creates a new instance of UcsContainer.
@@ -261,7 +261,7 @@ namespace Linq2Acad
   /// <summary>
   /// A container class that provides access to the elements of the Viewport table.
   /// </summary>
-  public class ViewportContainer : SymbolTableEnumerable<ViewportTableRecord>
+  public class ViewportContainer : NonUniqueNameSymbolTableEnumerable<ViewportTableRecord>
   {
     /// <summary>
     /// Creates a new instance of ViewportContainer.
@@ -312,7 +312,7 @@ namespace Linq2Acad
   /// <summary>
   /// A container class that provides access to the elements of the View table.
   /// </summary>
-  public class ViewContainer : DBDictionaryEnumerable<ViewTableRecord>
+  public class ViewContainer : UniqueNameSymbolTableEnumerable<ViewTableRecord>
   {
     /// <summary>
     /// Creates a new instance of ViewContainer.

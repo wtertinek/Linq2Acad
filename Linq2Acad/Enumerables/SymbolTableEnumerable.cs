@@ -8,7 +8,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Linq2Acad
 {
-  public abstract class SymbolTableEnumerable<T> : NameBasedEnumerableBase<T> where T : SymbolTableRecord
+  public abstract class SymbolTableEnumerable<T> : NameBasedContainerEnumerableBase<T> where T : SymbolTableRecord
   {
     protected SymbolTableEnumerable(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID, i => (ObjectId)i)
@@ -25,17 +25,56 @@ namespace Linq2Acad
       item.Name = name;
     }
 
-    public override sealed bool Contains(ObjectId id)
+    protected override sealed bool ContainsInternal(ObjectId id)
     {
       return ((SymbolTable)transaction.GetObject(ID, OpenMode.ForRead)).Has(id);
     }
 
-    public override sealed bool Contains(string name)
+    protected override sealed bool ContainsInternal(string name)
     {
       return ((SymbolTable)transaction.GetObject(ID, OpenMode.ForRead)).Has(name);
     }
 
-    public override sealed T Element(string name)
+    protected IEnumerable<T> CreateInternal(IEnumerable<string> names)
+    {
+      var tmpNames = names.ToArray();
+      var items = new T[tmpNames.Length];
+
+      for (int i = 0; i < items.Length; i++)
+      {
+        items[i] = CreateNew();
+      }
+
+      AddRangeInternal(items, names);
+
+      for (int i = 0; i < items.Length; i++)
+      {
+        SetName(items[i], tmpNames[i]);
+      }
+
+      return items;
+    }
+
+    protected override sealed void AddRangeInternal(IEnumerable<T> items, IEnumerable<string> names)
+    {
+      var table = (SymbolTable)transaction.GetObject(ID, OpenMode.ForWrite);
+
+      foreach (var item in items)
+      {
+        table.Add(item);
+        transaction.AddNewlyCreatedDBObject(item, true);
+      }
+    }
+  }
+
+  public abstract class UniqueNameSymbolTableEnumerable<T> : SymbolTableEnumerable<T> where T : SymbolTableRecord
+  {
+    protected UniqueNameSymbolTableEnumerable(Database database, Transaction transaction, ObjectId containerID)
+      : base(database, transaction, containerID)
+    {
+    }
+
+    public T Element(string name)
     {
       if (name == null) throw Error.ArgumentNull("name");
 
@@ -49,7 +88,7 @@ namespace Linq2Acad
       }
     }
 
-    public override T Element(string name, bool forWrite)
+    public T Element(string name, bool forWrite)
     {
       if (name == null) throw Error.ArgumentNull("name");
 
@@ -69,7 +108,7 @@ namespace Linq2Acad
       return (T)transaction.GetObject(table[name], forWrite ? OpenMode.ForWrite : OpenMode.ForRead);
     }
 
-    public override sealed T ElementOrDefault(string name)
+    public T ElementOrDefault(string name)
     {
       if (name == null) throw Error.ArgumentNull("name");
 
@@ -83,7 +122,7 @@ namespace Linq2Acad
       }
     }
 
-    public override T ElementOrDefault(string name, bool forWrite)
+    public T ElementOrDefault(string name, bool forWrite)
     {
       if (name == null) throw Error.ArgumentNull("name");
 
@@ -137,22 +176,7 @@ namespace Linq2Acad
 
       try
       {
-        var tmpNames = names.ToArray();
-        var items = new T[tmpNames.Length];
-
-        for (int i = 0; i < items.Length; i++)
-        {
-          items[i] = CreateNew();
-        }
-
-        AddRangeInternal(items, names);
-
-        for (int i = 0; i < items.Length; i++)
-        {
-          SetName(items[i], tmpNames[i]);
-        }
-
-        return items;
+        return CreateInternal(names);
       }
       catch (Exception e)
       {
@@ -166,7 +190,7 @@ namespace Linq2Acad
       if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
       if (Contains(item.Name)) throw Error.ObjectExists<T>(item.Name);
 
-      AddRangeInternal(new[] { item }, new [] { item.Name });
+      AddRangeInternal(new[] { item }, new[] { item.Name });
     }
 
     public void AddRange(IEnumerable<T> items)
@@ -183,15 +207,65 @@ namespace Linq2Acad
       AddRangeInternal(items, items.Select(i => i.Name));
     }
 
-    protected override sealed void AddRangeInternal(IEnumerable<T> items, IEnumerable<string> names)
+  }
+
+  public abstract class NonUniqueNameSymbolTableEnumerable<T> : SymbolTableEnumerable<T> where T : SymbolTableRecord
+  {
+    protected NonUniqueNameSymbolTableEnumerable(Database database, Transaction transaction, ObjectId containerID)
+      : base(database, transaction, containerID)
     {
-      var table = (SymbolTable)transaction.GetObject(ID, OpenMode.ForWrite);
+    }
+
+    public T Create(string name)
+    {
+      if (name == null) throw Error.ArgumentNull("name");
+      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
+
+      try
+      {
+        return CreateInternal(name);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
+    public IEnumerable<T> Create(IEnumerable<string> names)
+    {
+      if (names == null) throw Error.ArgumentNull("names");
+      var invalidName = names.FirstOrDefault(n => !Helpers.IsNameValid(n));
+      if (invalidName != null) throw Error.InvalidName(invalidName);
+
+      try
+      {
+        return CreateInternal(names);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
+
+    public void Add(T item)
+    {
+      if (item == null) throw Error.ArgumentNull("item");
+      if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
+
+      AddRangeInternal(new[] { item }, new[] { item.Name });
+    }
+
+    public void AddRange(IEnumerable<T> items)
+    {
+      if (items == null) throw Error.ArgumentNull("items");
 
       foreach (var item in items)
       {
-        table.Add(item);
-        transaction.AddNewlyCreatedDBObject(item, true);
+        if (item == null) throw Error.ArgumentNull("item");
+        if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
       }
+
+      AddRangeInternal(items, items.Select(i => i.Name));
     }
   }
 }
