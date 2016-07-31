@@ -36,7 +36,7 @@ namespace AcadTestRunner
         {
           var fileName = Path.Combine(configuration.AppSettings.Settings[AcadRootDir].Value, "AcCoreConsole.exe");
 
-          if (Directory.Exists(fileName))
+          if (File.Exists(fileName))
           {
             coreConsolePath = fileName;
           }
