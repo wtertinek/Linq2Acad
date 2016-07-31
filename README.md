@@ -6,10 +6,8 @@ In general, the library should be a more intuitive API for working with the draw
 ### TODO
 The library is still under development. Working with Blocks and Entities works best at the moment. Access to other tables and dictionaries is implemented, but basically untested. Tests and features will be added little by little.
 
-### Referencing AutoCAD assemblies
-In order to be able to compile the solution, you have to add your local AutoCAD installation folder to the *Reference Paths* of each project.
-
-Let's assume your AutoCAD installation folder is *C:\Program Files\Autodesk\AutoCAD 2017*. To add this folder as a reference path for the project Linq2Acad, go to the project properties, select the tab *Reference Paths* and add *C:\Program Files\Autodesk\AutoCAD 2017*. Repeat this procedure for all other projects.
+### Configure solution
+In order to be able to compile the solution, you have to call the batch file Configure.bat which is located in the subfolder *Configuration*.
 
 ###Examples
 From [Examples.cs](https://github.com/wtertinek/Linq2Acad/blob/master/Linq2Acad.Examples/Examples.cs)
