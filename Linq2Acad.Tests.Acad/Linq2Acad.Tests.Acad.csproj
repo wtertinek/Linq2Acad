@@ -51,29 +51,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dictionaries\DBVisualStyleTests.cs" />
-    <Compile Include="Dictionaries\DetailViewStyleTests.cs" />
-    <Compile Include="Dictionaries\GroupTests.cs" />
-    <Compile Include="Dictionaries\LayoutTests.cs" />
-    <Compile Include="Dictionaries\MaterialTests.cs" />
-    <Compile Include="Dictionaries\MLeaderStyleTests.cs" />
-    <Compile Include="Dictionaries\MlineStyleTests.cs" />
-    <Compile Include="Dictionaries\PlotSettingsTests.cs" />
-    <Compile Include="Dictionaries\SectionViewStyleTests.cs" />
-    <Compile Include="Dictionaries\TableStyleTests.cs" />
-    <Compile Include="Tables\BlockTableRecordTests.cs" />
-    <Compile Include="Tables\DimStyleTableRecordTests.cs" />
-    <Compile Include="Tables\LayerTableRecordTests.cs" />
-    <Compile Include="Tables\LinetypeTableRecordTests.cs" />
+    <Compile Include="Check.cs" />
+    <Compile Include="DictionaryTests\DBVisualStyleAcadTests.cs" />
+    <Compile Include="DictionaryTests\DetailViewStyleAcadTests.cs" />
+    <Compile Include="DictionaryTests\GroupAcadTests.cs" />
+    <Compile Include="DictionaryTests\LayoutAcadTests.cs" />
+    <Compile Include="DictionaryTests\MaterialAcadTests.cs" />
+    <Compile Include="DictionaryTests\MLeaderStyleAcadTests.cs" />
+    <Compile Include="DictionaryTests\MlineStyleAcadTests.cs" />
+    <Compile Include="DictionaryTests\PlotSettingsAcadTests.cs" />
+    <Compile Include="DictionaryTests\SectionViewStyleAcadTests.cs" />
+    <Compile Include="DictionaryTests\TableStyleAcadTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Assert.cs" />
-    <Compile Include="Tables\RegAppTableRecordTests.cs" />
-    <Compile Include="Tables\TextStyleTableRecordTests.cs" />
-    <Compile Include="Tables\UcsTableRecordTests.cs" />
-    <Compile Include="Tables\ViewportTableRecordTests.cs" />
-    <Compile Include="Tables\ViewTableRecordTests.cs" />
+    <Compile Include="TableTests\BlockTableRecordAcadTests.cs" />
+    <Compile Include="TableTests\DimStyleTableRecordAcadTests.cs" />
+    <Compile Include="TableTests\LayerTableRecordAcadTests.cs" />
+    <Compile Include="TableTests\LinetypeTableRecordAcadTests.cs" />
+    <Compile Include="TableTests\RegAppTableRecordAcadTests.cs" />
+    <Compile Include="TableTests\TextStyleTableRecordAcadTests.cs" />
+    <Compile Include="TableTests\UcsTableRecordAcadTests.cs" />
+    <Compile Include="TableTests\ViewportTableRecordAcadTests.cs" />
+    <Compile Include="TableTests\ViewTableRecordAcadTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AcadTestRunner\AcadTestRunner.csproj">
+      <Project>{c8da09b8-97b5-43af-bd4a-0a71101c8306}</Project>
+      <Name>AcadTestRunner</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Linq2Acad\Linq2Acad.csproj">
       <Project>{7702e342-fabc-49a4-9337-bfc9b5b3b99e}</Project>
       <Name>Linq2Acad</Name>
