@@ -6,8 +6,8 @@ In general, the library should be a more intuitive API for working with the draw
 ### TODO
 The library is still under development. Working with Blocks and Entities works best at the moment. Access to other tables and dictionaries is implemented, but basically untested. Tests and features will be added little by little.
 
-### Configure solution
-In order to be able to compile the solution, you have to call the batch file Configure.bat which is located in the subfolder *Configuration*.
+### Configuration
+In order to be able to compile the solution, you have to call the batch file *Configure.bat* which is located in the subfolder *Configuration*.
 
 ###Examples
 From [Examples.cs](https://github.com/wtertinek/Linq2Acad/blob/master/Linq2Acad.Examples/Examples.cs)
