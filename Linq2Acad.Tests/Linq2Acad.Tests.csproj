@@ -62,29 +62,29 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DictionaryTests\DBVisualStyleTests.cs" />
-    <Compile Include="DictionaryTests\DetailViewStyleTests.cs" />
-    <Compile Include="DictionaryTests\GroupTests.cs" />
-    <Compile Include="DictionaryTests\LayoutTests.cs" />
-    <Compile Include="DictionaryTests\MaterialTests.cs" />
-    <Compile Include="DictionaryTests\MLeaderStyleTests.cs" />
-    <Compile Include="DictionaryTests\MlineStyleTests.cs" />
-    <Compile Include="DictionaryTests\PlotSettingsTests.cs" />
-    <Compile Include="DictionaryTests\SectionViewStyleTests.cs" />
-    <Compile Include="DictionaryTests\TableStyleTests.cs" />
+    <Compile Include="ContainerTests\DBVisualStyleContainerTests.cs" />
+    <Compile Include="ContainerTests\DetailViewStyleContainerTests.cs" />
+    <Compile Include="ContainerTests\GroupContainerTests.cs" />
+    <Compile Include="ContainerTests\LayoutContainerTests.cs" />
+    <Compile Include="ContainerTests\MaterialContainerTests.cs" />
+    <Compile Include="ContainerTests\MLeaderStyleContainerTests.cs" />
+    <Compile Include="ContainerTests\MlineStyleContainerTests.cs" />
+    <Compile Include="ContainerTests\PlotSettingsContainerTests.cs" />
+    <Compile Include="ContainerTests\SectionViewStyleContainerTests.cs" />
+    <Compile Include="ContainerTests\TableStyleContainerTests.cs" />
     <Compile Include="ElementEnumerableTests.cs" />
     <Compile Include="IdEnumerableTests.cs" />
     <Compile Include="IntegerEnumerable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TableTests\BlockTableRecordTests.cs" />
-    <Compile Include="TableTests\DimStyleTableRecordTests.cs" />
-    <Compile Include="TableTests\LayerTableRecordTests.cs" />
-    <Compile Include="TableTests\LinetypeTableRecordTests.cs" />
-    <Compile Include="TableTests\RegAppTableRecordTests.cs" />
-    <Compile Include="TableTests\TextStyleTableRecordTests.cs" />
-    <Compile Include="TableTests\UcsTableRecordTests.cs" />
-    <Compile Include="TableTests\ViewportTableRecordTests.cs" />
-    <Compile Include="TableTests\ViewTableRecordTests.cs" />
+    <Compile Include="ContainerTests\BlockContainerTests.cs" />
+    <Compile Include="ContainerTests\DimStyleContainerTests.cs" />
+    <Compile Include="ContainerTests\LayerContainerTests.cs" />
+    <Compile Include="ContainerTests\LinetypeContainerTests.cs" />
+    <Compile Include="ContainerTests\RegAppContainerTests.cs" />
+    <Compile Include="ContainerTests\TextStyleContainerTests.cs" />
+    <Compile Include="ContainerTests\UcsContainerTests.cs" />
+    <Compile Include="ContainerTests\ViewContainerTests.cs" />
+    <Compile Include="ContainerTests\ViewportContainerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AcadTestRunner\AcadTestRunner.csproj">

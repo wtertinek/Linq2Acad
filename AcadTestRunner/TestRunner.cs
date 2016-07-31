@@ -10,7 +10,7 @@ namespace AcadTestRunner
 {
   public static class TestRunner
   {
-    private const string AcadRootDir = "AcadRootDir";
+    private const string AppSetting = "AcadRootDir";
     private static string coreConsolePath;
 
     public static void Init(string coreConsolePath)
@@ -32,9 +32,9 @@ namespace AcadTestRunner
         var assemblyPath = typeof(TestRunner).Assembly.Location;
         var configuration = ConfigurationManager.OpenExeConfiguration(assemblyPath);
 
-        if (configuration.AppSettings.Settings.AllKeys.Any(key => key == AcadRootDir))
+        if (configuration.AppSettings.Settings.AllKeys.Any(key => key == AppSetting))
         {
-          var fileName = Path.Combine(configuration.AppSettings.Settings[AcadRootDir].Value, "AcCoreConsole.exe");
+          var fileName = Path.Combine(configuration.AppSettings.Settings[AppSetting].Value, "AcCoreConsole.exe");
 
           if (File.Exists(fileName))
           {
@@ -47,7 +47,7 @@ namespace AcadTestRunner
         }
         else
         {
-          throw new FileNotFoundException("AppSetting 'AcadRootDir' not found");
+          throw new FileNotFoundException("AppSetting '" + AppSetting + "' not found");
         }
       }
       else if (!File.Exists(acadTestAssemblyPath))
@@ -59,7 +59,7 @@ namespace AcadTestRunner
 
       // TODO: Add test runner code here
 
-      return TestResult.TestFailed("Not implemented");
+      return TestResult.TestFailed("Not implemented", "");
     }
   }
 }
