@@ -19,11 +19,11 @@ namespace Linq2Acad.Tests
         using (var db = AcadDatabase.Active())
         {
           var newPlotSettings = db.PlotSettings.Create("NewPlotSettings", true);
-          
-          var ok = Check.Dictionary(db.Database, dict => dict.Contains("NewPlotSettings"));
+
+          var ok = Check.Dictionary(db.Database, db.Database.PlotSettingsDictionaryId, dict => dict.Contains("NewPlotSettings"));
           if (!ok) { notifier.TestFailed("PlotSettings dictionary does not contain an element with name 'NewPlotSettings'"); return; }
 
-          ok = Check.DictionaryIDs(db.Database, ids => ids.Any(id => id == newPlotSettings.ObjectId));
+          ok = Check.DictionaryIDs(db.Database, db.Database.PlotSettingsDictionaryId, ids => ids.Any(id => id == newPlotSettings.ObjectId));
           if (!ok) { notifier.TestFailed("PlotSettings dictionary does not contain the newly created element"); return; }
         }
       }

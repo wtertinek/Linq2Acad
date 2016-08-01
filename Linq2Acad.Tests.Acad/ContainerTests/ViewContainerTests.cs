@@ -19,11 +19,11 @@ namespace Linq2Acad.Tests
         using (var db = AcadDatabase.Active())
         {
           var newView = db.Views.Create("NewView");
-          
-          var ok = Check.Table(db.Database, table => table.Has("NewView"));
+
+          var ok = Check.Table(db.Database, db.Database.ViewportTableId, table => table.Has("NewView"));
           if (!ok) { notifier.TestFailed("ViewTable does not contain an element with name 'NewView'"); return; }
 
-          ok = Check.DictionaryIDs(db.Database, ids => ids.Any(id => id == newView.ObjectId));
+          ok = Check.TableIDs(db.Database, db.Database.ViewportTableId, ids => ids.Any(id => id == newView.ObjectId));
           if (!ok) { notifier.TestFailed("ViewTable does not contain the newly created element"); return; }
         }
       }
@@ -46,8 +46,8 @@ namespace Linq2Acad.Tests
         {
           var newElement = new ViewTableRecord() { Name = "NewView" };
           db.Views.Add(newElement);
-          
-          var ok = Check.Table(db.Database, table => table.Has("NewView"));
+
+          var ok = Check.Table(db.Database, db.Database.ViewportTableId, table => table.Has("NewView"));
           if (!ok) { notifier.TestFailed("ViewTable does not contain an element with name 'NewView'"); return; }
         }
       }

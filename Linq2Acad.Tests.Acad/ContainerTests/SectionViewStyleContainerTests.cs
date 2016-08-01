@@ -19,11 +19,11 @@ namespace Linq2Acad.Tests
         using (var db = AcadDatabase.Active())
         {
           var newSectionViewStyle = db.SectionViewStyles.Create("NewSectionViewStyle");
-          
-          var ok = Check.Dictionary(db.Database, dict => dict.Contains("NewSectionViewStyle"));
+
+          var ok = Check.Dictionary(db.Database, db.Database.SectionViewStyleDictionaryId, dict => dict.Contains("NewSectionViewStyle"));
           if (!ok) { notifier.TestFailed("SectionViewStyle dictionary does not contain an element with name 'NewSectionViewStyle'"); return; }
 
-          ok = Check.DictionaryIDs(db.Database, ids => ids.Any(id => id == newSectionViewStyle.ObjectId));
+          ok = Check.DictionaryIDs(db.Database, db.Database.SectionViewStyleDictionaryId, ids => ids.Any(id => id == newSectionViewStyle.ObjectId));
           if (!ok) { notifier.TestFailed("SectionViewStyle dictionary does not contain the newly created element"); return; }
         }
       }

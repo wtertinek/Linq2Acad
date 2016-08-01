@@ -20,10 +20,10 @@ namespace Linq2Acad.Tests
         {
           var newBlock = db.Blocks.Create("NewBlock");
           
-          var ok = Check.Table(db.Database, table => table.Has("NewBlock"));
+          var ok = Check.Table(db.Database, db.Database.BlockTableId, table => table.Has("NewBlock"));
           if (!ok) { notifier.TestFailed("BlockTable does not contain an element with name 'NewBlock'"); return; }
 
-          ok = Check.DictionaryIDs(db.Database, ids => ids.Any(id => id == newBlock.ObjectId));
+          ok = Check.TableIDs(db.Database, db.Database.BlockTableId, ids => ids.Any(id => id == newBlock.ObjectId));
           if (!ok) { notifier.TestFailed("BlockTable does not contain the newly created element"); return; }
         }
       }
@@ -46,8 +46,8 @@ namespace Linq2Acad.Tests
         {
           var newElement = new BlockTableRecord() { Name = "NewBlock" };
           db.Blocks.Add(newElement);
-          
-          var ok = Check.Table(db.Database, table => table.Has("NewBlock"));
+
+          var ok = Check.Table(db.Database, db.Database.BlockTableId, table => table.Has("NewBlock"));
           if (!ok) { notifier.TestFailed("BlockTable does not contain an element with name 'NewBlock'"); return; }
         }
       }

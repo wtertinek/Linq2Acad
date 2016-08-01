@@ -19,11 +19,11 @@ namespace Linq2Acad.Tests
         using (var db = AcadDatabase.Active())
         {
           var newMaterial = db.Materials.Create("NewMaterial");
-          
-          var ok = Check.Dictionary(db.Database, dict => dict.Contains("NewMaterial"));
+
+          var ok = Check.Dictionary(db.Database, db.Database.MaterialDictionaryId, dict => dict.Contains("NewMaterial"));
           if (!ok) { notifier.TestFailed("Material dictionary does not contain an element with name 'NewMaterial'"); return; }
 
-          ok = Check.DictionaryIDs(db.Database, ids => ids.Any(id => id == newMaterial.ObjectId));
+          ok = Check.DictionaryIDs(db.Database, db.Database.MaterialDictionaryId, ids => ids.Any(id => id == newMaterial.ObjectId));
           if (!ok) { notifier.TestFailed("Material dictionary does not contain the newly created element"); return; }
         }
       }

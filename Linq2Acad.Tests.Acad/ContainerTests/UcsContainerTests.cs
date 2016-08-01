@@ -19,11 +19,11 @@ namespace Linq2Acad.Tests
         using (var db = AcadDatabase.Active())
         {
           var newUcs = db.Ucss.Create("NewUcs");
-          
-          var ok = Check.Table(db.Database, table => table.Has("NewUcs"));
+
+          var ok = Check.Table(db.Database, db.Database.UcsTableId, table => table.Has("NewUcs"));
           if (!ok) { notifier.TestFailed("UcsTable does not contain an element with name 'NewUcs'"); return; }
 
-          ok = Check.DictionaryIDs(db.Database, ids => ids.Any(id => id == newUcs.ObjectId));
+          ok = Check.TableIDs(db.Database, db.Database.UcsTableId, ids => ids.Any(id => id == newUcs.ObjectId));
           if (!ok) { notifier.TestFailed("UcsTable does not contain the newly created element"); return; }
         }
       }
@@ -46,8 +46,8 @@ namespace Linq2Acad.Tests
         {
           var newElement = new UcsTableRecord() { Name = "NewUcs" };
           db.Ucss.Add(newElement);
-          
-          var ok = Check.Table(db.Database, table => table.Has("NewUcs"));
+
+          var ok = Check.Table(db.Database, db.Database.UcsTableId, table => table.Has("NewUcs"));
           if (!ok) { notifier.TestFailed("UcsTable does not contain an element with name 'NewUcs'"); return; }
         }
       }

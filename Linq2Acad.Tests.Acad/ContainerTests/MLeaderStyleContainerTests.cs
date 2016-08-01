@@ -19,11 +19,11 @@ namespace Linq2Acad.Tests
         using (var db = AcadDatabase.Active())
         {
           var newMLeaderStyle = db.MLeaderStyles.Create("NewMLeaderStyle");
-          
-          var ok = Check.Dictionary(db.Database, dict => dict.Contains("NewMLeaderStyle"));
+
+          var ok = Check.Dictionary(db.Database, db.Database.MLeaderStyleDictionaryId, dict => dict.Contains("NewMLeaderStyle"));
           if (!ok) { notifier.TestFailed("MLeaderStyle dictionary does not contain an element with name 'NewMLeaderStyle'"); return; }
 
-          ok = Check.DictionaryIDs(db.Database, ids => ids.Any(id => id == newMLeaderStyle.ObjectId));
+          ok = Check.DictionaryIDs(db.Database, db.Database.MLeaderStyleDictionaryId, ids => ids.Any(id => id == newMLeaderStyle.ObjectId));
           if (!ok) { notifier.TestFailed("MLeaderStyle dictionary does not contain the newly created element"); return; }
         }
       }

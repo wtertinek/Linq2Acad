@@ -19,11 +19,11 @@ namespace Linq2Acad.Tests
         using (var db = AcadDatabase.Active())
         {
           var newGroup = db.Groups.Create("NewGroup");
-          
-          var ok = Check.Dictionary(db.Database, dict => dict.Contains("NewGroup"));
+
+          var ok = Check.Dictionary(db.Database, db.Database.GroupDictionaryId, dict => dict.Contains("NewGroup"));
           if (!ok) { notifier.TestFailed("Group dictionary does not contain an element with name 'NewGroup'"); return; }
 
-          ok = Check.DictionaryIDs(db.Database, ids => ids.Any(id => id == newGroup.ObjectId));
+          ok = Check.DictionaryIDs(db.Database, db.Database.GroupDictionaryId, ids => ids.Any(id => id == newGroup.ObjectId));
           if (!ok) { notifier.TestFailed("Group dictionary does not contain the newly created element"); return; }
         }
       }

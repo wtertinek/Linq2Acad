@@ -19,11 +19,11 @@ namespace Linq2Acad.Tests
         using (var db = AcadDatabase.Active())
         {
           var newDimStyle = db.DimStyles.Create("NewDimStyle");
-          
-          var ok = Check.Table(db.Database, table => table.Has("NewDimStyle"));
+
+          var ok = Check.Table(db.Database, db.Database.DimStyleTableId, table => table.Has("NewDimStyle"));
           if (!ok) { notifier.TestFailed("DimStyleTable does not contain an element with name 'NewDimStyle'"); return; }
 
-          ok = Check.DictionaryIDs(db.Database, ids => ids.Any(id => id == newDimStyle.ObjectId));
+          ok = Check.TableIDs(db.Database, db.Database.DimStyleTableId, ids => ids.Any(id => id == newDimStyle.ObjectId));
           if (!ok) { notifier.TestFailed("DimStyleTable does not contain the newly created element"); return; }
         }
       }
@@ -46,8 +46,8 @@ namespace Linq2Acad.Tests
         {
           var newElement = new DimStyleTableRecord() { Name = "NewDimStyle" };
           db.DimStyles.Add(newElement);
-          
-          var ok = Check.Table(db.Database, table => table.Has("NewDimStyle"));
+
+          var ok = Check.Table(db.Database, db.Database.DimStyleTableId, table => table.Has("NewDimStyle"));
           if (!ok) { notifier.TestFailed("DimStyleTable does not contain an element with name 'NewDimStyle'"); return; }
         }
       }

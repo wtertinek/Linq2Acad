@@ -20,10 +20,10 @@ namespace Linq2Acad.Tests
         {
           var newDBVisualStyle = db.DBVisualStyles.Create("NewDBVisualStyle");
           
-          var ok = Check.Dictionary(db.Database, dict => dict.Contains("NewDBVisualStyle"));
+          var ok = Check.Dictionary(db.Database, db.Database.VisualStyleDictionaryId, dict => dict.Contains("NewDBVisualStyle"));
           if (!ok) { notifier.TestFailed("DBVisualStyle dictionary does not contain an element with name 'NewDBVisualStyle'"); return; }
 
-          ok = Check.DictionaryIDs(db.Database, ids => ids.Any(id => id == newDBVisualStyle.ObjectId));
+          ok = Check.DictionaryIDs(db.Database, db.Database.VisualStyleDictionaryId, ids => ids.Any(id => id == newDBVisualStyle.ObjectId));
           if (!ok) { notifier.TestFailed("DBVisualStyle dictionary does not contain the newly created element"); return; }
         }
       }

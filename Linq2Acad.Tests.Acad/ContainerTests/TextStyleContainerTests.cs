@@ -19,11 +19,11 @@ namespace Linq2Acad.Tests
         using (var db = AcadDatabase.Active())
         {
           var newTextStyle = db.TextStyles.Create("NewTextStyle");
-          
-          var ok = Check.Table(db.Database, table => table.Has("NewTextStyle"));
+
+          var ok = Check.Table(db.Database, db.Database.TextStyleTableId, table => table.Has("NewTextStyle"));
           if (!ok) { notifier.TestFailed("TextStyleTable does not contain an element with name 'NewTextStyle'"); return; }
 
-          ok = Check.DictionaryIDs(db.Database, ids => ids.Any(id => id == newTextStyle.ObjectId));
+          ok = Check.TableIDs(db.Database, db.Database.TextStyleTableId, ids => ids.Any(id => id == newTextStyle.ObjectId));
           if (!ok) { notifier.TestFailed("TextStyleTable does not contain the newly created element"); return; }
         }
       }
@@ -46,8 +46,8 @@ namespace Linq2Acad.Tests
         {
           var newElement = new TextStyleTableRecord() { Name = "NewTextStyle" };
           db.TextStyles.Add(newElement);
-          
-          var ok = Check.Table(db.Database, table => table.Has("NewTextStyle"));
+
+          var ok = Check.Table(db.Database, db.Database.TextStyleTableId, table => table.Has("NewTextStyle"));
           if (!ok) { notifier.TestFailed("TextStyleTable does not contain an element with name 'NewTextStyle'"); return; }
         }
       }

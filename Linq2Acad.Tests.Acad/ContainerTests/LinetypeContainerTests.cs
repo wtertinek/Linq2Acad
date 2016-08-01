@@ -19,11 +19,11 @@ namespace Linq2Acad.Tests
         using (var db = AcadDatabase.Active())
         {
           var newLinetype = db.Linetypes.Create("NewLinetype");
-          
-          var ok = Check.Table(db.Database, table => table.Has("NewLinetype"));
+
+          var ok = Check.Table(db.Database, db.Database.LinetypeTableId, table => table.Has("NewLinetype"));
           if (!ok) { notifier.TestFailed("LinetypeTable does not contain an element with name 'NewLinetype'"); return; }
 
-          ok = Check.DictionaryIDs(db.Database, ids => ids.Any(id => id == newLinetype.ObjectId));
+          ok = Check.TableIDs(db.Database, db.Database.LinetypeTableId, ids => ids.Any(id => id == newLinetype.ObjectId));
           if (!ok) { notifier.TestFailed("LinetypeTable does not contain the newly created element"); return; }
         }
       }
@@ -46,8 +46,8 @@ namespace Linq2Acad.Tests
         {
           var newElement = new LinetypeTableRecord() { Name = "NewLinetype" };
           db.Linetypes.Add(newElement);
-          
-          var ok = Check.Table(db.Database, table => table.Has("NewLinetype"));
+
+          var ok = Check.Table(db.Database, db.Database.LinetypeTableId, table => table.Has("NewLinetype"));
           if (!ok) { notifier.TestFailed("LinetypeTable does not contain an element with name 'NewLinetype'"); return; }
         }
       }

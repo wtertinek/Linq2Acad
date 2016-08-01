@@ -19,11 +19,11 @@ namespace Linq2Acad.Tests
         using (var db = AcadDatabase.Active())
         {
           var newLayer = db.Layers.Create("NewLayer");
-          
-          var ok = Check.Table(db.Database, table => table.Has("NewLayer"));
+
+          var ok = Check.Table(db.Database, db.Database.LayerTableId, table => table.Has("NewLayer"));
           if (!ok) { notifier.TestFailed("LayerTable does not contain an element with name 'NewLayer'"); return; }
 
-          ok = Check.DictionaryIDs(db.Database, ids => ids.Any(id => id == newLayer.ObjectId));
+          ok = Check.TableIDs(db.Database, db.Database.LayerTableId, ids => ids.Any(id => id == newLayer.ObjectId));
           if (!ok) { notifier.TestFailed("LayerTable does not contain the newly created element"); return; }
         }
       }
@@ -46,8 +46,8 @@ namespace Linq2Acad.Tests
         {
           var newElement = new LayerTableRecord() { Name = "NewLayer" };
           db.Layers.Add(newElement);
-          
-          var ok = Check.Table(db.Database, table => table.Has("NewLayer"));
+
+          var ok = Check.Table(db.Database, db.Database.LayerTableId, table => table.Has("NewLayer"));
           if (!ok) { notifier.TestFailed("LayerTable does not contain an element with name 'NewLayer'"); return; }
         }
       }
