@@ -23,7 +23,7 @@ namespace AcadTestRunner
       TestRunner.coreConsolePath = coreConsolePath;
     }
 
-    public static TestResult Test(string commandMethod, string acadTestAssemblyPath)
+    public static TestResult Test(string acadTestAssembly, string acadTestClass, string acadTestMethod)
     {
       #region Parameter checks
 
@@ -50,9 +50,9 @@ namespace AcadTestRunner
           throw new FileNotFoundException("AppSetting '" + AppSetting + "' not found");
         }
       }
-      else if (!File.Exists(acadTestAssemblyPath))
+      else if (!File.Exists(acadTestAssembly))
       {
-        throw new FileNotFoundException("Path " + acadTestAssemblyPath + " not found");
+        throw new FileNotFoundException("Path " + acadTestAssembly + " not found");
       }
 
       #endregion

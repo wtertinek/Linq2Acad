@@ -1,21 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Linq2Acad;
+using Autodesk.AutoCAD.DatabaseServices;
 using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [TestClass]
-  public class DetailViewStyleContainerTests
+  [AcadTestClass("DetailViewStyleContainerTests")]
+  public partial class DetailViewStyleContainerTests
   {
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestCreateDetailViewStyle()
+    [AcadTestMethod("TestCreateDetailViewStyle")]
+    public void CreateDetailViewStyle()
     {
-      var result = TestRunner.Test("TestCreateDetailViewStyle", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newDetailViewStyle = db.DetailViewStyles.Create("NewDetailViewStyle");
+
+        Assert.Dictionary(db.Database, db.Database.DetailViewStyleDictionaryId, dict => dict.Contains("NewDetailViewStyle"),
+                          "DetailViewStyle dictionary does not contain an element with name 'NewDetailViewStyle'");
+        Assert.DictionaryIDs(db.Database, db.Database.DetailViewStyleDictionaryId, ids => ids.Any(id => id == newDetailViewStyle.ObjectId),
+                             "DetailViewStyle dictionary does not contain the newly created element");
+      }
     }
   }
 }

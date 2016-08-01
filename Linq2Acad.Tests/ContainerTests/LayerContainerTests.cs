@@ -1,29 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Linq2Acad;
+using Autodesk.AutoCAD.DatabaseServices;
 using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [TestClass]
-  public class LayerContainerTests
+  [AcadTestClass("LayerContainerTests")]
+  public partial class LayerContainerTests
   {
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestCreateLayer()
+    [AcadTestMethod("TestCreateLayer")]
+    public void CreateLayer()
     {
-      var result = TestRunner.Test("TestCreateLayer", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newLayer = db.Layers.Create("NewLayer");
+
+        Assert.Table(db.Database, db.Database.LayerTableId, table => table.Has("NewLayer"),
+                     "LayerTable does not contain an element with name 'NewLayer'");
+        Assert.TableIDs(db.Database, db.Database.LayerTableId, ids => ids.Any(id => id == newLayer.ObjectId),
+                        "LayerTable does not contain the newly created element");
+      }
     }
-    
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestAddLayer()
+
+    [AcadTestMethod("TestAddLayer")]
+    public void AddLayer()
     {
-      var result = TestRunner.Test("TestAddLayer", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newElement = new LayerTableRecord() { Name = "NewLayer" };
+        db.Layers.Add(newElement);
+          
+        Assert.Table(db.Database, db.Database.LayerTableId, table => table.Has("NewLayer"),
+                     "LayerTable does not contain an element with name 'NewLayer'");
+      }
     }
   }
 }

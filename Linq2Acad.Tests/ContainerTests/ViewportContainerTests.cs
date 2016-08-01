@@ -1,29 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Linq2Acad;
+using Autodesk.AutoCAD.DatabaseServices;
 using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [TestClass]
-  public class ViewportContainerTests
+  [AcadTestClass("ViewportContainerTests")]
+  public partial class ViewportContainerTests
   {
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestCreateViewport()
+    [AcadTestMethod("TestCreateViewport")]
+    public void CreateViewport()
     {
-      var result = TestRunner.Test("TestCreateViewport", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newViewport = db.Viewports.Create("NewViewport");
+
+        Assert.Table(db.Database, db.Database.ViewportTableId, table => table.Has("NewViewport"),
+                     "ViewportTable does not contain an element with name 'NewViewport'");
+        Assert.TableIDs(db.Database, db.Database.ViewportTableId, ids => ids.Any(id => id == newViewport.ObjectId),
+                        "ViewportTable does not contain the newly created element");
+      }
     }
-    
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestAddViewport()
+
+    [AcadTestMethod("TestAddViewport")]
+    public void AddViewport()
     {
-      var result = TestRunner.Test("TestAddViewport", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newElement = new ViewportTableRecord() { Name = "NewViewport" };
+        db.Viewports.Add(newElement);
+          
+        Assert.Table(db.Database, db.Database.ViewportTableId, table => table.Has("NewViewport"),
+                     "ViewportTable does not contain an element with name 'NewViewport'");
+      }
     }
   }
 }

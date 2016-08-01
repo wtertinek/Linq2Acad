@@ -1,29 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Linq2Acad;
+using Autodesk.AutoCAD.DatabaseServices;
 using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [TestClass]
-  public class UcsContainerTests
+  [AcadTestClass("UcsContainerTests")]
+  public partial class UcsContainerTests
   {
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestCreateUcs()
+    [AcadTestMethod("TestCreateUcs")]
+    public void CreateUcs()
     {
-      var result = TestRunner.Test("TestCreateUcs", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newUcs = db.Ucss.Create("NewUcs");
+
+        Assert.Table(db.Database, db.Database.UcsTableId, table => table.Has("NewUcs"),
+                     "UcsTable does not contain an element with name 'NewUcs'");
+        Assert.TableIDs(db.Database, db.Database.UcsTableId, ids => ids.Any(id => id == newUcs.ObjectId),
+                        "UcsTable does not contain the newly created element");
+      }
     }
-    
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestAddUcs()
+
+    [AcadTestMethod("TestAddUcs")]
+    public void AddUcs()
     {
-      var result = TestRunner.Test("TestAddUcs", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newElement = new UcsTableRecord() { Name = "NewUcs" };
+        db.Ucss.Add(newElement);
+          
+        Assert.Table(db.Database, db.Database.UcsTableId, table => table.Has("NewUcs"),
+                     "UcsTable does not contain an element with name 'NewUcs'");
+      }
     }
   }
 }

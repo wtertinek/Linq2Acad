@@ -1,29 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Linq2Acad;
+using Autodesk.AutoCAD.DatabaseServices;
 using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [TestClass]
-  public class TextStyleContainerTests
+  [AcadTestClass("TextStyleContainerTests")]
+  public partial class TextStyleContainerTests
   {
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestCreateTextStyle()
+    [AcadTestMethod("TestCreateTextStyle")]
+    public void CreateTextStyle()
     {
-      var result = TestRunner.Test("TestCreateTextStyle", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newTextStyle = db.TextStyles.Create("NewTextStyle");
+
+        Assert.Table(db.Database, db.Database.TextStyleTableId, table => table.Has("NewTextStyle"),
+                     "TextStyleTable does not contain an element with name 'NewTextStyle'");
+        Assert.TableIDs(db.Database, db.Database.TextStyleTableId, ids => ids.Any(id => id == newTextStyle.ObjectId),
+                        "TextStyleTable does not contain the newly created element");
+      }
     }
-    
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestAddTextStyle()
+
+    [AcadTestMethod("TestAddTextStyle")]
+    public void AddTextStyle()
     {
-      var result = TestRunner.Test("TestAddTextStyle", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newElement = new TextStyleTableRecord() { Name = "NewTextStyle" };
+        db.TextStyles.Add(newElement);
+          
+        Assert.Table(db.Database, db.Database.TextStyleTableId, table => table.Has("NewTextStyle"),
+                     "TextStyleTable does not contain an element with name 'NewTextStyle'");
+      }
     }
   }
 }

@@ -1,29 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Linq2Acad;
+using Autodesk.AutoCAD.DatabaseServices;
 using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [TestClass]
-  public class BlockContainerTests
+  [AcadTestClass("BlockContainerTests")]
+  public partial class BlockContainerTests
   {
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestCreateBlock()
+    [AcadTestMethod("TestCreateBlock")]
+    public void CreateBlock()
     {
-      var result = TestRunner.Test("TestCreateBlock", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newBlock = db.Blocks.Create("NewBlock");
+
+        Assert.Table(db.Database, db.Database.BlockTableId, table => table.Has("NewBlock"),
+                     "BlockTable does not contain an element with name 'NewBlock'");
+        Assert.TableIDs(db.Database, db.Database.BlockTableId, ids => ids.Any(id => id == newBlock.ObjectId),
+                        "BlockTable does not contain the newly created element");
+      }
     }
-    
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestAddBlock()
+
+    [AcadTestMethod("TestAddBlock")]
+    public void AddBlock()
     {
-      var result = TestRunner.Test("TestAddBlock", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newElement = new BlockTableRecord() { Name = "NewBlock" };
+        db.Blocks.Add(newElement);
+          
+        Assert.Table(db.Database, db.Database.BlockTableId, table => table.Has("NewBlock"),
+                     "BlockTable does not contain an element with name 'NewBlock'");
+      }
     }
   }
 }

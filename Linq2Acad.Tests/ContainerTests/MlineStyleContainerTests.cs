@@ -1,21 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Linq2Acad;
+using Autodesk.AutoCAD.DatabaseServices;
 using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [TestClass]
-  public class MlineStyleContainerTests
+  [AcadTestClass("MlineStyleContainerTests")]
+  public partial class MlineStyleContainerTests
   {
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestCreateMlineStyle()
+    [AcadTestMethod("TestCreateMlineStyle")]
+    public void CreateMlineStyle()
     {
-      var result = TestRunner.Test("TestCreateMlineStyle", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newMlineStyle = db.MlineStyles.Create("NewMlineStyle");
+
+        Assert.Dictionary(db.Database, db.Database.MLStyleDictionaryId, dict => dict.Contains("NewMlineStyle"),
+                          "MlineStyle dictionary does not contain an element with name 'NewMlineStyle'");
+        Assert.DictionaryIDs(db.Database, db.Database.MLStyleDictionaryId, ids => ids.Any(id => id == newMlineStyle.ObjectId),
+                             "MlineStyle dictionary does not contain the newly created element");
+      }
     }
   }
 }

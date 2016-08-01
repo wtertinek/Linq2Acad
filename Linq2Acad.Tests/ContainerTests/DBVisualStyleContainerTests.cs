@@ -1,21 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Linq2Acad;
+using Autodesk.AutoCAD.DatabaseServices;
 using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [TestClass]
-  public class DBVisualStyleContainerTests
+  [AcadTestClass("DBVisualStyleContainerTests")]
+  public partial class DBVisualStyleContainerTests
   {
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestCreateDBVisualStyle()
+    [AcadTestMethod("TestCreateDBVisualStyle")]
+    public void CreateDBVisualStyle()
     {
-      var result = TestRunner.Test("TestCreateDBVisualStyle", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newDBVisualStyle = db.DBVisualStyles.Create("NewDBVisualStyle");
+
+        Assert.Dictionary(db.Database, db.Database.VisualStyleDictionaryId, dict => dict.Contains("NewDBVisualStyle"),
+                          "DBVisualStyle dictionary does not contain an element with name 'NewDBVisualStyle'");
+        Assert.DictionaryIDs(db.Database, db.Database.VisualStyleDictionaryId, ids => ids.Any(id => id == newDBVisualStyle.ObjectId),
+                             "DBVisualStyle dictionary does not contain the newly created element");
+      }
     }
   }
 }

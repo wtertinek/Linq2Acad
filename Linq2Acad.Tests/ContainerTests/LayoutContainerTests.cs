@@ -1,21 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Linq2Acad;
+using Autodesk.AutoCAD.DatabaseServices;
 using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [TestClass]
-  public class LayoutContainerTests
+  [AcadTestClass("LayoutContainerTests")]
+  public partial class LayoutContainerTests
   {
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestCreateLayout()
+    [AcadTestMethod("TestCreateLayout")]
+    public void CreateLayout()
     {
-      var result = TestRunner.Test("TestCreateLayout", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newLayout = db.Layouts.Create("NewLayout");
+
+        Assert.Dictionary(db.Database, db.Database.LayoutDictionaryId, dict => dict.Contains("NewLayout"),
+                          "Layout dictionary does not contain an element with name 'NewLayout'");
+        Assert.DictionaryIDs(db.Database, db.Database.LayoutDictionaryId, ids => ids.Any(id => id == newLayout.ObjectId),
+                             "Layout dictionary does not contain the newly created element");
+      }
     }
   }
 }

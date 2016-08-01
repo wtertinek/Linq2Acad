@@ -1,21 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Linq2Acad;
+using Autodesk.AutoCAD.DatabaseServices;
 using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [TestClass]
-  public class TableStyleContainerTests
+  [AcadTestClass("TableStyleContainerTests")]
+  public partial class TableStyleContainerTests
   {
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestCreateTableStyle()
+    [AcadTestMethod("TestCreateTableStyle")]
+    public void CreateTableStyle()
     {
-      var result = TestRunner.Test("TestCreateTableStyle", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newTableStyle = db.TableStyles.Create("NewTableStyle");
+
+        Assert.Dictionary(db.Database, db.Database.TableStyleDictionaryId, dict => dict.Contains("NewTableStyle"),
+                          "TableStyle dictionary does not contain an element with name 'NewTableStyle'");
+        Assert.DictionaryIDs(db.Database, db.Database.TableStyleDictionaryId, ids => ids.Any(id => id == newTableStyle.ObjectId),
+                             "TableStyle dictionary does not contain the newly created element");
+      }
     }
   }
 }

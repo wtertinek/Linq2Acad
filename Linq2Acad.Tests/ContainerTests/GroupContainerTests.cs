@@ -1,21 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Linq2Acad;
+using Autodesk.AutoCAD.DatabaseServices;
 using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [TestClass]
-  public class GroupContainerTests
+  [AcadTestClass("GroupContainerTests")]
+  public partial class GroupContainerTests
   {
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestCreateGroup()
+    [AcadTestMethod("TestCreateGroup")]
+    public void CreateGroup()
     {
-      var result = TestRunner.Test("TestCreateGroup", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newGroup = db.Groups.Create("NewGroup");
+
+        Assert.Dictionary(db.Database, db.Database.GroupDictionaryId, dict => dict.Contains("NewGroup"),
+                          "Group dictionary does not contain an element with name 'NewGroup'");
+        Assert.DictionaryIDs(db.Database, db.Database.GroupDictionaryId, ids => ids.Any(id => id == newGroup.ObjectId),
+                             "Group dictionary does not contain the newly created element");
+      }
     }
   }
 }

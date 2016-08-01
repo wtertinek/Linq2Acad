@@ -1,21 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Linq2Acad;
+using Autodesk.AutoCAD.DatabaseServices;
 using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [TestClass]
-  public class PlotSettingsContainerTests
+  [AcadTestClass("PlotSettingsContainerTests")]
+  public partial class PlotSettingsContainerTests
   {
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestCreatePlotSettings()
+    [AcadTestMethod("TestCreatePlotSettings")]
+    public void CreatePlotSettings()
     {
-      var result = TestRunner.Test("TestCreatePlotSettings", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newPlotSettings = db.PlotSettings.Create("NewPlotSettings", true);
+
+        Assert.Dictionary(db.Database, db.Database.PlotSettingsDictionaryId, dict => dict.Contains("NewPlotSettings"),
+                          "PlotSettings dictionary does not contain an element with name 'NewPlotSettings'");
+        Assert.DictionaryIDs(db.Database, db.Database.PlotSettingsDictionaryId, ids => ids.Any(id => id == newPlotSettings.ObjectId),
+                             "PlotSettings dictionary does not contain the newly created element");
+      }
     }
   }
 }

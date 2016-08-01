@@ -1,29 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Linq2Acad;
+using Autodesk.AutoCAD.DatabaseServices;
 using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [TestClass]
-  public class LinetypeContainerTests
+  [AcadTestClass("LinetypeContainerTests")]
+  public partial class LinetypeContainerTests
   {
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestCreateLinetype()
+    [AcadTestMethod("TestCreateLinetype")]
+    public void CreateLinetype()
     {
-      var result = TestRunner.Test("TestCreateLinetype", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newLinetype = db.Linetypes.Create("NewLinetype");
+
+        Assert.Table(db.Database, db.Database.LinetypeTableId, table => table.Has("NewLinetype"),
+                     "LinetypeTable does not contain an element with name 'NewLinetype'");
+        Assert.TableIDs(db.Database, db.Database.LinetypeTableId, ids => ids.Any(id => id == newLinetype.ObjectId),
+                        "LinetypeTable does not contain the newly created element");
+      }
     }
-    
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestAddLinetype()
+
+    [AcadTestMethod("TestAddLinetype")]
+    public void AddLinetype()
     {
-      var result = TestRunner.Test("TestAddLinetype", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newElement = new LinetypeTableRecord() { Name = "NewLinetype" };
+        db.Linetypes.Add(newElement);
+          
+        Assert.Table(db.Database, db.Database.LinetypeTableId, table => table.Has("NewLinetype"),
+                     "LinetypeTable does not contain an element with name 'NewLinetype'");
+      }
     }
   }
 }

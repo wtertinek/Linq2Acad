@@ -1,21 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Linq2Acad;
+using Autodesk.AutoCAD.DatabaseServices;
 using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [TestClass]
-  public class MaterialContainerTests
+  [AcadTestClass("MaterialContainerTests")]
+  public partial class MaterialContainerTests
   {
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestCreateMaterial()
+    [AcadTestMethod("TestCreateMaterial")]
+    public void CreateMaterial()
     {
-      var result = TestRunner.Test("TestCreateMaterial", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newMaterial = db.Materials.Create("NewMaterial");
+
+        Assert.Dictionary(db.Database, db.Database.MaterialDictionaryId, dict => dict.Contains("NewMaterial"),
+                          "Material dictionary does not contain an element with name 'NewMaterial'");
+        Assert.DictionaryIDs(db.Database, db.Database.MaterialDictionaryId, ids => ids.Any(id => id == newMaterial.ObjectId),
+                             "Material dictionary does not contain the newly created element");
+      }
     }
   }
 }

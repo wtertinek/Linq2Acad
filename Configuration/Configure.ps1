@@ -16,10 +16,11 @@ if (Test-Path $folder)
     (Get-Content -Encoding UTF8 $srcFileName) | ForEach-Object { $_ -replace "{AcadRootDir}", "$folder" } | Set-Content -Encoding UTF8 $targetFileName
   }
   
+  Update-File ..\AcadTestRunner\AcadTestRunner.csproj.user
+  Update-File ..\AcadTestRunner.Assert\AcadTestRunner.Assert.csproj.user
   Update-File ..\Linq2Acad\Linq2Acad.csproj.user
   Update-File ..\Linq2Acad.Examples\Linq2Acad.Examples.csproj.user
   Update-File ..\Linq2Acad.Tests\Linq2Acad.Tests.csproj.user
-  Update-File ..\Linq2Acad.Tests.Acad\Linq2Acad.Tests.Acad.csproj.user
   (Get-Content -Encoding UTF8 AcadTestRunner.dll.config) | ForEach-Object { $_ -replace "{AcadRootDir}", "$folder" } | Set-Content -Encoding UTF8 ..\AcadTestRunner\AcadTestRunner.dll.config
   
   Write-Host 'AutoCAD reference path set to' $folder

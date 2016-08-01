@@ -1,21 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Linq2Acad;
+using Autodesk.AutoCAD.DatabaseServices;
 using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [TestClass]
-  public class SectionViewStyleContainerTests
+  [AcadTestClass("SectionViewStyleContainerTests")]
+  public partial class SectionViewStyleContainerTests
   {
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestCreateSectionViewStyle()
+    [AcadTestMethod("TestCreateSectionViewStyle")]
+    public void CreateSectionViewStyle()
     {
-      var result = TestRunner.Test("TestCreateSectionViewStyle", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newSectionViewStyle = db.SectionViewStyles.Create("NewSectionViewStyle");
+
+        Assert.Dictionary(db.Database, db.Database.SectionViewStyleDictionaryId, dict => dict.Contains("NewSectionViewStyle"),
+                          "SectionViewStyle dictionary does not contain an element with name 'NewSectionViewStyle'");
+        Assert.DictionaryIDs(db.Database, db.Database.SectionViewStyleDictionaryId, ids => ids.Any(id => id == newSectionViewStyle.ObjectId),
+                             "SectionViewStyle dictionary does not contain the newly created element");
+      }
     }
   }
 }

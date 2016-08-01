@@ -1,29 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Linq2Acad;
+using Autodesk.AutoCAD.DatabaseServices;
 using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [TestClass]
-  public class ViewContainerTests
+  [AcadTestClass("ViewContainerTests")]
+  public partial class ViewContainerTests
   {
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestCreateView()
+    [AcadTestMethod("TestCreateView")]
+    public void CreateView()
     {
-      var result = TestRunner.Test("TestCreateView", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newView = db.Views.Create("NewView");
+
+        Assert.Table(db.Database, db.Database.ViewTableId, table => table.Has("NewView"),
+                     "ViewTable does not contain an element with name 'NewView'");
+        Assert.TableIDs(db.Database, db.Database.ViewTableId, ids => ids.Any(id => id == newView.ObjectId),
+                        "ViewTable does not contain the newly created element");
+      }
     }
-    
-    [TestMethod]
-    [TestCategory("AcadTests")]
-    public void TestAddView()
+
+    [AcadTestMethod("TestAddView")]
+    public void AddView()
     {
-      var result = TestRunner.Test("TestAddView", "Linq2Acad.Tests.Acad.dll");
-      Assert.IsTrue(result.Passed, result.Message);
+      using (var db = AcadDatabase.Active())
+      {
+        var newElement = new ViewTableRecord() { Name = "NewView" };
+        db.Views.Add(newElement);
+          
+        Assert.Table(db.Database, db.Database.ViewTableId, table => table.Has("NewView"),
+                     "ViewTable does not contain an element with name 'NewView'");
+      }
     }
   }
 }
