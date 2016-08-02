@@ -633,7 +633,8 @@ namespace Linq2Acad
     /// <returns>An IEnumerable&lt;EntityContainer&gt;. Each EntityContainer provides access to the entities of one layout.</returns>
     public IEnumerable<EntityContainer> PaperSpace()
     {
-      foreach (var layout in Layouts.OrderBy(l => l.TabOrder))
+      foreach (var layout in Layouts.Where(l => !l.ModelType)
+                                    .OrderBy(l => l.TabOrder))
       {
         yield return new EntityContainer(Database, transaction, layout.BlockTableRecordId);
       }
@@ -647,9 +648,10 @@ namespace Linq2Acad
     public EntityContainer PaperSpace(int index)
     {
       var layouts = Layouts.ToArray();
-      if (index <= 0 || index >= layouts.Length) throw Error.IndexOutOfRange("index", layouts.Length);
+      if (index < 0 || index >= layouts.Length) throw Error.IndexOutOfRange("index", layouts.Length);
       
-      var blockId = Layouts.OrderBy(l => l.TabOrder)
+      var blockId = Layouts.Where(l => !l.ModelType)
+                           .OrderBy(l => l.TabOrder)
                            .ElementAt(index)
                            .BlockTableRecordId;
       try
@@ -674,6 +676,8 @@ namespace Linq2Acad
       try
       {
         var layout = Layouts.Element(name);
+        if (layout.ModelType) throw Error.Generic("Not a paper space layout");
+
         return new EntityContainer(Database, transaction, layout.BlockTableRecordId);
       }
       catch (Exception e)
