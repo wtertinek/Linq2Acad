@@ -233,5 +233,20 @@ namespace Linq2Acad
         WriteMessage("String " + str + " read from entity");
       }
     }
+
+    /// <summary>
+    /// Counting the number of entities in all paper space layouts
+    /// </summary>
+    [CommandMethod("Linq2AcadExample13")]
+    public void CountingTheNumberOfEntitiesInAllPaperSpaceLayouts()
+    {
+      using (var db = AcadDatabase.Active())
+      {
+        var allEntities = db.PaperSpace()
+                            .SelectMany(ps => ps);
+
+        WriteMessage(allEntities.Count() + " entities in all paper space layouts");
+      }
+    }
   }
 }

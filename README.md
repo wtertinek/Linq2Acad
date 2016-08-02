@@ -197,3 +197,13 @@ using (var db = AcadDatabase.Active())
 }
 ```
 
+Counting the number of entities in all paper space layouts
+
+```c#
+using (var db = AcadDatabase.Active())
+{
+  var allEntities = db.PaperSpace()
+                      .SelectMany(ps => ps);
+
+  WriteMessage(allEntities.Count() + " entities in all paper space layouts");
+}
