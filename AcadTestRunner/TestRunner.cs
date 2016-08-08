@@ -38,6 +38,16 @@ namespace AcadTestRunner
       TestRunner.addinPath = Path.Combine(addinRootDir, Path.GetFileName(typeof(TestRunner).Assembly.Location));
     }
 
+    public static TestResult RunTest<T>(string acadTestName) where T : class
+    {
+      return RunTest(typeof(T).Assembly.Location, typeof(T).Name, acadTestName);
+    }
+
+    public static TestResult RunTest(Type testClassType, string acadTestName)
+    {
+      return RunTest(testClassType.Assembly.Location, testClassType.Name, acadTestName);
+    }
+
     public static TestResult RunTest(string testAssemblyPath, string testClassName, string acadTestName)
     {
       return RunTest(testAssemblyPath, testClassName, acadTestName, "");

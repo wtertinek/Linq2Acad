@@ -13,7 +13,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AcadTest")]
     public void TestCreateTableStyle()
     {
-      var result = AcadTestRunner.TestRunner.RunTest(typeof(TableStyleContainerTests).Assembly.Location, "TableStyleContainerTests", "CreateTableStyle");
+      var result = AcadTestRunner.TestRunner.RunTest<TableStyleContainerTests>("CreateTableStyle");
       Assert.IsTrue(result.Passed, result.Message);
     }
   }

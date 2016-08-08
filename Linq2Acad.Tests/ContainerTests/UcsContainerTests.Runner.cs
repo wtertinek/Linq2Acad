@@ -13,7 +13,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AcadTest")]
     public void TestCreateUcs()
     {
-      var result = AcadTestRunner.TestRunner.RunTest(typeof(UcsContainerTests).Assembly.Location, "UcsContainerTests", "CreateUcs");
+      var result = AcadTestRunner.TestRunner.RunTest<UcsContainerTests>("CreateUcs");
       Assert.IsTrue(result.Passed, result.Message);
     }
     
@@ -21,7 +21,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AcadTest")]
     public void TestAddUcs()
     {
-      var result = AcadTestRunner.TestRunner.RunTest(typeof(UcsContainerTests).Assembly.Location, "UcsContainerTests", "AddUcs");
+      var result = AcadTestRunner.TestRunner.RunTest<UcsContainerTests>("AddUcs");
       Assert.IsTrue(result.Passed, result.Message);
     }
   }

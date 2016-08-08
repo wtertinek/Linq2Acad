@@ -13,7 +13,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AcadTest")]
     public void TestCreateSectionViewStyle()
     {
-      var result = AcadTestRunner.TestRunner.RunTest(typeof(SectionViewStyleContainerTests).Assembly.Location, "SectionViewStyleContainerTests", "CreateSectionViewStyle");
+      var result = AcadTestRunner.TestRunner.RunTest<SectionViewStyleContainerTests>("CreateSectionViewStyle");
       Assert.IsTrue(result.Passed, result.Message);
     }
   }

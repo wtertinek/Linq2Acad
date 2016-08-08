@@ -13,7 +13,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AcadTest")]
     public void TestCreateLayout()
     {
-      var result = AcadTestRunner.TestRunner.RunTest(typeof(LayoutContainerTests).Assembly.Location, "LayoutContainerTests", "CreateLayout");
+      var result = AcadTestRunner.TestRunner.RunTest<LayoutContainerTests>("CreateLayout");
       Assert.IsTrue(result.Passed, result.Message);
     }
   }

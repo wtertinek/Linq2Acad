@@ -13,7 +13,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AcadTest")]
     public void TestCreateLayer()
     {
-      var result = AcadTestRunner.TestRunner.RunTest(typeof(LayerContainerTests).Assembly.Location, "LayerContainerTests", "CreateLayer");
+      var result = AcadTestRunner.TestRunner.RunTest<LayerContainerTests>("CreateLayer");
       Assert.IsTrue(result.Passed, result.Message);
     }
     
@@ -21,7 +21,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AcadTest")]
     public void TestAddLayer()
     {
-      var result = AcadTestRunner.TestRunner.RunTest(typeof(LayerContainerTests).Assembly.Location, "LayerContainerTests", "AddLayer");
+      var result = AcadTestRunner.TestRunner.RunTest<LayerContainerTests>("AddLayer");
       Assert.IsTrue(result.Passed, result.Message);
     }
   }

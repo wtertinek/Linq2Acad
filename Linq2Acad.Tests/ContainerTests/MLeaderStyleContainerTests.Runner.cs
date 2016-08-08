@@ -13,7 +13,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AcadTest")]
     public void TestCreateMLeaderStyle()
     {
-      var result = AcadTestRunner.TestRunner.RunTest(typeof(MLeaderStyleContainerTests).Assembly.Location, "MLeaderStyleContainerTests", "CreateMLeaderStyle");
+      var result = AcadTestRunner.TestRunner.RunTest<MLeaderStyleContainerTests>("CreateMLeaderStyle");
       Assert.IsTrue(result.Passed, result.Message);
     }
   }

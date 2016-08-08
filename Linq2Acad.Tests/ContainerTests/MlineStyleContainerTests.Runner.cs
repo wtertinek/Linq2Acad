@@ -13,7 +13,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AcadTest")]
     public void TestCreateMlineStyle()
     {
-      var result = AcadTestRunner.TestRunner.RunTest(typeof(MlineStyleContainerTests).Assembly.Location, "MlineStyleContainerTests", "CreateMlineStyle");
+      var result = AcadTestRunner.TestRunner.RunTest<MlineStyleContainerTests>("CreateMlineStyle");
       Assert.IsTrue(result.Passed, result.Message);
     }
   }

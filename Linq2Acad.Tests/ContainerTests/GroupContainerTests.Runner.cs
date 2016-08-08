@@ -13,7 +13,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AcadTest")]
     public void TestCreateGroup()
     {
-      var result = AcadTestRunner.TestRunner.RunTest(typeof(GroupContainerTests).Assembly.Location, "GroupContainerTests", "CreateGroup");
+      var result = AcadTestRunner.TestRunner.RunTest<GroupContainerTests>("CreateGroup");
       Assert.IsTrue(result.Passed, result.Message);
     }
   }

@@ -13,7 +13,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AcadTest")]
     public void TestCreateMaterial()
     {
-      var result = AcadTestRunner.TestRunner.RunTest(typeof(MaterialContainerTests).Assembly.Location, "MaterialContainerTests", "CreateMaterial");
+      var result = AcadTestRunner.TestRunner.RunTest<MaterialContainerTests>("CreateMaterial");
       Assert.IsTrue(result.Passed, result.Message);
     }
   }
