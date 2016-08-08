@@ -13,7 +13,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AcadTest")]
     public void TestCreatePlotSettings()
     {
-      var result = AcadTestRunner.TestRunner.Test(typeof(PlotSettingsContainerTests).Assembly.Location, "PlotSettingsContainerTests", "TestCreatePlotSettings");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(PlotSettingsContainerTests).Assembly.Location, "PlotSettingsContainerTests", "CreatePlotSettings");
       Assert.IsTrue(result.Passed, result.Message);
     }
   }

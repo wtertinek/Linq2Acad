@@ -8,6 +8,12 @@ namespace AcadTestRunner
 {
   public class TestResult
   {
+    private TestResult(string message, IReadOnlyCollection<string> fullOutput)
+      : this(fullOutput)
+    {
+      Message = message;
+    }
+
     private TestResult(IReadOnlyCollection<string> fullOutput)
     {
       Passed = true;
@@ -38,12 +44,6 @@ namespace AcadTestRunner
       {
         FullOutput = string.Join(Environment.NewLine, fullOutput);
       }
-    }
-
-    private TestResult(string message, IReadOnlyCollection<string> fullOutput)
-      : this(fullOutput)
-    {
-      Message = message;
     }
 
     public bool Passed { get; private set; }

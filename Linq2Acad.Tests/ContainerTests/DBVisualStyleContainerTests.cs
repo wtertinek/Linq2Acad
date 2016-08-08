@@ -6,10 +6,9 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [AcadTestClass("DBVisualStyleContainerTests")]
   public partial class DBVisualStyleContainerTests
   {
-    [AcadTestMethod("TestCreateDBVisualStyle")]
+    [AcadTest("CreateDBVisualStyle")]
     public void CreateDBVisualStyle()
     {
       using (var db = AcadDatabase.Active())

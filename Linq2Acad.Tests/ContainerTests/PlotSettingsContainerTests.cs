@@ -6,10 +6,9 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [AcadTestClass("PlotSettingsContainerTests")]
   public partial class PlotSettingsContainerTests
   {
-    [AcadTestMethod("TestCreatePlotSettings")]
+    [AcadTest("CreatePlotSettings")]
     public void CreatePlotSettings()
     {
       using (var db = AcadDatabase.Active())

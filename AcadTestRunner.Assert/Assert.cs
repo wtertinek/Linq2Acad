@@ -28,7 +28,7 @@ namespace AcadTestRunner
         }
         else
         {
-          throw new AssertFailedException(message);
+          throw new AcadAssertFailedException(message);
         }
       }
     }
@@ -62,7 +62,7 @@ namespace AcadTestRunner
         }
         else
         {
-          throw new AssertFailedException(message);
+          throw new AcadAssertFailedException(message);
         }
       }
     }
@@ -89,7 +89,7 @@ namespace AcadTestRunner
         }
         else
         {
-          throw new AssertFailedException(message);
+          throw new AcadAssertFailedException(message);
         }
       }
     }

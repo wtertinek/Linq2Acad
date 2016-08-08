@@ -6,10 +6,9 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [AcadTestClass("MlineStyleContainerTests")]
   public partial class MlineStyleContainerTests
   {
-    [AcadTestMethod("TestCreateMlineStyle")]
+    [AcadTest("CreateMlineStyle")]
     public void CreateMlineStyle()
     {
       using (var db = AcadDatabase.Active())

@@ -6,10 +6,9 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [AcadTestClass("LinetypeContainerTests")]
   public partial class LinetypeContainerTests
   {
-    [AcadTestMethod("TestCreateLinetype")]
+    [AcadTest("CreateLinetype")]
     public void CreateLinetype()
     {
       using (var db = AcadDatabase.Active())
@@ -23,7 +22,7 @@ namespace Linq2Acad.Tests
       }
     }
 
-    [AcadTestMethod("TestAddLinetype")]
+    [AcadTest("AddLinetype")]
     public void AddLinetype()
     {
       using (var db = AcadDatabase.Active())

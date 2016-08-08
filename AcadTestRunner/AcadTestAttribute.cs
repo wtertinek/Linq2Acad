@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace AcadTestRunner
 {
   [AttributeUsage(AttributeTargets.Method)]
-  public class AcadTestMethodAttribute : Attribute
+  public class AcadTestAttribute : Attribute
   {
-    public AcadTestMethodAttribute(string testMethodName)
+    public AcadTestAttribute(string testMethodName)
     {
       TestMethodName = testMethodName;
     }

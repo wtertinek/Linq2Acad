@@ -29,6 +29,11 @@ namespace AcadTestRunner
 
     public void TestFailed(string message)
     {
+      TestFailed(message, null);
+    }
+
+    public void TestFailed(string message, string stackTrace)
+    {
       WriteMessage(Failed + " -> " + message);
     }
 

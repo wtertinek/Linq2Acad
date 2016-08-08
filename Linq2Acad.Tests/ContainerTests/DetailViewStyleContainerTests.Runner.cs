@@ -13,7 +13,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AcadTest")]
     public void TestCreateDetailViewStyle()
     {
-      var result = AcadTestRunner.TestRunner.Test(typeof(DetailViewStyleContainerTests).Assembly.Location, "DetailViewStyleContainerTests", "TestCreateDetailViewStyle");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(DetailViewStyleContainerTests).Assembly.Location, "DetailViewStyleContainerTests", "CreateDetailViewStyle");
       Assert.IsTrue(result.Passed, result.Message);
     }
   }

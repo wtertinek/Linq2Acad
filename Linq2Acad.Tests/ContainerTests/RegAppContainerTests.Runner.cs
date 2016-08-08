@@ -13,7 +13,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AcadTest")]
     public void TestCreateRegApp()
     {
-      var result = AcadTestRunner.TestRunner.Test(typeof(RegAppContainerTests).Assembly.Location, "RegAppContainerTests", "TestCreateRegApp");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(RegAppContainerTests).Assembly.Location, "RegAppContainerTests", "CreateRegApp");
       Assert.IsTrue(result.Passed, result.Message);
     }
     
@@ -21,7 +21,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AcadTest")]
     public void TestAddRegApp()
     {
-      var result = AcadTestRunner.TestRunner.Test(typeof(RegAppContainerTests).Assembly.Location, "RegAppContainerTests", "TestAddRegApp");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(RegAppContainerTests).Assembly.Location, "RegAppContainerTests", "AddRegApp");
       Assert.IsTrue(result.Passed, result.Message);
     }
   }

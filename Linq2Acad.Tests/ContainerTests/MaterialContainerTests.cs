@@ -6,10 +6,9 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [AcadTestClass("MaterialContainerTests")]
   public partial class MaterialContainerTests
   {
-    [AcadTestMethod("TestCreateMaterial")]
+    [AcadTest("CreateMaterial")]
     public void CreateMaterial()
     {
       using (var db = AcadDatabase.Active())

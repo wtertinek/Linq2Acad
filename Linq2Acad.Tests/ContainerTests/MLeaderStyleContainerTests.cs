@@ -6,10 +6,9 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [AcadTestClass("MLeaderStyleContainerTests")]
   public partial class MLeaderStyleContainerTests
   {
-    [AcadTestMethod("TestCreateMLeaderStyle")]
+    [AcadTest("CreateMLeaderStyle")]
     public void CreateMLeaderStyle()
     {
       using (var db = AcadDatabase.Active())

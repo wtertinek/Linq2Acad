@@ -6,10 +6,9 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [AcadTestClass("UcsContainerTests")]
   public partial class UcsContainerTests
   {
-    [AcadTestMethod("TestCreateUcs")]
+    [AcadTest("CreateUcs")]
     public void CreateUcs()
     {
       using (var db = AcadDatabase.Active())
@@ -23,7 +22,7 @@ namespace Linq2Acad.Tests
       }
     }
 
-    [AcadTestMethod("TestAddUcs")]
+    [AcadTest("AddUcs")]
     public void AddUcs()
     {
       using (var db = AcadDatabase.Active())

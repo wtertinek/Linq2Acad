@@ -6,10 +6,9 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [AcadTestClass("RegAppContainerTests")]
   public partial class RegAppContainerTests
   {
-    [AcadTestMethod("TestCreateRegApp")]
+    [AcadTest("CreateRegApp")]
     public void CreateRegApp()
     {
       using (var db = AcadDatabase.Active())
@@ -23,7 +22,7 @@ namespace Linq2Acad.Tests
       }
     }
 
-    [AcadTestMethod("TestAddRegApp")]
+    [AcadTest("AddRegApp")]
     public void AddRegApp()
     {
       using (var db = AcadDatabase.Active())

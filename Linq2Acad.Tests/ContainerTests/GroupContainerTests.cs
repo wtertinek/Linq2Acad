@@ -6,10 +6,9 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [AcadTestClass("GroupContainerTests")]
   public partial class GroupContainerTests
   {
-    [AcadTestMethod("TestCreateGroup")]
+    [AcadTest("CreateGroup")]
     public void CreateGroup()
     {
       using (var db = AcadDatabase.Active())

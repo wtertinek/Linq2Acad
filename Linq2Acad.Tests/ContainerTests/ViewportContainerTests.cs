@@ -6,10 +6,9 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [AcadTestClass("ViewportContainerTests")]
   public partial class ViewportContainerTests
   {
-    [AcadTestMethod("TestCreateViewport")]
+    [AcadTest("CreateViewport")]
     public void CreateViewport()
     {
       using (var db = AcadDatabase.Active())
@@ -23,7 +22,7 @@ namespace Linq2Acad.Tests
       }
     }
 
-    [AcadTestMethod("TestAddViewport")]
+    [AcadTest("AddViewport")]
     public void AddViewport()
     {
       using (var db = AcadDatabase.Active())

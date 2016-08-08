@@ -207,3 +207,4 @@ using (var db = AcadDatabase.Active())
 
   WriteMessage(allEntities.Count() + " entities in all paper space layouts");
 }
+```

@@ -13,7 +13,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AcadTest")]
     public void TestCreateViewport()
     {
-      var result = AcadTestRunner.TestRunner.Test(typeof(ViewportContainerTests).Assembly.Location, "ViewportContainerTests", "TestCreateViewport");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(ViewportContainerTests).Assembly.Location, "ViewportContainerTests", "CreateViewport");
       Assert.IsTrue(result.Passed, result.Message);
     }
     
@@ -21,7 +21,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AcadTest")]
     public void TestAddViewport()
     {
-      var result = AcadTestRunner.TestRunner.Test(typeof(ViewportContainerTests).Assembly.Location, "ViewportContainerTests", "TestAddViewport");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(ViewportContainerTests).Assembly.Location, "ViewportContainerTests", "AddViewport");
       Assert.IsTrue(result.Passed, result.Message);
     }
   }

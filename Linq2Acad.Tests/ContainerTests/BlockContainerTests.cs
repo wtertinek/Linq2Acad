@@ -6,10 +6,9 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [AcadTestClass("BlockContainerTests")]
   public partial class BlockContainerTests
   {
-    [AcadTestMethod("TestCreateBlock")]
+    [AcadTest("CreateBlock")]
     public void CreateBlock()
     {
       using (var db = AcadDatabase.Active())
@@ -23,7 +22,7 @@ namespace Linq2Acad.Tests
       }
     }
 
-    [AcadTestMethod("TestAddBlock")]
+    [AcadTest("AddBlock")]
     public void AddBlock()
     {
       using (var db = AcadDatabase.Active())

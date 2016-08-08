@@ -13,7 +13,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AcadTest")]
     public void TestCreateDBVisualStyle()
     {
-      var result = AcadTestRunner.TestRunner.Test(typeof(DBVisualStyleContainerTests).Assembly.Location, "DBVisualStyleContainerTests", "TestCreateDBVisualStyle");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(DBVisualStyleContainerTests).Assembly.Location, "DBVisualStyleContainerTests", "CreateDBVisualStyle");
       Assert.IsTrue(result.Passed, result.Message);
     }
   }

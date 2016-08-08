@@ -6,10 +6,9 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [AcadTestClass("SectionViewStyleContainerTests")]
   public partial class SectionViewStyleContainerTests
   {
-    [AcadTestMethod("TestCreateSectionViewStyle")]
+    [AcadTest("CreateSectionViewStyle")]
     public void CreateSectionViewStyle()
     {
       using (var db = AcadDatabase.Active())

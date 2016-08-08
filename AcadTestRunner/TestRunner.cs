@@ -38,12 +38,12 @@ namespace AcadTestRunner
       TestRunner.addinPath = Path.Combine(addinRootDir, Path.GetFileName(typeof(TestRunner).Assembly.Location));
     }
 
-    public static TestResult Test(string acadTestAssemblyPath, string acadTestClassName, string acadTestMethodName)
+    public static TestResult RunTest(string acadTestAssemblyPath, string acadTestClassName, string acadTestMethodName)
     {
-      return Test(acadTestAssemblyPath, acadTestClassName, acadTestMethodName, "");
+      return RunTest(acadTestAssemblyPath, acadTestClassName, acadTestMethodName, "");
     }
 
-    public static TestResult Test(string acadTestAssemblyPath, string acadTestClassName, string acadTestMethodName, string dwgFilePath)
+    public static TestResult RunTest(string acadTestAssemblyPath, string acadTestClassName, string acadTestMethodName, string dwgFilePath)
     {
       #region Parameter checks
 

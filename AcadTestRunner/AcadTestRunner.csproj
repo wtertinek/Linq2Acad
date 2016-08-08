@@ -52,13 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssertFailedException.cs" />
-    <Compile Include="Attributes\AcadTestClassAttribute.cs" />
-    <Compile Include="Attributes\AcadTestMethodAttribute.cs" />
+    <Compile Include="AcadAssertFailedException.cs" />
+    <Compile Include="AcadTestAttribute.cs" />
     <Compile Include="CoreConsole\CoreConsole.cs" />
     <Compile Include="CoreConsole\TestExecutionResult.cs" />
     <Compile Include="CoreConsole\ProcessExtensions.cs" />
-    <Compile Include="ScriptBuilder.cs" />
+    <Compile Include="CoreConsole\ScriptBuilder.cs" />
     <Compile Include="TestExecution.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="TestRunner.cs" />

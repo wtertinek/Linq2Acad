@@ -13,7 +13,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AcadTest")]
     public void TestCreateLinetype()
     {
-      var result = AcadTestRunner.TestRunner.Test(typeof(LinetypeContainerTests).Assembly.Location, "LinetypeContainerTests", "TestCreateLinetype");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(LinetypeContainerTests).Assembly.Location, "LinetypeContainerTests", "CreateLinetype");
       Assert.IsTrue(result.Passed, result.Message);
     }
     
@@ -21,7 +21,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AcadTest")]
     public void TestAddLinetype()
     {
-      var result = AcadTestRunner.TestRunner.Test(typeof(LinetypeContainerTests).Assembly.Location, "LinetypeContainerTests", "TestAddLinetype");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(LinetypeContainerTests).Assembly.Location, "LinetypeContainerTests", "AddLinetype");
       Assert.IsTrue(result.Passed, result.Message);
     }
   }

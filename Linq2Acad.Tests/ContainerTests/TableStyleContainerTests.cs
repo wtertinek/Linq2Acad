@@ -6,10 +6,9 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [AcadTestClass("TableStyleContainerTests")]
   public partial class TableStyleContainerTests
   {
-    [AcadTestMethod("TestCreateTableStyle")]
+    [AcadTest("CreateTableStyle")]
     public void CreateTableStyle()
     {
       using (var db = AcadDatabase.Active())

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace AcadTestRunner
 {
-  public class AssertFailedException : Exception
+  public class AcadAssertFailedException : Exception
   {
-    public AssertFailedException(string message)
+    public AcadAssertFailedException(string message)
       : base(message)
     {
     }

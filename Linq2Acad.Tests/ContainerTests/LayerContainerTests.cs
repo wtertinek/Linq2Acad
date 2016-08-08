@@ -6,10 +6,9 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [AcadTestClass("LayerContainerTests")]
   public partial class LayerContainerTests
   {
-    [AcadTestMethod("TestCreateLayer")]
+    [AcadTest("CreateLayer")]
     public void CreateLayer()
     {
       using (var db = AcadDatabase.Active())
@@ -23,7 +22,7 @@ namespace Linq2Acad.Tests
       }
     }
 
-    [AcadTestMethod("TestAddLayer")]
+    [AcadTest("AddLayer")]
     public void AddLayer()
     {
       using (var db = AcadDatabase.Active())

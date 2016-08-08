@@ -19,55 +19,66 @@ namespace AcadTestRunner
       try
       {
         var editor = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;
-        var assemblyPath = editor.GetString(Notification.GetMessage("TestLoader", "Test assembly path")).StringResult;
-        var testClassName = editor.GetString(Notification.GetMessage("TestLoader", "Test class name")).StringResult;
-        var testMethodName = editor.GetString(Notification.GetMessage("TestLoader", "Test method name")).StringResult;
-        testNotifier = new Notification(testMethodName);
+        var assemblyPath = editor.GetString(Notification.GetMessage("TestLoader", "Assembly path")).StringResult;
+        var testClassName = editor.GetString(Notification.GetMessage("TestLoader", "Class name")).StringResult;
+        var testName = editor.GetString(Notification.GetMessage("TestLoader", "AcadTest name")).StringResult;
+        testNotifier = new Notification(testName);
 
         var type = Assembly.LoadFrom(assemblyPath)
                            .GetTypes()
-                           .Select(t => new { Type = t, Attributes = t.GetCustomAttributes(typeof(AcadTestClassAttribute)).ToArray() })
-                           .FirstOrDefault(t => t.Attributes.Any(a => ((AcadTestClassAttribute)a).TestClassName == testClassName));
+                           .FirstOrDefault(t => t.Name == testClassName);
 
         if (type == null)
         {
-          testNotifier.TestFailed("Test class " + testClassName + " not found");
+          testNotifier.TestFailed("Class " + testClassName + " not found");
           loaderNotifier.WriteMessage("Test execution finished with errors");
         }
         else
         {
-          loaderNotifier.WriteMessage("Type " + type.Type.Name + " loaded");
+          loaderNotifier.WriteMessage("Class " + type.Name + " loaded");
 
-          var method = type.Type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                                .Select(m => new { Method = m, Attributes = m.GetCustomAttributes(typeof(AcadTestMethodAttribute)).ToArray() })
-                                .FirstOrDefault(m => m.Attributes.Any(a => ((AcadTestMethodAttribute)a).TestMethodName == testMethodName));
+          var method = type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                           .Select(m => new { Method = m, Attributes = m.GetCustomAttributes(typeof(AcadTestAttribute)).ToArray() })
+                           .FirstOrDefault(m => m.Attributes.Any(a => ((AcadTestAttribute)a).TestMethodName == testName));
 
           if (method == null)
           {
-            testNotifier.TestFailed("Test method " + testMethodName + " not found");
+            testNotifier.TestFailed("No AcadTest \"" + testName + "\" found");
             loaderNotifier.WriteMessage("Test execution finished with errors");
           }
           else
           {
-            loaderNotifier.WriteMessage("Test method " + method.Method.Name + " found");
+            loaderNotifier.WriteMessage("AcadTest " + testName + " found");
 
-            var instance = Activator.CreateInstance(type.Type);
-            loaderNotifier.WriteMessage("Instance of " + type.Type.Name + " created");
+            var hasDefaultConstructor = type.GetConstructors()
+                                            .Any(c => c.IsPublic &&
+                                                       c.GetParameters().Count() == 0);
 
-            loaderNotifier.WriteMessage("Invoking test method " + method.Method);
-            type.Type.InvokeMember(method.Method.Name, BindingFlags.InvokeMethod, null, instance, new object[0]);
+            if (!hasDefaultConstructor)
+            {
+              testNotifier.TestFailed("No public default constructor found in class " + testClassName);
+              loaderNotifier.WriteMessage("Test execution finished with errors");
+            }
+            else
+            {
+              var instance = Activator.CreateInstance(type);
+              loaderNotifier.WriteMessage("Instance of " + type.Name + " created");
 
-            testNotifier.TestPassed();
+              loaderNotifier.WriteMessage("Executing AcadTest " + testName + ", invoking method " + method.Method);
+              type.InvokeMember(method.Method.Name, BindingFlags.InvokeMethod, null, instance, new object[0]);
 
-            loaderNotifier.WriteMessage("Test execution finished");
+              testNotifier.TestPassed();
+
+              loaderNotifier.WriteMessage("Test execution finished");
+            }
           }
         }
       }
-      catch (AssertFailedException e)
+      catch (AcadAssertFailedException e)
       {
         if (testNotifier != null)
         {
-          testNotifier.TestFailed(e.Message);
+          testNotifier.TestFailed(e.Message, e.StackTrace);
         }
 
         loaderNotifier.WriteMessage("Test execution finished with errors");

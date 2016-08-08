@@ -6,10 +6,9 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  [AcadTestClass("LayoutContainerTests")]
   public partial class LayoutContainerTests
   {
-    [AcadTestMethod("TestCreateLayout")]
+    [AcadTest("CreateLayout")]
     public void CreateLayout()
     {
       using (var db = AcadDatabase.Active())
