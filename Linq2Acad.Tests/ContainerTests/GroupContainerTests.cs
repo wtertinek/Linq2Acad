@@ -15,10 +15,8 @@ namespace Linq2Acad.Tests
       {
         var newGroup = db.Groups.Create("NewGroup");
 
-        Assert.Dictionary(db.Database, db.Database.GroupDictionaryId, dict => dict.Contains("NewGroup"),
-                          "Group dictionary does not contain an element with name 'NewGroup'");
-        Assert.DictionaryIDs(db.Database, db.Database.GroupDictionaryId, ids => ids.Any(id => id == newGroup.ObjectId),
-                             "Group dictionary does not contain the newly created element");
+        Assert.That().GroupDictionary().Contains("NewGroup");
+        Assert.That().GroupDictionary().Contains(newGroup.ObjectId);
       }
     }
   }

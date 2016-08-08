@@ -15,10 +15,8 @@ namespace Linq2Acad.Tests
       {
         var newBlock = db.Blocks.Create("NewBlock");
 
-        Assert.Table(db.Database, db.Database.BlockTableId, table => table.Has("NewBlock"),
-                     "BlockTable does not contain an element with name 'NewBlock'");
-        Assert.TableIDs(db.Database, db.Database.BlockTableId, ids => ids.Any(id => id == newBlock.ObjectId),
-                        "BlockTable does not contain the newly created element");
+        Assert.That().BlockTable().Contains("NewBlock");
+        //Assert.That().BlockTable().Contains(newBlock.ObjectId);
       }
     }
 
@@ -29,9 +27,8 @@ namespace Linq2Acad.Tests
       {
         var newElement = new BlockTableRecord() { Name = "NewBlock" };
         db.Blocks.Add(newElement);
-          
-        Assert.Table(db.Database, db.Database.BlockTableId, table => table.Has("NewBlock"),
-                     "BlockTable does not contain an element with name 'NewBlock'");
+
+        Assert.That().BlockTable().Contains("NewBlock");
       }
     }
   }
