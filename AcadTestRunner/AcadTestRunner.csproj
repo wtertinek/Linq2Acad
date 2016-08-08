@@ -53,7 +53,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcadAssertFailedException.cs" />
-    <Compile Include="AcadTestAttribute.cs" />
+    <Compile Include="Attributes\AcadTestAttribute.cs" />
+    <Compile Include="Attributes\ExpectedExceptionAttribute.cs" />
     <Compile Include="CoreConsole\CoreConsole.cs" />
     <Compile Include="CoreConsole\TestExecutionResult.cs" />
     <Compile Include="CoreConsole\ProcessExtensions.cs" />

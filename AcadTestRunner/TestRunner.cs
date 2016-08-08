@@ -38,12 +38,12 @@ namespace AcadTestRunner
       TestRunner.addinPath = Path.Combine(addinRootDir, Path.GetFileName(typeof(TestRunner).Assembly.Location));
     }
 
-    public static TestResult RunTest(string acadTestAssemblyPath, string acadTestClassName, string acadTestMethodName)
+    public static TestResult RunTest(string testAssemblyPath, string testClassName, string acadTestName)
     {
-      return RunTest(acadTestAssemblyPath, acadTestClassName, acadTestMethodName, "");
+      return RunTest(testAssemblyPath, testClassName, acadTestName, "");
     }
 
-    public static TestResult RunTest(string acadTestAssemblyPath, string acadTestClassName, string acadTestMethodName, string dwgFilePath)
+    public static TestResult RunTest(string testAssemblyPath, string testClassName, string acadTestName, string dwgFilePath)
     {
       #region Parameter checks
 
@@ -64,19 +64,19 @@ namespace AcadTestRunner
         }
       }
       
-      if (!File.Exists(acadTestAssemblyPath))
+      if (!File.Exists(testAssemblyPath))
       {
-        throw new FileNotFoundException("Path " + acadTestAssemblyPath + " not found");
+        throw new FileNotFoundException("Path " + testAssemblyPath + " not found");
       }
 
       #endregion
 
       var coreConsole = new CoreConsole(coreConsolePath, addinPath);
-      var result = coreConsole.LoadAndExecuteTest(acadTestAssemblyPath, acadTestClassName, acadTestMethodName, dwgFilePath);
+      var result = coreConsole.LoadAndExecuteTest(testAssemblyPath, testClassName, acadTestName, dwgFilePath);
 
       if (result.ExitCode == 0)
       {
-        var idx = FindIndex(result.Output, Notification.GetPassedMessage(acadTestMethodName));
+        var idx = FindIndex(result.Output, Notification.GetPassedMessage(acadTestName));
 
         if (idx >= 0)
         {
@@ -84,7 +84,7 @@ namespace AcadTestRunner
         }
         else
         {
-          var failedMessage = Notification.GetFailedMessage(acadTestMethodName);
+          var failedMessage = Notification.GetFailedMessage(acadTestName);
           idx = FindIndex(result.Output, failedMessage);
 
           if (idx >= 0)

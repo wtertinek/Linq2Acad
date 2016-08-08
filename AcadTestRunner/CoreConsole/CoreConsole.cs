@@ -19,11 +19,11 @@ namespace AcadTestRunner
       this.addinPath = addinPath;
     }
 
-    public TestExecutionResult LoadAndExecuteTest(string acadTestAssemblyPath, string acadTestClassName, string acadTestMethodName, string dwgFilePath)
+    public TestExecutionResult LoadAndExecuteTest(string testAssemblyPath, string testClassName, string acadTestName, string dwgFilePath)
     {
       var builder = new ScriptBuilder(dwgFilePath)
                     .NetLoad(addinPath)
-                    .Command("LoadAndExecuteTest", acadTestAssemblyPath, acadTestClassName, acadTestMethodName)
+                    .Command("LoadAndExecuteTest", testAssemblyPath, testClassName, acadTestName)
                     .Quit();
       var scriptFilePath = builder.SaveScript();
 

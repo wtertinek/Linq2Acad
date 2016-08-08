@@ -8,17 +8,22 @@ namespace AcadTestRunner
 {
   public class TestResult
   {
-    private TestResult(string message, IReadOnlyCollection<string> fullOutput)
-      : this(fullOutput)
-    {
-      Message = message;
-    }
-
     private TestResult(IReadOnlyCollection<string> fullOutput)
     {
       Passed = true;
       Message = "";
+      BuildFullOutput(fullOutput);
+    }
 
+    private TestResult(string message, IReadOnlyCollection<string> fullOutput)
+    {
+      Passed = false;
+      Message = message;
+      BuildFullOutput(fullOutput);
+    }
+
+    private void BuildFullOutput(IReadOnlyCollection<string> fullOutput)
+    {
       var skipEverySecondLine = true;
 
       for (int i = 1; i < fullOutput.Count - 1; i += 2)

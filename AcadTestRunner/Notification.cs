@@ -34,13 +34,13 @@ namespace AcadTestRunner
 
     public void TestFailed(string message, string stackTrace)
     {
-      WriteMessage(Failed + " -> " + message);
+      WriteMessage(Failed + " - " + message);
     }
 
     public void TestFailed(Exception e)
     {
       var message = new StringBuilder();
-      message.Append(" - " + e.Message);
+      message.Append(e.Message);
 
       while (e.InnerException != null)
       {
@@ -49,7 +49,7 @@ namespace AcadTestRunner
         message.Append(e.Message);
       }
 
-      WriteMessage(Failed + message.ToString());
+      WriteMessage(Failed + " - " + message.ToString());
     }
 
     public static string GetPassedMessage(string testName)

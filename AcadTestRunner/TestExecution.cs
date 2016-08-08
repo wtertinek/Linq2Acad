@@ -15,6 +15,7 @@ namespace AcadTestRunner
     {
       var loaderNotifier = new Notification("TestLoader");
       Notification testNotifier = null;
+      Type expectedException = null;
 
       try
       {
@@ -38,8 +39,9 @@ namespace AcadTestRunner
           loaderNotifier.WriteMessage("Class " + type.Name + " loaded");
 
           var method = type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                           .Select(m => new { Method = m, Attributes = m.GetCustomAttributes(typeof(AcadTestAttribute)).ToArray() })
-                           .FirstOrDefault(m => m.Attributes.Any(a => ((AcadTestAttribute)a).TestMethodName == testName));
+                           .Select(m => new { Method = m, AcadTestAttribute = m.GetCustomAttributes(typeof(AcadTestAttribute), false).FirstOrDefault() })
+                           .FirstOrDefault(m => m.AcadTestAttribute != null &&
+                                                ((AcadTestAttribute)m.AcadTestAttribute).TestMethodName == testName);
 
           if (method == null)
           {
@@ -61,35 +63,58 @@ namespace AcadTestRunner
             }
             else
             {
+              var expectedExceptionAttribute = method.Method
+                                                     .GetCustomAttribute(typeof(ExpectedExceptionAttribute), false);
+
+              if (expectedExceptionAttribute != null)
+              {
+                expectedException = (expectedExceptionAttribute as ExpectedExceptionAttribute).ExpectedException as Type;
+                loaderNotifier.WriteMessage("ExcpectedException " + expectedException.Name + " found");
+              }
+
               var instance = Activator.CreateInstance(type);
               loaderNotifier.WriteMessage("Instance of " + type.Name + " created");
 
-              loaderNotifier.WriteMessage("Executing AcadTest " + testName + ", invoking method " + method.Method);
+              loaderNotifier.WriteMessage("Executing AcadTest " + testName);
               type.InvokeMember(method.Method.Name, BindingFlags.InvokeMethod, null, instance, new object[0]);
 
-              testNotifier.TestPassed();
-
-              loaderNotifier.WriteMessage("Test execution finished");
+              if (expectedException != null)
+              {
+                testNotifier.TestFailed("Expected exception of type " + expectedException.FullName + " not thrown");
+                loaderNotifier.WriteMessage("Test execution finished with errors");
+              }
+              else
+              {
+                testNotifier.TestPassed();
+                loaderNotifier.WriteMessage("Test execution finished");
+              }
             }
           }
         }
       }
       catch (AcadAssertFailedException e)
       {
-        if (testNotifier != null)
-        {
-          testNotifier.TestFailed(e.Message, e.StackTrace);
-        }
-
+        testNotifier.TestFailed(e.Message, e.StackTrace);
         loaderNotifier.WriteMessage("Test execution finished with errors");
+      }
+      catch (TargetInvocationException tie)
+      {
+        var e = tie.InnerException;
+
+        if (expectedException != null &&
+            e.GetType().Equals(expectedException))
+        {
+          testNotifier.TestPassed();
+        }
+        else
+        {
+          testNotifier.TestFailed(e);
+          loaderNotifier.WriteMessage("Test execution finished with errors");
+        }
       }
       catch (System.Exception e)
       {
-        if (testNotifier != null)
-        {
-          testNotifier.TestFailed(e);
-        }
-
+        loaderNotifier.WriteMessage(e.Message);
         loaderNotifier.WriteMessage("Test execution finished with errors");
       }
     }
