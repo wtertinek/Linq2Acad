@@ -10,56 +10,109 @@ namespace AcadTestRunner
 {
   public static class TestRunner
   {
-    private const string AppSetting = "AcadRootDir";
+    private const string AppSettingAcadRootDir = "AcadRootDir";
+    private const string AppSettingAddinRootDir = "AddinRootDir";
     private static string coreConsolePath;
+    private static string addinPath;
 
-    public static void Init(string coreConsolePath)
+    public static void Init(string acadRootDir, string addinRootDir)
     {
-      if (!File.Exists(coreConsolePath))
+      if (!Directory.Exists(acadRootDir))
       {
-        throw new FileNotFoundException("Path " + coreConsolePath + " not found");
+        throw new FileNotFoundException("Directory " + acadRootDir + " not found");
+      }
+      else if (!File.Exists(Path.Combine(acadRootDir, "AcCoreConsole.exe")))
+      {
+        throw new FileNotFoundException("File " + Path.Combine(acadRootDir, "AcCoreConsole.exe") + " not found");
+      }
+      else if (!Directory.Exists(addinRootDir))
+      {
+        throw new FileNotFoundException("Directory " + addinRootDir + " not found");
+      }
+      else if (!File.Exists(Path.Combine(addinRootDir, Path.GetFileName(typeof(TestRunner).Assembly.Location))))
+      {
+        throw new FileNotFoundException("File " + Path.Combine(addinRootDir, Path.GetFileName(typeof(TestRunner).Assembly.Location)) + " not found");
       }
 
-      TestRunner.coreConsolePath = coreConsolePath;
+      TestRunner.coreConsolePath = Path.Combine(acadRootDir, "AcCoreConsole.exe");
+      TestRunner.addinPath = Path.Combine(addinRootDir, Path.GetFileName(typeof(TestRunner).Assembly.Location));
     }
 
-    public static TestResult Test(string acadTestAssembly, string acadTestClass, string acadTestMethod)
+    public static TestResult Test(string acadTestAssemblyPath, string acadTestClassName, string acadTestMethodName)
+    {
+      return Test(acadTestAssemblyPath, acadTestClassName, acadTestMethodName, "");
+    }
+
+    public static TestResult Test(string acadTestAssemblyPath, string acadTestClassName, string acadTestMethodName, string dwgFilePath)
     {
       #region Parameter checks
 
-      if (string.IsNullOrEmpty(coreConsolePath))
+      if (string.IsNullOrEmpty(coreConsolePath) ||
+          string.IsNullOrEmpty(addinPath))
       {
         var assemblyPath = typeof(TestRunner).Assembly.Location;
         var configuration = ConfigurationManager.OpenExeConfiguration(assemblyPath);
 
-        if (configuration.AppSettings.Settings.AllKeys.Any(key => key == AppSetting))
+        if (configuration.AppSettings.Settings.AllKeys.Any(key => key == AppSettingAcadRootDir))
         {
-          var fileName = Path.Combine(configuration.AppSettings.Settings[AppSetting].Value, "AcCoreConsole.exe");
-
-          if (File.Exists(fileName))
-          {
-            coreConsolePath = fileName;
-          }
-          else
-          {
-            throw new FileNotFoundException("Path " + coreConsolePath + " not found");
-          }
+          Init(configuration.AppSettings.Settings[AppSettingAcadRootDir].Value,
+               configuration.AppSettings.Settings[AppSettingAddinRootDir].Value);
         }
         else
         {
-          throw new FileNotFoundException("AppSetting '" + AppSetting + "' not found");
+          throw new FileNotFoundException("AppSetting '" + AppSettingAcadRootDir + "' not found");
         }
       }
-      else if (!File.Exists(acadTestAssembly))
+      
+      if (!File.Exists(acadTestAssemblyPath))
       {
-        throw new FileNotFoundException("Path " + acadTestAssembly + " not found");
+        throw new FileNotFoundException("Path " + acadTestAssemblyPath + " not found");
       }
 
       #endregion
 
-      // TODO: Add test runner code here
+      var coreConsole = new CoreConsole(coreConsolePath, addinPath);
+      var result = coreConsole.LoadAndExecuteTest(acadTestAssemblyPath, acadTestClassName, acadTestMethodName, dwgFilePath);
 
-      return TestResult.TestFailed("Not implemented", "");
+      if (result.ExitCode == 0)
+      {
+        var idx = FindIndex(result.Output, Notification.GetPassedMessage(acadTestMethodName));
+
+        if (idx >= 0)
+        {
+          return TestResult.TestPassed(result.Output);
+        }
+        else
+        {
+          var failedMessage = Notification.GetFailedMessage(acadTestMethodName);
+          idx = FindIndex(result.Output, failedMessage);
+
+          if (idx >= 0)
+          {
+            var msg = result.Output
+                            .ElementAt(idx)
+                            .Trim()
+                            .Replace(failedMessage + " - ", "");
+
+            return TestResult.TestFailed(msg, result.Output);
+          }
+          else
+          {
+            return TestResult.TestFailed("A general error occured", result.Output);
+          }
+        }
+      }
+      else
+      {
+        return TestResult.TestFailed("A general error occured", result.Output);
+      }
+    }
+
+    private static int FindIndex(IReadOnlyCollection<string> output, string searchString)
+    {
+      return output.ToList()
+                   .FindIndex(l => l.TrimStart()
+                                    .StartsWith(searchString));
     }
   }
 }

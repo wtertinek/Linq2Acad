@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Autodesk.AutoCAD.DatabaseServices;
+using System.Collections;
 
 namespace AcadTestRunner
 {
@@ -52,8 +53,8 @@ namespace AcadTestRunner
       using (var tr = database.TransactionManager.StartTransaction())
       {
         var dict = (DBDictionary)tr.GetObject(dictionaryId, OpenMode.ForRead);
-        var ok = assert(dict.Cast<DBDictionaryEntry>()
-                            .Select(e => e.m_value));
+        var ok = assert(dict.Cast<DictionaryEntry>()
+                            .Select(e => (ObjectId)e.Value));
 
         if (ok)
         {

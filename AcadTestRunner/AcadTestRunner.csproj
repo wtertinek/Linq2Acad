@@ -55,7 +55,11 @@
     <Compile Include="AssertFailedException.cs" />
     <Compile Include="Attributes\AcadTestClassAttribute.cs" />
     <Compile Include="Attributes\AcadTestMethodAttribute.cs" />
-    <Compile Include="TestInvokation.cs" />
+    <Compile Include="CoreConsole\CoreConsole.cs" />
+    <Compile Include="CoreConsole\TestExecutionResult.cs" />
+    <Compile Include="CoreConsole\ProcessExtensions.cs" />
+    <Compile Include="ScriptBuilder.cs" />
+    <Compile Include="TestExecution.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="TestRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

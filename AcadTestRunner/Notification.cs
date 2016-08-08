@@ -8,27 +8,34 @@ namespace AcadTestRunner
 {
   public class Notification
   {
+    private const string Passed = "PASSED";
+    private const string Failed = "FAILED";
     private string prefix;
 
     public Notification(string testName)
     {
-      prefix = "AcadTestRunner - Test " + testName + ": ";
+      prefix = "AcadTestRunner - " + testName + " - ";
     }
 
-    public void TestPassed()
+    internal void WriteMessage(string message)
     {
-      Console.WriteLine(prefix + "PASSED");
+      Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage(Environment.NewLine + prefix + message);
+    }
+
+    internal void TestPassed()
+    {
+      WriteMessage(Passed);
     }
 
     public void TestFailed(string message)
     {
-      Console.WriteLine(prefix + "FAILED -> " + message);
+      WriteMessage(Failed + " -> " + message);
     }
 
     public void TestFailed(Exception e)
     {
       var message = new StringBuilder();
-      message.Append(e.Message);
+      message.Append(" - " + e.Message);
 
       while (e.InnerException != null)
       {
@@ -37,7 +44,23 @@ namespace AcadTestRunner
         message.Append(e.Message);
       }
 
-      Console.WriteLine(prefix + "FAILED" + message.ToString());
+      WriteMessage(Failed + message.ToString());
+    }
+
+    public static string GetPassedMessage(string testName)
+    {
+      return GetMessage(testName, Passed);
+    }
+
+    public static string GetFailedMessage(string testName)
+    {
+      return GetMessage(testName, Failed);
+    }
+
+    public static string GetMessage(string testName, string message)
+    {
+      var notification = new Notification(testName);
+      return notification.prefix + message;
     }
   }
 }
