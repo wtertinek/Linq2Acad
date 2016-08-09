@@ -11,28 +11,31 @@ namespace Linq2Acad.Tests
     [AcadTest("CreateLayer")]
     public void CreateLayer()
     {
+      var newId = ObjectId.Null;
+
       using (var db = AcadDatabase.Active())
       {
         var newLayer = db.Layers.Create("NewLayer");
-
-        Assert.Table(db.Database, db.Database.LayerTableId, table => table.Has("NewLayer"),
-                     "LayerTable does not contain an element with name 'NewLayer'");
-        Assert.TableIDs(db.Database, db.Database.LayerTableId, ids => ids.Any(id => id == newLayer.ObjectId),
-                        "LayerTable does not contain the newly created element");
+        newId = newLayer.ObjectId;
       }
+
+      Assert.That.LayerTable.Contains("NewLayer");
+      Assert.That.LayerTable.Contains(newId);
     }
 
     [AcadTest("AddLayer")]
     public void AddLayer()
     {
+      var newId = ObjectId.Null;
+
       using (var db = AcadDatabase.Active())
       {
-        var newElement = new LayerTableRecord() { Name = "NewLayer" };
-        db.Layers.Add(newElement);
-          
-        Assert.Table(db.Database, db.Database.LayerTableId, table => table.Has("NewLayer"),
-                     "LayerTable does not contain an element with name 'NewLayer'");
+        var newLayer = new LayerTableRecord() { Name = "NewLayer" };
+        db.Layers.Add(newLayer);
+        newId = newLayer.ObjectId;
       }
+
+      Assert.That.LayerTable.Contains(newId);
     }
   }
 }

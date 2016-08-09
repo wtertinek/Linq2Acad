@@ -11,15 +11,16 @@ namespace Linq2Acad.Tests
     [AcadTest("CreateDBVisualStyle")]
     public void CreateDBVisualStyle()
     {
+      var newId = ObjectId.Null;
+
       using (var db = AcadDatabase.Active())
       {
         var newDBVisualStyle = db.DBVisualStyles.Create("NewDBVisualStyle");
-
-        Assert.Dictionary(db.Database, db.Database.VisualStyleDictionaryId, dict => dict.Contains("NewDBVisualStyle"),
-                          "DBVisualStyle dictionary does not contain an element with name 'NewDBVisualStyle'");
-        Assert.DictionaryIDs(db.Database, db.Database.VisualStyleDictionaryId, ids => ids.Any(id => id == newDBVisualStyle.ObjectId),
-                             "DBVisualStyle dictionary does not contain the newly created element");
+        newId = newDBVisualStyle.ObjectId;
       }
+
+      Assert.That.DBVisualStyleDictionary.Contains("NewDBVisualStyle");
+      Assert.That.DBVisualStyleDictionary.Contains(newId);
     }
   }
 }

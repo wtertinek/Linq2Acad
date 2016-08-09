@@ -11,15 +11,16 @@ namespace Linq2Acad.Tests
     [AcadTest("CreateLayout")]
     public void CreateLayout()
     {
+      var newId = ObjectId.Null;
+
       using (var db = AcadDatabase.Active())
       {
         var newLayout = db.Layouts.Create("NewLayout");
-
-        Assert.Dictionary(db.Database, db.Database.LayoutDictionaryId, dict => dict.Contains("NewLayout"),
-                          "Layout dictionary does not contain an element with name 'NewLayout'");
-        Assert.DictionaryIDs(db.Database, db.Database.LayoutDictionaryId, ids => ids.Any(id => id == newLayout.ObjectId),
-                             "Layout dictionary does not contain the newly created element");
+        newId = newLayout.ObjectId;
       }
+
+      Assert.That.LayoutDictionary.Contains("NewLayout");
+      Assert.That.LayoutDictionary.Contains(newId);
     }
   }
 }

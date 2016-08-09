@@ -11,28 +11,31 @@ namespace Linq2Acad.Tests
     [AcadTest("CreateTextStyle")]
     public void CreateTextStyle()
     {
+      var newId = ObjectId.Null;
+
       using (var db = AcadDatabase.Active())
       {
         var newTextStyle = db.TextStyles.Create("NewTextStyle");
-
-        Assert.Table(db.Database, db.Database.TextStyleTableId, table => table.Has("NewTextStyle"),
-                     "TextStyleTable does not contain an element with name 'NewTextStyle'");
-        Assert.TableIDs(db.Database, db.Database.TextStyleTableId, ids => ids.Any(id => id == newTextStyle.ObjectId),
-                        "TextStyleTable does not contain the newly created element");
+        newId = newTextStyle.ObjectId;
       }
+
+      Assert.That.TextStyleTable.Contains("NewTextStyle");
+      Assert.That.TextStyleTable.Contains(newId);
     }
 
     [AcadTest("AddTextStyle")]
     public void AddTextStyle()
     {
+      var newId = ObjectId.Null;
+
       using (var db = AcadDatabase.Active())
       {
-        var newElement = new TextStyleTableRecord() { Name = "NewTextStyle" };
-        db.TextStyles.Add(newElement);
-          
-        Assert.Table(db.Database, db.Database.TextStyleTableId, table => table.Has("NewTextStyle"),
-                     "TextStyleTable does not contain an element with name 'NewTextStyle'");
+        var newTextStyle = new TextStyleTableRecord() { Name = "NewTextStyle" };
+        db.TextStyles.Add(newTextStyle);
+        newId = newTextStyle.ObjectId;
       }
+
+      Assert.That.TextStyleTable.Contains(newId);
     }
   }
 }

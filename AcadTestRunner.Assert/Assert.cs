@@ -10,9 +10,9 @@ namespace AcadTestRunner
 {
   public static class Assert
   {
-    public static AssertThat That()
+    public static AssertThat That
     {
-      return new AssertThat(Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Database);
+      get { return new AssertThat(Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Database); }
     }
 
     public static bool TableIDs(Database database, ObjectId tableId, Func<IEnumerable<ObjectId>, bool> assert)

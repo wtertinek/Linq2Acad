@@ -11,28 +11,31 @@ namespace Linq2Acad.Tests
     [AcadTest("CreateViewport")]
     public void CreateViewport()
     {
+      var newId = ObjectId.Null;
+
       using (var db = AcadDatabase.Active())
       {
         var newViewport = db.Viewports.Create("NewViewport");
-
-        Assert.Table(db.Database, db.Database.ViewportTableId, table => table.Has("NewViewport"),
-                     "ViewportTable does not contain an element with name 'NewViewport'");
-        Assert.TableIDs(db.Database, db.Database.ViewportTableId, ids => ids.Any(id => id == newViewport.ObjectId),
-                        "ViewportTable does not contain the newly created element");
+        newId = newViewport.ObjectId;
       }
+
+      Assert.That.ViewportTable.Contains("NewViewport");
+      Assert.That.ViewportTable.Contains(newId);
     }
 
     [AcadTest("AddViewport")]
     public void AddViewport()
     {
+      var newId = ObjectId.Null;
+
       using (var db = AcadDatabase.Active())
       {
-        var newElement = new ViewportTableRecord() { Name = "NewViewport" };
-        db.Viewports.Add(newElement);
-          
-        Assert.Table(db.Database, db.Database.ViewportTableId, table => table.Has("NewViewport"),
-                     "ViewportTable does not contain an element with name 'NewViewport'");
+        var newViewport = new ViewportTableRecord() { Name = "NewViewport" };
+        db.Viewports.Add(newViewport);
+        newId = newViewport.ObjectId;
       }
+
+      Assert.That.ViewportTable.Contains(newId);
     }
   }
 }

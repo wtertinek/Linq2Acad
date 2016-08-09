@@ -11,13 +11,16 @@ namespace Linq2Acad.Tests
     [AcadTest("CreateGroup")]
     public void CreateGroup()
     {
+      var newId = ObjectId.Null;
+
       using (var db = AcadDatabase.Active())
       {
         var newGroup = db.Groups.Create("NewGroup");
-
-        Assert.That().GroupDictionary().Contains("NewGroup");
-        Assert.That().GroupDictionary().Contains(newGroup.ObjectId);
+        newId = newGroup.ObjectId;
       }
+
+      Assert.That.GroupDictionary.Contains("NewGroup");
+      Assert.That.GroupDictionary.Contains(newId);
     }
   }
 }

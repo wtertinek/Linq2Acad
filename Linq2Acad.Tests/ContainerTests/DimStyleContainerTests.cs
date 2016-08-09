@@ -11,28 +11,31 @@ namespace Linq2Acad.Tests
     [AcadTest("CreateDimStyle")]
     public void CreateDimStyle()
     {
+      var newId = ObjectId.Null;
+
       using (var db = AcadDatabase.Active())
       {
         var newDimStyle = db.DimStyles.Create("NewDimStyle");
-
-        Assert.Table(db.Database, db.Database.DimStyleTableId, table => table.Has("NewDimStyle"),
-                     "DimStyleTable does not contain an element with name 'NewDimStyle'");
-        Assert.TableIDs(db.Database, db.Database.DimStyleTableId, ids => ids.Any(id => id == newDimStyle.ObjectId),
-                        "DimStyleTable does not contain the newly created element");
+        newId = newDimStyle.ObjectId;
       }
+
+      Assert.That.DimStyleTable.Contains("NewDimStyle");
+      Assert.That.DimStyleTable.Contains(newId);
     }
 
     [AcadTest("AddDimStyle")]
     public void AddDimStyle()
     {
+      var newId = ObjectId.Null;
+
       using (var db = AcadDatabase.Active())
       {
-        var newElement = new DimStyleTableRecord() { Name = "NewDimStyle" };
-        db.DimStyles.Add(newElement);
-          
-        Assert.Table(db.Database, db.Database.DimStyleTableId, table => table.Has("NewDimStyle"),
-                     "DimStyleTable does not contain an element with name 'NewDimStyle'");
+        var newDimStyle = new DimStyleTableRecord() { Name = "NewDimStyle" };
+        db.DimStyles.Add(newDimStyle);
+        newId = newDimStyle.ObjectId;
       }
+
+      Assert.That.DimStyleTable.Contains(newId);
     }
   }
 }

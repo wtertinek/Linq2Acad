@@ -11,15 +11,16 @@ namespace Linq2Acad.Tests
     [AcadTest("CreateMLeaderStyle")]
     public void CreateMLeaderStyle()
     {
+      var newId = ObjectId.Null;
+
       using (var db = AcadDatabase.Active())
       {
         var newMLeaderStyle = db.MLeaderStyles.Create("NewMLeaderStyle");
-
-        Assert.Dictionary(db.Database, db.Database.MLeaderStyleDictionaryId, dict => dict.Contains("NewMLeaderStyle"),
-                          "MLeaderStyle dictionary does not contain an element with name 'NewMLeaderStyle'");
-        Assert.DictionaryIDs(db.Database, db.Database.MLeaderStyleDictionaryId, ids => ids.Any(id => id == newMLeaderStyle.ObjectId),
-                             "MLeaderStyle dictionary does not contain the newly created element");
+        newId = newMLeaderStyle.ObjectId;
       }
+
+      Assert.That.MLeaderStyleDictionary.Contains("NewMLeaderStyle");
+      Assert.That.MLeaderStyleDictionary.Contains(newId);
     }
   }
 }

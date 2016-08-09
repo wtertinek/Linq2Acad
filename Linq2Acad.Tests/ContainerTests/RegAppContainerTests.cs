@@ -11,28 +11,31 @@ namespace Linq2Acad.Tests
     [AcadTest("CreateRegApp")]
     public void CreateRegApp()
     {
+      var newId = ObjectId.Null;
+
       using (var db = AcadDatabase.Active())
       {
         var newRegApp = db.RegApps.Create("NewRegApp");
-
-        Assert.Table(db.Database, db.Database.RegAppTableId, table => table.Has("NewRegApp"),
-                     "RegAppTable does not contain an element with name 'NewRegApp'");
-        Assert.TableIDs(db.Database, db.Database.RegAppTableId, ids => ids.Any(id => id == newRegApp.ObjectId),
-                        "RegAppTable does not contain the newly created element");
+        newId = newRegApp.ObjectId;
       }
+
+      Assert.That.RegAppTable.Contains("NewRegApp");
+      Assert.That.RegAppTable.Contains(newId);
     }
 
     [AcadTest("AddRegApp")]
     public void AddRegApp()
     {
+      var newId = ObjectId.Null;
+
       using (var db = AcadDatabase.Active())
       {
-        var newElement = new RegAppTableRecord() { Name = "NewRegApp" };
-        db.RegApps.Add(newElement);
-          
-        Assert.Table(db.Database, db.Database.RegAppTableId, table => table.Has("NewRegApp"),
-                     "RegAppTable does not contain an element with name 'NewRegApp'");
+        var newRegApp = new RegAppTableRecord() { Name = "NewRegApp" };
+        db.RegApps.Add(newRegApp);
+        newId = newRegApp.ObjectId;
       }
+
+      Assert.That.RegAppTable.Contains(newId);
     }
   }
 }

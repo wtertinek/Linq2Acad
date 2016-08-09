@@ -11,28 +11,31 @@ namespace Linq2Acad.Tests
     [AcadTest("CreateUcs")]
     public void CreateUcs()
     {
+      var newId = ObjectId.Null;
+
       using (var db = AcadDatabase.Active())
       {
         var newUcs = db.Ucss.Create("NewUcs");
-
-        Assert.Table(db.Database, db.Database.UcsTableId, table => table.Has("NewUcs"),
-                     "UcsTable does not contain an element with name 'NewUcs'");
-        Assert.TableIDs(db.Database, db.Database.UcsTableId, ids => ids.Any(id => id == newUcs.ObjectId),
-                        "UcsTable does not contain the newly created element");
+        newId = newUcs.ObjectId;
       }
+
+      Assert.That.UcsTable.Contains("NewUcs");
+      Assert.That.UcsTable.Contains(newId);
     }
 
     [AcadTest("AddUcs")]
     public void AddUcs()
     {
+      var newId = ObjectId.Null;
+
       using (var db = AcadDatabase.Active())
       {
-        var newElement = new UcsTableRecord() { Name = "NewUcs" };
-        db.Ucss.Add(newElement);
-          
-        Assert.Table(db.Database, db.Database.UcsTableId, table => table.Has("NewUcs"),
-                     "UcsTable does not contain an element with name 'NewUcs'");
+        var newUcs = new UcsTableRecord() { Name = "NewUcs" };
+        db.Ucss.Add(newUcs);
+        newId = newUcs.ObjectId;
       }
+
+      Assert.That.UcsTable.Contains(newId);
     }
   }
 }

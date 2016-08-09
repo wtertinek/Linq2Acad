@@ -11,25 +11,31 @@ namespace Linq2Acad.Tests
     [AcadTest("CreateBlock")]
     public void CreateBlock()
     {
+      var newId = ObjectId.Null;
+
       using (var db = AcadDatabase.Active())
       {
         var newBlock = db.Blocks.Create("NewBlock");
-
-        Assert.That().BlockTable().Contains("NewBlock");
-        //Assert.That().BlockTable().Contains(newBlock.ObjectId);
+        newId = newBlock.ObjectId;
       }
+
+      Assert.That.BlockTable.Contains("NewBlock");
+      Assert.That.BlockTable.Contains(newId);
     }
 
     [AcadTest("AddBlock")]
     public void AddBlock()
     {
+      var newId = ObjectId.Null;
+
       using (var db = AcadDatabase.Active())
       {
-        var newElement = new BlockTableRecord() { Name = "NewBlock" };
-        db.Blocks.Add(newElement);
-
-        Assert.That().BlockTable().Contains("NewBlock");
+        var newBlock = new BlockTableRecord() { Name = "NewBlock" };
+        db.Blocks.Add(newBlock);
+        newId = newBlock.ObjectId;
       }
+
+      Assert.That.BlockTable.Contains(newId);
     }
   }
 }

@@ -21,103 +21,103 @@ namespace AcadTestRunner
 
     #region Tables
 
-    public TableAssertions<BlockTable> BlockTable()
+    public TableAssertions<BlockTable> BlockTable
     {
-      return new TableAssertions<BlockTable>(db, db.BlockTableId, builder);
+      get { return new TableAssertions<BlockTable>(db, db.BlockTableId, builder); }
     }
 
-    public TableAssertions<DimStyleTable> DimStyleTable()
+    public TableAssertions<DimStyleTable> DimStyleTable
     {
-      return new TableAssertions<DimStyleTable>(db, db.DimStyleTableId, builder);
+      get { return new TableAssertions<DimStyleTable>(db, db.DimStyleTableId, builder); }
     }
 
-    public TableAssertions<LayerTable> LayerTable()
+    public TableAssertions<LayerTable> LayerTable
     {
-      return new TableAssertions<LayerTable>(db, db.LayerTableId, builder);
+      get { return new TableAssertions<LayerTable>(db, db.LayerTableId, builder); }
     }
 
-    public TableAssertions<LinetypeTable> LinetypeTable()
+    public TableAssertions<LinetypeTable> LinetypeTable
     {
-      return new TableAssertions<LinetypeTable>(db, db.LinetypeTableId, builder);
+      get { return new TableAssertions<LinetypeTable>(db, db.LinetypeTableId, builder); }
     }
 
-    public TableAssertions<RegAppTable> RegAppTable()
+    public TableAssertions<RegAppTable> RegAppTable
     {
-      return new TableAssertions<RegAppTable>(db, db.RegAppTableId, builder);
+      get { return new TableAssertions<RegAppTable>(db, db.RegAppTableId, builder); }
     }
 
-    public TableAssertions<TextStyleTable> TextStyleTable()
+    public TableAssertions<TextStyleTable> TextStyleTable
     {
-      return new TableAssertions<TextStyleTable>(db, db.TextStyleTableId, builder);
+      get { return new TableAssertions<TextStyleTable>(db, db.TextStyleTableId, builder); }
     }
 
-    public TableAssertions<UcsTable> UcsTable()
+    public TableAssertions<UcsTable> UcsTable
     {
-      return new TableAssertions<UcsTable>(db, db.UcsTableId, builder);
+      get { return new TableAssertions<UcsTable>(db, db.UcsTableId, builder); }
     }
 
-    public TableAssertions<ViewTable> ViewTable()
+    public TableAssertions<ViewTable> ViewTable
     {
-      return new TableAssertions<ViewTable>(db, db.ViewTableId, builder);
+      get { return new TableAssertions<ViewTable>(db, db.ViewTableId, builder); }
     }
 
-    public TableAssertions<ViewportTable> ViewportTable()
+    public TableAssertions<ViewportTable> ViewportTable
     {
-      return new TableAssertions<ViewportTable>(db, db.ViewportTableId, builder);
+      get { return new TableAssertions<ViewportTable>(db, db.ViewportTableId, builder); }
     }
 
     #endregion
 
     #region Dictionaries
 
-    public DictionaryAssertions DBVisualStyleDictionary()
+    public DictionaryAssertions DBVisualStyleDictionary
     {
-      return new DictionaryAssertions(db, db.VisualStyleDictionaryId, "VisualStyleDictionary", builder);
+      get { return new DictionaryAssertions(db, db.VisualStyleDictionaryId, "VisualStyleDictionary", builder); }
     }
 
-    public DictionaryAssertions DetailViewStyleDictionary()
+    public DictionaryAssertions DetailViewStyleDictionary
     {
-      return new DictionaryAssertions(db, db.DetailViewStyleDictionaryId, "DetailViewStyleDictionary", builder);
+      get { return new DictionaryAssertions(db, db.DetailViewStyleDictionaryId, "DetailViewStyleDictionary", builder); }
     }
 
-    public DictionaryAssertions GroupDictionary()
+    public DictionaryAssertions GroupDictionary
     {
-      return new DictionaryAssertions(db, db.GroupDictionaryId, "GroupDictionary", builder);
+      get { return new DictionaryAssertions(db, db.GroupDictionaryId, "GroupDictionary", builder); }
     }
 
-    public DictionaryAssertions LayoutDictionary()
+    public DictionaryAssertions LayoutDictionary
     {
-      return new DictionaryAssertions(db, db.LayoutDictionaryId, "LayoutDictionary", builder);
+      get { return new DictionaryAssertions(db, db.LayoutDictionaryId, "LayoutDictionary", builder); }
     }
 
-    public DictionaryAssertions MaterialDictionary()
+    public DictionaryAssertions MaterialDictionary
     {
-      return new DictionaryAssertions(db, db.MaterialDictionaryId, "MaterialDictionary", builder);
+      get { return new DictionaryAssertions(db, db.MaterialDictionaryId, "MaterialDictionary", builder); }
     }
 
-    public DictionaryAssertions MLeaderStyleDictionary()
+    public DictionaryAssertions MLeaderStyleDictionary
     {
-      return new DictionaryAssertions(db, db.MLeaderStyleDictionaryId, "MLeaderStyleDictionary", builder);
+      get { return new DictionaryAssertions(db, db.MLeaderStyleDictionaryId, "MLeaderStyleDictionary", builder); }
     }
 
-    public DictionaryAssertions MlineStyleDictionary()
+    public DictionaryAssertions MlineStyleDictionary
     {
-      return new DictionaryAssertions(db, db.MLStyleDictionaryId, "MLStyleDictionary", builder);
+      get { return new DictionaryAssertions(db, db.MLStyleDictionaryId, "MLStyleDictionary", builder); }
     }
 
-    public DictionaryAssertions PlotSettingsDictionary()
+    public DictionaryAssertions PlotSettingsDictionary
     {
-      return new DictionaryAssertions(db, db.PlotSettingsDictionaryId, "PlotSettingsDictionary", builder);
+      get { return new DictionaryAssertions(db, db.PlotSettingsDictionaryId, "PlotSettingsDictionary", builder); }
     }
 
-    public DictionaryAssertions SectionViewStyleDictionary()
+    public DictionaryAssertions SectionViewStyleDictionary
     {
-      return new DictionaryAssertions(db, db.SectionViewStyleDictionaryId, "SectionViewStyleDictionary", builder);
+      get { return new DictionaryAssertions(db, db.SectionViewStyleDictionaryId, "SectionViewStyleDictionary", builder); }
     }
 
-    public DictionaryAssertions TableStyleDictionary()
+    public DictionaryAssertions TableStyleDictionary
     {
-      return new DictionaryAssertions(db, db.TableStyleDictionaryId, "TableStyleDictionary", builder);
+      get { return new DictionaryAssertions(db, db.TableStyleDictionaryId, "TableStyleDictionary", builder); }
     }
 
     #endregion
