@@ -126,14 +126,14 @@ namespace Linq2Acad
                                  {
                                    var chunk = new byte[size];
 
-                                   if (memoryStream.Read(chunk, (int)memoryStream.Position, size) != size)
+                                   if (memoryStream.Read(chunk, 0, size) != size)
                                    {
                                      throw Error.IO("Error reading from MemoryStream");
                                    }
 
                                    return chunk;
                                  };
-        
+
         for (int i = 0; i < fullChunks; i++)
         {
           yield return read(ChunkSize);
