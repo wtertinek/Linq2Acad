@@ -248,5 +248,20 @@ namespace Linq2Acad
         WriteMessage(allEntities.Count() + " entities in all paper space layouts");
       }
     }
+
+    /// <summary>
+    /// Changing the summary info
+    /// </summary>
+    [CommandMethod("Linq2AcadExample14")]
+    public void ChangingTheSummaryInfo()
+    {
+      using (var db = AcadDatabase.Active())
+      {
+        db.SummaryInfo.Author = "John Doe";
+        db.SummaryInfo.CustomProperties["CustomData1"] = 42;
+
+        WriteMessage("Summary info updated");
+      }
+    }
   }
 }

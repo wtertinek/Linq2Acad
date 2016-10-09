@@ -208,3 +208,15 @@ using (var db = AcadDatabase.Active())
   WriteMessage(allEntities.Count() + " entities in all paper space layouts");
 }
 ```
+
+Changing the summary info
+
+```c#
+using (var db = AcadDatabase.Active())
+{
+  db.SummaryInfo.Author = "John Doe";
+  db.SummaryInfo.CustomProperties["CustomData1"] = 42;
+
+  WriteMessage("Summary info updated");
+}
+```

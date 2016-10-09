@@ -19,6 +19,7 @@ namespace Linq2Acad
     private bool commitTransaction;
     private bool disposeTransaction;
     private bool disposeDatabase;
+    private AcadSummaryInfo fileProperties;
 
     /// <summary>
     /// Creates a new instance of AcadDatabase.
@@ -112,6 +113,12 @@ namespace Linq2Acad
         if (commitTransaction)
         {
           transaction.Commit();
+
+          if (fileProperties != null &&
+              fileProperties.Changed)
+          {
+            fileProperties.Commit();
+          }
         }
 
         if (disposeTransaction || force)
@@ -144,6 +151,22 @@ namespace Linq2Acad
       catch (Exception e)
       {
         throw Error.AutoCadException(e, "Error saving drawing database to file " + fileName);
+      }
+    }
+
+    /// <summary>
+    /// Accesses the database's summary info.
+    /// </summary>
+    public AcadSummaryInfo SummaryInfo
+    {
+      get
+      {
+        if (fileProperties == null)
+        {
+          fileProperties = new AcadSummaryInfo(Database);
+        }
+
+        return fileProperties;
       }
     }
 

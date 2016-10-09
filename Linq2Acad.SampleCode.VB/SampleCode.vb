@@ -194,4 +194,17 @@ Partial Public Class SampleCode
       WriteMessage(allEntities.Count() + " entities in all paper space layouts")
     End Using
   End Sub
+
+  ''' <summary>
+  ''' Changing the summary info
+  ''' </summary>
+  <CommandMethod("Linq2AcadExample14")>
+  Public Sub ChangingTheSummaryInfo()
+    Using db = AcadDatabase.Active()
+      db.SummaryInfo.Author = "John Doe"
+      db.SummaryInfo.CustomProperties("CustomData1") = 42
+
+      WriteMessage("Summary info updated")
+    End Using
+  End Sub
 End Class
