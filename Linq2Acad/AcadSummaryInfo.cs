@@ -37,8 +37,8 @@ namespace Linq2Acad
     /// <summary>
     /// Creates a new instance of AcadSummaryInfo.
     /// </summary>
-    /// <param name="database">The current database.</param>
-    public AcadSummaryInfo(Database database)
+    /// <param name="database">The drawing database to use.</param>
+    internal AcadSummaryInfo(Database database)
     {
       this.database = database;
     }
@@ -65,7 +65,7 @@ namespace Linq2Acad
     /// <summary>
     /// Commits the changes made to the summary info.
     /// </summary>
-    public void Commit()
+    internal void Commit()
     {
       if (Changed)
       {

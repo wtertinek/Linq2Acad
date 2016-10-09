@@ -19,7 +19,6 @@ namespace Linq2Acad
     private bool commitTransaction;
     private bool disposeTransaction;
     private bool disposeDatabase;
-    private AcadSummaryInfo fileProperties;
 
     /// <summary>
     /// Creates a new instance of AcadDatabase.
@@ -42,6 +41,7 @@ namespace Linq2Acad
     private AcadDatabase(Database database, Transaction transaction, bool commitTransaction, bool disposeTransaction)
     {
       Database = database;
+      SummaryInfo = new AcadSummaryInfo(database);
       this.transaction = transaction;
       this.commitTransaction = commitTransaction;
       this.disposeTransaction = disposeTransaction;
@@ -114,10 +114,9 @@ namespace Linq2Acad
         {
           transaction.Commit();
 
-          if (fileProperties != null &&
-              fileProperties.Changed)
+          if (SummaryInfo.Changed)
           {
-            fileProperties.Commit();
+            SummaryInfo.Commit();
           }
         }
 
@@ -157,18 +156,7 @@ namespace Linq2Acad
     /// <summary>
     /// Accesses the database's summary info.
     /// </summary>
-    public AcadSummaryInfo SummaryInfo
-    {
-      get
-      {
-        if (fileProperties == null)
-        {
-          fileProperties = new AcadSummaryInfo(Database);
-        }
-
-        return fileProperties;
-      }
-    }
+    public AcadSummaryInfo SummaryInfo { get; private set; }
 
     #region Element | Elements
 
