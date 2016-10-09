@@ -10,7 +10,7 @@ using Autodesk.AutoCAD.Runtime;
 
 namespace Linq2Acad
 {
-  public partial class Examples : IExtensionApplication
+  public partial class SampleCode : IExtensionApplication
   {
     public void Initialize()
     {

@@ -9,8 +9,8 @@ The library is still under development. Working with Blocks and Entities works b
 ### Configuration
 In order to be able to compile the solution, you have to execute the batch file *Configure.bat* which is located in the subfolder *Configuration*.
 
-###Examples
-From [Examples.cs](https://github.com/wtertinek/Linq2Acad/blob/master/Linq2Acad.Examples/Examples.cs)
+###Sample Code
+Code from [SampleCode.cs](https://github.com/wtertinek/Linq2Acad/blob/master/Linq2Acad.SampleCode.CS/SampleCode.cs). See [SampleCode.vb](https://github.com/wtertinek/Linq2Acad/blob/master/Linq2Acad.SampleCode.VB/SampleCode.vb) for VB samples.
 
 Removing all entities from the model space:
 
@@ -106,7 +106,7 @@ using (var db = AcadDatabase.Active())
   db.Layers
     .Create(layerName, lines);
 
-  WriteMessage("All red Lines moved to new layer " + layerName);
+  WriteMessage("All red lines moved to new layer " + layerName);
 }
 ```
 

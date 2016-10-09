@@ -11,7 +11,7 @@ using Autodesk.AutoCAD.Runtime;
 
 namespace Linq2Acad
 {
-  public partial class Examples
+  public partial class SampleCode
   {
     /// <summary>
     /// Removing all entities from the model space

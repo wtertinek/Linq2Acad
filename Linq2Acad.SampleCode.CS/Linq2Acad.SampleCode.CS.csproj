@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Linq2Acad</RootNamespace>
-    <AssemblyName>Linq2Acad.Examples</AssemblyName>
+    <AssemblyName>Linq2Acad.SampleCode.CS</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -53,10 +53,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Examples.Addin.cs">
-      <DependentUpon>Examples.cs</DependentUpon>
+    <Compile Include="SampleCode.Addin.cs">
+      <DependentUpon>SampleCode.cs</DependentUpon>
     </Compile>
-    <Compile Include="Examples.cs" />
+    <Compile Include="SampleCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
