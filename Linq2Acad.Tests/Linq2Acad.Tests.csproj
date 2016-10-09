@@ -62,6 +62,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AcadSummaryInfoTests.cs" />
+    <Compile Include="AcadSummaryInfoTests.Runner.cs">
+      <DependentUpon>AcadSummaryInfoTests.cs</DependentUpon>
+    </Compile>
     <Compile Include="ContainerTests\BlockContainerTests.cs" />
     <Compile Include="ContainerTests\BlockContainerTests.Runner.cs">
       <DependentUpon>BlockContainerTests.cs</DependentUpon>

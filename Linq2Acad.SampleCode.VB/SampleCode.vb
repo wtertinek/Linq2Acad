@@ -28,7 +28,9 @@ Partial Public Class SampleCode
   <CommandMethod("Linq2AcadExample2")>
   Public Sub ErasingAllBlockReferencesFromTheModelSpace()
     Using db = AcadDatabase.Active()
-      db.ModelSpace.OfType(Of BlockReference)().ForEach(Sub(br) br.Erase())
+      For Each br In db.ModelSpace.OfType(Of BlockReference)().UpgradeOpen()
+        br.Erase()
+      Next
     End Using
 
     WriteMessage("All block references removed from model space")
@@ -68,7 +70,9 @@ Partial Public Class SampleCode
   <CommandMethod("Linq2AcadExample5")>
   Public Sub PrintingAllLayerNames()
     Using db = AcadDatabase.Active()
-      db.Layers.ForEach(Sub(l) WriteMessage(l.Name))
+      For Each layer In db.Layers
+        WriteMessage(layer.Name)
+      Next
     End Using
   End Sub
 
@@ -82,7 +86,9 @@ Partial Public Class SampleCode
     Using db = AcadDatabase.Active()
       Dim layer = db.Layers.Element(layerName)
 
-      db.Layers.Except({layer}).ForEach(Sub(l) l.IsOff = True)
+      For Each layer In db.Layers.Except({layer}).UpgradeOpen()
+        layer.IsOff = True
+      Next
     End Using
 
     WriteMessage("All layers (except " + layerName + ") turned off")
