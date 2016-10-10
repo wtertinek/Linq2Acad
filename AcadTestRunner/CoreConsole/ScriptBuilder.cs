@@ -9,57 +9,44 @@ namespace AcadTestRunner
 {
   internal class ScriptBuilder
   {
-    public StringBuilder script;
-    private string tmpFileName;
+    public StringBuilder builder;
 
-    public ScriptBuilder(string dwgFilePath)
+    public ScriptBuilder()
     {
-      script = new StringBuilder();
-      tmpFileName = Path.GetTempFileName()
-                        .Replace(".tmp", "");
+      builder = new StringBuilder();
+    }
 
-      if (string.IsNullOrEmpty(dwgFilePath))
-      {
-        script.AppendLine("_qsave");
-        script.AppendLine(GetFilePath(tmpFileName + ".dwg"));
-      }
+    public ScriptBuilder QSave(string dwgFilePath)
+    {
+      builder.Insert(0, GetFilePath(dwgFilePath) + Environment.NewLine);
+      builder.Insert(0, "_qsave" + Environment.NewLine);
+      return this;
     }
 
     public ScriptBuilder NetLoad(string path)
     {
-      script.AppendLine("_netload");
-      script.AppendLine(GetFilePath(path));
+      builder.AppendLine("_netload");
+      builder.AppendLine(GetFilePath(path));
       return this;
     }
 
     public ScriptBuilder Command(string command, params string[] argumnets)
     {
-      script.AppendLine(command);
+      builder.AppendLine(command);
       argumnets.ToList()
-               .ForEach(a => script.AppendLine(a));
+               .ForEach(a => builder.AppendLine(a));
       return this;
     }
 
     public ScriptBuilder Quit()
     {
-      script.AppendLine("_quit" + Environment.NewLine);
+      builder.AppendLine("_quit" + Environment.NewLine);
       return this;
     }
 
-    public string SaveScript()
+    public override string ToString()
     {
-      SaveScript(tmpFileName + ".scr");
-      return tmpFileName + ".scr";
-    }
-
-    public void SaveScript(string filePath)
-    {
-      File.WriteAllText(filePath, script.ToString(), Encoding.Default);
-    }
-
-    public string GetTmpDwgFileName()
-    {
-      return tmpFileName + ".dwg";
+      return builder.ToString();
     }
 
     private static string GetFilePath(string path)

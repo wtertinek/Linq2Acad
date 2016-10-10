@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,39 +20,40 @@ namespace AcadTestRunner
 
     public TestExecutionResult LoadAndExecuteTest(string testAssemblyPath, string testClassName, string acadTestName, string dwgFilePath)
     {
-      var builder = new ScriptBuilder(dwgFilePath)
-                    .NetLoad(addinPath)
-                    .Command("LoadAndExecuteTest", testAssemblyPath, testClassName, acadTestName)
-                    .Quit();
-      var scriptFilePath = builder.SaveScript();
+      var dwgFileProvided = !string.IsNullOrEmpty(dwgFilePath);
 
-      try
+      using (var fileManager = new FileManager(dwgFilePath))
       {
-        var param = new StringBuilder();
-        param.AppendFormat(" /s \"{0}\"", scriptFilePath);
+        var builder = new ScriptBuilder()
+                      .NetLoad(addinPath)
+                      .Command("LoadAndExecuteTest", testAssemblyPath, testClassName, acadTestName)
+                      .Quit();
 
-        if (!string.IsNullOrEmpty(dwgFilePath))
+        if (!dwgFileProvided)
         {
-          param.AppendFormat(" /i \"{0}\"", dwgFilePath);
+          builder.QSave(fileManager.TmpDwgFilePath);
         }
 
-        var process = new Process();
-        var output = new List<string>();
-        var exitcode = process.StartAndWait(coreConsolePath, param.ToString(), o => output.Add(o.Replace("\0", "")));
-        return new TestExecutionResult(exitcode, output);
-      }
-      finally
-      {
-        if (File.Exists(scriptFilePath))
+        fileManager.SaveScript(builder.ToString());
+
+        try
         {
-          File.Delete(scriptFilePath);
+          var param = new StringBuilder();
+          param.AppendFormat(" /s \"{0}\"", fileManager.ScriptFilePath);
+
+          if (dwgFileProvided)
+          {
+            param.AppendFormat(" /i \"{0}\"", dwgFilePath);
+          }
+
+          var process = new Process();
+          var output = new List<string>();
+          var exitcode = process.StartAndWait(coreConsolePath, param.ToString(), o => output.Add(o.Replace("\0", "")));
+          return new TestExecutionResult(exitcode, output);
         }
-
-        var tmpDwgFileName = builder.GetTmpDwgFileName();
-
-        if (File.Exists(tmpDwgFileName))
+        catch
         {
-          File.Delete(tmpDwgFileName);
+          return new TestExecutionResult(-1, new [] { "TestRunner: error starting process" });
         }
       }
     }
