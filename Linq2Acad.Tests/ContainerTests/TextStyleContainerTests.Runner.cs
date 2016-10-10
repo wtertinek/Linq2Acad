@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Linq2Acad.Tests
 {
   [TestClass]
+  [DebuggerStepThrough]
   public partial class TextStyleContainerTests
   {
     [TestMethod]
@@ -14,7 +15,7 @@ namespace Linq2Acad.Tests
     public void TestCreateTextStyle()
     {
       var result = AcadTestRunner.TestRunner.RunTest<TextStyleContainerTests>("CreateTextStyle");
-      Assert.IsTrue(result.Passed, result.Message);
+      if (!result.Passed) Assert.Fail(result.Message);
     }
     
     [TestMethod]
@@ -22,7 +23,7 @@ namespace Linq2Acad.Tests
     public void TestAddTextStyle()
     {
       var result = AcadTestRunner.TestRunner.RunTest<TextStyleContainerTests>("AddTextStyle");
-      Assert.IsTrue(result.Passed, result.Message);
+      if (!result.Passed) Assert.Fail(result.Message);
     }
   }
 }

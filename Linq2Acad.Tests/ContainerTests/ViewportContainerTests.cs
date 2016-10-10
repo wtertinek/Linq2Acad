@@ -19,8 +19,8 @@ namespace Linq2Acad.Tests
         newId = newViewport.ObjectId;
       }
 
-      Assert.That.ViewportTable.Contains("NewViewport");
-      Assert.That.ViewportTable.Contains(newId);
+      AcadAssert.That.ViewportTable.Contains("NewViewport");
+      AcadAssert.That.ViewportTable.Contains(newId);
     }
 
     [AcadTest("AddViewport")]
@@ -35,7 +35,7 @@ namespace Linq2Acad.Tests
         newId = newViewport.ObjectId;
       }
 
-      Assert.That.ViewportTable.Contains(newId);
+      AcadAssert.That.ViewportTable.Contains(newId);
     }
   }
 }

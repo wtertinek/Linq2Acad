@@ -19,8 +19,8 @@ namespace Linq2Acad.Tests
         newId = newView.ObjectId;
       }
 
-      Assert.That.ViewTable.Contains("NewView");
-      Assert.That.ViewTable.Contains(newId);
+      AcadAssert.That.ViewTable.Contains("NewView");
+      AcadAssert.That.ViewTable.Contains(newId);
     }
 
     [AcadTest("AddView")]
@@ -35,7 +35,7 @@ namespace Linq2Acad.Tests
         newId = newView.ObjectId;
       }
 
-      Assert.That.ViewTable.Contains(newId);
+      AcadAssert.That.ViewTable.Contains(newId);
     }
   }
 }

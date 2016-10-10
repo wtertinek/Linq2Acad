@@ -19,8 +19,8 @@ namespace Linq2Acad.Tests
         newId = newGroup.ObjectId;
       }
 
-      Assert.That.GroupDictionary.Contains("NewGroup");
-      Assert.That.GroupDictionary.Contains(newId);
+      AcadAssert.That.GroupDictionary.Contains("NewGroup");
+      AcadAssert.That.GroupDictionary.Contains(newId);
     }
   }
 }

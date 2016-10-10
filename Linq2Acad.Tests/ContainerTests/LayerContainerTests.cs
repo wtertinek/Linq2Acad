@@ -19,8 +19,8 @@ namespace Linq2Acad.Tests
         newId = newLayer.ObjectId;
       }
 
-      Assert.That.LayerTable.Contains("NewLayer");
-      Assert.That.LayerTable.Contains(newId);
+      AcadAssert.That.LayerTable.Contains("NewLayer");
+      AcadAssert.That.LayerTable.Contains(newId);
     }
 
     [AcadTest("AddLayer")]
@@ -35,7 +35,7 @@ namespace Linq2Acad.Tests
         newId = newLayer.ObjectId;
       }
 
-      Assert.That.LayerTable.Contains(newId);
+      AcadAssert.That.LayerTable.Contains(newId);
     }
   }
 }

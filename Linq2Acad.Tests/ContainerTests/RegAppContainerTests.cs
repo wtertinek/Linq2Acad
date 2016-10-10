@@ -19,8 +19,8 @@ namespace Linq2Acad.Tests
         newId = newRegApp.ObjectId;
       }
 
-      Assert.That.RegAppTable.Contains("NewRegApp");
-      Assert.That.RegAppTable.Contains(newId);
+      AcadAssert.That.RegAppTable.Contains("NewRegApp");
+      AcadAssert.That.RegAppTable.Contains(newId);
     }
 
     [AcadTest("AddRegApp")]
@@ -35,7 +35,7 @@ namespace Linq2Acad.Tests
         newId = newRegApp.ObjectId;
       }
 
-      Assert.That.RegAppTable.Contains(newId);
+      AcadAssert.That.RegAppTable.Contains(newId);
     }
   }
 }

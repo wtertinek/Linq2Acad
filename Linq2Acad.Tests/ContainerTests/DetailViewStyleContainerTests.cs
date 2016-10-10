@@ -19,8 +19,8 @@ namespace Linq2Acad.Tests
         newId = newDetailViewStyle.ObjectId;
       }
 
-      Assert.That.DetailViewStyleDictionary.Contains("NewDetailViewStyle");
-      Assert.That.DetailViewStyleDictionary.Contains(newId);
+      AcadAssert.That.DetailViewStyleDictionary.Contains("NewDetailViewStyle");
+      AcadAssert.That.DetailViewStyleDictionary.Contains(newId);
     }
   }
 }

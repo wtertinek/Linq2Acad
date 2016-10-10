@@ -19,8 +19,8 @@ namespace Linq2Acad.Tests
         newId = newDimStyle.ObjectId;
       }
 
-      Assert.That.DimStyleTable.Contains("NewDimStyle");
-      Assert.That.DimStyleTable.Contains(newId);
+      AcadAssert.That.DimStyleTable.Contains("NewDimStyle");
+      AcadAssert.That.DimStyleTable.Contains(newId);
     }
 
     [AcadTest("AddDimStyle")]
@@ -35,7 +35,7 @@ namespace Linq2Acad.Tests
         newId = newDimStyle.ObjectId;
       }
 
-      Assert.That.DimStyleTable.Contains(newId);
+      AcadAssert.That.DimStyleTable.Contains(newId);
     }
   }
 }

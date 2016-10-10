@@ -19,8 +19,8 @@ namespace Linq2Acad.Tests
         newId = newDBVisualStyle.ObjectId;
       }
 
-      Assert.That.DBVisualStyleDictionary.Contains("NewDBVisualStyle");
-      Assert.That.DBVisualStyleDictionary.Contains(newId);
+      AcadAssert.That.DBVisualStyleDictionary.Contains("NewDBVisualStyle");
+      AcadAssert.That.DBVisualStyleDictionary.Contains(newId);
     }
   }
 }

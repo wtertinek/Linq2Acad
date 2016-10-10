@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Linq2Acad.Tests
 {
   [TestClass]
+  [DebuggerStepThrough]
   public partial class BlockContainerTests
   {
     [TestMethod]
@@ -14,7 +15,7 @@ namespace Linq2Acad.Tests
     public void TestCreateBlock()
     {
       var result = AcadTestRunner.TestRunner.RunTest<BlockContainerTests>("CreateBlock");
-      Assert.IsTrue(result.Passed, result.Message);
+      if (!result.Passed) Assert.Fail(result.Message);
     }
     
     [TestMethod]
@@ -22,7 +23,7 @@ namespace Linq2Acad.Tests
     public void TestAddBlock()
     {
       var result = AcadTestRunner.TestRunner.RunTest<BlockContainerTests>("AddBlock");
-      Assert.IsTrue(result.Passed, result.Message);
+      if (!result.Passed) Assert.Fail(result.Message);
     }
   }
 }

@@ -19,8 +19,8 @@ namespace Linq2Acad.Tests
         newId = newMlineStyle.ObjectId;
       }
 
-      Assert.That.MlineStyleDictionary.Contains("NewMlineStyle");
-      Assert.That.MlineStyleDictionary.Contains(newId);
+      AcadAssert.That.MlineStyleDictionary.Contains("NewMlineStyle");
+      AcadAssert.That.MlineStyleDictionary.Contains(newId);
     }
   }
 }

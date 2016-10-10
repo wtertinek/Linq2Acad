@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Linq2Acad.Tests
 {
   [TestClass]
+  [DebuggerStepThrough]
   public partial class DBVisualStyleContainerTests
   {
     [TestMethod]
@@ -14,7 +15,7 @@ namespace Linq2Acad.Tests
     public void TestCreateDBVisualStyle()
     {
       var result = AcadTestRunner.TestRunner.RunTest<DBVisualStyleContainerTests>("CreateDBVisualStyle");
-      Assert.IsTrue(result.Passed, result.Message);
+      if (!result.Passed) Assert.Fail(result.Message);
     }
   }
 }

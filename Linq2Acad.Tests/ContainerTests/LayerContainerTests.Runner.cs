@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Linq2Acad.Tests
 {
   [TestClass]
+  [DebuggerStepThrough]
   public partial class LayerContainerTests
   {
     [TestMethod]
@@ -14,7 +15,7 @@ namespace Linq2Acad.Tests
     public void TestCreateLayer()
     {
       var result = AcadTestRunner.TestRunner.RunTest<LayerContainerTests>("CreateLayer");
-      Assert.IsTrue(result.Passed, result.Message);
+      if (!result.Passed) Assert.Fail(result.Message);
     }
     
     [TestMethod]
@@ -22,7 +23,7 @@ namespace Linq2Acad.Tests
     public void TestAddLayer()
     {
       var result = AcadTestRunner.TestRunner.RunTest<LayerContainerTests>("AddLayer");
-      Assert.IsTrue(result.Passed, result.Message);
+      if (!result.Passed) Assert.Fail(result.Message);
     }
   }
 }

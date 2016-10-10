@@ -19,8 +19,8 @@ namespace Linq2Acad.Tests
         newId = newSectionViewStyle.ObjectId;
       }
 
-      Assert.That.SectionViewStyleDictionary.Contains("NewSectionViewStyle");
-      Assert.That.SectionViewStyleDictionary.Contains(newId);
+      AcadAssert.That.SectionViewStyleDictionary.Contains("NewSectionViewStyle");
+      AcadAssert.That.SectionViewStyleDictionary.Contains(newId);
     }
   }
 }

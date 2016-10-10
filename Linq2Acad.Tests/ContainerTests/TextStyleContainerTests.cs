@@ -19,8 +19,8 @@ namespace Linq2Acad.Tests
         newId = newTextStyle.ObjectId;
       }
 
-      Assert.That.TextStyleTable.Contains("NewTextStyle");
-      Assert.That.TextStyleTable.Contains(newId);
+      AcadAssert.That.TextStyleTable.Contains("NewTextStyle");
+      AcadAssert.That.TextStyleTable.Contains(newId);
     }
 
     [AcadTest("AddTextStyle")]
@@ -35,7 +35,7 @@ namespace Linq2Acad.Tests
         newId = newTextStyle.ObjectId;
       }
 
-      Assert.That.TextStyleTable.Contains(newId);
+      AcadAssert.That.TextStyleTable.Contains(newId);
     }
   }
 }

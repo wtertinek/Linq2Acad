@@ -19,8 +19,8 @@ namespace Linq2Acad.Tests
         newId = newLayout.ObjectId;
       }
 
-      Assert.That.LayoutDictionary.Contains("NewLayout");
-      Assert.That.LayoutDictionary.Contains(newId);
+      AcadAssert.That.LayoutDictionary.Contains("NewLayout");
+      AcadAssert.That.LayoutDictionary.Contains(newId);
     }
   }
 }

@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Linq2Acad.Tests
 {
   [TestClass]
+  [DebuggerStepThrough]
   public partial class TableStyleContainerTests
   {
     [TestMethod]
@@ -14,7 +15,7 @@ namespace Linq2Acad.Tests
     public void TestCreateTableStyle()
     {
       var result = AcadTestRunner.TestRunner.RunTest<TableStyleContainerTests>("CreateTableStyle");
-      Assert.IsTrue(result.Passed, result.Message);
+      if (!result.Passed) Assert.Fail(result.Message);
     }
   }
 }

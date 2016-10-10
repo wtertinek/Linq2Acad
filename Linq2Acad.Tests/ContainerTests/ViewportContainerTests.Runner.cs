@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Linq2Acad.Tests
 {
   [TestClass]
+  [DebuggerStepThrough]
   public partial class ViewportContainerTests
   {
     [TestMethod]
@@ -14,7 +15,7 @@ namespace Linq2Acad.Tests
     public void TestCreateViewport()
     {
       var result = AcadTestRunner.TestRunner.RunTest<ViewportContainerTests>("CreateViewport");
-      Assert.IsTrue(result.Passed, result.Message);
+      if (!result.Passed) Assert.Fail(result.Message);
     }
     
     [TestMethod]
@@ -22,7 +23,7 @@ namespace Linq2Acad.Tests
     public void TestAddViewport()
     {
       var result = AcadTestRunner.TestRunner.RunTest<ViewportContainerTests>("AddViewport");
-      Assert.IsTrue(result.Passed, result.Message);
+      if (!result.Passed) Assert.Fail(result.Message);
     }
   }
 }

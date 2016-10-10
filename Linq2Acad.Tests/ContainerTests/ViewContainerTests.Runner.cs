@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Linq2Acad.Tests
 {
   [TestClass]
+  [DebuggerStepThrough]
   public partial class ViewContainerTests
   {
     [TestMethod]
@@ -14,7 +15,7 @@ namespace Linq2Acad.Tests
     public void TestCreateView()
     {
       var result = AcadTestRunner.TestRunner.RunTest<ViewContainerTests>("CreateView");
-      Assert.IsTrue(result.Passed, result.Message);
+      if (!result.Passed) Assert.Fail(result.Message);
     }
     
     [TestMethod]
@@ -22,7 +23,7 @@ namespace Linq2Acad.Tests
     public void TestAddView()
     {
       var result = AcadTestRunner.TestRunner.RunTest<ViewContainerTests>("AddView");
-      Assert.IsTrue(result.Passed, result.Message);
+      if (!result.Passed) Assert.Fail(result.Message);
     }
   }
 }

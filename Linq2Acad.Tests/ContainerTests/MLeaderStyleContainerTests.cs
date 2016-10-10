@@ -19,8 +19,8 @@ namespace Linq2Acad.Tests
         newId = newMLeaderStyle.ObjectId;
       }
 
-      Assert.That.MLeaderStyleDictionary.Contains("NewMLeaderStyle");
-      Assert.That.MLeaderStyleDictionary.Contains(newId);
+      AcadAssert.That.MLeaderStyleDictionary.Contains("NewMLeaderStyle");
+      AcadAssert.That.MLeaderStyleDictionary.Contains(newId);
     }
   }
 }

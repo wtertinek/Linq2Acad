@@ -19,8 +19,8 @@ namespace Linq2Acad.Tests
         newId = newLinetype.ObjectId;
       }
 
-      Assert.That.LinetypeTable.Contains("NewLinetype");
-      Assert.That.LinetypeTable.Contains(newId);
+      AcadAssert.That.LinetypeTable.Contains("NewLinetype");
+      AcadAssert.That.LinetypeTable.Contains(newId);
     }
 
     [AcadTest("AddLinetype")]
@@ -35,7 +35,7 @@ namespace Linq2Acad.Tests
         newId = newLinetype.ObjectId;
       }
 
-      Assert.That.LinetypeTable.Contains(newId);
+      AcadAssert.That.LinetypeTable.Contains(newId);
     }
   }
 }

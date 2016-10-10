@@ -19,8 +19,8 @@ namespace Linq2Acad.Tests
         newId = newMaterial.ObjectId;
       }
 
-      Assert.That.MaterialDictionary.Contains("NewMaterial");
-      Assert.That.MaterialDictionary.Contains(newId);
+      AcadAssert.That.MaterialDictionary.Contains("NewMaterial");
+      AcadAssert.That.MaterialDictionary.Contains(newId);
     }
   }
 }

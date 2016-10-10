@@ -19,7 +19,7 @@ namespace Linq2Acad.Tests
       public void TestSetCustomProperties()
       {
         var result = AcadTestRunner.TestRunner.RunTest<AcadSummaryInfoTests>("SetCustomProperties");
-        Assert.IsTrue(result.Passed, result.Message);
+        if (!result.Passed) Assert.Fail(result.Message);
       }
 
       [TestMethod]
@@ -27,7 +27,7 @@ namespace Linq2Acad.Tests
       public void TestSetAuthor()
       {
         var result = AcadTestRunner.TestRunner.RunTest<AcadSummaryInfoTests>("SetAuthor");
-        Assert.IsTrue(result.Passed, result.Message);
+        if (!result.Passed) Assert.Fail(result.Message);
       }
 
       [TestMethod]
@@ -35,7 +35,7 @@ namespace Linq2Acad.Tests
       public void TestSetComments()
       {
         var result = AcadTestRunner.TestRunner.RunTest<AcadSummaryInfoTests>("SetComments");
-        Assert.IsTrue(result.Passed, result.Message);
+        if (!result.Passed) Assert.Fail(result.Message);
       }
 
       [TestMethod]
@@ -43,7 +43,7 @@ namespace Linq2Acad.Tests
       public void TestSetHyperlinkBase()
       {
         var result = AcadTestRunner.TestRunner.RunTest<AcadSummaryInfoTests>("SetHyperlinkBase");
-        Assert.IsTrue(result.Passed, result.Message);
+        if (!result.Passed) Assert.Fail(result.Message);
       }
 
       [TestMethod]
@@ -51,7 +51,7 @@ namespace Linq2Acad.Tests
       public void TestSetKeywords()
       {
         var result = AcadTestRunner.TestRunner.RunTest<AcadSummaryInfoTests>("SetKeywords");
-        Assert.IsTrue(result.Passed, result.Message);
+        if (!result.Passed) Assert.Fail(result.Message);
       }
 
       [TestMethod]
@@ -59,7 +59,7 @@ namespace Linq2Acad.Tests
       public void TestSetLastSavedBy()
       {
         var result = AcadTestRunner.TestRunner.RunTest<AcadSummaryInfoTests>("SetLastSavedBy");
-        Assert.IsTrue(result.Passed, result.Message);
+        if (!result.Passed) Assert.Fail(result.Message);
       }
 
       [TestMethod]
@@ -67,7 +67,7 @@ namespace Linq2Acad.Tests
       public void TestSetRevisionNumber()
       {
         var result = AcadTestRunner.TestRunner.RunTest<AcadSummaryInfoTests>("SetRevisionNumber");
-        Assert.IsTrue(result.Passed, result.Message);
+        if (!result.Passed) Assert.Fail(result.Message);
       }
 
       [TestMethod]
@@ -75,7 +75,7 @@ namespace Linq2Acad.Tests
       public void TestSetSubject()
       {
         var result = AcadTestRunner.TestRunner.RunTest<AcadSummaryInfoTests>("SetSubject");
-        Assert.IsTrue(result.Passed, result.Message);
+        if (!result.Passed) Assert.Fail(result.Message);
       }
 
       [TestMethod]
@@ -83,7 +83,7 @@ namespace Linq2Acad.Tests
       public void TestSetTitle()
       {
         var result = AcadTestRunner.TestRunner.RunTest<AcadSummaryInfoTests>("SetTitle");
-        Assert.IsTrue(result.Passed, result.Message);
+        if (!result.Passed) Assert.Fail(result.Message);
       }
     }
   }

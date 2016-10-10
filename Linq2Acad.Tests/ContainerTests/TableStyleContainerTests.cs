@@ -19,8 +19,8 @@ namespace Linq2Acad.Tests
         newId = newTableStyle.ObjectId;
       }
 
-      Assert.That.TableStyleDictionary.Contains("NewTableStyle");
-      Assert.That.TableStyleDictionary.Contains(newId);
+      AcadAssert.That.TableStyleDictionary.Contains("NewTableStyle");
+      AcadAssert.That.TableStyleDictionary.Contains(newId);
     }
   }
 }

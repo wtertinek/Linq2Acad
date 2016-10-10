@@ -19,8 +19,8 @@ namespace Linq2Acad.Tests
         newId = newBlock.ObjectId;
       }
 
-      Assert.That.BlockTable.Contains("NewBlock");
-      Assert.That.BlockTable.Contains(newId);
+      AcadAssert.That.BlockTable.Contains("NewBlock");
+      AcadAssert.That.BlockTable.Contains(newId);
     }
 
     [AcadTest("AddBlock")]
@@ -35,7 +35,7 @@ namespace Linq2Acad.Tests
         newId = newBlock.ObjectId;
       }
 
-      Assert.That.BlockTable.Contains(newId);
+      AcadAssert.That.BlockTable.Contains(newId);
     }
   }
 }

@@ -19,8 +19,8 @@ namespace Linq2Acad.Tests
         newId = newUcs.ObjectId;
       }
 
-      Assert.That.UcsTable.Contains("NewUcs");
-      Assert.That.UcsTable.Contains(newId);
+      AcadAssert.That.UcsTable.Contains("NewUcs");
+      AcadAssert.That.UcsTable.Contains(newId);
     }
 
     [AcadTest("AddUcs")]
@@ -35,7 +35,7 @@ namespace Linq2Acad.Tests
         newId = newUcs.ObjectId;
       }
 
-      Assert.That.UcsTable.Contains(newId);
+      AcadAssert.That.UcsTable.Contains(newId);
     }
   }
 }

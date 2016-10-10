@@ -19,8 +19,8 @@ namespace Linq2Acad.Tests
         newId = newPlotSettings.ObjectId;
       }
 
-      Assert.That.PlotSettingsDictionary.Contains("NewPlotSettings");
-      Assert.That.PlotSettingsDictionary.Contains(newId);
+      AcadAssert.That.PlotSettingsDictionary.Contains("NewPlotSettings");
+      AcadAssert.That.PlotSettingsDictionary.Contains(newId);
     }
   }
 }
