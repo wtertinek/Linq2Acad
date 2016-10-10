@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Autodesk.AutoCAD.DatabaseServices;
+using System.Collections;
 
 namespace Linq2Acad
 {
@@ -77,7 +78,7 @@ namespace Linq2Acad
 
           foreach (var kvp in customProperties)
           {
-            builder.CustomPropertyTable[kvp.Key] = kvp;
+            builder.CustomPropertyTable[kvp.Key] = kvp.Value;
           }
         }
 
@@ -128,7 +129,7 @@ namespace Linq2Acad
     /// <summary>
     /// Accesses the custom properties property value.
     /// </summary>
-    public IDictionary<object, object> CustomProperties
+    public IDictionary<string, string> CustomProperties
     {
       get
       {
@@ -136,9 +137,9 @@ namespace Linq2Acad
         {
           customProperties = new ObservableDictionary();
 
-          while (database.SummaryInfo.CustomProperties.MoveNext())
+          foreach (DictionaryEntry entry in new DatabaseSummaryInfoBuilder(database.SummaryInfo).CustomPropertyTable)
           {
-            customProperties[database.SummaryInfo.CustomProperties.Key] = database.SummaryInfo.CustomProperties;
+            customProperties[entry.Key.ToString()] = entry.Value != null ? entry.Value.ToString() : null;
           }
 
           customProperties.Changed += (sender, e) => customPropertiesChanged = true;
@@ -318,15 +319,22 @@ namespace Linq2Acad
 
     #region Nested class ObservableDictionary
 
-    private class ObservableDictionary : Dictionary<object, object>
+    private class ObservableDictionary : IDictionary<string, string>
     {
+      private Dictionary<string, string> dict;
+
+      public ObservableDictionary()
+      {
+        dict = new Dictionary<string, string>();
+      }
+
       #region Changed event
 
       public event EventHandler Changed;
 
       private void OnChanged()
       {
-        if (Changed == null)
+        if (Changed != null)
         {
           Changed(this, EventArgs.Empty);
         }
@@ -334,32 +342,100 @@ namespace Linq2Acad
 
       #endregion
 
-      public new void Add(object key, object value)
+      public void Add(string key, string value)
       {
-        base.Add(key, value);
+        dict.Add(key, value);
         OnChanged();
       }
 
-      public new void Remove(object key)
+      public bool ContainsKey(string key)
       {
-        base.Remove(key);
-        OnChanged();
+        return dict.ContainsKey(key);
       }
 
-      public new void Clear()
+      public ICollection<string> Keys
       {
-        base.Clear();
-        OnChanged();
+        get { return dict.Keys; }
       }
 
-      public new object this[object key]
+      public bool Remove(string key)
       {
-        get { return base[key]; }
+        var retVal = dict.Remove(key);
+        OnChanged();
+        return retVal;
+      }
+
+      public bool TryGetValue(string key, out string value)
+      {
+        return dict.TryGetValue(key, out value);
+      }
+
+      public ICollection<string> Values
+      {
+        get { return dict.Values; }
+      }
+
+      public string this[string key]
+      {
+        get { return dict[key]; }
         set
         {
-          base[key] = value;
+          dict[key] = value;
           OnChanged();
         }
+      }
+
+      public void Add(KeyValuePair<string, string> item)
+      {
+        dict.Add(item.Key, item.Value);
+        OnChanged();
+      }
+
+      public void Clear()
+      {
+        dict.Clear();
+        OnChanged();
+      }
+
+      public bool Contains(KeyValuePair<string, string> item)
+      {
+        return dict.ContainsKey(item.Key);
+      }
+
+      public void CopyTo(KeyValuePair<string, string>[] array, int arrayIndex)
+      {
+        foreach (var kvp in this)
+        {
+          array[arrayIndex] = new KeyValuePair<string, string>(kvp.Key, kvp.Value);
+          arrayIndex++;
+        }
+      }
+
+      public int Count
+      {
+        get { return dict.Count; }
+      }
+
+      public bool IsReadOnly
+      {
+        get { return false; }
+      }
+
+      public bool Remove(KeyValuePair<string, string> item)
+      {
+        var retVal = dict.Remove(item.Key);
+        OnChanged();
+        return retVal;
+      }
+
+      public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
+      {
+        return dict.GetEnumerator();
+      }
+
+      System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+      {
+        return GetEnumerator();
       }
     }
 

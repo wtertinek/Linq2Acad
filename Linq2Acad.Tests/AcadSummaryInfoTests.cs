@@ -15,13 +15,13 @@ namespace Linq2Acad.Tests
     {
       using (var db = AcadDatabase.Active())
       {
-        db.SummaryInfo.CustomProperties["CustomData1"] = 42;
+        db.SummaryInfo.CustomProperties["CustomData1"] = "42";
       }
 
       using (var db = AcadDatabase.Active())
       {
         MsTestAssert.IsTrue(db.SummaryInfo.CustomProperties.ContainsKey("CustomData1"));
-        MsTestAssert.AreEqual(42, db.SummaryInfo.CustomProperties["CustomData1"]);
+        MsTestAssert.AreEqual("42", db.SummaryInfo.CustomProperties["CustomData1"]);
       }
     }
 
