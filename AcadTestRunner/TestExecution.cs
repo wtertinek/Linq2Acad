@@ -76,6 +76,15 @@ namespace AcadTestRunner
               loaderNotifier.WriteMessage("Instance of " + type.Name + " created");
 
               loaderNotifier.WriteMessage("Executing AcadTest " + testName);
+
+              var delay = (method.AcadTestAttribute as AcadTestAttribute).InvocationDelay;
+
+              if (delay > 0)
+              {
+                loaderNotifier.WriteMessage("Waiting " + delay + " seconds");
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(delay));
+              }
+
               type.InvokeMember(method.Method.Name, BindingFlags.InvokeMethod, null, instance, new object[0]);
 
               if (expectedException != null)

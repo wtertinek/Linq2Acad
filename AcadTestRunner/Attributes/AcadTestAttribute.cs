@@ -10,10 +10,18 @@ namespace AcadTestRunner
   public class AcadTestAttribute : Attribute
   {
     public AcadTestAttribute(string testMethodName)
+      : this(testMethodName, 0)
+    {
+    }
+
+    public AcadTestAttribute(string testMethodName, int invocationDelay)
     {
       TestMethodName = testMethodName;
+      InvocationDelay = invocationDelay;
     }
 
     public string TestMethodName { get; private set; }
+
+    public int InvocationDelay { get; private set; }
   }
 }

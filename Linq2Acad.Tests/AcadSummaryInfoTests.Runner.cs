@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Diagnostics;
 
 namespace Linq2Acad.Tests
 {
   public partial class AcadSummaryInfoTests
   {
     [TestClass]
+    [DebuggerStepThrough]
     public partial class BlockContainerTests
     {
       [TestMethod]
@@ -19,7 +21,6 @@ namespace Linq2Acad.Tests
         var result = AcadTestRunner.TestRunner.RunTest<AcadSummaryInfoTests>("SetCustomProperties");
         Assert.IsTrue(result.Passed, result.Message);
       }
-
 
       [TestMethod]
       [TestCategory("AcadTest")]
