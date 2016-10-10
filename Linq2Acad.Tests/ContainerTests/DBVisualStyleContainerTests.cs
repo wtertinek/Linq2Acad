@@ -8,7 +8,7 @@ namespace Linq2Acad.Tests
 {
   public partial class DBVisualStyleContainerTests
   {
-    [AcadTest("CreateDBVisualStyle")]
+    [AcadTest]
     public void CreateDBVisualStyle()
     {
       var newId = ObjectId.Null;

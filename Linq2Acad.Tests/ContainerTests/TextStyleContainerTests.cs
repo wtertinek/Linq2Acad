@@ -8,7 +8,7 @@ namespace Linq2Acad.Tests
 {
   public partial class TextStyleContainerTests
   {
-    [AcadTest("CreateTextStyle")]
+    [AcadTest]
     public void CreateTextStyle()
     {
       var newId = ObjectId.Null;
@@ -23,7 +23,7 @@ namespace Linq2Acad.Tests
       AcadAssert.That.TextStyleTable.Contains(newId);
     }
 
-    [AcadTest("AddTextStyle")]
+    [AcadTest]
     public void AddTextStyle()
     {
       var newId = ObjectId.Null;

@@ -50,11 +50,6 @@ namespace AcadTestRunner
 
     public static TestResult RunTest(string testAssemblyPath, string testClassName, string acadTestName)
     {
-      return RunTest(testAssemblyPath, testClassName, acadTestName, "");
-    }
-
-    public static TestResult RunTest(string testAssemblyPath, string testClassName, string acadTestName, string dwgFilePath)
-    {
       #region Parameter checks
 
       if (string.IsNullOrEmpty(coreConsolePath) ||
@@ -82,6 +77,8 @@ namespace AcadTestRunner
       #endregion
 
       var coreConsole = new CoreConsole(coreConsolePath, addinPath);
+      var metadata = new TestMetadata(testAssemblyPath, testClassName, acadTestName);
+      var dwgFilePath = metadata.AcadTestAttribute != null ? metadata.AcadTestAttribute.DwgFilePath : null;
       var result = coreConsole.LoadAndExecuteTest(testAssemblyPath, testClassName, acadTestName, dwgFilePath);
 
       if (result.ExitCode == 0)

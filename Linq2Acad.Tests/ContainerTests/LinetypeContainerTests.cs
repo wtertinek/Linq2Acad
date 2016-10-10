@@ -8,7 +8,7 @@ namespace Linq2Acad.Tests
 {
   public partial class LinetypeContainerTests
   {
-    [AcadTest("CreateLinetype")]
+    [AcadTest]
     public void CreateLinetype()
     {
       var newId = ObjectId.Null;
@@ -23,7 +23,7 @@ namespace Linq2Acad.Tests
       AcadAssert.That.LinetypeTable.Contains(newId);
     }
 
-    [AcadTest("AddLinetype")]
+    [AcadTest]
     public void AddLinetype()
     {
       var newId = ObjectId.Null;

@@ -8,7 +8,7 @@ namespace Linq2Acad.Tests
 {
   public partial class ViewContainerTests
   {
-    [AcadTest("CreateView")]
+    [AcadTest]
     public void CreateView()
     {
       var newId = ObjectId.Null;
@@ -23,7 +23,7 @@ namespace Linq2Acad.Tests
       AcadAssert.That.ViewTable.Contains(newId);
     }
 
-    [AcadTest("AddView")]
+    [AcadTest]
     public void AddView()
     {
       var newId = ObjectId.Null;

@@ -8,7 +8,7 @@ namespace Linq2Acad.Tests
 {
   public partial class ViewportContainerTests
   {
-    [AcadTest("CreateViewport")]
+    [AcadTest]
     public void CreateViewport()
     {
       var newId = ObjectId.Null;
@@ -23,7 +23,7 @@ namespace Linq2Acad.Tests
       AcadAssert.That.ViewportTable.Contains(newId);
     }
 
-    [AcadTest("AddViewport")]
+    [AcadTest]
     public void AddViewport()
     {
       var newId = ObjectId.Null;

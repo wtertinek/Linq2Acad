@@ -8,7 +8,7 @@ namespace Linq2Acad.Tests
 {
   public partial class UcsContainerTests
   {
-    [AcadTest("CreateUcs")]
+    [AcadTest]
     public void CreateUcs()
     {
       var newId = ObjectId.Null;
@@ -23,7 +23,7 @@ namespace Linq2Acad.Tests
       AcadAssert.That.UcsTable.Contains(newId);
     }
 
-    [AcadTest("AddUcs")]
+    [AcadTest]
     public void AddUcs()
     {
       var newId = ObjectId.Null;

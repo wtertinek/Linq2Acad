@@ -8,7 +8,7 @@ namespace Linq2Acad.Tests
 {
   public partial class LayoutContainerTests
   {
-    [AcadTest("CreateLayout")]
+    [AcadTest]
     public void CreateLayout()
     {
       var newId = ObjectId.Null;

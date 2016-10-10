@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace AcadTestRunner
 {
   [AttributeUsage(AttributeTargets.Method)]
-  public class ExpectedExceptionAttribute : Attribute
+  public class AcadExpectedExceptionAttribute : Attribute
   {
-    public ExpectedExceptionAttribute(Type expectedException)
+    public AcadExpectedExceptionAttribute(Type expectedException)
     {
       if (expectedException == null) throw new ArgumentNullException();
       if (expectedException.BaseType.Name != "Exception" &&

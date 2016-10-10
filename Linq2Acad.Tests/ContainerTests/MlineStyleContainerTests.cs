@@ -8,7 +8,7 @@ namespace Linq2Acad.Tests
 {
   public partial class MlineStyleContainerTests
   {
-    [AcadTest("CreateMlineStyle")]
+    [AcadTest]
     public void CreateMlineStyle()
     {
       var newId = ObjectId.Null;

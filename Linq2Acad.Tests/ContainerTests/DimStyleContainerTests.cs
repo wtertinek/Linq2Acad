@@ -8,7 +8,7 @@ namespace Linq2Acad.Tests
 {
   public partial class DimStyleContainerTests
   {
-    [AcadTest("CreateDimStyle")]
+    [AcadTest]
     public void CreateDimStyle()
     {
       var newId = ObjectId.Null;
@@ -23,7 +23,7 @@ namespace Linq2Acad.Tests
       AcadAssert.That.DimStyleTable.Contains(newId);
     }
 
-    [AcadTest("AddDimStyle")]
+    [AcadTest]
     public void AddDimStyle()
     {
       var newId = ObjectId.Null;

@@ -8,7 +8,7 @@ namespace Linq2Acad.Tests
 {
   public partial class RegAppContainerTests
   {
-    [AcadTest("CreateRegApp")]
+    [AcadTest]
     public void CreateRegApp()
     {
       var newId = ObjectId.Null;
@@ -23,7 +23,7 @@ namespace Linq2Acad.Tests
       AcadAssert.That.RegAppTable.Contains(newId);
     }
 
-    [AcadTest("AddRegApp")]
+    [AcadTest]
     public void AddRegApp()
     {
       var newId = ObjectId.Null;

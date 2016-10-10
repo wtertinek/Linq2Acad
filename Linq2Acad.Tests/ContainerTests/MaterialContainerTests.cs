@@ -8,7 +8,7 @@ namespace Linq2Acad.Tests
 {
   public partial class MaterialContainerTests
   {
-    [AcadTest("CreateMaterial")]
+    [AcadTest]
     public void CreateMaterial()
     {
       var newId = ObjectId.Null;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AcadTestRunner
+namespace Linq2Acad.Tests
 {
   public class AcadAssertFailedException : Exception
   {

@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AcadTestRunner;
-using MsTestAssert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Linq2Acad.Tests
 {
   public partial class AcadSummaryInfoTests
   {
-    [AcadTest("SetCustomProperties")]
+    [AcadTest]
     public void SetCustomProperties()
     {
       using (var db = AcadDatabase.Active())
@@ -20,12 +20,12 @@ namespace Linq2Acad.Tests
 
       using (var db = AcadDatabase.Active())
       {
-        MsTestAssert.IsTrue(db.SummaryInfo.CustomProperties.ContainsKey("CustomData1"));
-        MsTestAssert.AreEqual("42", db.SummaryInfo.CustomProperties["CustomData1"]);
+        Assert.IsTrue(db.SummaryInfo.CustomProperties.ContainsKey("CustomData1"));
+        Assert.AreEqual("42", db.SummaryInfo.CustomProperties["CustomData1"]);
       }
     }
 
-    [AcadTest("SetAuthor")]
+    [AcadTest]
     public void SetAuthor()
     {
       using (var db = AcadDatabase.Active())
@@ -35,11 +35,11 @@ namespace Linq2Acad.Tests
 
       using (var db = AcadDatabase.Active())
       {
-        MsTestAssert.AreEqual("jdoe", db.SummaryInfo.Author);
+        Assert.AreEqual("jdoe", db.SummaryInfo.Author);
       }
     }
 
-    [AcadTest("SetComments")]
+    [AcadTest]
     public void SetComments()
     {
       using (var db = AcadDatabase.Active())
@@ -49,11 +49,11 @@ namespace Linq2Acad.Tests
 
       using (var db = AcadDatabase.Active())
       {
-        MsTestAssert.AreEqual("This is a comment", db.SummaryInfo.Comments);
+        Assert.AreEqual("This is a comment", db.SummaryInfo.Comments);
       }
     }
 
-    [AcadTest("SetHyperlinkBase")]
+    [AcadTest]
     public void SetHyperlinkBase()
     {
       using (var db = AcadDatabase.Active())
@@ -63,11 +63,11 @@ namespace Linq2Acad.Tests
 
       using (var db = AcadDatabase.Active())
       {
-        MsTestAssert.AreEqual("https://www.github.com", db.SummaryInfo.HyperlinkBase);
+        Assert.AreEqual("https://www.github.com", db.SummaryInfo.HyperlinkBase);
       }
     }
 
-    [AcadTest("SetKeywords")]
+    [AcadTest]
     public void SetKeywords()
     {
       using (var db = AcadDatabase.Active())
@@ -77,11 +77,11 @@ namespace Linq2Acad.Tests
 
       using (var db = AcadDatabase.Active())
       {
-        MsTestAssert.AreEqual("ACAD", db.SummaryInfo.Keywords);
+        Assert.AreEqual("ACAD", db.SummaryInfo.Keywords);
       }
     }
 
-    [AcadTest("SetLastSavedBy")]
+    [AcadTest]
     public void SetLastSavedBy()
     {
       using (var db = AcadDatabase.Active())
@@ -91,11 +91,11 @@ namespace Linq2Acad.Tests
 
       using (var db = AcadDatabase.Active())
       {
-        MsTestAssert.AreEqual("jdoe", db.SummaryInfo.LastSavedBy);
+        Assert.AreEqual("jdoe", db.SummaryInfo.LastSavedBy);
       }
     }
 
-    [AcadTest("SetRevisionNumber")]
+    [AcadTest]
     public void SetRevisionNumber()
     {
       using (var db = AcadDatabase.Active())
@@ -105,11 +105,11 @@ namespace Linq2Acad.Tests
 
       using (var db = AcadDatabase.Active())
       {
-        MsTestAssert.AreEqual("42", db.SummaryInfo.RevisionNumber);
+        Assert.AreEqual("42", db.SummaryInfo.RevisionNumber);
       }
     }
 
-    [AcadTest("SetSubject")]
+    [AcadTest]
     public void SetSubject()
     {
       using (var db = AcadDatabase.Active())
@@ -119,11 +119,11 @@ namespace Linq2Acad.Tests
 
       using (var db = AcadDatabase.Active())
       {
-        MsTestAssert.AreEqual("Subject", db.SummaryInfo.Subject);
+        Assert.AreEqual("Subject", db.SummaryInfo.Subject);
       }
     }
 
-    [AcadTest("SetTitle")]
+    [AcadTest]
     public void SetTitle()
     {
       using (var db = AcadDatabase.Active())
@@ -133,7 +133,7 @@ namespace Linq2Acad.Tests
 
       using (var db = AcadDatabase.Active())
       {
-        MsTestAssert.AreEqual("Drawing 23", db.SummaryInfo.Title);
+        Assert.AreEqual("Drawing 23", db.SummaryInfo.Title);
       }
     }
   }

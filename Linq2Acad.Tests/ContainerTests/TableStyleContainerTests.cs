@@ -8,7 +8,7 @@ namespace Linq2Acad.Tests
 {
   public partial class TableStyleContainerTests
   {
-    [AcadTest("CreateTableStyle")]
+    [AcadTest]
     public void CreateTableStyle()
     {
       var newId = ObjectId.Null;

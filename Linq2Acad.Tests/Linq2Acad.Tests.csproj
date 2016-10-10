@@ -67,6 +67,7 @@
       <DependentUpon>AcadSummaryInfoTests.cs</DependentUpon>
     </Compile>
     <Compile Include="Assert\AcadAssert.cs" />
+    <Compile Include="Assert\AcadAssertFailedException.cs" />
     <Compile Include="Assert\AssertThat.cs" />
     <Compile Include="Assert\ContainerAssertions.cs" />
     <Compile Include="ContainerTests\BlockContainerTests.cs" />

@@ -8,7 +8,7 @@ namespace Linq2Acad.Tests
 {
   public partial class BlockContainerTests
   {
-    [AcadTest("CreateBlock")]
+    [AcadTest]
     public void CreateBlock()
     {
       var newId = ObjectId.Null;
@@ -23,7 +23,7 @@ namespace Linq2Acad.Tests
       AcadAssert.That.BlockTable.Contains(newId);
     }
 
-    [AcadTest("AddBlock")]
+    [AcadTest]
     public void AddBlock()
     {
       var newId = ObjectId.Null;

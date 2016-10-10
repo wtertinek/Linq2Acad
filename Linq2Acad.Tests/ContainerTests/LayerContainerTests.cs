@@ -8,7 +8,7 @@ namespace Linq2Acad.Tests
 {
   public partial class LayerContainerTests
   {
-    [AcadTest("CreateLayer")]
+    [AcadTest]
     public void CreateLayer()
     {
       var newId = ObjectId.Null;
@@ -23,7 +23,7 @@ namespace Linq2Acad.Tests
       AcadAssert.That.LayerTable.Contains(newId);
     }
 
-    [AcadTest("AddLayer")]
+    [AcadTest]
     public void AddLayer()
     {
       var newId = ObjectId.Null;

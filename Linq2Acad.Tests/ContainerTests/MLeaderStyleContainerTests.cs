@@ -8,7 +8,7 @@ namespace Linq2Acad.Tests
 {
   public partial class MLeaderStyleContainerTests
   {
-    [AcadTest("CreateMLeaderStyle")]
+    [AcadTest]
     public void CreateMLeaderStyle()
     {
       var newId = ObjectId.Null;

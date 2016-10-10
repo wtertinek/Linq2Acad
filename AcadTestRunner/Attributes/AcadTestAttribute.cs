@@ -9,19 +9,29 @@ namespace AcadTestRunner
   [AttributeUsage(AttributeTargets.Method)]
   public class AcadTestAttribute : Attribute
   {
-    public AcadTestAttribute(string testMethodName)
-      : this(testMethodName, 0)
+    public AcadTestAttribute()
+      : this(null, 0)
     {
     }
 
-    public AcadTestAttribute(string testMethodName, int invocationDelay)
+    public AcadTestAttribute(string dwgFilePath)
+      : this(dwgFilePath, 0)
     {
-      TestMethodName = testMethodName;
-      InvocationDelay = invocationDelay;
     }
 
-    public string TestMethodName { get; private set; }
+    public AcadTestAttribute(int invocationDelayInSeconds)
+      : this(null, invocationDelayInSeconds)
+    {
+    }
 
-    public int InvocationDelay { get; private set; }
+    public AcadTestAttribute(string dwgFilePath, int invocationDelayInSeconds)
+    {
+      DwgFilePath = dwgFilePath;
+      InvocationDelay = invocationDelayInSeconds;
+    }
+
+    internal string DwgFilePath { get; private set; }
+
+    internal int InvocationDelay { get; private set; }
   }
 }

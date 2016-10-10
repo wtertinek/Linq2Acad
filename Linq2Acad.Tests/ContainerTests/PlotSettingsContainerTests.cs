@@ -8,7 +8,7 @@ namespace Linq2Acad.Tests
 {
   public partial class PlotSettingsContainerTests
   {
-    [AcadTest("CreatePlotSettings")]
+    [AcadTest]
     public void CreatePlotSettings()
     {
       var newId = ObjectId.Null;

@@ -8,7 +8,7 @@ namespace Linq2Acad.Tests
 {
   public partial class GroupContainerTests
   {
-    [AcadTest("CreateGroup")]
+    [AcadTest]
     public void CreateGroup()
     {
       var newId = ObjectId.Null;

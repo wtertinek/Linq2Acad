@@ -8,7 +8,7 @@ namespace Linq2Acad.Tests
 {
   public partial class SectionViewStyleContainerTests
   {
-    [AcadTest("CreateSectionViewStyle")]
+    [AcadTest]
     public void CreateSectionViewStyle()
     {
       var newId = ObjectId.Null;
