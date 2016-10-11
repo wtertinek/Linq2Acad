@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AcadTestRunner">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="AcCoreMgd">
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
@@ -152,10 +156,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AcadTestRunner\AcadTestRunner.csproj">
-      <Project>{c8da09b8-97b5-43af-bd4a-0a71101c8306}</Project>
-      <Name>AcadTestRunner</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Linq2Acad\Linq2Acad.csproj">
       <Project>{7702e342-fabc-49a4-9337-bfc9b5b3b99e}</Project>
       <Name>Linq2Acad</Name>
