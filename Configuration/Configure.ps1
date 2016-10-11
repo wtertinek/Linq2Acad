@@ -1,31 +1,57 @@
-$folder = Read-Host 'Please enter your AutoCAD installation folder'
-
-if (Test-Path $folder)
+function Update-File ($targetFileName, $tempalteFileName, $variableName, $value)
 {
-  function Update-File ($targetFileName)
+  if (Test-Path $targetFileName)
   {
-    if (Test-Path $targetFileName)
-    {
-      $srcFileName = $targetFileName
-    }
-    else
-    {
-      $srcFileName = "Template.csproj.user"
-    }
-    
-    (Get-Content -Encoding UTF8 $srcFileName) | ForEach-Object { $_ -replace "{AcadRootDir}", "$folder" } | Set-Content -Encoding UTF8 $targetFileName
+    $srcFileName = $targetFileName
+  }
+  else
+  {
+    $srcFileName = $tempalteFileName
   }
   
-  Update-File ..\AcadTestRunner\AcadTestRunner.csproj.user
-  Update-File ..\AcadTestRunner.Assert\AcadTestRunner.Assert.csproj.user
-  Update-File ..\Linq2Acad\Linq2Acad.csproj.user
-  Update-File ..\Linq2Acad.Examples\Linq2Acad.Examples.csproj.user
-  Update-File ..\Linq2Acad.Tests\Linq2Acad.Tests.csproj.user
-  (Get-Content -Encoding UTF8 AcadTestRunner.dll.config) | ForEach-Object { $_ -replace "{AcadRootDir}", "$folder" } | Set-Content -Encoding UTF8 ..\AcadTestRunner\AcadTestRunner.dll.config
+  (Get-Content -Encoding UTF8 $srcFileName) | ForEach-Object { $_ -replace $variableName, $value } | Set-Content -Encoding UTF8 $targetFileName
+}
+
+$acadRootDir = Read-Host 'Please enter your AutoCAD installation folder'
+
+if (Test-Path $acadRootDir)
+{
+  if (Test-Path ..\Linq2Acad\Linq2Acad.csproj.user)
+  {
+    Remove-Item ..\Linq2Acad\Linq2Acad.csproj.user
+  }
+  if (Test-Path ..\Linq2Acad.SampleCode.CS\Linq2Acad.SampleCode.CS.csproj.user)
+  {
+    Remove-Item ..\Linq2Acad.SampleCode.CS\Linq2Acad.SampleCode.CS.csproj.user
+  }
+  if (Test-Path ..\Linq2Acad.SampleCode.VB\Linq2Acad.SampleCode.VB.vbproj.user)
+  {
+    Remove-Item ..\Linq2Acad.SampleCode.VB\Linq2Acad.SampleCode.VB.vbproj.user
+  }
+  if (Test-Path ..\Linq2Acad.Tests\Linq2Acad.Tests.csproj.user)
+  {
+    Remove-Item ..\Linq2Acad.Tests\Linq2Acad.Tests.csproj.user
+  }
   
-  Write-Host 'AutoCAD reference path set to' $folder
+  Update-File ..\Linq2Acad\Linq2Acad.csproj.user "DefaultTemplate.csproj.user" "{AcadRootDir}" "$acadRootDir"
+  Update-File ..\Linq2Acad.SampleCode.CS\Linq2Acad.SampleCode.CS.csproj.user "DefaultTemplate.csproj.user" "{AcadRootDir}" "$acadRootDir"
+  Update-File ..\Linq2Acad.SampleCode.VB\Linq2Acad.SampleCode.VB.vbproj.user "DefaultTemplate.vbproj.user" "{AcadRootDir}" "$acadRootDir"
+  Update-File ..\Linq2Acad.Tests\Linq2Acad.Tests.csproj.user "TestsTemplate.csproj.user" "{AcadRootDir}" "$acadRootDir"
+  
+  Write-Host 'AutoCAD reference path set to' $acadRootDir
+  
+  $acadTestRunnerRootDir = Read-Host 'If you want to compile and run the test, please enter the AcadTestRunner installation folder (or just enter to skip this step)'
+  
+  if ([string]::IsNullOrEmpty($acadTestRunnerRootDir))
+  {
+    Update-File ..\Linq2Acad.Tests\Linq2Acad.Tests.csproj.user "TestsTemplate.csproj.user" ";{AcadTestRunnerDir}" ""
+  }
+  else
+  {
+    Update-File ..\Linq2Acad.Tests\Linq2Acad.Tests.csproj.user "TestsTemplate.csproj.user" "{AcadTestRunnerDir}" "$acadTestRunnerRootDir"
+  }
 }
 else
 {
-  Write-Host $folder 'does not exist'
+  Write-Host $acadRootDir 'does not exist'
 }
