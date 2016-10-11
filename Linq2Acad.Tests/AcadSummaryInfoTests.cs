@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Linq2Acad.Tests
 {
-  public partial class AcadSummaryInfoTests
+  public class AcadSummaryInfoTests
   {
     [AcadTest]
     public void SetCustomProperties()

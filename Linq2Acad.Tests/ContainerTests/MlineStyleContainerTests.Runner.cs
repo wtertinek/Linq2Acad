@@ -8,13 +8,13 @@ namespace Linq2Acad.Tests
 {
   [TestClass]
   [DebuggerStepThrough]
-  public partial class MlineStyleContainerTests
+  public class MlineStyleContainerTests_
   {
     [TestMethod]
-    [TestCategory("AcadTest")]
+    [TestCategory("AutoCAD Tests")]
     public void TestCreateMlineStyle()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<MlineStyleContainerTests>("CreateMlineStyle");
+      var result = AcadTestRunner.TestRunner.RunTest<MlineStyleContainerTests>("TestCreateMlineStyle");
       if (!result.Passed) Assert.Fail(result.Message);
     }
   }

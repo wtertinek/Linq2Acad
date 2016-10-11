@@ -6,10 +6,10 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  public partial class GroupContainerTests
+  public class GroupContainerTests
   {
     [AcadTest]
-    public void CreateGroup()
+    public void TestCreateGroup()
     {
       var newId = ObjectId.Null;
 

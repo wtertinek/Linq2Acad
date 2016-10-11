@@ -8,13 +8,13 @@ namespace Linq2Acad.Tests
 {
   [TestClass]
   [DebuggerStepThrough]
-  public partial class MLeaderStyleContainerTests
+  public class MLeaderStyleContainerTests_
   {
     [TestMethod]
-    [TestCategory("AcadTest")]
+    [TestCategory("AutoCAD Tests")]
     public void TestCreateMLeaderStyle()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<MLeaderStyleContainerTests>("CreateMLeaderStyle");
+      var result = AcadTestRunner.TestRunner.RunTest<MLeaderStyleContainerTests>("TestCreateMLeaderStyle");
       if (!result.Passed) Assert.Fail(result.Message);
     }
   }

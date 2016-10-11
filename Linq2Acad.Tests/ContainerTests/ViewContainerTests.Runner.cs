@@ -8,21 +8,21 @@ namespace Linq2Acad.Tests
 {
   [TestClass]
   [DebuggerStepThrough]
-  public partial class ViewContainerTests
+  public class ViewContainerTests_
   {
     [TestMethod]
-    [TestCategory("AcadTest")]
+    [TestCategory("AutoCAD Tests")]
     public void TestCreateView()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<ViewContainerTests>("CreateView");
+      var result = AcadTestRunner.TestRunner.RunTest<ViewContainerTests>("TestCreateView");
       if (!result.Passed) Assert.Fail(result.Message);
     }
     
     [TestMethod]
-    [TestCategory("AcadTest")]
+    [TestCategory("AutoCAD Tests")]
     public void TestAddView()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<ViewContainerTests>("AddView");
+      var result = AcadTestRunner.TestRunner.RunTest<ViewContainerTests>("TestAddView");
       if (!result.Passed) Assert.Fail(result.Message);
     }
   }

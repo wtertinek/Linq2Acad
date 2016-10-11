@@ -8,13 +8,13 @@ namespace Linq2Acad.Tests
 {
   [TestClass]
   [DebuggerStepThrough]
-  public partial class GroupContainerTests
+  public class GroupContainerTests_
   {
     [TestMethod]
-    [TestCategory("AcadTest")]
+    [TestCategory("AutoCAD Tests")]
     public void TestCreateGroup()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<GroupContainerTests>("CreateGroup");
+      var result = AcadTestRunner.TestRunner.RunTest<GroupContainerTests>("TestCreateGroup");
       if (!result.Passed) Assert.Fail(result.Message);
     }
   }

@@ -6,10 +6,10 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  public partial class TextStyleContainerTests
+  public class TextStyleContainerTests
   {
     [AcadTest]
-    public void CreateTextStyle()
+    public void TestCreateTextStyle()
     {
       var newId = ObjectId.Null;
 
@@ -24,7 +24,7 @@ namespace Linq2Acad.Tests
     }
 
     [AcadTest]
-    public void AddTextStyle()
+    public void TestAddTextStyle()
     {
       var newId = ObjectId.Null;
 

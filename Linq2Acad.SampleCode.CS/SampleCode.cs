@@ -258,7 +258,7 @@ namespace Linq2Acad
       using (var db = AcadDatabase.Active())
       {
         db.SummaryInfo.Author = "John Doe";
-        db.SummaryInfo.CustomProperties["CustomData1"] = 42;
+        db.SummaryInfo.CustomProperties["CustomData1"] = "42";
 
         WriteMessage("Summary info updated");
       }

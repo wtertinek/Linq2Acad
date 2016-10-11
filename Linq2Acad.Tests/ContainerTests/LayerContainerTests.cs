@@ -6,10 +6,10 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  public partial class LayerContainerTests
+  public class LayerContainerTests
   {
     [AcadTest]
-    public void CreateLayer()
+    public void TestCreateLayer()
     {
       var newId = ObjectId.Null;
 
@@ -24,7 +24,7 @@ namespace Linq2Acad.Tests
     }
 
     [AcadTest]
-    public void AddLayer()
+    public void TestAddLayer()
     {
       var newId = ObjectId.Null;
 

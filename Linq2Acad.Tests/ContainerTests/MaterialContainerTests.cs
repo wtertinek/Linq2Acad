@@ -6,10 +6,10 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  public partial class MaterialContainerTests
+  public class MaterialContainerTests
   {
     [AcadTest]
-    public void CreateMaterial()
+    public void TestCreateMaterial()
     {
       var newId = ObjectId.Null;
 

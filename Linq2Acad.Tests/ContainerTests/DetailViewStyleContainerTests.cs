@@ -6,10 +6,10 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  public partial class DetailViewStyleContainerTests
+  public class DetailViewStyleContainerTests
   {
     [AcadTest]
-    public void CreateDetailViewStyle()
+    public void TestCreateDetailViewStyle()
     {
       var newId = ObjectId.Null;
 

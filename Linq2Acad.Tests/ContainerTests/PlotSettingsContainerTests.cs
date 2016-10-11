@@ -6,10 +6,10 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  public partial class PlotSettingsContainerTests
+  public class PlotSettingsContainerTests
   {
     [AcadTest]
-    public void CreatePlotSettings()
+    public void TestCreatePlotSettings()
     {
       var newId = ObjectId.Null;
 

@@ -8,21 +8,21 @@ namespace Linq2Acad.Tests
 {
   [TestClass]
   [DebuggerStepThrough]
-  public partial class LinetypeContainerTests
+  public class LinetypeContainerTests_
   {
     [TestMethod]
-    [TestCategory("AcadTest")]
+    [TestCategory("AutoCAD Tests")]
     public void TestCreateLinetype()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<LinetypeContainerTests>("CreateLinetype");
+      var result = AcadTestRunner.TestRunner.RunTest<LinetypeContainerTests>("TestCreateLinetype");
       if (!result.Passed) Assert.Fail(result.Message);
     }
     
     [TestMethod]
-    [TestCategory("AcadTest")]
+    [TestCategory("AutoCAD Tests")]
     public void TestAddLinetype()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<LinetypeContainerTests>("AddLinetype");
+      var result = AcadTestRunner.TestRunner.RunTest<LinetypeContainerTests>("TestAddLinetype");
       if (!result.Passed) Assert.Fail(result.Message);
     }
   }

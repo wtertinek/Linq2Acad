@@ -6,10 +6,10 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  public partial class UcsContainerTests
+  public class UcsContainerTests
   {
     [AcadTest]
-    public void CreateUcs()
+    public void TestCreateUcs()
     {
       var newId = ObjectId.Null;
 
@@ -24,7 +24,7 @@ namespace Linq2Acad.Tests
     }
 
     [AcadTest]
-    public void AddUcs()
+    public void TestAddUcs()
     {
       var newId = ObjectId.Null;
 

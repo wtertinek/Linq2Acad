@@ -6,10 +6,10 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  public partial class BlockContainerTests
+  public class BlockContainerTests
   {
     [AcadTest]
-    public void CreateBlock()
+    public void TestCreateBlock()
     {
       var newId = ObjectId.Null;
 
@@ -24,7 +24,7 @@ namespace Linq2Acad.Tests
     }
 
     [AcadTest]
-    public void AddBlock()
+    public void TestAddBlock()
     {
       var newId = ObjectId.Null;
 

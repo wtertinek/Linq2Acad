@@ -8,21 +8,21 @@ namespace Linq2Acad.Tests
 {
   [TestClass]
   [DebuggerStepThrough]
-  public partial class TextStyleContainerTests
+  public class TextStyleContainerTests_
   {
     [TestMethod]
-    [TestCategory("AcadTest")]
+    [TestCategory("AutoCAD Tests")]
     public void TestCreateTextStyle()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<TextStyleContainerTests>("CreateTextStyle");
+      var result = AcadTestRunner.TestRunner.RunTest<TextStyleContainerTests>("TestCreateTextStyle");
       if (!result.Passed) Assert.Fail(result.Message);
     }
     
     [TestMethod]
-    [TestCategory("AcadTest")]
+    [TestCategory("AutoCAD Tests")]
     public void TestAddTextStyle()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<TextStyleContainerTests>("AddTextStyle");
+      var result = AcadTestRunner.TestRunner.RunTest<TextStyleContainerTests>("TestAddTextStyle");
       if (!result.Passed) Assert.Fail(result.Message);
     }
   }

@@ -6,10 +6,10 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  public partial class DimStyleContainerTests
+  public class DimStyleContainerTests
   {
     [AcadTest]
-    public void CreateDimStyle()
+    public void TestCreateDimStyle()
     {
       var newId = ObjectId.Null;
 
@@ -24,7 +24,7 @@ namespace Linq2Acad.Tests
     }
 
     [AcadTest]
-    public void AddDimStyle()
+    public void TestAddDimStyle()
     {
       var newId = ObjectId.Null;
 

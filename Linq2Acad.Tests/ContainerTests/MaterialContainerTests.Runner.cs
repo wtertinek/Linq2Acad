@@ -8,13 +8,13 @@ namespace Linq2Acad.Tests
 {
   [TestClass]
   [DebuggerStepThrough]
-  public partial class MaterialContainerTests
+  public class MaterialContainerTests_
   {
     [TestMethod]
-    [TestCategory("AcadTest")]
+    [TestCategory("AutoCAD Tests")]
     public void TestCreateMaterial()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<MaterialContainerTests>("CreateMaterial");
+      var result = AcadTestRunner.TestRunner.RunTest<MaterialContainerTests>("TestCreateMaterial");
       if (!result.Passed) Assert.Fail(result.Message);
     }
   }

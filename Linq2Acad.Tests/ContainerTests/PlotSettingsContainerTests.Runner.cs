@@ -8,13 +8,13 @@ namespace Linq2Acad.Tests
 {
   [TestClass]
   [DebuggerStepThrough]
-  public partial class PlotSettingsContainerTests
+  public class PlotSettingsContainerTests_
   {
     [TestMethod]
-    [TestCategory("AcadTest")]
+    [TestCategory("AutoCAD Tests")]
     public void TestCreatePlotSettings()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<PlotSettingsContainerTests>("CreatePlotSettings");
+      var result = AcadTestRunner.TestRunner.RunTest<PlotSettingsContainerTests>("TestCreatePlotSettings");
       if (!result.Passed) Assert.Fail(result.Message);
     }
   }

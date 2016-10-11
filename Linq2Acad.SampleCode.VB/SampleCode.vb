@@ -208,7 +208,7 @@ Partial Public Class SampleCode
   Public Sub ChangingTheSummaryInfo()
     Using db = AcadDatabase.Active()
       db.SummaryInfo.Author = "John Doe"
-      db.SummaryInfo.CustomProperties("CustomData1") = 42
+            db.SummaryInfo.CustomProperties("CustomData1") = "42"
 
       WriteMessage("Summary info updated")
     End Using

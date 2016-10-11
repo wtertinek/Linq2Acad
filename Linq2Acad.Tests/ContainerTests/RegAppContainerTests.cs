@@ -6,10 +6,10 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  public partial class RegAppContainerTests
+  public class RegAppContainerTests
   {
     [AcadTest]
-    public void CreateRegApp()
+    public void TestCreateRegApp()
     {
       var newId = ObjectId.Null;
 
@@ -24,7 +24,7 @@ namespace Linq2Acad.Tests
     }
 
     [AcadTest]
-    public void AddRegApp()
+    public void TestAddRegApp()
     {
       var newId = ObjectId.Null;
 

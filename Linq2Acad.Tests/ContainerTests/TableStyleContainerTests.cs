@@ -6,10 +6,10 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  public partial class TableStyleContainerTests
+  public class TableStyleContainerTests
   {
     [AcadTest]
-    public void CreateTableStyle()
+    public void TestCreateTableStyle()
     {
       var newId = ObjectId.Null;
 

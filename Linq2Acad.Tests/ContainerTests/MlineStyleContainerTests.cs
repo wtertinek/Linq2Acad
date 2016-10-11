@@ -6,10 +6,10 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  public partial class MlineStyleContainerTests
+  public class MlineStyleContainerTests
   {
     [AcadTest]
-    public void CreateMlineStyle()
+    public void TestCreateMlineStyle()
     {
       var newId = ObjectId.Null;
 

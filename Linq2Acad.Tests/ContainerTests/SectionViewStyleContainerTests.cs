@@ -6,10 +6,10 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  public partial class SectionViewStyleContainerTests
+  public class SectionViewStyleContainerTests
   {
     [AcadTest]
-    public void CreateSectionViewStyle()
+    public void TestCreateSectionViewStyle()
     {
       var newId = ObjectId.Null;
 

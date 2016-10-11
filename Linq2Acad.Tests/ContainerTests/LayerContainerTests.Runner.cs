@@ -8,21 +8,21 @@ namespace Linq2Acad.Tests
 {
   [TestClass]
   [DebuggerStepThrough]
-  public partial class LayerContainerTests
+  public class LayerContainerTests_
   {
     [TestMethod]
-    [TestCategory("AcadTest")]
+    [TestCategory("AutoCAD Tests")]
     public void TestCreateLayer()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<LayerContainerTests>("CreateLayer");
+      var result = AcadTestRunner.TestRunner.RunTest<LayerContainerTests>("TestCreateLayer");
       if (!result.Passed) Assert.Fail(result.Message);
     }
     
     [TestMethod]
-    [TestCategory("AcadTest")]
+    [TestCategory("AutoCAD Tests")]
     public void TestAddLayer()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<LayerContainerTests>("AddLayer");
+      var result = AcadTestRunner.TestRunner.RunTest<LayerContainerTests>("TestAddLayer");
       if (!result.Passed) Assert.Fail(result.Message);
     }
   }

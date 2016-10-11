@@ -8,21 +8,21 @@ namespace Linq2Acad.Tests
 {
   [TestClass]
   [DebuggerStepThrough]
-  public partial class RegAppContainerTests
+  public class RegAppContainerTests_
   {
     [TestMethod]
-    [TestCategory("AcadTest")]
+    [TestCategory("AutoCAD Tests")]
     public void TestCreateRegApp()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<RegAppContainerTests>("CreateRegApp");
+      var result = AcadTestRunner.TestRunner.RunTest<RegAppContainerTests>("TestCreateRegApp");
       if (!result.Passed) Assert.Fail(result.Message);
     }
     
     [TestMethod]
-    [TestCategory("AcadTest")]
+    [TestCategory("AutoCAD Tests")]
     public void TestAddRegApp()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<RegAppContainerTests>("AddRegApp");
+      var result = AcadTestRunner.TestRunner.RunTest<RegAppContainerTests>("TestAddRegApp");
       if (!result.Passed) Assert.Fail(result.Message);
     }
   }

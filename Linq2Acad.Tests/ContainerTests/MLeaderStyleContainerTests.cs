@@ -6,10 +6,10 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  public partial class MLeaderStyleContainerTests
+  public class MLeaderStyleContainerTests
   {
     [AcadTest]
-    public void CreateMLeaderStyle()
+    public void TestCreateMLeaderStyle()
     {
       var newId = ObjectId.Null;
 

@@ -8,13 +8,13 @@ namespace Linq2Acad.Tests
 {
   [TestClass]
   [DebuggerStepThrough]
-  public partial class SectionViewStyleContainerTests
+  public class SectionViewStyleContainerTests_
   {
     [TestMethod]
-    [TestCategory("AcadTest")]
+    [TestCategory("AutoCAD Tests")]
     public void TestCreateSectionViewStyle()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<SectionViewStyleContainerTests>("CreateSectionViewStyle");
+      var result = AcadTestRunner.TestRunner.RunTest<SectionViewStyleContainerTests>("TestCreateSectionViewStyle");
       if (!result.Passed) Assert.Fail(result.Message);
     }
   }

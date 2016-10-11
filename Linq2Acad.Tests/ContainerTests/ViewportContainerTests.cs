@@ -6,10 +6,10 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  public partial class ViewportContainerTests
+  public class ViewportContainerTests
   {
     [AcadTest]
-    public void CreateViewport()
+    public void TestCreateViewport()
     {
       var newId = ObjectId.Null;
 
@@ -24,7 +24,7 @@ namespace Linq2Acad.Tests
     }
 
     [AcadTest]
-    public void AddViewport()
+    public void TestAddViewport()
     {
       var newId = ObjectId.Null;
 

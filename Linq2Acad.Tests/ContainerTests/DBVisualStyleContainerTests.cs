@@ -6,10 +6,10 @@ using AcadTestRunner;
 
 namespace Linq2Acad.Tests
 {
-  public partial class DBVisualStyleContainerTests
+  public class DBVisualStyleContainerTests
   {
     [AcadTest]
-    public void CreateDBVisualStyle()
+    public void TestCreateDBVisualStyle()
     {
       var newId = ObjectId.Null;
 
