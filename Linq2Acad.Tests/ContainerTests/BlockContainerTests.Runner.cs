@@ -11,7 +11,7 @@ namespace Linq2Acad.Tests
   public class BlockContainerTests_
   {
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("AutoCAD Unit Tests")]
     public void TestCreateBlock()
     {
       var result = AcadTestRunner.TestRunner.RunTest<BlockContainerTests>("TestCreateBlock");
@@ -19,7 +19,7 @@ namespace Linq2Acad.Tests
     }
     
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("AutoCAD Unit Tests")]
     public void TestAddBlock()
     {
       var result = AcadTestRunner.TestRunner.RunTest<BlockContainerTests>("TestAddBlock");

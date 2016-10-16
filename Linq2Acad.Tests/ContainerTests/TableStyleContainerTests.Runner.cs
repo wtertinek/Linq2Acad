@@ -11,7 +11,7 @@ namespace Linq2Acad.Tests
   public class TableStyleContainerTests_
   {
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("AutoCAD Unit Tests")]
     public void TestCreateTableStyle()
     {
       var result = AcadTestRunner.TestRunner.RunTest<TableStyleContainerTests>("TestCreateTableStyle");

@@ -11,7 +11,7 @@ namespace Linq2Acad.Tests
   public class LayerContainerTests_
   {
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("AutoCAD Unit Tests")]
     public void TestCreateLayer()
     {
       var result = AcadTestRunner.TestRunner.RunTest<LayerContainerTests>("TestCreateLayer");
@@ -19,7 +19,7 @@ namespace Linq2Acad.Tests
     }
     
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("AutoCAD Unit Tests")]
     public void TestAddLayer()
     {
       var result = AcadTestRunner.TestRunner.RunTest<LayerContainerTests>("TestAddLayer");

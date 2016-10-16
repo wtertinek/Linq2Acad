@@ -11,7 +11,7 @@ namespace Linq2Acad.Tests
   public class UcsContainerTests_
   {
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("AutoCAD Unit Tests")]
     public void TestCreateUcs()
     {
       var result = AcadTestRunner.TestRunner.RunTest<UcsContainerTests>("TestCreateUcs");
@@ -19,7 +19,7 @@ namespace Linq2Acad.Tests
     }
     
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("AutoCAD Unit Tests")]
     public void TestAddUcs()
     {
       var result = AcadTestRunner.TestRunner.RunTest<UcsContainerTests>("TestAddUcs");

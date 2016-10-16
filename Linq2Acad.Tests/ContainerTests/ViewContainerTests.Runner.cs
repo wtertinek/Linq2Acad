@@ -11,7 +11,7 @@ namespace Linq2Acad.Tests
   public class ViewContainerTests_
   {
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("AutoCAD Unit Tests")]
     public void TestCreateView()
     {
       var result = AcadTestRunner.TestRunner.RunTest<ViewContainerTests>("TestCreateView");
@@ -19,7 +19,7 @@ namespace Linq2Acad.Tests
     }
     
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("AutoCAD Unit Tests")]
     public void TestAddView()
     {
       var result = AcadTestRunner.TestRunner.RunTest<ViewContainerTests>("TestAddView");

@@ -11,7 +11,7 @@ namespace Linq2Acad.Tests
   public class MLeaderStyleContainerTests_
   {
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("AutoCAD Unit Tests")]
     public void TestCreateMLeaderStyle()
     {
       var result = AcadTestRunner.TestRunner.RunTest<MLeaderStyleContainerTests>("TestCreateMLeaderStyle");

@@ -11,7 +11,7 @@ namespace Linq2Acad.Tests
   public class DBVisualStyleContainerTests_
   {
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("AutoCAD Unit Tests")]
     public void TestCreateDBVisualStyle()
     {
       var result = AcadTestRunner.TestRunner.RunTest<DBVisualStyleContainerTests>("TestCreateDBVisualStyle");

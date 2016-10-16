@@ -11,7 +11,7 @@ namespace Linq2Acad.Tests
   public class DimStyleContainerTests_
   {
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("AutoCAD Unit Tests")]
     public void TestCreateDimStyle()
     {
       var result = AcadTestRunner.TestRunner.RunTest<DimStyleContainerTests>("TestCreateDimStyle");
@@ -19,7 +19,7 @@ namespace Linq2Acad.Tests
     }
     
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("AutoCAD Unit Tests")]
     public void TestAddDimStyle()
     {
       var result = AcadTestRunner.TestRunner.RunTest<DimStyleContainerTests>("TestAddDimStyle");

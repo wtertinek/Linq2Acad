@@ -11,7 +11,7 @@ namespace Linq2Acad.Tests
   public class RegAppContainerTests_
   {
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("AutoCAD Unit Tests")]
     public void TestCreateRegApp()
     {
       var result = AcadTestRunner.TestRunner.RunTest<RegAppContainerTests>("TestCreateRegApp");
@@ -19,7 +19,7 @@ namespace Linq2Acad.Tests
     }
     
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("AutoCAD Unit Tests")]
     public void TestAddRegApp()
     {
       var result = AcadTestRunner.TestRunner.RunTest<RegAppContainerTests>("TestAddRegApp");

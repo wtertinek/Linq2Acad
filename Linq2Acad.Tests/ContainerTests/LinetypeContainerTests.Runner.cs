@@ -11,7 +11,7 @@ namespace Linq2Acad.Tests
   public class LinetypeContainerTests_
   {
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("AutoCAD Unit Tests")]
     public void TestCreateLinetype()
     {
       var result = AcadTestRunner.TestRunner.RunTest<LinetypeContainerTests>("TestCreateLinetype");
@@ -19,7 +19,7 @@ namespace Linq2Acad.Tests
     }
     
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("AutoCAD Unit Tests")]
     public void TestAddLinetype()
     {
       var result = AcadTestRunner.TestRunner.RunTest<LinetypeContainerTests>("TestAddLinetype");

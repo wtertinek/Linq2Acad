@@ -11,7 +11,7 @@ namespace Linq2Acad.Tests
   public class MaterialContainerTests_
   {
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("AutoCAD Unit Tests")]
     public void TestCreateMaterial()
     {
       var result = AcadTestRunner.TestRunner.RunTest<MaterialContainerTests>("TestCreateMaterial");
