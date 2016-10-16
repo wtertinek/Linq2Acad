@@ -19,12 +19,12 @@ namespace Linq2Acad
     /// <param name="database">The drawing database to use.</param>
     /// <param name="transaction">The transaction to use.</param>
     internal BlockContainer(Database database, Transaction transaction)
-      : base(database, transaction, database.BlockTableId)
+      : base(database, transaction, database.BlockTableId, ids => Filter(ids, transaction))
     {
     }
 
     /// <summary>
-    /// Filters the initial set of ObjectIds.
+    /// Filters the initial set of ObjectIds. We ignore the model space, all paper space layouts and all XRefs.
     /// </summary>
     /// <param name="ids">The initial set of ObjectIds.</param>
     /// <param name="transaction">The transaction to use.</param>
@@ -35,7 +35,8 @@ namespace Linq2Acad
       {
         var btr = (BlockTableRecord)transaction.GetObject(id, OpenMode.ForRead);
 
-        if (btr.Name != BlockTableRecord.ModelSpace &&
+        if (!btr.Name.Equals(BlockTableRecord.ModelSpace, StringComparison.InvariantCultureIgnoreCase) &&
+            !btr.Name.StartsWith(BlockTableRecord.PaperSpace, StringComparison.InvariantCultureIgnoreCase) &&
             !btr.IsFromExternalReference)
         {
           yield return btr.ObjectId;
