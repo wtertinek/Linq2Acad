@@ -73,6 +73,10 @@
     <Compile Include="Assert\AcadAssertFailedException.cs" />
     <Compile Include="Assert\AssertThat.cs" />
     <Compile Include="Assert\ContainerAssertions.cs" />
+    <Compile Include="ContainerTests\XRefContainerTests.cs" />
+    <Compile Include="ContainerTests\XRefContainerTests.Runner.cs">
+      <DependentUpon>XRefContainerTests.cs</DependentUpon>
+    </Compile>
     <Compile Include="ContainerTests\BlockContainerTests.cs" />
     <Compile Include="ContainerTests\BlockContainerTests.Runner.cs">
       <DependentUpon>BlockContainerTests.cs</DependentUpon>

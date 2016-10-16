@@ -512,6 +512,14 @@ namespace Linq2Acad
       get { return new ViewContainer(Database, transaction); }
     }
 
+    /// <summary>
+    /// Provides access to the XRef elements.
+    /// </summary>
+    public XRefContainer XRefs
+    {
+      get { return new XRefContainer(Database, transaction); }
+    }
+
     #endregion
 
     #region Dictionaries

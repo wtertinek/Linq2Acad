@@ -73,15 +73,15 @@ namespace Linq2Acad
     }
   }
 
-  public abstract class UniqueNameSymbolTableEnumerable<T> : SymbolTableEnumerable<T> where T : SymbolTableRecord
+  public abstract class UniqueNameSymbolTableEnumerableBase<T> : SymbolTableEnumerable<T> where T : SymbolTableRecord
   {
-    protected UniqueNameSymbolTableEnumerable(Database database, Transaction transaction, ObjectId containerID)
+    protected UniqueNameSymbolTableEnumerableBase(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
     {
     }
 
-    protected UniqueNameSymbolTableEnumerable(Database database, Transaction transaction, ObjectId containerID,
-                                              Func<IEnumerable<ObjectId>, IEnumerable<ObjectId>> filter)
+    protected UniqueNameSymbolTableEnumerableBase(Database database, Transaction transaction, ObjectId containerID,
+                                                  Func<IEnumerable<ObjectId>, IEnumerable<ObjectId>> filter)
       : base(database, transaction, containerID, filter)
     {
     }
@@ -160,6 +160,20 @@ namespace Linq2Acad
       {
         return null;
       }
+    }
+  }
+
+  public abstract class UniqueNameSymbolTableEnumerable<T> : UniqueNameSymbolTableEnumerableBase<T> where T : SymbolTableRecord
+  {
+    protected UniqueNameSymbolTableEnumerable(Database database, Transaction transaction, ObjectId containerID)
+      : base(database, transaction, containerID)
+    {
+    }
+
+    protected UniqueNameSymbolTableEnumerable(Database database, Transaction transaction, ObjectId containerID,
+                                              Func<IEnumerable<ObjectId>, IEnumerable<ObjectId>> filter)
+      : base(database, transaction, containerID, filter)
+    {
     }
 
     public T Create(string name)
