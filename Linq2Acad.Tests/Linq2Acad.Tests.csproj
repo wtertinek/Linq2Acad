@@ -36,8 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AcadTestRunner">
-      <SpecificVersion>False</SpecificVersion>
-      <Private>False</Private>
+      <HintPath>Libraries\AcadTestRunner.dll</HintPath>
     </Reference>
     <Reference Include="AcCoreMgd">
       <SpecificVersion>False</SpecificVersion>
