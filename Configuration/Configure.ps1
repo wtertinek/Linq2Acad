@@ -39,17 +39,6 @@ if (Test-Path $acadRootDir)
   Update-File ..\Linq2Acad.Tests\Linq2Acad.Tests.csproj.user "TestsTemplate.csproj.user" "{AcadRootDir}" "$acadRootDir"
   
   Write-Host 'AutoCAD reference path set to' $acadRootDir
-  
-  $acadTestRunnerRootDir = Read-Host 'If you want to compile and run the test, please enter the AcadTestRunner installation folder (or just enter to skip this step)'
-  
-  if ([string]::IsNullOrEmpty($acadTestRunnerRootDir))
-  {
-    Update-File ..\Linq2Acad.Tests\Linq2Acad.Tests.csproj.user "TestsTemplate.csproj.user" ";{AcadTestRunnerDir}" ""
-  }
-  else
-  {
-    Update-File ..\Linq2Acad.Tests\Linq2Acad.Tests.csproj.user "TestsTemplate.csproj.user" "{AcadTestRunnerDir}" "$acadTestRunnerRootDir"
-  }
 }
 else
 {
