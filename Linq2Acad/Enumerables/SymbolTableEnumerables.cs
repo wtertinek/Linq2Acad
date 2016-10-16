@@ -24,6 +24,26 @@ namespace Linq2Acad
     }
 
     /// <summary>
+    /// Filters the initial set of ObjectIds.
+    /// </summary>
+    /// <param name="ids">The initial set of ObjectIds.</param>
+    /// <param name="transaction">The transaction to use.</param>
+    /// <returns>A filtered set of ObjectIds.</returns>
+    private static IEnumerable<ObjectId> Filter(IEnumerable<ObjectId> ids, Transaction transaction)
+    {
+      foreach (var id in ids)
+      {
+        var btr = (BlockTableRecord)transaction.GetObject(id, OpenMode.ForRead);
+
+        if (btr.Name != BlockTableRecord.ModelSpace &&
+            !btr.IsFromExternalReference)
+        {
+          yield return btr.ObjectId;
+        }
+      }
+    }
+
+    /// <summary>
     /// Factory method that create a new element.
     /// </summary>
     /// <returns>A newly crated element of type BlockTableRecord.</returns>

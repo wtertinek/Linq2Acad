@@ -15,6 +15,12 @@ namespace Linq2Acad
     {
     }
 
+    protected SymbolTableEnumerable(Database database, Transaction transaction, ObjectId containerID,
+                                    Func<IEnumerable<ObjectId>, IEnumerable<ObjectId>> filter)
+      : base(database, transaction, containerID, i => (ObjectId)i, filter)
+    {
+    }
+
     /// <summary>
     /// Sets the name of a newly created element.
     /// </summary>
@@ -71,6 +77,12 @@ namespace Linq2Acad
   {
     protected UniqueNameSymbolTableEnumerable(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
+    {
+    }
+
+    protected UniqueNameSymbolTableEnumerable(Database database, Transaction transaction, ObjectId containerID,
+                                              Func<IEnumerable<ObjectId>, IEnumerable<ObjectId>> filter)
+      : base(database, transaction, containerID, filter)
     {
     }
 
@@ -213,6 +225,12 @@ namespace Linq2Acad
   {
     protected NonUniqueNameSymbolTableEnumerable(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
+    {
+    }
+
+    protected NonUniqueNameSymbolTableEnumerable(Database database, Transaction transaction, ObjectId containerID,
+                                                 Func<IEnumerable<ObjectId>, IEnumerable<ObjectId>> filter)
+      : base(database, transaction, containerID, filter)
     {
     }
 

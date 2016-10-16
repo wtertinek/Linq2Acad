@@ -117,7 +117,7 @@ namespace Linq2Acad
     /// <returns>A new instance of System.Exception.</returns>
     public static Exception AutoCadException(Exception innerException)
     {
-      return AutoCadException(innerException, "An AutoCAD error occured");
+      return AutoCadException(innerException, "An AutoCAD error occured. See inner exception for more details.");
     }
 
     /// <summary>

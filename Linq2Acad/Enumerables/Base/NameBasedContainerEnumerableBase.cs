@@ -15,6 +15,13 @@ namespace Linq2Acad
     {
     }
 
+    protected NameBasedContainerEnumerableBase(Database database, Transaction transaction,
+                                               ObjectId containerID, Func<object, ObjectId> getID,
+                                               Func<IEnumerable<ObjectId>, IEnumerable<ObjectId>> filter)
+      : base(database, transaction, containerID, getID, filter)
+    {
+    }
+
     public bool Contains(string name)
     {
       try
