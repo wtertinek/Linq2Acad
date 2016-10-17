@@ -433,7 +433,6 @@ namespace Linq2Acad
     /// <summary>
     /// Creates a new BlockTableRecord and adds the given Entites to it.
     /// </summary>
-    /// <param name="fileName">The file name of the XRef.</param>
     /// <param name="blockName">The XRef's block name.</param>
     /// <returns>A new instance of BlockTableRecord.</returns>
     /// <exception cref="System.ArgumentNullException">Thrown when parameters <i>name</i> or <i>entities</i> is null.</exception>
