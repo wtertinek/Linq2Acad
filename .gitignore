@@ -214,4 +214,4 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
-AcadTestRunner/AcadTestRunner.dll.config
+Linq2Acad.Tests/Libraries/AcadTestRunner.dll.config
