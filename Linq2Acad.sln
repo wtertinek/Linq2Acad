@@ -9,6 +9,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Linq2Acad.SampleCode.VB", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SampleCode", "SampleCode", "{C1BC5403-C0EC-4D54-A629-2BF2F65E0E08}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linq2Acad.Tests", "Linq2Acad.Tests\Linq2Acad.Tests.csproj", "{9F98E20C-8CAF-4DCA-A0BB-8174258613AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,12 @@ Global
 		{53CDBDB5-EFFB-4760-ACB9-6C6F0EBF6352}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53CDBDB5-EFFB-4760-ACB9-6C6F0EBF6352}.Release|Any CPU.Build.0 = Release|Any CPU
 		{53CDBDB5-EFFB-4760-ACB9-6C6F0EBF6352}.Release|x86.ActiveCfg = Release|Any CPU
+		{9F98E20C-8CAF-4DCA-A0BB-8174258613AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F98E20C-8CAF-4DCA-A0BB-8174258613AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F98E20C-8CAF-4DCA-A0BB-8174258613AF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9F98E20C-8CAF-4DCA-A0BB-8174258613AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F98E20C-8CAF-4DCA-A0BB-8174258613AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F98E20C-8CAF-4DCA-A0BB-8174258613AF}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
