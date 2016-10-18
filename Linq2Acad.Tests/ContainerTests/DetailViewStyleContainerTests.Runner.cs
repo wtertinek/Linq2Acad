@@ -11,11 +11,16 @@ namespace Linq2Acad.Tests
   public class DetailViewStyleContainerTests_
   {
     [TestMethod]
-    [TestCategory("AutoCAD Unit Tests")]
+    [TestCategory("Container Tests")]
     public void TestCreateDetailViewStyle()
     {
       var result = AcadTestRunner.TestRunner.RunTest<DetailViewStyleContainerTests>("TestCreateDetailViewStyle");
-      if (!result.Passed) Assert.Fail(result.Message);
+
+      if (!result.Passed)
+      {
+        result.DebugPrintFullOutput("TestCreateDetailViewStyle");
+        Assert.Fail(result.Message);
+      }
     }
   }
 }

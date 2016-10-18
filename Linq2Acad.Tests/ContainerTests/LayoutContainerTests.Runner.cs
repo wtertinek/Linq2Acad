@@ -11,11 +11,16 @@ namespace Linq2Acad.Tests
   public class LayoutContainerTests_
   {
     [TestMethod]
-    [TestCategory("AutoCAD Unit Tests")]
+    [TestCategory("Container Tests")]
     public void TestCreateLayout()
     {
       var result = AcadTestRunner.TestRunner.RunTest<LayoutContainerTests>("TestCreateLayout");
-      if (!result.Passed) Assert.Fail(result.Message);
+
+      if (!result.Passed)
+      {
+        result.DebugPrintFullOutput("TestCreateLayout");
+        Assert.Fail(result.Message);
+      }
     }
   }
 }

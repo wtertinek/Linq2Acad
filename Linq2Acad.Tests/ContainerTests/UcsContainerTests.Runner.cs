@@ -11,19 +11,29 @@ namespace Linq2Acad.Tests
   public class UcsContainerTests_
   {
     [TestMethod]
-    [TestCategory("AutoCAD Unit Tests")]
+    [TestCategory("Container Tests")]
     public void TestCreateUcs()
     {
       var result = AcadTestRunner.TestRunner.RunTest<UcsContainerTests>("TestCreateUcs");
-      if (!result.Passed) Assert.Fail(result.Message);
+      
+      if (!result.Passed)
+      {
+        result.DebugPrintFullOutput("TestCreateUcs");
+        Assert.Fail(result.Message);
+      }
     }
     
     [TestMethod]
-    [TestCategory("AutoCAD Unit Tests")]
+    [TestCategory("Container Tests")]
     public void TestAddUcs()
     {
       var result = AcadTestRunner.TestRunner.RunTest<UcsContainerTests>("TestAddUcs");
-      if (!result.Passed) Assert.Fail(result.Message);
+
+      if (!result.Passed)
+      {
+        result.DebugPrintFullOutput("TestAddUcs");
+        Assert.Fail(result.Message);
+      }
     }
   }
 }

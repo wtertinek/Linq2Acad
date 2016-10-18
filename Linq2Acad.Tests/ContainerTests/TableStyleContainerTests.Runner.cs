@@ -11,11 +11,16 @@ namespace Linq2Acad.Tests
   public class TableStyleContainerTests_
   {
     [TestMethod]
-    [TestCategory("AutoCAD Unit Tests")]
+    [TestCategory("Container Tests")]
     public void TestCreateTableStyle()
     {
       var result = AcadTestRunner.TestRunner.RunTest<TableStyleContainerTests>("TestCreateTableStyle");
-      if (!result.Passed) Assert.Fail(result.Message);
+
+      if (!result.Passed)
+      {
+        result.DebugPrintFullOutput("TestCreateTableStyle");
+        Assert.Fail(result.Message);
+      }
     }
   }
 }

@@ -11,19 +11,29 @@ namespace Linq2Acad.Tests
   public class LinetypeContainerTests_
   {
     [TestMethod]
-    [TestCategory("AutoCAD Unit Tests")]
+    [TestCategory("Container Tests")]
     public void TestCreateLinetype()
     {
       var result = AcadTestRunner.TestRunner.RunTest<LinetypeContainerTests>("TestCreateLinetype");
-      if (!result.Passed) Assert.Fail(result.Message);
+      
+      if (!result.Passed)
+      {
+        result.DebugPrintFullOutput("TestCreateLinetype");
+        Assert.Fail(result.Message);
+      }
     }
     
     [TestMethod]
-    [TestCategory("AutoCAD Unit Tests")]
+    [TestCategory("Container Tests")]
     public void TestAddLinetype()
     {
       var result = AcadTestRunner.TestRunner.RunTest<LinetypeContainerTests>("TestAddLinetype");
-      if (!result.Passed) Assert.Fail(result.Message);
+
+      if (!result.Passed)
+      {
+        result.DebugPrintFullOutput("TestAddLinetype");
+        Assert.Fail(result.Message);
+      }
     }
   }
 }

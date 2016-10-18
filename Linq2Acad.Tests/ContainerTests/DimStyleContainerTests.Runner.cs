@@ -11,19 +11,29 @@ namespace Linq2Acad.Tests
   public class DimStyleContainerTests_
   {
     [TestMethod]
-    [TestCategory("AutoCAD Unit Tests")]
+    [TestCategory("Container Tests")]
     public void TestCreateDimStyle()
     {
       var result = AcadTestRunner.TestRunner.RunTest<DimStyleContainerTests>("TestCreateDimStyle");
-      if (!result.Passed) Assert.Fail(result.Message);
+      
+      if (!result.Passed)
+      {
+        result.DebugPrintFullOutput("TestCreateDimStyle");
+        Assert.Fail(result.Message);
+      }
     }
     
     [TestMethod]
-    [TestCategory("AutoCAD Unit Tests")]
+    [TestCategory("Container Tests")]
     public void TestAddDimStyle()
     {
       var result = AcadTestRunner.TestRunner.RunTest<DimStyleContainerTests>("TestAddDimStyle");
-      if (!result.Passed) Assert.Fail(result.Message);
+
+      if (!result.Passed)
+      {
+        result.DebugPrintFullOutput("TestAddDimStyle");
+        Assert.Fail(result.Message);
+      }
     }
   }
 }

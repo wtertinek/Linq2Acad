@@ -3,7 +3,6 @@ using System.Linq;
 using Linq2Acad;
 using Autodesk.AutoCAD.DatabaseServices;
 using AcadTestRunner;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Linq2Acad.Tests
 {

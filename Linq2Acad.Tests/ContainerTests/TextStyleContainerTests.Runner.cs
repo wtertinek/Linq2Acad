@@ -11,19 +11,29 @@ namespace Linq2Acad.Tests
   public class TextStyleContainerTests_
   {
     [TestMethod]
-    [TestCategory("AutoCAD Unit Tests")]
+    [TestCategory("Container Tests")]
     public void TestCreateTextStyle()
     {
       var result = AcadTestRunner.TestRunner.RunTest<TextStyleContainerTests>("TestCreateTextStyle");
-      if (!result.Passed) Assert.Fail(result.Message);
+      
+      if (!result.Passed)
+      {
+        result.DebugPrintFullOutput("TestCreateTextStyle");
+        Assert.Fail(result.Message);
+      }
     }
     
     [TestMethod]
-    [TestCategory("AutoCAD Unit Tests")]
+    [TestCategory("Container Tests")]
     public void TestAddTextStyle()
     {
       var result = AcadTestRunner.TestRunner.RunTest<TextStyleContainerTests>("TestAddTextStyle");
-      if (!result.Passed) Assert.Fail(result.Message);
+
+      if (!result.Passed)
+      {
+        result.DebugPrintFullOutput("TestAddTextStyle");
+        Assert.Fail(result.Message);
+      }
     }
   }
 }

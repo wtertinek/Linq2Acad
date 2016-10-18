@@ -11,11 +11,16 @@ namespace Linq2Acad.Tests
   public class GroupContainerTests_
   {
     [TestMethod]
-    [TestCategory("AutoCAD Unit Tests")]
+    [TestCategory("Container Tests")]
     public void TestCreateGroup()
     {
       var result = AcadTestRunner.TestRunner.RunTest<GroupContainerTests>("TestCreateGroup");
-      if (!result.Passed) Assert.Fail(result.Message);
+
+      if (!result.Passed)
+      {
+        result.DebugPrintFullOutput("TestCreateGroup");
+        Assert.Fail(result.Message);
+      }
     }
   }
 }
