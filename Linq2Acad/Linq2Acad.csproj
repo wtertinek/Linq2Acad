@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enumerables\EntityContainer.cs" />
+    <Compile Include="XRef.cs" />
     <Compile Include="Extensions\DbObjectExtensions.cs" />
     <Compile Include="Extensions\EditorExtensions.cs" />
     <Compile Include="Enumerables\Base\ElementEnumerable.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Extensions\LayerTableRecordExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AcadSummaryInfo.cs" />
+    <Compile Include="Enumerables\XRefContainer.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

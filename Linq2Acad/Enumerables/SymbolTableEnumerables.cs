@@ -358,14 +358,14 @@ namespace Linq2Acad
   /// <summary>
   /// A container class that provides access to the XRef elements.
   /// </summary>
-  public class XRefContainer : UniqueNameSymbolTableEnumerableBase<BlockTableRecord>
+  internal class XRefBlockContainer : UniqueNameSymbolTableEnumerableBase<BlockTableRecord>
   {
     /// <summary>
     /// Creates a new instance of XRefContainer.
     /// </summary>
     /// <param name="database">The drawing database to use.</param>
     /// <param name="transaction">The transaction to use.</param>
-    internal XRefContainer(Database database, Transaction transaction)
+    internal XRefBlockContainer(Database database, Transaction transaction)
       : base(database, transaction, database.BlockTableId, ids => Filter(ids, transaction))
     {
     }
@@ -392,63 +392,6 @@ namespace Linq2Acad
     protected override BlockTableRecord CreateNew()
     {
       throw new NotImplementedException();
-    }
-
-    /// <summary>
-    /// Converts each Block into an EntityContainer and allows querying for entities.
-    /// </summary>
-    /// <returns>The elements of the Block table as EntitiyContainers.</returns>
-    public IEnumerable<EntityContainer> AsEntityContainers()
-    {
-      return this.Select(b => new EntityContainer(database, transaction, b.ObjectId));
-    }
-
-    /// <summary>
-    /// Attaches the XRef at the given file location.
-    /// </summary>
-    /// <param name="fileName">The file name of the XRef.</param>
-    /// <param name="blockName">The XRef's block name.</param>
-    /// <returns>A new instance of BlockTableRecord.</returns>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameters <i>file name</i> or <i>block name</i> is null.</exception>
-    public BlockTableRecord Attach(string fileName, string blockName)
-    {
-      if (fileName == null) throw Error.ArgumentNull("fileName");
-      if (!System.IO.File.Exists(fileName)) throw Error.FileNotFound(fileName);
-
-      if (blockName == null) throw Error.ArgumentNull("blockName");
-      if (!Helpers.IsNameValid(blockName)) throw Error.InvalidName(blockName);
-      if (Contains(blockName)) throw Error.ObjectExists<BlockTableRecord>(blockName);
-      
-      try
-      {
-        var id = database.AttachXref(fileName, blockName);
-        return transaction.GetObject(id, OpenMode.ForRead) as BlockTableRecord;
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
-    }
-
-    /// <summary>
-    /// Creates a new BlockTableRecord and adds the given Entites to it.
-    /// </summary>
-    /// <param name="blockName">The XRef's block name.</param>
-    /// <returns>A new instance of BlockTableRecord.</returns>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameters <i>name</i> or <i>entities</i> is null.</exception>
-    public void Detach(string blockName)
-    {
-      if (blockName == null) throw Error.ArgumentNull("blockName");
-      if (!Contains(blockName)) throw Error.Generic("Not XRef with block name " + blockName + " found");
-
-      try
-      {
-        database.DetachXref(this.First(b => b.Name == blockName).ObjectId);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
     }
   }
 }

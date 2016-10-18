@@ -19,7 +19,9 @@ namespace Linq2Acad.Tests
 
       using (var db = AcadDatabase.Active())
       {
-        db.XRefs.Attach(@"C:\Temp\DWGs\CADSAL-6.dwg", "XRefBlock");
+        var xRef = db.XRefs.Attach(@"C:\Temp\Test.dwg", "XRefBlock");
+        Assert.AreEqual("XRefBlock", xRef.BlockName);
+        Assert.AreEqual(@"C:\Temp\Test.dwg", xRef.FilePath);
       }
 
       using (var db = AcadDatabase.Active())
@@ -29,7 +31,8 @@ namespace Linq2Acad.Tests
 
       using (var db = AcadDatabase.Active())
       {
-        db.XRefs.Detach("XRefBlock");
+        db.XRefs.First()
+                .Detach();
       }
 
       using (var db = AcadDatabase.Active())
