@@ -38,15 +38,26 @@ if (Test-Path $acadRootDir)
   Update-File ..\Linq2Acad.SampleCode.VB\Linq2Acad.SampleCode.VB.vbproj.user "DefaultTemplate.vbproj.user" "{AcadRootDir}" "$acadRootDir"
   Update-File ..\Linq2Acad.Tests\Linq2Acad.Tests.csproj.user "TestsTemplate.csproj.user" "{AcadRootDir}" "$acadRootDir"
   
-  if (Test-Path ..\Linq2Acad.Tests/Libraries/AcadTestRunner.dll.config)
+  $addinRootDir = Read-Host 'If you want to run the tests, please enter the AcadTestRunner installation folder (or just enter to skip this step)'
+
+  if ([string]::IsNullOrEmpty($acadTestRunnerRootDir))
   {
-    Remove-Item ..\Linq2Acad.Tests/Libraries/AcadTestRunner.dll.config
+    if (Test-Path ..\Linq2Acad.Tests/Libraries/AcadTestRunner.dll.config)
+    {
+      Remove-Item ..\Linq2Acad.Tests/Libraries/AcadTestRunner.dll.config
+    }
+    
+    Update-File ..\Linq2Acad.Tests/Libraries/AcadTestRunner.dll.config "AcadTestRunner.dll.config" "{AcadRootDir}" "$acadRootDir"
+    Update-File ..\Linq2Acad.Tests/Libraries/AcadTestRunner.dll.config "AcadTestRunner.dll.config" "{AddinRootDir}" "$addinRootDir"
   }
   
-  Update-File ..\Linq2Acad.Tests/Libraries/AcadTestRunner.dll.config "AcadTestRunner.dll.config" "{AcadRootDir}" "$acadRootDir"
-
   Write-Host ''
-  Write-Host 'AutoCAD reference path set to' $acadRootDir 
+  Write-Host 'AutoCAD reference path set to' $acadRootDir
+  
+  if ([string]::IsNullOrEmpty($acadTestRunnerRootDir))
+  {
+    Write-Host 'AcadTestRunner installation directory is ' $addinRootDir
+  }
 }
 else
 {

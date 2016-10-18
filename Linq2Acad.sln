@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linq2Acad", "Linq2Acad\Linq2Acad.csproj", "{7702E342-FABC-49A4-9337-BFC9B5B3B99E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linq2Acad.SampleCode.CS", "Linq2Acad.SampleCode.CS\Linq2Acad.SampleCode.CS.csproj", "{362C5E5D-7917-4B4A-8A5F-AFB997127AB8}"
@@ -50,7 +52,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{53CDBDB5-EFFB-4760-ACB9-6C6F0EBF6352} = {C1BC5403-C0EC-4D54-A629-2BF2F65E0E08}
 		{362C5E5D-7917-4B4A-8A5F-AFB997127AB8} = {C1BC5403-C0EC-4D54-A629-2BF2F65E0E08}
+		{53CDBDB5-EFFB-4760-ACB9-6C6F0EBF6352} = {C1BC5403-C0EC-4D54-A629-2BF2F65E0E08}
 	EndGlobalSection
 EndGlobal
