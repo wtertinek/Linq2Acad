@@ -31,6 +31,7 @@ using (var db = AcadDatabase.Active())
 {
   db.ModelSpace
     .OfType<BlockReference>()
+    .UpgradeOpen()
     .ForEach(br => br.Erase());
 }
 
@@ -71,6 +72,7 @@ Printing all layer names:
 using (var db = AcadDatabase.Active())
 {
   db.Layers
+    .UpgradeOpen()
     .ForEach(l => WriteMessage(l.Name));
 }
 ```
@@ -87,6 +89,7 @@ using (var db = AcadDatabase.Active())
 
   db.Layers
     .Except(new[] { layer })
+    .UpgradeOpen()
     .ForEach(l => l.IsOff = true);
 }
 
@@ -106,7 +109,7 @@ using (var db = AcadDatabase.Active())
   db.Layers
     .Create(layerName, lines);
 
-  WriteMessage("All red lines moved to new layer " + layerName);
+  WriteMessage("All red Lines moved to new layer " + layerName);
 }
 ```
 
@@ -197,7 +200,7 @@ using (var db = AcadDatabase.Active())
 }
 ```
 
-Counting the number of entities in all paper space layouts
+Counting the number of entities in all paper space layouts:
 
 ```c#
 using (var db = AcadDatabase.Active())
@@ -209,14 +212,15 @@ using (var db = AcadDatabase.Active())
 }
 ```
 
-Changing the summary info
+Changing the summary info:
 
 ```c#
 using (var db = AcadDatabase.Active())
 {
   db.SummaryInfo.Author = "John Doe";
   db.SummaryInfo.CustomProperties["CustomData1"] = "42";
-
-  WriteMessage("Summary info updated");
 }
+
+WriteMessage("Summary info updated");
 ```
+

@@ -155,7 +155,8 @@ namespace Linq2Acad
     {
       try
       {
-        this.ForEach(e => e.Erase());
+        this.UpgradeOpen()
+             .ForEach(e => e.Erase());
       }
       catch (Exception e)
       {

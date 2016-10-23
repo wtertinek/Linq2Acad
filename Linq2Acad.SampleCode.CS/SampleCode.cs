@@ -38,6 +38,7 @@ namespace Linq2Acad
       {
         db.ModelSpace
           .OfType<BlockReference>()
+          .UpgradeOpen()
           .ForEach(br => br.Erase());
       }
 
@@ -87,6 +88,7 @@ namespace Linq2Acad
       using (var db = AcadDatabase.Active())
       {
         db.Layers
+          .UpgradeOpen()
           .ForEach(l => WriteMessage(l.Name));
       }
     }
@@ -106,6 +108,7 @@ namespace Linq2Acad
 
         db.Layers
           .Except(new[] { layer })
+          .UpgradeOpen()
           .ForEach(l => l.IsOff = true);
       }
 
@@ -128,7 +131,7 @@ namespace Linq2Acad
         db.Layers
           .Create(layerName, lines);
 
-        WriteMessage("All red Lines moved to new layer " + layerName);
+        WriteMessage("All red lines moved to new layer " + layerName);
       }
     }
 
@@ -259,9 +262,9 @@ namespace Linq2Acad
       {
         db.SummaryInfo.Author = "John Doe";
         db.SummaryInfo.CustomProperties["CustomData1"] = "42";
-
-        WriteMessage("Summary info updated");
       }
+
+      WriteMessage("Summary info updated");
     }
   }
 }

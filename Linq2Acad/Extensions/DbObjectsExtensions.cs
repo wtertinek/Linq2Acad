@@ -28,7 +28,7 @@ namespace Linq2Acad
       {
         try
         {
-          Helpers.WriteWrap(item, () => action(item));
+          action(item);
         }
         catch (Exception e)
         {

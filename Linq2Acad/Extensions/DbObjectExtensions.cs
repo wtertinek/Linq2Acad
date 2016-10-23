@@ -57,7 +57,7 @@ namespace Linq2Acad
 
       try
       {
-        // TODO: Add further types for types
+        // TODO: Add further types
 
         if (typeof(T) == typeof(bool))
         {
