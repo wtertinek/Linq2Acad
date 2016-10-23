@@ -14,7 +14,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestCreateTableStyle()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<TableStyleContainerTests>("TestCreateTableStyle");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(TableStyleContainerTests), "TestCreateTableStyle");
 
       if (!result.Passed)
       {

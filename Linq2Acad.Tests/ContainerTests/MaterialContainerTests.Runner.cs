@@ -14,7 +14,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestCreateMaterial()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<MaterialContainerTests>("TestCreateMaterial");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(MaterialContainerTests), "TestCreateMaterial");
 
       if (!result.Passed)
       {

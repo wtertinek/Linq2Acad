@@ -14,7 +14,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestCreateSectionViewStyle()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<SectionViewStyleContainerTests>("TestCreateSectionViewStyle");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(SectionViewStyleContainerTests), "TestCreateSectionViewStyle");
 
       if (!result.Passed)
       {

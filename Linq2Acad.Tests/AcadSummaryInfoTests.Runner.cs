@@ -16,7 +16,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AutoCAD Tests")]
     public void TestSetCustomProperties()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<AcadSummaryInfoTests>("SetCustomProperties");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(AcadSummaryInfoTests), "SetCustomProperties");
 
       if (!result.Passed)
       {
@@ -29,7 +29,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AutoCAD Tests")]
     public void TestSetAuthor()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<AcadSummaryInfoTests>("SetAuthor");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(AcadSummaryInfoTests), "SetAuthor");
 
       if (!result.Passed)
       {
@@ -42,7 +42,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AutoCAD Tests")]
     public void TestSetComments()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<AcadSummaryInfoTests>("SetComments");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(AcadSummaryInfoTests), "SetComments");
 
       if (!result.Passed)
       {
@@ -55,7 +55,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AutoCAD Tests")]
     public void TestSetHyperlinkBase()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<AcadSummaryInfoTests>("SetHyperlinkBase");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(AcadSummaryInfoTests), "SetHyperlinkBase");
 
       if (!result.Passed)
       {
@@ -68,7 +68,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AutoCAD Tests")]
     public void TestSetKeywords()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<AcadSummaryInfoTests>("SetKeywords");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(AcadSummaryInfoTests), "SetKeywords");
 
       if (!result.Passed)
       {
@@ -81,7 +81,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AutoCAD Tests")]
     public void TestSetLastSavedBy()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<AcadSummaryInfoTests>("SetLastSavedBy");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(AcadSummaryInfoTests), "SetLastSavedBy");
 
       if (!result.Passed)
       {
@@ -94,7 +94,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AutoCAD Tests")]
     public void TestSetRevisionNumber()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<AcadSummaryInfoTests>("SetRevisionNumber");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(AcadSummaryInfoTests), "SetRevisionNumber");
 
       if (!result.Passed)
       {
@@ -107,7 +107,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AutoCAD Tests")]
     public void TestSetSubject()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<AcadSummaryInfoTests>("SetSubject");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(AcadSummaryInfoTests), "SetSubject");
 
       if (!result.Passed)
       {
@@ -120,7 +120,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AutoCAD Tests")]
     public void TestSetTitle()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<AcadSummaryInfoTests>("SetTitle");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(AcadSummaryInfoTests), "SetTitle");
 
       if (!result.Passed)
       {

@@ -14,7 +14,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestCreateUcs()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<UcsContainerTests>("TestCreateUcs");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(UcsContainerTests), "TestCreateUcs");
       
       if (!result.Passed)
       {
@@ -27,7 +27,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestAddUcs()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<UcsContainerTests>("TestAddUcs");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(UcsContainerTests), "TestAddUcs");
 
       if (!result.Passed)
       {

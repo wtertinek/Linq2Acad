@@ -14,7 +14,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestCreateRegApp()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<RegAppContainerTests>("TestCreateRegApp");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(RegAppContainerTests), "TestCreateRegApp");
       
       if (!result.Passed)
       {
@@ -27,7 +27,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestAddRegApp()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<RegAppContainerTests>("TestAddRegApp");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(RegAppContainerTests), "TestAddRegApp");
 
       if (!result.Passed)
       {

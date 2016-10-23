@@ -14,7 +14,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestCreateMlineStyle()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<MlineStyleContainerTests>("TestCreateMlineStyle");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(MlineStyleContainerTests), "TestCreateMlineStyle");
 
       if (!result.Passed)
       {

@@ -14,7 +14,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestCreateGroup()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<GroupContainerTests>("TestCreateGroup");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(GroupContainerTests), "TestCreateGroup");
 
       if (!result.Passed)
       {

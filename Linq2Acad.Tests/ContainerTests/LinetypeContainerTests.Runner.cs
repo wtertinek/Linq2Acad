@@ -14,7 +14,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestCreateLinetype()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<LinetypeContainerTests>("TestCreateLinetype");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(LinetypeContainerTests), "TestCreateLinetype");
       
       if (!result.Passed)
       {
@@ -27,7 +27,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestAddLinetype()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<LinetypeContainerTests>("TestAddLinetype");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(LinetypeContainerTests), "TestAddLinetype");
 
       if (!result.Passed)
       {

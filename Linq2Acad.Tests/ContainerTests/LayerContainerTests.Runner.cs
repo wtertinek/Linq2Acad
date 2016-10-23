@@ -14,7 +14,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestCreateLayer()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<LayerContainerTests>("TestCreateLayer");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(LayerContainerTests), "TestCreateLayer");
       
       if (!result.Passed)
       {
@@ -27,7 +27,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestAddLayer()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<LayerContainerTests>("TestAddLayer");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(LayerContainerTests), "TestAddLayer");
 
       if (!result.Passed)
       {

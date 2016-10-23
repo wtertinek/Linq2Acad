@@ -14,7 +14,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestCreatePlotSettings()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<PlotSettingsContainerTests>("TestCreatePlotSettings");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(PlotSettingsContainerTests), "TestCreatePlotSettings");
 
       if (!result.Passed)
       {

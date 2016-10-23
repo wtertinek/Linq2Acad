@@ -12,16 +12,16 @@ namespace Linq2Acad.Tests
     [AcadTest]
     public void TestAttachAndDetachXRef()
     {
-      using (var db = AcadDatabase.Active())
-      {
-        Assert.AreEqual(0, db.XRefs.Count());
-      }
+      // TODO: Get this file from assembly resources
+      var xRefFilePath = @"C:\Temp\Test.dwg";
 
       using (var db = AcadDatabase.Active())
       {
-        var xRef = db.XRefs.Attach(@"C:\Temp\Test.dwg", "XRefBlock");
+        Assert.AreEqual(0, db.XRefs.Count());
+
+        var xRef = db.XRefs.Attach(xRefFilePath);
         Assert.AreEqual("XRefBlock", xRef.BlockName);
-        Assert.AreEqual(@"C:\Temp\Test.dwg", xRef.FilePath);
+        Assert.AreEqual(xRefFilePath, xRef.FilePath);
       }
 
       using (var db = AcadDatabase.Active())

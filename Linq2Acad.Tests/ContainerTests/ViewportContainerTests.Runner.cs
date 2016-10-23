@@ -14,7 +14,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestCreateViewport()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<ViewportContainerTests>("TestCreateViewport");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(ViewportContainerTests), "TestCreateViewport");
       
       if (!result.Passed)
       {
@@ -27,7 +27,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestAddViewport()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<ViewportContainerTests>("TestAddViewport");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(ViewportContainerTests), "TestAddViewport");
 
       if (!result.Passed)
       {

@@ -14,7 +14,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestCreateLayout()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<LayoutContainerTests>("TestCreateLayout");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(LayoutContainerTests), "TestCreateLayout");
 
       if (!result.Passed)
       {

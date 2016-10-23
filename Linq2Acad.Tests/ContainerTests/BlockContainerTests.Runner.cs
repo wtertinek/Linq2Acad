@@ -14,7 +14,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestCreateBlock()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<BlockContainerTests>("TestCreateBlock");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(BlockContainerTests), "TestCreateBlock");
       
       if (!result.Passed)
       {
@@ -27,7 +27,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestAddBlock()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<BlockContainerTests>("TestAddBlock");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(BlockContainerTests), "TestAddBlock");
 
       if (!result.Passed)
       {

@@ -14,7 +14,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestCreateDetailViewStyle()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<DetailViewStyleContainerTests>("TestCreateDetailViewStyle");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(DetailViewStyleContainerTests), "TestCreateDetailViewStyle");
 
       if (!result.Passed)
       {

@@ -14,7 +14,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestCreateMLeaderStyle()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<MLeaderStyleContainerTests>("TestCreateMLeaderStyle");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(MLeaderStyleContainerTests), "TestCreateMLeaderStyle");
 
       if (!result.Passed)
       {

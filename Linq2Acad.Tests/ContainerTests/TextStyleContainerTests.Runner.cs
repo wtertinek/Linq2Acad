@@ -14,7 +14,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestCreateTextStyle()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<TextStyleContainerTests>("TestCreateTextStyle");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(TextStyleContainerTests), "TestCreateTextStyle");
       
       if (!result.Passed)
       {
@@ -27,7 +27,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestAddTextStyle()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<TextStyleContainerTests>("TestAddTextStyle");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(TextStyleContainerTests), "TestAddTextStyle");
 
       if (!result.Passed)
       {

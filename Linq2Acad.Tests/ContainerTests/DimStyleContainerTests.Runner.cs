@@ -14,7 +14,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestCreateDimStyle()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<DimStyleContainerTests>("TestCreateDimStyle");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(DimStyleContainerTests), "TestCreateDimStyle");
       
       if (!result.Passed)
       {
@@ -27,7 +27,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestAddDimStyle()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<DimStyleContainerTests>("TestAddDimStyle");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(DimStyleContainerTests), "TestAddDimStyle");
 
       if (!result.Passed)
       {

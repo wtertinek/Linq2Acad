@@ -14,7 +14,7 @@ namespace Linq2Acad.Tests
     [TestCategory("Container Tests")]
     public void TestCreateDBVisualStyle()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<DBVisualStyleContainerTests>("TestCreateDBVisualStyle");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(DBVisualStyleContainerTests), "TestCreateDBVisualStyle");
 
       if (!result.Passed)
       {

@@ -14,7 +14,7 @@ namespace Linq2Acad.Tests
     [TestCategory("AutoCAD Unit Tests")]
     public void TestAttachAndDetachXRef()
     {
-      var result = AcadTestRunner.TestRunner.RunTest<BlockContainerTests>("TestCreateBlock");
+      var result = AcadTestRunner.TestRunner.RunTest(typeof(BlockContainerTests), "TestCreateBlock");
       if (!result.Passed) Assert.Fail(result.Message);
     }
   }
