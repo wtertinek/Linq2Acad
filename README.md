@@ -246,6 +246,6 @@ using (var db = AcadDatabase.Active())
     .Bind();
 }
 
-WriteMessage("XRefs reloaded");
+WriteMessage("XRefs bound");
 ```
 
