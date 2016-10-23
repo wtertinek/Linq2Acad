@@ -295,7 +295,7 @@ namespace Linq2Acad
           .Bind();
       }
 
-      WriteMessage("XRefs reloaded");
+      WriteMessage("XRefs bound");
     }
   }
 }
