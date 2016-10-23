@@ -109,7 +109,7 @@ using (var db = AcadDatabase.Active())
   db.Layers
     .Create(layerName, lines);
 
-  WriteMessage("All red Lines moved to new layer " + layerName);
+  WriteMessage("All red lines moved to new layer " + layerName);
 }
 ```
 
@@ -222,5 +222,30 @@ using (var db = AcadDatabase.Active())
 }
 
 WriteMessage("Summary info updated");
+```
+
+Reloading all loaded XRefs:
+
+```c#
+using (var db = AcadDatabase.Active())
+{
+  db.XRefs
+    .Where(xr => xr.Status.IsLoaded)
+    .Reload();
+}
+
+WriteMessage("XRefs reloaded");
+```
+
+Binding all XRefs:
+
+```c#
+using (var db = AcadDatabase.Active())
+{
+  db.XRefs
+    .Bind();
+}
+
+WriteMessage("XRefs reloaded");
 ```
 

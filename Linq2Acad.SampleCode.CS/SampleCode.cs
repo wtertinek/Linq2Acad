@@ -266,5 +266,36 @@ namespace Linq2Acad
 
       WriteMessage("Summary info updated");
     }
+
+    /// <summary>
+    /// Reloading all loaded XRefs
+    /// </summary>
+    [CommandMethod("Linq2AcadExample15")]
+    public void ReloadingAllLoadedXRefs()
+    {
+      using (var db = AcadDatabase.Active())
+      {
+        db.XRefs
+          .Where(xr => xr.Status.IsLoaded)
+          .Reload();
+      }
+
+      WriteMessage("XRefs reloaded");
+    }
+
+    /// <summary>
+    /// Binding all XRefs
+    /// </summary>
+    [CommandMethod("Linq2AcadExample16")]
+    public void BindingAllXRefs()
+    {
+      using (var db = AcadDatabase.Active())
+      {
+        db.XRefs
+          .Bind();
+      }
+
+      WriteMessage("XRefs reloaded");
+    }
   }
 }

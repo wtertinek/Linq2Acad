@@ -213,4 +213,28 @@ Partial Public Class SampleCode
       WriteMessage("Summary info updated")
     End Using
   End Sub
+
+  ''' <summary>
+  ''' Reloading all loaded XRefs
+  ''' </summary>
+  <CommandMethod("Linq2AcadExample15")>
+  Public Sub ReloadingAllLoadedXRefs()
+    Using db = AcadDatabase.Active()
+      db.XRefs.Where(Function(xr) xr.Status.IsLoaded).Reload()
+    End Using
+
+    WriteMessage("XRefs reloaded")
+  End Sub
+
+  ''' <summary>
+  ''' Binding all XRefs
+  ''' </summary>
+  <CommandMethod("Linq2AcadExample16")>
+  Public Sub BindingAllXRefs()
+    Using db = AcadDatabase.Active()
+      db.XRefs.Bind()
+    End Using
+
+    WriteMessage("XRefs reloaded")
+  End Sub
 End Class
