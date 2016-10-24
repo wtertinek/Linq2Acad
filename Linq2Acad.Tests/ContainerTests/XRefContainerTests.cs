@@ -14,64 +14,67 @@ namespace Linq2Acad.Tests
     [AcadTest]
     public void TestAttachXRef()
     {
-      var xRefFilePath = DwgExtractor.ExtractDwgFile("Drawing1.dwg");
-
-      using (var db = AcadDatabase.Active())
+      using (var dwgFile = DwgExtractor.ExtractDwgFile("Drawing1.dwg"))
       {
-        Assert.AreEqual(0, db.XRefs.Count());
+        using (var db = AcadDatabase.Active())
+        {
+          Assert.AreEqual(0, db.XRefs.Count());
 
-        var xRef = db.XRefs.Attach(xRefFilePath, "XRefBlock");
-        Assert.AreEqual("XRefBlock", xRef.BlockName);
-        Assert.AreEqual(xRefFilePath, xRef.FilePath);
-        Assert.IsTrue(xRef.IsFromAttachReference);
-      }
+          var xRef = db.XRefs.Attach(dwgFile.FileName, "XRefBlock");
+          Assert.AreEqual("XRefBlock", xRef.BlockName);
+          Assert.AreEqual(dwgFile.FileName, xRef.FilePath);
+          Assert.IsTrue(xRef.IsFromAttachReference);
+        }
 
-      using (var db = AcadDatabase.Active())
-      {
-        Assert.AreEqual(1, db.XRefs.Count());
+        using (var db = AcadDatabase.Active())
+        {
+          Assert.AreEqual(1, db.XRefs.Count());
+        }
       }
     }
 
     [AcadTest]
     public void TestOverlayXRef()
     {
-      var xRefFilePath = DwgExtractor.ExtractDwgFile("Drawing1.dwg");
-
-      using (var db = AcadDatabase.Active())
+      using (var dwgFile = DwgExtractor.ExtractDwgFile("Drawing1.dwg"))
       {
-        Assert.AreEqual(0, db.XRefs.Count());
+        using (var db = AcadDatabase.Active())
+        {
+          Assert.AreEqual(0, db.XRefs.Count());
 
-        var xRef = db.XRefs.Overlay(xRefFilePath, "XRefBlock");
-        Assert.AreEqual("XRefBlock", xRef.BlockName);
-        Assert.AreEqual(xRefFilePath, xRef.FilePath);
-        Assert.IsTrue(xRef.IsFromOverlayReference);
-      }
+          var xRef = db.XRefs.Overlay(dwgFile.FileName, "XRefBlock");
+          Assert.AreEqual("XRefBlock", xRef.BlockName);
+          Assert.AreEqual(dwgFile.FileName, xRef.FilePath);
+          Assert.IsTrue(xRef.IsFromOverlayReference);
+        }
 
-      using (var db = AcadDatabase.Active())
-      {
-        Assert.AreEqual(1, db.XRefs.Count());
+        using (var db = AcadDatabase.Active())
+        {
+          Assert.AreEqual(1, db.XRefs.Count());
+        }
       }
     }
 
     [AcadTest]
     public void TestDetachXRef()
     {
-      var xRefFilePath = DwgExtractor.ExtractDwgFile("Drawing1.dwg");
-
-      using (var db = AcadDatabase.Active())
+      using (var dwgFile = DwgExtractor.ExtractDwgFile("Drawing1.dwg"))
       {
-        db.XRefs.Attach(xRefFilePath, "XRefBlock");
-      }
+        using (var db = AcadDatabase.Active())
+        {
+          db.XRefs.Attach(dwgFile.FileName, "XRefBlock");
+        }
 
-      using (var db = AcadDatabase.Active())
-      {
-        db.XRefs.First()
-                .Detach();
-      }
+        using (var db = AcadDatabase.Active())
+        {
+          db.XRefs.First()
+                  .Detach();
+        }
 
-      using (var db = AcadDatabase.Active())
-      {
-        Assert.AreEqual(0, db.XRefs.Count());
+        using (var db = AcadDatabase.Active())
+        {
+          Assert.AreEqual(0, db.XRefs.Count());
+        }
       }
     }
   }

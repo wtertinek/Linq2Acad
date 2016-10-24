@@ -10,7 +10,7 @@ namespace Linq2Acad.Tests
 {
   public static class DwgExtractor
   {
-    public static string ExtractDwgFile(string resourceFileName)
+    public static ExtractedFileInfo ExtractDwgFile(string resourceFileName)
     {
       var assembly = Assembly.GetExecutingAssembly();
       var resourceName = "Linq2Acad.Tests.Resources." + resourceFileName;
@@ -26,7 +26,22 @@ namespace Linq2Acad.Tests
         targetWriter.Write(rawData);
       }
 
-      return dwgFileName;
+      return new ExtractedFileInfo(dwgFileName);
+    }
+
+    public class ExtractedFileInfo : IDisposable
+    {
+      public ExtractedFileInfo(string fileName)
+      {
+        FileName = fileName;
+      }
+
+      public string FileName { get; private set; }
+
+      public void Dispose()
+      {
+        File.Delete(FileName);
+      }
     }
   }
 }
