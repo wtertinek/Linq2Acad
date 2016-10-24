@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SampleCode", "SampleCode", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linq2Acad.Tests", "Linq2Acad.Tests\Linq2Acad.Tests.csproj", "{9F98E20C-8CAF-4DCA-A0BB-8174258613AF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcadTestRunner", "..\..\AcadTestRunner\AcadTestRunner\AcadTestRunner.csproj", "{C8DA09B8-97B5-43AF-BD4A-0A71101C8306}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,12 @@ Global
 		{9F98E20C-8CAF-4DCA-A0BB-8174258613AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F98E20C-8CAF-4DCA-A0BB-8174258613AF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9F98E20C-8CAF-4DCA-A0BB-8174258613AF}.Release|x86.ActiveCfg = Release|Any CPU
+		{C8DA09B8-97B5-43AF-BD4A-0A71101C8306}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8DA09B8-97B5-43AF-BD4A-0A71101C8306}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8DA09B8-97B5-43AF-BD4A-0A71101C8306}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C8DA09B8-97B5-43AF-BD4A-0A71101C8306}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8DA09B8-97B5-43AF-BD4A-0A71101C8306}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8DA09B8-97B5-43AF-BD4A-0A71101C8306}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
