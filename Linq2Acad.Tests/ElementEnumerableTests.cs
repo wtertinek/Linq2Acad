@@ -10,6 +10,7 @@ namespace Linq2Acad.Tests
   public class ElementEnumerableTests
   {
     [TestMethod]
+    [TestCategory("Enumeration Tests")]
     public void TestConcatWithLazyEnumerable()
     {
       var ids = new List<int>();
@@ -38,6 +39,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
+    [TestCategory("Enumeration Tests")]
     public void TestConcatWithArray()
     {
       var ids = new List<int>();
@@ -62,6 +64,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
+    [TestCategory("Enumeration Tests")]
     public void TestCount()
     {
       var ids = new List<int>();
@@ -75,6 +78,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
+    [TestCategory("Enumeration Tests")]
     public void TestCountAfterConcatWithArray()
     {
       var ids = new List<int>();
@@ -89,6 +93,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
+    [TestCategory("Enumeration Tests")]
     public void TestCountAfterConcatWithLazyEnumerable()
     {
       var ids = new List<int>();
@@ -103,6 +108,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
+    [TestCategory("Enumeration Tests")]
     public void TestCountAfterConcatWithTwoLazyEnumerables()
     {
       var ids = new List<int>();
@@ -118,6 +124,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
+    [TestCategory("Enumeration Tests")]
     public void TestLastAfterConcat()
     {
       var ids = new List<int>();
@@ -134,6 +141,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
+    [TestCategory("Enumeration Tests")]
     public void TestOfType()
     {
       var ids = new List<int>();
@@ -153,6 +161,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
+    [TestCategory("Enumeration Tests")]
     public void TestSequenceEquals()
     {
       var ids = new List<int>();
@@ -166,6 +175,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
+    [TestCategory("Enumeration Tests")]
     public void TestSkip()
     {
       var ids = new List<int>();

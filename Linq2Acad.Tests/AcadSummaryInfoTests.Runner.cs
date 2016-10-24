@@ -13,7 +13,7 @@ namespace Linq2Acad.Tests
   public class AcadSummaryInfoTests_
   {
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("SummaryInfo Tests")]
     public void TestSetCustomProperties()
     {
       var result = AcadTestRunner.TestRunner.RunTest(typeof(AcadSummaryInfoTests), "SetCustomProperties");
@@ -26,7 +26,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("SummaryInfo Tests")]
     public void TestSetAuthor()
     {
       var result = AcadTestRunner.TestRunner.RunTest(typeof(AcadSummaryInfoTests), "SetAuthor");
@@ -39,7 +39,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("SummaryInfo Tests")]
     public void TestSetComments()
     {
       var result = AcadTestRunner.TestRunner.RunTest(typeof(AcadSummaryInfoTests), "SetComments");
@@ -52,7 +52,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("SummaryInfo Tests")]
     public void TestSetHyperlinkBase()
     {
       var result = AcadTestRunner.TestRunner.RunTest(typeof(AcadSummaryInfoTests), "SetHyperlinkBase");
@@ -65,7 +65,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("SummaryInfo Tests")]
     public void TestSetKeywords()
     {
       var result = AcadTestRunner.TestRunner.RunTest(typeof(AcadSummaryInfoTests), "SetKeywords");
@@ -78,7 +78,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("SummaryInfo Tests")]
     public void TestSetLastSavedBy()
     {
       var result = AcadTestRunner.TestRunner.RunTest(typeof(AcadSummaryInfoTests), "SetLastSavedBy");
@@ -91,7 +91,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("SummaryInfo Tests")]
     public void TestSetRevisionNumber()
     {
       var result = AcadTestRunner.TestRunner.RunTest(typeof(AcadSummaryInfoTests), "SetRevisionNumber");
@@ -104,7 +104,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("SummaryInfo Tests")]
     public void TestSetSubject()
     {
       var result = AcadTestRunner.TestRunner.RunTest(typeof(AcadSummaryInfoTests), "SetSubject");
@@ -117,7 +117,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("SummaryInfo Tests")]
     public void TestSetTitle()
     {
       var result = AcadTestRunner.TestRunner.RunTest(typeof(AcadSummaryInfoTests), "SetTitle");

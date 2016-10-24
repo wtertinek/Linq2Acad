@@ -11,7 +11,7 @@ namespace Linq2Acad.Tests
   public class XRefContainerTests_
   {
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("Container Tests")]
     public void TestAttachXRef()
     {
       var result = AcadTestRunner.TestRunner.RunTest(typeof(XRefContainerTests), "TestAttachXRef");
@@ -19,7 +19,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("Container Tests")]
     public void TestOverlayXRef()
     {
       var result = AcadTestRunner.TestRunner.RunTest(typeof(XRefContainerTests), "TestOverlayXRef");
@@ -27,7 +27,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
-    [TestCategory("AutoCAD Tests")]
+    [TestCategory("Container Tests")]
     public void TestDetachXRef()
     {
       var result = AcadTestRunner.TestRunner.RunTest(typeof(XRefContainerTests), "TestDetachXRef");

@@ -11,6 +11,7 @@ namespace Linq2Acad.Tests
   public class IdEnumerableTests
   {
     [TestMethod]
+    [TestCategory("Enumeration Tests")]
     public void TestConcat()
     {
       var enumerated = new List<object>();
@@ -26,6 +27,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
+    [TestCategory("Enumeration Tests")]
     public void TestCountAfterConcat()
     {
       var enumerated = new List<object>();
@@ -38,6 +40,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
+    [TestCategory("Enumeration Tests")]
     public void TestCount()
     {
       var enumerated = new List<object>();
@@ -49,6 +52,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
+    [TestCategory("Enumeration Tests")]
     public void TestElementAt()
     {
       var enumerated = new List<object>();
@@ -60,6 +64,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
+    [TestCategory("Enumeration Tests")]
     public void TestElementAtOrDefault()
     {
       var enumerated = new List<object>();
@@ -71,6 +76,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
+    [TestCategory("Enumeration Tests")]
     public void TestLast()
     {
       var enumerated = new List<object>();
@@ -82,6 +88,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
+    [TestCategory("Enumeration Tests")]
     public void TestLastOrDefault()
     {
       var enumerated = new List<object>();
@@ -93,6 +100,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
+    [TestCategory("Enumeration Tests")]
     public void TestLongCount()
     {
       var enumerated = new List<object>();
@@ -104,6 +112,7 @@ namespace Linq2Acad.Tests
     }
 
     [TestMethod]
+    [TestCategory("Enumeration Tests")]
     public void TestSkip()
     {
       var enumerated = new List<object>();
