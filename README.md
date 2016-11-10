@@ -72,7 +72,6 @@ Printing all layer names:
 using (var db = AcadDatabase.Active())
 {
   db.Layers
-    .UpgradeOpen()
     .ForEach(l => WriteMessage(l.Name));
 }
 ```
