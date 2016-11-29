@@ -91,6 +91,38 @@ namespace Linq2Acad
         throw Error.AutoCadException(e);
       }
     }
+
+    /// <summary>
+    /// Create a new block and imports all model space entities from the given drawing file to it.
+    /// </summary>
+    /// <param name="newBlockName">The name of the new BlockTableRecord.</param>
+    /// <param name="fileName">The name of the drawing file that should be imported.</param>
+    /// <returns>A new instance of BlockTableRecord.</returns>
+    /// <exception cref="System.ArgumentNullException">Thrown when parameters <i>newBlockName</i> or <i>fileName</i> is null.</exception>
+    public BlockTableRecord Import(string newBlockName, string fileName)
+    {
+      if (newBlockName == null) throw Error.ArgumentNull("newBlockName");
+      if (!Helpers.IsNameValid(newBlockName)) throw Error.InvalidName(newBlockName);
+      if (Contains(newBlockName)) throw Error.ObjectExists<BlockTableRecord>(newBlockName);
+      if (fileName == null) throw Error.ArgumentNull("fileName");
+      if (!System.IO.File.Exists(fileName)) throw Error.FileNotFound(fileName);
+
+      try
+      {
+        var blockId = ObjectId.Null;
+
+        using (var db = AcadDatabase.Open(fileName, DwgOpenMode.ReadOnly))
+        {
+          blockId = database.Insert(newBlockName, db.Database, true);
+        }
+
+        return (BlockTableRecord)transaction.GetObject(blockId, OpenMode.ForRead);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+    }
   }
 
   /// <summary>
