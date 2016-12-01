@@ -154,6 +154,24 @@ namespace Linq2Acad
     }
 
     /// <summary>
+    /// Adds the given object to the underlaying transaction. This is only needed for objects that are not stored in containers (e.g. AttributeReference).
+    /// </summary>
+    /// <param name="obj">The object to add to the transaction.</param>
+    public void AddNewlyCreatedDBObject(DBObject obj)
+    {
+      if (obj == null) throw Error.ArgumentNull("obj");
+
+      try
+      {
+        transaction.AddNewlyCreatedDBObject(obj, true);
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e, "Error adding newly created object to transaction");
+      }
+    }
+
+    /// <summary>
     /// Accesses the database's summary info.
     /// </summary>
     public AcadSummaryInfo SummaryInfo { get; private set; }
