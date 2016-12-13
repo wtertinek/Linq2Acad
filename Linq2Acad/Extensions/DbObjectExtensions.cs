@@ -186,5 +186,43 @@ namespace Linq2Acad
         throw Error.AutoCadException(e);
       }
     }
+
+    /// <summary>
+    /// Removes the entry with the given key from the extension dictionary.
+    /// </summary>
+    /// <param name="source">The source object to check.</param>
+    /// <param name="key">A string that acts as the key in the extension dictionary.</param>
+    /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
+    /// <exception cref="System.Collections.Generic.KeyNotFoundException">Thrown when the given key is not found.</exception>
+    public static void RemoveData(this DBObject source, string key)
+    {
+      var keyFound = false;
+
+      try
+      {
+        if (source.ExtensionDictionary.IsValid)
+        {
+          Helpers.WrapInTransaction(source, tr =>
+                                            {
+                                              var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForRead);
+
+                                              if (dict.Contains(key))
+                                              {
+                                                keyFound = true;
+                                                dict.Remove(key);
+                                              }
+                                            });
+        }
+      }
+      catch (Exception e)
+      {
+        throw Error.AutoCadException(e);
+      }
+
+      if (!keyFound)
+      {
+        throw Error.KeyNotFound(key);
+      }
+    }
   }
 }
