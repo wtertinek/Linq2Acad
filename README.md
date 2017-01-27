@@ -248,3 +248,6 @@ using (var db = AcadDatabase.Active())
 WriteMessage("XRefs bound");
 ```
 
+### Understanding how this library works
+
+Please refer to the following which details in a step-by-step fashion: (i) how this library works and (ii) the decision making process and logic behind the library's derivation: https://wtertinek.com/2016/07/06/linq-and-the-autocad-net-api-final-part/
