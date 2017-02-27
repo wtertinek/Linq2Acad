@@ -1,11 +1,8 @@
-function Update-File ($targetFileName, $tempalteFileName, $variableName, $value)
+﻿function Update-File ($targetFileName, $tempalteFileName, $variableName, $value)
 {
-  if (Test-Path $targetFileName)
+  if (Test-Path "$targetFileName")
   {
-    $srcFileName = $targetFileName
-  }
-  else
-  {
+    Remove-Item "$targetFileName"
     $srcFileName = $tempalteFileName
   }
   
@@ -15,51 +12,31 @@ function Update-File ($targetFileName, $tempalteFileName, $variableName, $value)
 $acadRootDir = Read-Host 'Please enter your AutoCAD installation folder'
 
 if (Test-Path $acadRootDir)
-{
-  if (Test-Path ..\Linq2Acad\Linq2Acad.csproj.user)
+{  
+  if (-Not (Test-Path $(Join-Path -Path "$($acadRootDir)" -ChildPath "AcCoreMgd.dll")))
   {
-    Remove-Item ..\Linq2Acad\Linq2Acad.csproj.user
+    Write-Host $(Join-Path -Path "$($acadRootDir)" -ChildPath "AcCoreMgd.dll") not found
   }
-  if (Test-Path ..\Linq2Acad.SampleCode.CS\Linq2Acad.SampleCode.CS.csproj.user)
+  elseif (-Not (Test-Path $(Join-Path -Path "$acadRootDir" -ChildPath "AcDbMgd.dll")))
   {
-    Remove-Item ..\Linq2Acad.SampleCode.CS\Linq2Acad.SampleCode.CS.csproj.user
+    Write-Host $(Join-Path -Path "$acadRootDir" -ChildPath "AcDbMgd.dll") not found
   }
-  if (Test-Path ..\Linq2Acad.SampleCode.VB\Linq2Acad.SampleCode.VB.vbproj.user)
+  elseif (-Not (Test-Path $(Join-Path -Path "$acadRootDir" -ChildPath "AcMgd.dll")))
   {
-    Remove-Item ..\Linq2Acad.SampleCode.VB\Linq2Acad.SampleCode.VB.vbproj.user
+    Write-Host $(Join-Path -Path "$acadRootDir" -ChildPath "AcMgd.dll") not found
   }
-  if (Test-Path ..\Linq2Acad.Tests\Linq2Acad.Tests.csproj.user)
+  else
   {
-    Remove-Item ..\Linq2Acad.Tests\Linq2Acad.Tests.csproj.user
-  }
-  
-  Update-File ..\Linq2Acad\Linq2Acad.csproj.user "DefaultTemplate.csproj.user" "{AcadRootDir}" "$acadRootDir"
-  Update-File ..\Linq2Acad.SampleCode.CS\Linq2Acad.SampleCode.CS.csproj.user "DefaultTemplate.csproj.user" "{AcadRootDir}" "$acadRootDir"
-  Update-File ..\Linq2Acad.SampleCode.VB\Linq2Acad.SampleCode.VB.vbproj.user "DefaultTemplate.vbproj.user" "{AcadRootDir}" "$acadRootDir"
-  Update-File ..\Linq2Acad.Tests\Linq2Acad.Tests.csproj.user "TestsTemplate.csproj.user" "{AcadRootDir}" "$acadRootDir"
-  
-  $addinRootDir = Read-Host 'If you want to run the tests, please enter the AcadTestRunner installation folder (or just enter to skip this step)'
-
-  if ([string]::IsNullOrEmpty($acadTestRunnerRootDir))
-  {
-    if (Test-Path ..\Linq2Acad.Tests/Libraries/AcadTestRunner.dll.config)
-    {
-      Remove-Item ..\Linq2Acad.Tests/Libraries/AcadTestRunner.dll.config
-    }
+    Update-File "$($PSScriptRoot)\..\Linq2Acad\Linq2Acad.csproj.user" "$($PSScriptRoot)\DefaultTemplate.csproj.user" "{AcadRootDir}" "$acadRootDir"
+    Update-File "$($PSScriptRoot)\..\Linq2Acad.SampleCode.CS\Linq2Acad.SampleCode.CS.csproj.user" "$($PSScriptRoot)\DefaultTemplate.csproj.user" "{AcadRootDir}" "$acadRootDir"
+    Update-File "$($PSScriptRoot)\..\Linq2Acad.SampleCode.VB\Linq2Acad.SampleCode.VB.vbproj.user" "$($PSScriptRoot)\DefaultTemplate.csproj.user" "{AcadRootDir}" "$acadRootDir"
+    Update-File "$($PSScriptRoot)\..\Linq2Acad.Tests\Linq2Acad.Tests.csproj.user" "$($PSScriptRoot)\DefaultTemplate.csproj.user" "{AcadRootDir}" "$acadRootDir"
     
-    Update-File ..\Linq2Acad.Tests/Libraries/AcadTestRunner.dll.config "AcadTestRunner.dll.config" "{AcadRootDir}" "$acadRootDir"
-    Update-File ..\Linq2Acad.Tests/Libraries/AcadTestRunner.dll.config "AcadTestRunner.dll.config" "{AddinRootDir}" "$addinRootDir"
-  }
-  
-  Write-Host ''
-  Write-Host 'AutoCAD reference path set to' $acadRootDir
-  
-  if ([string]::IsNullOrEmpty($acadTestRunnerRootDir))
-  {
-    Write-Host 'AcadTestRunner installation directory is ' $addinRootDir
+    Write-Host ""
+    Write-Host "Reference path ""$acadRootDir"" added"
   }
 }
 else
 {
-  Write-Host $acadRootDir 'does not exist'
+  Write-Host Directory $acadRootDir does not exist
 }

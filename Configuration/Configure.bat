@@ -1,2 +1,1 @@
-Powershell.exe -executionpolicy ByPass -File Configure.ps1
-pause
+Powershell.exe -executionpolicy ByPass -File %~dp0Configure.ps1
