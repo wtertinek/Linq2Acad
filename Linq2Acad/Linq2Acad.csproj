@@ -59,6 +59,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enumerables\EntityContainer.cs" />
+    <Compile Include="Extensions\AttributeCollectionExtensions.cs" />
+    <Compile Include="Extensions\DynamicBlockReferencePropertyCollectionExtensions.cs" />
     <Compile Include="Extensions\XRefsExtensions.cs" />
     <Compile Include="XRef.cs" />
     <Compile Include="Extensions\DbObjectExtensions.cs" />
