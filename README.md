@@ -20,8 +20,6 @@ using (var db = AcadDatabase.Active())
   db.ModelSpace
     .Clear();
 }
-
-WriteMessage("Model space cleared");
 ```
 
 Removing all BlockReferences from the model space:
@@ -34,8 +32,6 @@ using (var db = AcadDatabase.Active())
     .UpgradeOpen()
     .ForEach(br => br.Erase());
 }
-
-WriteMessage("All block references removed from model space");
 ```
 
 Adding a line to the model space:
@@ -47,8 +43,6 @@ using (var db = AcadDatabase.Active())
     .Add(new Line(new Point3d(0, 0, 0),
                   new Point3d(100, 100, 0)));
 }
-
-WriteMessage("Line added to model space");
 ```
 
 Creating a new layer:
@@ -62,8 +56,6 @@ using (var db = AcadDatabase.Active())
   var layer = db.Layers.Create(name);
   layer.Color = Color.FromColor(System.Drawing.Color.FromName(colorName));
 }
-
-WriteMessage("Layer " + name + " created");
 ```
 
 Printing all layer names:
@@ -91,8 +83,6 @@ using (var db = AcadDatabase.Active())
     .UpgradeOpen()
     .ForEach(l => l.IsOff = true);
 }
-
-WriteMessage("All layers (except " + layerName + ") turned off");
 ```
 
 Creating a layer and adding all red lines in the model space to it:
@@ -126,8 +116,6 @@ using (var db = AcadDatabase.Active())
     .Element(targetLayerName)
     .AddRange(entities);
 }
-
-WriteMessage("All entities on layer " + sourceLayerName + " moved to layer " + targetLayerName);
 ```
 
 Importing a block from a drawing file:
@@ -147,8 +135,6 @@ using (var sourceDb = AcadDatabase.Open(filePath, DwgOpenMode.ReadOnly))
             .Import(block);
   }
 }
-
-WriteMessage("Block " + blockName + " imported");
 ```
 
 Opening a drawing from file and counting the BlockReferences in the model space:
@@ -179,8 +165,6 @@ using (var db = AcadDatabase.Active())
     .Element(entityId)
     .SaveData(key, str);
 }
-
-WriteMessage("Key-value-pair " + key + ":" + str + " saved on entity");
 ```
 
 Picking an entity and reading a string from it:
@@ -219,8 +203,6 @@ using (var db = AcadDatabase.Active())
   db.SummaryInfo.Author = "John Doe";
   db.SummaryInfo.CustomProperties["CustomData1"] = "42";
 }
-
-WriteMessage("Summary info updated");
 ```
 
 Reloading all loaded XRefs:
@@ -232,8 +214,6 @@ using (var db = AcadDatabase.Active())
     .Where(xr => xr.Status.IsLoaded)
     .Reload();
 }
-
-WriteMessage("XRefs reloaded");
 ```
 
 Binding all XRefs:
@@ -244,7 +224,5 @@ using (var db = AcadDatabase.Active())
   db.XRefs
     .Bind();
 }
-
-WriteMessage("XRefs bound");
 ```
 
