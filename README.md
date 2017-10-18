@@ -1,4 +1,4 @@
-###Linq2Acad
+### Linq2Acad
 **Linq2Acad** is a library that aims to simplify AutoCAD .NET addin code. The use of transactions is abstracted away through extension methods and ```IEnumerable<T>``` implementations which enumerate the datatabase objects. This provides the possibility to execute LINQ queries on database-resident objects. The AutoCAD .NET API already offers a way to use LINQ queries through the ```dynamic``` keyword, which has the drawback of losing all type information (no IntelliSense) and having some performance implications. Using Linq2Acad the type information is preserved and there are no performance implications.
 
 In general, the library should be a more intuitive API for working with the drawing database, making the learning curve for beginners less steep.
@@ -9,7 +9,7 @@ The library is still under development. Working with Blocks and Entities works b
 ### Configuration
 In order to be able to compile the solution, you have to execute the batch file *Configure.bat* which is located in the subfolder *Configuration*.
 
-###Sample Code
+### Sample Code
 Code from [SampleCode.cs](https://github.com/wtertinek/Linq2Acad/blob/master/Linq2Acad.SampleCode.CS/SampleCode.cs). See [SampleCode.vb](https://github.com/wtertinek/Linq2Acad/blob/master/Linq2Acad.SampleCode.VB/SampleCode.vb) for VB samples.
 
 Removing all entities from the model space:
