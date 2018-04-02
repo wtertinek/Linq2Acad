@@ -190,9 +190,24 @@ Partial Public Class SampleCode
   End Sub
 
   ''' <summary>
-  ''' Counting the number of entities in all paper space layouts
+  ''' Picking an entity and reading a string from it (with XData as the data source)
   ''' </summary>
   <CommandMethod("Linq2AcadExample13")>
+  Public Sub PickingAnEntityAndReadingAStringFromItWithXDataAsTheDataSource()
+    Dim entityId = GetEntity("Pick an entity")
+    Dim key = GetString("Enter key")
+
+    Using db = AcadDatabase.Active()
+      Dim str = db.CurrentSpace.Element(entityId).GetData(Of String)(key, True)
+
+      WriteMessage("String " + str + " read from entity's XData")
+    End Using
+  End Sub
+
+  ''' <summary>
+  ''' Counting the number of entities in all paper space layouts
+  ''' </summary>
+  <CommandMethod("Linq2AcadExample14")>
   Public Sub CountingTheNumberOfEntitiesInAllPaperSpaceLayouts()
     Using db = AcadDatabase.Active()
       Dim allEntities = db.PaperSpace().SelectMany(Function(ps) ps)
@@ -204,7 +219,7 @@ Partial Public Class SampleCode
   ''' <summary>
   ''' Changing the summary info
   ''' </summary>
-  <CommandMethod("Linq2AcadExample14")>
+  <CommandMethod("Linq2AcadExample15")>
   Public Sub ChangingTheSummaryInfo()
     Using db = AcadDatabase.Active()
       db.SummaryInfo.Author = "John Doe"
@@ -217,7 +232,7 @@ Partial Public Class SampleCode
   ''' <summary>
   ''' Reloading all loaded XRefs
   ''' </summary>
-  <CommandMethod("Linq2AcadExample15")>
+  <CommandMethod("Linq2AcadExample16")>
   Public Sub ReloadingAllLoadedXRefs()
     Using db = AcadDatabase.Active()
       db.XRefs.Where(Function(xr) xr.Status.IsLoaded).Reload()
@@ -229,7 +244,7 @@ Partial Public Class SampleCode
   ''' <summary>
   ''' Binding all XRefs
   ''' </summary>
-  <CommandMethod("Linq2AcadExample16")>
+  <CommandMethod("Linq2AcadExample17")>
   Public Sub BindingAllXRefs()
     Using db = AcadDatabase.Active()
       db.XRefs.Bind()

@@ -237,9 +237,28 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Counting the number of entities in all paper space layouts
+    /// Picking an entity and reading a string from it (with XData as the data source)
     /// </summary>
     [CommandMethod("Linq2AcadExample13")]
+    public void PickingAnEntityAndReadingAStringFromItWithXDataAsTheDataSource()
+    {
+      var entityId = GetEntity("Pick an entity");
+      var key = GetString("Enter key");
+
+      using (var db = AcadDatabase.Active())
+      {
+        var str = db.CurrentSpace
+                    .Element(entityId)
+                    .GetData<string>(key, true);
+
+        WriteMessage("String " + str + " read from entity's XData");
+      }
+    }
+
+    /// <summary>
+    /// Counting the number of entities in all paper space layouts
+    /// </summary>
+    [CommandMethod("Linq2AcadExample14")]
     public void CountingTheNumberOfEntitiesInAllPaperSpaceLayouts()
     {
       using (var db = AcadDatabase.Active())
@@ -254,7 +273,7 @@ namespace Linq2Acad
     /// <summary>
     /// Changing the summary info
     /// </summary>
-    [CommandMethod("Linq2AcadExample14")]
+    [CommandMethod("Linq2AcadExample15")]
     public void ChangingTheSummaryInfo()
     {
       using (var db = AcadDatabase.Active())
@@ -269,7 +288,7 @@ namespace Linq2Acad
     /// <summary>
     /// Reloading all loaded XRefs
     /// </summary>
-    [CommandMethod("Linq2AcadExample15")]
+    [CommandMethod("Linq2AcadExample16")]
     public void ReloadingAllLoadedXRefs()
     {
       using (var db = AcadDatabase.Active())
@@ -285,7 +304,7 @@ namespace Linq2Acad
     /// <summary>
     /// Binding all XRefs
     /// </summary>
-    [CommandMethod("Linq2AcadExample16")]
+    [CommandMethod("Linq2AcadExample17")]
     public void BindingAllXRefs()
     {
       using (var db = AcadDatabase.Active())

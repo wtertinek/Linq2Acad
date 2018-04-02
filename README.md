@@ -183,6 +183,22 @@ using (var db = AcadDatabase.Active())
 }
 ```
 
+Picking an entity and reading a string from it (with XData as the data source):
+
+```c#
+var entityId = GetEntity("Pick an entity");
+var key = GetString("Enter key");
+
+using (var db = AcadDatabase.Active())
+{
+  var str = db.CurrentSpace
+              .Element(entityId)
+              .GetData<string>(key, true);
+
+  WriteMessage("String " + str + " read from entity's XData");
+}
+```
+
 Counting the number of entities in all paper space layouts:
 
 ```c#
