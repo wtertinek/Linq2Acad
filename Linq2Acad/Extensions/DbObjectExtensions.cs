@@ -236,14 +236,14 @@ namespace Linq2Acad
             }
             catch (InvalidCastException)
             {
-              throw Error.InvalidConversion((DxfCode)xData[0].TypeCode, nameof(T));
+              throw Error.InvalidConversion((DxfCode)xData[0].TypeCode, typeof(T).Name);
             }
           }
           else
           {
             if (typeof(T).GetInterface(typeof(IEnumerable<>).Name) == null)
             {
-              throw Error.Generic("XData contains multiple values and cannot be converted to " + nameof(T) + ".");
+              throw Error.Generic("XData contains multiple values and cannot be converted to " + typeof(T).Name + ".");
             }
             else
             {
