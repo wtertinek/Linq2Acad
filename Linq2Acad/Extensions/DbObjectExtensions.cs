@@ -1,5 +1,7 @@
 ﻿using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.Geometry;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -111,6 +113,40 @@ namespace Linq2Acad
     /// <returns>The object in the extension dictionary.</returns>
     public static T GetData<T>(this DBObject source, string key)
     {
+      return GetData<T>(source, key, false);
+    }
+
+    /// <summary>
+    /// Reads an object from the source object's extension dictionary or from XData.
+    /// </summary>
+    /// <typeparam name="T">The type of the object to read.</typeparam>
+    /// <param name="source">The source object to read the object from.</param>
+    /// <param name="key">If parameter <paramref name="useXData"/> is true, this string is the name of the RegApp to read the data from. If parameter <paramref name="useXData"/> is false, this string acts as the key in the extension dictionary.</param>
+    /// <param name="useXData">True, if data should be read from source object's XData. False, if data should be read from the source object's extension dictionary.</param>
+    /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
+    /// <returns>The object in the extension dictionary.</returns>
+    public static T GetData<T>(this DBObject source, string key, bool useXData)
+    {
+      if (useXData)
+      {
+        return GetFromXData<T>(source, key);
+      }
+      else
+      {
+        return GetFromXExtensionDictionary<T>(source, key);
+      }
+    }
+
+    /// <summary>
+    /// Reads an object from the source object's extension dictionary.
+    /// </summary>
+    /// <typeparam name="T">The type of the object to read.</typeparam>
+    /// <param name="source">The source object to read the object from.</param>
+    /// <param name="key">A string that acts as the key in the extension dictionary.</param>
+    /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
+    /// <returns>The object in the extension dictionary.</returns>
+    private static T GetFromXExtensionDictionary<T>(DBObject source, string key)
+    {
       if (source.ExtensionDictionary.IsNull)
       {
         throw new KeyNotFoundException();
@@ -154,6 +190,157 @@ namespace Linq2Acad
       }
     }
 
+    private static T GetFromXData<T>(DBObject source, string regAppName)
+    {
+      var resultBuffer = source.GetXDataForApplication(regAppName);
+
+      if (resultBuffer == null)
+      {
+        throw Error.KeyNotFound(regAppName);
+      }
+      else
+      {
+        using (resultBuffer)
+        {
+          var xData = resultBuffer.Cast<TypedValue>()
+                                  .Skip(1)
+                                  .ToArray();
+
+          if (xData.Length == 1)
+          {
+            try
+            {
+              if (xData[0].Value.GetType().IsAssignableFrom(typeof(T)))
+              {
+                return (T)xData[0].Value;
+              }
+              else if (xData[0].TypeCode == (int)DxfCode.ExtendedDataXCoordinate ||
+                       xData[0].TypeCode == (int)DxfCode.ExtendedDataWorldXCoordinate ||
+                       xData[0].TypeCode == (int)DxfCode.ExtendedDataWorldXDisp ||
+                       xData[0].TypeCode == (int)DxfCode.ExtendedDataWorldXDir)
+              {
+                if (typeof(T).Equals(typeof(Vector3d)))
+                {
+                  var tmp = (Point3d)xData[0].Value;
+                  return (T)(object)new Vector3d(tmp.X, tmp.Y, tmp.Z);
+                }
+                else
+                {
+                  return (T)xData[0].Value;
+                }
+              }
+              else
+              {
+                return (T)xData[0].Value;
+              }
+            }
+            catch (InvalidCastException)
+            {
+              throw Error.InvalidConversion((DxfCode)xData[0].TypeCode, nameof(T));
+            }
+          }
+          else
+          {
+            if (typeof(T).GetInterface(typeof(IEnumerable<>).Name) == null)
+            {
+              throw Error.Generic("XData contains multiple values and cannot be converted to " + nameof(T) + ".");
+            }
+            else
+            {
+              var containedType = typeof(T).GenericTypeArguments.FirstOrDefault();
+
+              if (containedType == null || containedType == typeof(object))
+              {
+                var values = new List<object>();
+                CollectValues(xData, values, containedType);
+                return (T)(object)values;
+              }
+              else
+              {
+                var values = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(containedType));
+                CollectValues(xData, values, containedType);
+                return (T)values;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    /// <summary>
+    /// Converts a collection if XData values into a list of objects.
+    /// </summary>
+    /// <param name="input">The XData values to convert.</param>
+    /// <param name="output">The result of the conversion.</param>
+    /// <param name="targetType">The underlying data type of the resulting list.</param>
+    /// <returns>The number of values that have been converted.</returns>
+    private static int CollectValues(IReadOnlyList<TypedValue> input, IList output, Type targetType)
+    {
+      for (int i = 0; i < input.Count; i++)
+      {
+        switch (input[i].TypeCode)
+        {
+          case (int)DxfCode.ExtendedDataRegAppName:
+            throw Error.Generic("Error in XData: There can't be another RegApp inside a RegApp");
+          case (int)DxfCode.ExtendedDataAsciiString:
+          case (int)DxfCode.ExtendedDataLayerName:
+          case (int)DxfCode.ExtendedDataHandle:
+          case (int)DxfCode.ExtendedDataReal:
+          case (int)DxfCode.ExtendedDataDist:
+          case (int)DxfCode.ExtendedDataScale:
+          case (int)DxfCode.ExtendedDataInteger32:
+          case (int)DxfCode.ExtendedDataBinaryChunk:
+            try
+            {
+              output.Add(input[i].Value);
+            }
+            catch (InvalidCastException)
+            {
+              throw Error.InvalidConversion((DxfCode)input[i].TypeCode, targetType.Name);
+            }
+            break;
+          case (int)DxfCode.ExtendedDataXCoordinate:
+          case (int)DxfCode.ExtendedDataWorldXCoordinate:
+          case (int)DxfCode.ExtendedDataWorldXDisp:
+          case (int)DxfCode.ExtendedDataWorldXDir:
+            try
+            {
+              if (targetType.Equals(typeof(Vector3d)))
+              {
+                var tmp = (Point3d)input[i].Value;
+                output.Add(new Vector3d(tmp.X, tmp.Y, tmp.Z));
+              }
+              else
+              {
+                output.Add(input[i].Value);
+              }
+            }
+            catch (InvalidCastException)
+            {
+              throw Error.InvalidConversion((DxfCode)input[i].TypeCode, targetType.Name);
+            }
+            break;
+          case (int)DxfCode.ExtendedDataControlString:
+            if ((string)input[i].Value == "{")
+            {
+              var subItems = new List<object>();
+              var subItemsConsumed = CollectValues(input.Skip(i + 1).ToArray(), subItems, targetType);
+              i += subItemsConsumed;
+              output.Add(subItems.ToArray());
+            }
+            else if ((string)input[i].Value == "}")
+            {
+              return i + 1;
+            }
+            break;
+          default:
+            throw Error.Generic("DxfCode." + ((DxfCode)input[i].TypeCode) + " is not a valid XData DxfCode");
+        }
+      }
+
+      return input.Count;
+    }
+
     /// <summary>
     /// Returns true, if the source object has an entry with the given key in the extension dictionary.
     /// </summary>
@@ -163,27 +350,57 @@ namespace Linq2Acad
     /// <returns>True, if the extension dictionary contains an entry with the given key.</returns>
     public static bool HasData(this DBObject source, string key)
     {
-      try
+      return HasData(source, key, false);
+    }
+
+    /// <summary>
+    /// Returns true, if the source object has an entry with the given key in the extension dictionary.
+    /// </summary>
+    /// <param name="source">The source object to check.</param>
+    /// <param name="key">If parameter <paramref name="useXData"/> is true, this string is the name of the RegApp to read the data from. If parameter <paramref name="useXData"/> is false, this string acts as the key in the extension dictionary.</param>
+    /// <param name="useXData">True, if data should be read from source object's XData. False, if data should be read from the source object's extension dictionary.</param>
+    /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
+    /// <returns>True, if the extension dictionary contains an entry with the given key.</returns>
+    public static bool HasData(this DBObject source, string key, bool useXData)
+    {
+      if (useXData)
       {
-        if (source.ExtensionDictionary.IsNull)
+        var resultBuffer = source.GetXDataForApplication(key);
+
+        if (resultBuffer != null)
         {
-          return false;
+          resultBuffer.Dispose();
+          return true;
         }
         else
         {
-          var hasData = false;
-          Helpers.WrapInTransaction(source, tr =>
-                                            {
-                                              var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForRead);
-                                              hasData = dict.Contains(key);
-                                            });
-
-          return hasData;
+          return false;
         }
       }
-      catch (Exception e)
+      else
       {
-        throw Error.AutoCadException(e);
+        try
+        {
+          if (source.ExtensionDictionary.IsNull)
+          {
+            return false;
+          }
+          else
+          {
+            var hasData = false;
+            Helpers.WrapInTransaction(source, tr =>
+                                              {
+                                                var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForRead);
+                                                hasData = dict.Contains(key);
+                                              });
+
+            return hasData;
+          }
+        }
+        catch (Exception e)
+        {
+          throw Error.AutoCadException(e);
+        }
       }
     }
 

@@ -181,6 +181,17 @@ namespace Linq2Acad
     {
       return new Exception(typeof(T).Name + " with name " + name + " already exists");
     }
+
+    /// <summary>
+    /// Create a new System.Exception that indicates that the value with the given DXF type code cannot be converted to the given target type.
+    /// </summary>
+    /// <param name="typeCode">The DXF code.</param>
+    /// <param name="targetTypeName">The target type.</param>
+    /// <returns></returns>
+    public static Exception InvalidConversion(DxfCode typeCode, string targetTypeName)
+    {
+      return new Exception("DxfCode." + typeCode + " cannot be converted to type " + targetTypeName);
+    }
   }
 
   /// <summary>
