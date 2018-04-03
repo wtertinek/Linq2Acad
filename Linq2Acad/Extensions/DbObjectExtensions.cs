@@ -189,7 +189,6 @@ namespace Linq2Acad
         throw Error.AutoCadException(e);
       }
     }
-
     private static T GetFromXData<T>(DBObject source, string regAppName)
     {
       var resultBuffer = source.GetXDataForApplication(regAppName);
@@ -206,70 +205,67 @@ namespace Linq2Acad
                                   .Skip(1)
                                   .ToArray();
 
-          if (xData.Length == 1)
-          {
-            try
-            {
-              if (xData[0].Value.GetType().IsAssignableFrom(typeof(T)))
-              {
-                return (T)xData[0].Value;
-              }
-              else if (xData[0].TypeCode == (int)DxfCode.ExtendedDataXCoordinate ||
-                       xData[0].TypeCode == (int)DxfCode.ExtendedDataWorldXCoordinate ||
-                       xData[0].TypeCode == (int)DxfCode.ExtendedDataWorldXDisp ||
-                       xData[0].TypeCode == (int)DxfCode.ExtendedDataWorldXDir)
-              {
-                if (typeof(T).Equals(typeof(Vector3d)))
-                {
-                  var tmp = (Point3d)xData[0].Value;
-                  return (T)(object)new Vector3d(tmp.X, tmp.Y, tmp.Z);
-                }
-                else
-                {
-                  return (T)xData[0].Value;
-                }
-              }
-              else
-              {
-                return (T)xData[0].Value;
-              }
-            }
-            catch (InvalidCastException)
-            {
-              throw Error.InvalidConversion((DxfCode)xData[0].TypeCode, typeof(T).Name);
-            }
-          }
-          else
-          {
-            var enumerable = typeof(T).GetInterface(typeof(IEnumerable<>).Name);
+          var targetType = typeof(T);
+          var enumerable = typeof(T).GetInterface(typeof(IEnumerable<>).Name);
 
-            if (enumerable == null || typeof(T).Equals(typeof(string)))
+          if (typeof(T).Equals(typeof(string)))
+          {
+            enumerable = null;
+          }
+          else if (enumerable != null)
+          {
+            targetType = enumerable.GenericTypeArguments
+                                   .FirstOrDefault();
+          }
+
+          var tmpValues = new List<object>();
+          CollectValues(xData, tmpValues, targetType);
+          var values = tmpValues.ToArray();
+
+          if (values.Length == 1 && values[0] is object[])
+          {
+            values = values[0] as object[];
+          }
+
+          if (enumerable != null)
+          {
+            if (targetType == typeof(object))
             {
-              throw Error.Generic("XData contains multiple values and cannot be converted to " + typeof(T).Name + ".");
+              return (T)(object)values;
             }
             else
             {
-              var containedType = enumerable.GenericTypeArguments
-                                            .FirstOrDefault();
+              var newValues = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(targetType));
 
-              if (containedType == null || containedType == typeof(object))
+              foreach (var value in values)
               {
-                var values = new List<object>();
-                CollectValues(xData, values, containedType);
-
-                if (values.Count == 1 && values[0] is List<object>)
+                if (typeof(T).Equals(typeof(Vector3d)))
                 {
-                  values = values[0] as List<object>;
+                  var tmp = (Point3d)value;
+                  newValues.Add(new Vector3d(tmp.X, tmp.Y, tmp.Z));
                 }
+                else
+                {
+                  newValues.Add(value);
+                }
+              }
 
-                return (T)(object)values;
-              }
-              else
-              {
-                var values = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(containedType));
-                CollectValues(xData, values, containedType);
-                return (T)values;
-              }
+              return (T)newValues;
+            }
+          }
+          else if (values.Length == 1)
+          {
+            return (T)values[0];
+          }
+          else
+          {
+            if (typeof(T).Equals(typeof(object)))
+            {
+              return (T)(object)values;
+            }
+            else
+            {
+              throw Error.Generic("XData contains multiple values and cannot be converted to " + typeof(T).Name);
             }
           }
         }
@@ -335,7 +331,7 @@ namespace Linq2Acad
               var subItems = new List<object>();
               var subItemsConsumed = CollectValues(input.Skip(i + 1).ToArray(), subItems, targetType);
               i += subItemsConsumed;
-              output.Add(subItems);
+              output.Add(subItems.ToArray());
             }
             else if ((string)input[i].Value == "}")
             {
