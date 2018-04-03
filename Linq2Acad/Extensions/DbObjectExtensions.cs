@@ -241,18 +241,27 @@ namespace Linq2Acad
           }
           else
           {
-            if (typeof(T).GetInterface(typeof(IEnumerable<>).Name) == null)
+            var enumerable = typeof(T).GetInterface(typeof(IEnumerable<>).Name);
+
+            if (enumerable == null || typeof(T).Equals(typeof(string)))
             {
               throw Error.Generic("XData contains multiple values and cannot be converted to " + typeof(T).Name + ".");
             }
             else
             {
-              var containedType = typeof(T).GenericTypeArguments.FirstOrDefault();
+              var containedType = enumerable.GenericTypeArguments
+                                            .FirstOrDefault();
 
               if (containedType == null || containedType == typeof(object))
               {
                 var values = new List<object>();
                 CollectValues(xData, values, containedType);
+
+                if (values.Count == 1 && values[0] is List<object>)
+                {
+                  values = values[0] as List<object>;
+                }
+
                 return (T)(object)values;
               }
               else
@@ -326,7 +335,7 @@ namespace Linq2Acad
               var subItems = new List<object>();
               var subItemsConsumed = CollectValues(input.Skip(i + 1).ToArray(), subItems, targetType);
               i += subItemsConsumed;
-              output.Add(subItems.ToArray());
+              output.Add(subItems);
             }
             else if ((string)input[i].Value == "}")
             {
