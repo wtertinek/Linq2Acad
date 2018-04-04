@@ -174,7 +174,8 @@ namespace Linq2Acad
                                           });
 
         if (items.Length == 1 &&
-            items[0].TypeCode != (int)DxfCode.BinaryChunk)
+            (items[0].TypeCode != (int)DxfCode.BinaryChunk ||
+             typeof(T).Equals(typeof(byte[]))))
         {
           return (T)items[0].Value;
         }
