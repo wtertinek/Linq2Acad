@@ -189,6 +189,15 @@ namespace Linq2Acad
         throw Error.AutoCadException(e);
       }
     }
+
+    /// <summary>
+    /// Reads an object from the source object's XData.
+    /// </summary>
+    /// <typeparam name="T">The type of the object to read.</typeparam>
+    /// <param name="source">The source object to read the object from.</param>
+    /// <param name="regAppName">The name of the RegApp to read the data from.</param>
+    /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
+    /// <returns>The object in the extension dictionary.</returns>
     private static T GetFromXData<T>(DBObject source, string regAppName)
     {
       var resultBuffer = source.GetXDataForApplication(regAppName);
@@ -265,7 +274,7 @@ namespace Linq2Acad
             }
             else
             {
-              throw Error.Generic("XData contains multiple values and cannot be converted to " + typeof(T).Name);
+              throw Error.Generic("XData contains multiple: " + values.GetType().Name + " cannot be converted to " + typeof(T).Name);
             }
           }
         }

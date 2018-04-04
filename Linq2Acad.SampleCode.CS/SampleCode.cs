@@ -243,7 +243,7 @@ namespace Linq2Acad
     public void PickingAnEntityAndReadingAStringFromItWithXDataAsTheDataSource()
     {
       var entityId = GetEntity("Pick an entity");
-      var key = GetString("Enter key");
+      var key = GetString("Enter RegApp name");
 
       using (var db = AcadDatabase.Active())
       {

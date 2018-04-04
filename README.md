@@ -187,7 +187,7 @@ Picking an entity and reading a string from it (with XData as the data source):
 
 ```c#
 var entityId = GetEntity("Pick an entity");
-var key = GetString("Enter key");
+var key = GetString("Enter RegApp name");
 
 using (var db = AcadDatabase.Active())
 {
