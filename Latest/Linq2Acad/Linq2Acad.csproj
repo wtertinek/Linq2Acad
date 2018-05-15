@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7702E342-FABC-49A4-9337-BFC9B5B3B99E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Linq2Acad</RootNamespace>
+    <AssemblyName>Linq2Acad</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Debug\Linq2Acad.XML</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>1591</NoWarn>
+    <DocumentationFile>bin\Release\Linq2Acad.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AcCoreMgd, Version=22.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.Core.22.0.0\lib\net46\AcCoreMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AcDbMgd, Version=22.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.Model.22.0.0\lib\net46\AcDbMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AcMgd, Version=22.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.22.0.0\lib\net46\AcMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Enumerables\EntityContainer.cs" />
+    <Compile Include="Extensions\AttributeCollectionExtensions.cs" />
+    <Compile Include="Extensions\DynamicBlockReferencePropertyCollectionExtensions.cs" />
+    <Compile Include="Extensions\XRefsExtensions.cs" />
+    <Compile Include="XRef.cs" />
+    <Compile Include="Extensions\DbObjectExtensions.cs" />
+    <Compile Include="Extensions\EditorExtensions.cs" />
+    <Compile Include="Enumerables\Base\ElementEnumerable.cs" />
+    <Compile Include="Enumerables\Base\IdEnumerable.cs" />
+    <Compile Include="Enumerables\Base\NameBasedContainerEnumerableBase.cs" />
+    <Compile Include="ImportResult.cs" />
+    <Compile Include="Enumerables\DBDictionaryEnumerable.cs" />
+    <Compile Include="Enumerables\DBDictionaryEnumerables.cs" />
+    <Compile Include="Enumerables\Base\ContainerEnumerableBase.cs" />
+    <Compile Include="Enumerables\SymbolTableEnumerables.cs" />
+    <Compile Include="AcadDatabase.cs" />
+    <Compile Include="Enumerables\SymbolTableEnumerable.cs" />
+    <Compile Include="Extensions\DbObjectsExtensions.cs" />
+    <Compile Include="Error.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="Extensions\LayerTableRecordExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AcadSummaryInfo.cs" />
+    <Compile Include="Enumerables\XRefContainer.cs" />
+    <Compile Include="XRefStatus.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

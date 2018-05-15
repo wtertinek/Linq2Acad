@@ -3,14 +3,13 @@
 
 In general, the library should be a more intuitive API for working with the drawing database, making the learning curve for beginners less steep.
 
+Supported versions: AutoCAD 2015, 2016, 2017, 2018
+
 ### TODO
 The library is still under development. Working with Blocks and Entities works best at the moment. Access to other tables and dictionaries is implemented, but basically untested. Tests and features will be added little by little.
 
-### Configuration
-In order to be able to compile the solution, you have to execute the batch file *Configure.bat* which is located in the subfolder *Configuration*.
-
 ### Sample Code
-Code from [SampleCode.cs](https://github.com/wtertinek/Linq2Acad/blob/master/Linq2Acad.SampleCode.CS/SampleCode.cs). See [SampleCode.vb](https://github.com/wtertinek/Linq2Acad/blob/master/Linq2Acad.SampleCode.VB/SampleCode.vb) for VB samples.
+Code from [SampleCode.cs](https://github.com/wtertinek/Linq2Acad/blob/master/Latest/Linq2Acad.SampleCode.CS/SampleCode.cs). See [SampleCode.vb](https://github.com/wtertinek/Linq2Acad/blob/master/Latest/Linq2Acad.SampleCode.VB/SampleCode.vb) for VB samples.
 
 Removing all entities from the model space:
 
