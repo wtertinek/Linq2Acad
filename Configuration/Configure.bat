@@ -1,1 +1,0 @@
-Powershell.exe -executionpolicy ByPass -File %~dp0Configure.ps1
