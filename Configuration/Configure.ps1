@@ -3,8 +3,9 @@
   if (Test-Path "$targetFileName")
   {
     Remove-Item "$targetFileName"
-    $srcFileName = $tempalteFileName
   }
+  $srcFileName = $tempalteFileName
+  
   
   (Get-Content -Encoding UTF8 $srcFileName) | ForEach-Object { $_ -replace $variableName, $value } | Set-Content -Encoding UTF8 $targetFileName
 }
