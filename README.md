@@ -3,7 +3,7 @@
 
 In general, the library should be a more intuitive API for working with the drawing database, making the learning curve for beginners less steep.
 
-Supported versions: AutoCAD 2015, 2016, 2017, 2018
+**Supported versions**: AutoCAD 2015, 2016, 2017, 2018 (2019 coming soon)
 
 ### TODO
 The library is still under development. Working with Blocks and Entities works best at the moment. Access to other tables and dictionaries is implemented, but basically untested. Tests and features will be added little by little.
