@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;ACAD2018</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -29,7 +29,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;ACAD2018</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -58,79 +58,79 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Latest\Linq2Acad\XRefStatus.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\XRefStatus.cs">
       <Link>XRefStatus.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\Enumerables\EntityContainer.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\EntityContainer.cs">
       <Link>Enumerables\EntityContainer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\Extensions\AttributeCollectionExtensions.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\Extensions\AttributeCollectionExtensions.cs">
       <Link>Extensions\AttributeCollectionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\Extensions\DynamicBlockReferencePropertyCollectionExtensions.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\Extensions\DynamicBlockReferencePropertyCollectionExtensions.cs">
       <Link>Extensions\DynamicBlockReferencePropertyCollectionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\Extensions\XRefsExtensions.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\Extensions\XRefsExtensions.cs">
       <Link>Extensions\XRefsExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\XRef.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\XRef.cs">
       <Link>XRef.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\Extensions\DbObjectExtensions.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\Extensions\DbObjectExtensions.cs">
       <Link>Extensions\DbObjectExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\Extensions\EditorExtensions.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\Extensions\EditorExtensions.cs">
       <Link>Extensions\EditorExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\Enumerables\Base\ElementEnumerable.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\Base\ElementEnumerable.cs">
       <Link>Enumerables\Base\ElementEnumerable.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\Enumerables\Base\IdEnumerable.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\Base\IdEnumerable.cs">
       <Link>Enumerables\Base\IdEnumerable.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\Enumerables\Base\NameBasedContainerEnumerableBase.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\Base\NameBasedContainerEnumerableBase.cs">
       <Link>Enumerables\Base\NameBasedContainerEnumerableBase.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\ImportResult.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\ImportResult.cs">
       <Link>ImportResult.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\Enumerables\DBDictionaryEnumerable.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\DBDictionaryEnumerable.cs">
       <Link>Enumerables\DBDictionaryEnumerable.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\Enumerables\DBDictionaryEnumerables.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\DBDictionaryEnumerables.cs">
       <Link>Enumerables\DBDictionaryEnumerables.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\Enumerables\Base\ContainerEnumerableBase.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\Base\ContainerEnumerableBase.cs">
       <Link>Enumerables\ContainerEnumerableBase.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\Enumerables\SymbolTableEnumerables.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\SymbolTableEnumerables.cs">
       <Link>Enumerables\SymbolTableEnumerables.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\AcadDatabase.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\AcadDatabase.cs">
       <Link>AcadDatabase.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\Enumerables\SymbolTableEnumerable.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\SymbolTableEnumerable.cs">
       <Link>Enumerables\SymbolTableEnumerable.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\Extensions\DbObjectsExtensions.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\Extensions\DbObjectsExtensions.cs">
       <Link>Extensions\DbObjectsExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\Error.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\Error.cs">
       <Link>Error.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\Helpers.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\Helpers.cs">
       <Link>Helpers.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\Extensions\LayerTableRecordExtensions.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\Extensions\LayerTableRecordExtensions.cs">
       <Link>Extensions\LayerTableRecordExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\Properties\AssemblyInfo.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\AcadSummaryInfo.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\AcadSummaryInfo.cs">
       <Link>AcadSummaryInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad\Enumerables\XRefContainer.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\XRefContainer.cs">
       <Link>Enumerables\XRefContainer.cs</Link>
     </Compile>
   </ItemGroup>

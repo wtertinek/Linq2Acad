@@ -77,35 +77,35 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Latest\Linq2Acad.SampleCode.VB\SampleCode.Addin.vb">
+    <Compile Include="..\..\Sources\Linq2Acad.SampleCode.VB\SampleCode.Addin.vb">
       <DependentUpon>SampleCode.vb</DependentUpon>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad.SampleCode.VB\SampleCode.vb">
+    <Compile Include="..\..\Sources\Linq2Acad.SampleCode.VB\SampleCode.vb">
       <Link>SampleCode.vb</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad.SampleCode.VB\My Project\AssemblyInfo.vb">
+    <Compile Include="..\..\Sources\Linq2Acad.SampleCode.VB\My Project\AssemblyInfo.vb">
       <Link>My Project\AssemblyInfo.vb</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad.SampleCode.VB\My Project\Application.Designer.vb">
+    <Compile Include="..\..\Sources\Linq2Acad.SampleCode.VB\My Project\Application.Designer.vb">
       <Link>My Project\Application.Designer.vb</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad.SampleCode.VB\My Project\Resources.Designer.vb">
+    <Compile Include="..\..\Sources\Linq2Acad.SampleCode.VB\My Project\Resources.Designer.vb">
       <Link>My Project\Resources.Designer.vb</Link>
     </Compile>
-    <Compile Include="..\..\Latest\Linq2Acad.SampleCode.VB\My Project\Settings.Designer.vb">
+    <Compile Include="..\..\Sources\Linq2Acad.SampleCode.VB\My Project\Settings.Designer.vb">
       <Link>My Project\Settings.Designer.vb</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\..\Latest\Linq2Acad.SampleCode.VB\My Project\Resources.resx">
+    <EmbeddedResource Include="..\..\Sources\Linq2Acad.SampleCode.VB\My Project\Resources.resx">
       <Link>My Project\Resources.resx</Link>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Latest\Linq2Acad.SampleCode.VB\My Project\Application.myapp">
+    <None Include="..\..\Sources\Linq2Acad.SampleCode.VB\My Project\Application.myapp">
       <Link>My Project\Application.myapp</Link>
     </None>
-    <None Include="..\..\Latest\Linq2Acad.SampleCode.VB\My Project\Settings.settings">
+    <None Include="..\..\Sources\Linq2Acad.SampleCode.VB\My Project\Settings.settings">
       <Link>My Project\Settings.settings</Link>
     </None>
     <None Include="packages.config" />

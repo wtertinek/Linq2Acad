@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{362C5E5D-7917-4B4A-8A5F-AFB997127AB8}</ProjectGuid>
+    <ProjectGuid>{704C106F-E7B7-47AF-B3BB-BEADE7195275}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Linq2Acad</RootNamespace>
     <AssemblyName>Linq2Acad.SampleCode.CS</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;ACAD2019</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -26,21 +26,21 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;ACAD2019</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AcCoreMgd, Version=22.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoCAD.NET.Core.22.0.0\lib\net46\AcCoreMgd.dll</HintPath>
+    <Reference Include="AcCoreMgd, Version=23.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.Core.23.0.0\lib\net47\AcCoreMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="AcDbMgd, Version=22.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoCAD.NET.Model.22.0.0\lib\net46\AcDbMgd.dll</HintPath>
+    <Reference Include="AcDbMgd, Version=23.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.Model.23.0.0\lib\net47\AcDbMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="AcMgd, Version=22.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoCAD.NET.22.0.0\lib\net46\AcMgd.dll</HintPath>
+    <Reference Include="AcMgd, Version=23.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.23.0.0\lib\net47\AcMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -54,11 +54,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SampleCode.Addin.cs">
+    <Compile Include="..\..\Sources\Linq2Acad.SampleCode.CS\SampleCode.Addin.cs">
       <DependentUpon>SampleCode.cs</DependentUpon>
     </Compile>
-    <Compile Include="SampleCode.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\..\Sources\Linq2Acad.SampleCode.CS\SampleCode.cs">
+      <Link>SampleCode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad.SampleCode.CS\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Linq2Acad\Linq2Acad.csproj">
