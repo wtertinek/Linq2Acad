@@ -9,7 +9,7 @@ In general, the library should be a more intuitive API for working with the draw
 The library is still under development. Working with Blocks and Entities works best at the moment. Access to other tables and dictionaries is implemented, but basically untested. Tests and features will be added little by little.
 
 ### Sample Code
-Code from [SampleCode.cs](https://github.com/wtertinek/Linq2Acad/blob/master/Latest/Linq2Acad.SampleCode.CS/SampleCode.cs). See [SampleCode.vb](https://github.com/wtertinek/Linq2Acad/blob/master/Latest/Linq2Acad.SampleCode.VB/SampleCode.vb) for VB samples.
+Code from [SampleCode.cs](https://github.com/wtertinek/Linq2Acad/blob/master/Sources/Linq2Acad.SampleCode.CS/SampleCode.cs). See [SampleCode.vb](https://github.com/wtertinek/Linq2Acad/blob/master/Sources/Linq2Acad.SampleCode.VB/SampleCode.vb) for VB samples.
 
 Removing all entities from the model space:
 
