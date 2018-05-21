@@ -210,9 +210,9 @@ Partial Public Class SampleCode
   <CommandMethod("Linq2AcadExample14")>
   Public Sub CountingTheNumberOfEntitiesInAllPaperSpaceLayouts()
     Using db = AcadDatabase.Active()
-      Dim allEntities = db.PaperSpace().SelectMany(Function(ps) ps)
+      Dim count = db.PaperSpace().SelectMany(Function(ps) ps).Count()
 
-      WriteMessage(allEntities.Count() + " entities in all paper space layouts")
+      WriteMessage(count + " entities in all paper space layouts")
     End Using
   End Sub
 

@@ -263,10 +263,11 @@ namespace Linq2Acad
     {
       using (var db = AcadDatabase.Active())
       {
-        var allEntities = db.PaperSpace()
-                            .SelectMany(ps => ps);
+        var count = db.PaperSpace()
+                      .SelectMany(ps => ps)
+                      .Count();
 
-        WriteMessage(allEntities.Count() + " entities in all paper space layouts");
+        WriteMessage(count + " entities in all paper space layouts");
       }
     }
 
