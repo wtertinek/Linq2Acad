@@ -78,7 +78,7 @@ using (var db = AcadDatabase.Active())
                 .Element(layerName);
 
   db.Layers
-    .Except(new[] { layer })
+    .Except(layer)
     .UpgradeOpen()
     .ForEach(l => l.IsOff = true);
 }

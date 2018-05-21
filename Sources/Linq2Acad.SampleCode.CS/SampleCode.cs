@@ -106,7 +106,7 @@ namespace Linq2Acad
                       .Element(layerName);
 
         db.Layers
-          .Except(new[] { layer })
+          .Except(layer)
           .UpgradeOpen()
           .ForEach(l => l.IsOff = true);
       }

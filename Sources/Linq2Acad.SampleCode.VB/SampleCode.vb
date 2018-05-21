@@ -86,7 +86,7 @@ Partial Public Class SampleCode
     Using db = AcadDatabase.Active()
       Dim layer = db.Layers.Element(layerName)
 
-      For Each layer In db.Layers.Except({layer}).UpgradeOpen()
+      For Each layer In db.Layers.Except(layer).UpgradeOpen()
         layer.IsOff = True
       Next
     End Using

@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Autodesk.AutoCAD.DatabaseServices;
 using System.Diagnostics;
 
 namespace Linq2Acad
@@ -23,6 +22,8 @@ namespace Linq2Acad
       return GetEnumerator();
     }
 
+    public abstract ElementEnumerable<T, TId> Concat(T element);
+
     public abstract ElementEnumerable<T, TId> Concat(IEnumerable<T> second);
 
     public abstract bool Contains(T value);
@@ -35,7 +36,11 @@ namespace Linq2Acad
 
     public abstract T ElementAtOrDefault(int index);
 
+    public abstract ElementEnumerable<T, TId> Except(T element);
+
     public abstract ElementEnumerable<T, TId> Except(IEnumerable<T> second);
+
+    public abstract ElementEnumerable<T, TId> Intersect(T element);
 
     public abstract ElementEnumerable<T, TId> Intersect(IEnumerable<T> second);
 
@@ -49,11 +54,15 @@ namespace Linq2Acad
 
     public abstract ElementEnumerable<T, TId> Reverse();
 
+    public abstract bool SequenceEqual(T element);
+
     public abstract bool SequenceEqual(IEnumerable<T> second);
 
     public abstract ElementEnumerable<T, TId> Skip(int count);
 
     public abstract ElementEnumerable<T, TId> Take(int count);
+
+    public abstract ElementEnumerable<T, TId> Union(T element);
 
     public abstract ElementEnumerable<T, TId> Union(IEnumerable<T> second);
   }
@@ -78,6 +87,11 @@ namespace Linq2Acad
     {
       return IDs.Select(id => dataProvider.GetElement<T>(id))
                 .GetEnumerator();
+    }
+
+    public override sealed ElementEnumerable<T, TId> Concat(T element)
+    {
+      return Concat(new[] { element });
     }
 
     public override sealed ElementEnumerable<T, TId> Concat(IEnumerable<T> second)
@@ -127,6 +141,11 @@ namespace Linq2Acad
       }
     }
 
+    public override sealed ElementEnumerable<T, TId> Except(T element)
+    {
+      return Except(new[] { element });
+    }
+
     public override sealed ElementEnumerable<T, TId> Except(IEnumerable<T> second)
     {
       if (second is LazyElementEnumerable<T, TId, TConstraint>)
@@ -138,6 +157,11 @@ namespace Linq2Acad
         return new MaterializedElementEnumerable<T, TId>(IDs.Select(id => dataProvider.GetElement<T>(id))
                                                             .Except(second));
       }
+    }
+
+    public override sealed ElementEnumerable<T, TId> Intersect(T element)
+    {
+      return Intersect(new[] { element });
     }
 
     public override sealed ElementEnumerable<T, TId> Intersect(IEnumerable<T> second)
@@ -187,6 +211,11 @@ namespace Linq2Acad
       return new LazyElementEnumerable<T, TId, TConstraint>(new MaterializedIdEnumerable<TId>(IDs.Reverse()), dataProvider);
     }
 
+    public override sealed bool SequenceEqual(T element)
+    {
+      return SequenceEqual(new[] { element });
+    }
+
     public override sealed bool SequenceEqual(IEnumerable<T> second)
     {
       if (second is LazyElementEnumerable<T, TId, TConstraint>)
@@ -207,6 +236,11 @@ namespace Linq2Acad
     public override sealed ElementEnumerable<T, TId> Take(int count)
     {
       return new LazyElementEnumerable<T, TId, TConstraint>(new MaterializedIdEnumerable<TId>(IDs.Take(count)), dataProvider);
+    }
+
+    public override sealed ElementEnumerable<T, TId> Union(T element)
+    {
+      return Union(new[] { element });
     }
 
     public override sealed ElementEnumerable<T, TId> Union(IEnumerable<T> second)
@@ -256,6 +290,11 @@ namespace Linq2Acad
       return elements.GetEnumerator();
     }
 
+    public override sealed ElementEnumerable<T, TId> Concat(T element)
+    {
+      return Concat(new[] { element });
+    }
+
     public override sealed ElementEnumerable<T, TId> Concat(IEnumerable<T> second)
     {
       return new MaterializedElementEnumerable<T, TId>(elements.Concat(second));
@@ -286,9 +325,19 @@ namespace Linq2Acad
       return elements.ElementAtOrDefault(index);
     }
 
+    public override sealed ElementEnumerable<T, TId> Except(T element)
+    {
+      return Except(new[] { element });
+    }
+
     public override sealed ElementEnumerable<T, TId> Except(IEnumerable<T> second)
     {
       return new MaterializedElementEnumerable<T, TId>(elements.Except(second));
+    }
+
+    public override sealed ElementEnumerable<T, TId> Intersect(T element)
+    {
+      return Intersect(new[] { element });
     }
 
     public override sealed ElementEnumerable<T, TId> Intersect(IEnumerable<T> second)
@@ -321,6 +370,11 @@ namespace Linq2Acad
       return new MaterializedElementEnumerable<T, TId>(elements.Reverse());
     }
 
+    public override sealed bool SequenceEqual(T element)
+    {
+      return SequenceEqual(new[] { element });
+    }
+
     public override sealed bool SequenceEqual(IEnumerable<T> second)
     {
       return elements.SequenceEqual(second);
@@ -334,6 +388,11 @@ namespace Linq2Acad
     public override sealed ElementEnumerable<T, TId> Take(int count)
     {
       return new MaterializedElementEnumerable<T, TId>(elements.Take(count));
+    }
+
+    public override sealed ElementEnumerable<T, TId> Union(T element)
+    {
+      return Union(new[] { element });
     }
 
     public override sealed ElementEnumerable<T, TId> Union(IEnumerable<T> second)
