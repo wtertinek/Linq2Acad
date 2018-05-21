@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;ACAD2015</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;AutoCAD_2015</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -29,7 +29,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;ACAD2015</DefineConstants>
+    <DefineConstants>TRACE;AutoCAD_2015</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -37,8 +37,8 @@
     <DocumentationFile>bin\Release\Linq2Acad.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AcCoreMgd, Version=20.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoCAD.NET.Core.20.1.0\lib\45\AcCoreMgd.dll</HintPath>
+    <Reference Include="AcCoreMgd, Version=20.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCAD.NET.Core.20.0.1\lib\45\AcCoreMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="AcDbMgd, Version=20.1.0.0, Culture=neutral, processorArchitecture=MSIL">
