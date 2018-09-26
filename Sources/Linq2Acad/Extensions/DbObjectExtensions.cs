@@ -436,7 +436,7 @@ namespace Linq2Acad
         {
           Helpers.WrapInTransaction(source, tr =>
                                             {
-                                              var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForRead);
+                                              var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForWrite);
 
                                               if (dict.Contains(key))
                                               {
