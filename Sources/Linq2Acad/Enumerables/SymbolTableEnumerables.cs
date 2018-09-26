@@ -54,7 +54,17 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Converts each Block into an EntityContainer and allows querying for entities.
+    /// Converts the Block with the given ObjectId into an EntityContainer that allows querying for entities.
+    /// </summary>
+    /// <param name="id">The id of the object.</param>
+    /// <returns></returns>
+    public EntityContainer ElementAsEntityContainer(ObjectId id)
+    {
+      return new EntityContainer(database, transaction, id);
+    }
+
+    /// <summary>
+    /// Converts each Block into an EntityContainer that allows querying for entities.
     /// </summary>
     /// <returns>The elements of the Block table as EntitiyContainers.</returns>
     public IEnumerable<EntityContainer> AsEntityContainers()
