@@ -117,7 +117,7 @@ namespace Linq2Acad
       
       try
       {
-        return AddInternal(entities, false);
+        return AddInternal(entities, setDatabaseDefaults);
       }
       catch (Exception e)
       {
