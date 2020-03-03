@@ -209,12 +209,14 @@ namespace Linq2Acad
 
     private ImportResult<T> ImportInternal(T item, bool replaceIfDuplicate)
     {
-      var ids = new ObjectIdCollection(new[] { item.ObjectId });
-      var mapping = new IdMapping();
-      var type = replaceIfDuplicate ? DuplicateRecordCloning.Replace : DuplicateRecordCloning.Ignore;
-      database.WblockCloneObjects(ids, ID, mapping, type, false);
+      using (var idCollection = new ObjectIdCollection(new[] { item.ObjectId }))
+      using (var mapping = new IdMapping())
+      {
+        var type = replaceIfDuplicate ? DuplicateRecordCloning.Replace : DuplicateRecordCloning.Ignore;
+        database.WblockCloneObjects(idCollection, ID, mapping, type, false);
 
-      return new ImportResult<T>((T)transaction.GetObject(mapping[item.ObjectId].Value, OpenMode.ForRead), mapping);
+        return new ImportResult<T>((T)transaction.GetObject(mapping[item.ObjectId].Value, OpenMode.ForRead), mapping);
+      }
     }
 
     #region Nested class DataProvider

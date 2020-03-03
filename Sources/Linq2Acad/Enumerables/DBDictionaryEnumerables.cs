@@ -179,8 +179,11 @@ namespace Linq2Acad
 
         if (entities.Any())
         {
-          group.Append(new ObjectIdCollection(entities.Select(e => e.ObjectId)
-                                                      .ToArray()));
+          using (var idCollection = new ObjectIdCollection(entities.Select(e => e.ObjectId)
+                                                                   .ToArray()))
+          {
+            group.Append(idCollection);
+          }
         }
 
         return group;

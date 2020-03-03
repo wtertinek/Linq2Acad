@@ -121,7 +121,10 @@ namespace Linq2Acad
     {
       try
       {
-        Database.BindXrefs(new ObjectIdCollection(new[] { Block.ObjectId }), !insertSymbolNamesWithoutPrefixes);
+        using (var idCollection = new ObjectIdCollection(new[] { Block.ObjectId }))
+        {
+          Database.BindXrefs(idCollection, !insertSymbolNamesWithoutPrefixes);
+        }
       }
       catch (Exception e)
       {
@@ -145,7 +148,10 @@ namespace Linq2Acad
     {
       try
       {
-        Database.ReloadXrefs(new ObjectIdCollection(new[] { Block.ObjectId }));
+        using (var idCollection = new ObjectIdCollection(new[] { Block.ObjectId }))
+        {
+          Database.ReloadXrefs(idCollection);
+        }
       }
       catch (Exception e)
       {
@@ -157,7 +163,10 @@ namespace Linq2Acad
     {
       try
       {
-        Database.UnloadXrefs(new ObjectIdCollection(new[] { Block.ObjectId }));
+        using (var idCollection = new ObjectIdCollection(new[] { Block.ObjectId }))
+        {
+          Database.UnloadXrefs(idCollection);
+        }
       }
       catch (Exception e)
       {

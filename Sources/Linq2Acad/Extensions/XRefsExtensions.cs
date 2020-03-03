@@ -23,7 +23,10 @@ namespace Linq2Acad
 
         if (ids.Any())
         {
-          xrefs.First().Database.BindXrefs(new ObjectIdCollection(ids), !insertSymbolNamesWithoutPrefixes);
+          using (var idCollection = new ObjectIdCollection(ids))
+          {
+            ids[0].Database.BindXrefs(idCollection, !insertSymbolNamesWithoutPrefixes);
+          }
         }
       }
       catch (Exception e)
@@ -56,7 +59,10 @@ namespace Linq2Acad
 
         if (ids.Any())
         {
-          xrefs.First().Database.ReloadXrefs(new ObjectIdCollection(ids));
+          using (var idCollection = new ObjectIdCollection(ids))
+          {
+            ids[0].Database.ReloadXrefs(idCollection);
+          }
         }
       }
       catch (Exception e)
@@ -74,7 +80,10 @@ namespace Linq2Acad
 
         if (ids.Any())
         {
-          xrefs.First().Database.UnloadXrefs(new ObjectIdCollection(ids));
+          using (var idCollection = new ObjectIdCollection(ids))
+          {
+            ids[0].Database.UnloadXrefs(idCollection);
+          }
         }
 
       }
