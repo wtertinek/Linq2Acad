@@ -10,7 +10,7 @@ namespace Linq2Acad
 {
   public abstract class DBDictionaryEnumerable<T> : NameBasedContainerEnumerableBase<T> where T : DBObject
   {
-    protected DBDictionaryEnumerable(Database database, Transaction transaction, ObjectId containerID)
+    protected internal DBDictionaryEnumerable(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID, i => (ObjectId)((DictionaryEntry)i).Value)
     {
     }

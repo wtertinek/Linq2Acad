@@ -13,7 +13,7 @@ namespace Linq2Acad
   /// <summary>
   /// The main class that provides access to the drawing database.
   /// </summary>
-  public class AcadDatabase : IDisposable
+  public sealed class AcadDatabase : IDisposable
   {
     private Transaction transaction;
     private bool commitTransaction;

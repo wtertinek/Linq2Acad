@@ -10,7 +10,7 @@ namespace Linq2Acad
   /// <summary>
   /// Represents a container that holds Entity objects.
   /// </summary>
-  public class EntityContainer : ContainerEnumerableBase<Entity>
+  public sealed class EntityContainer : ContainerEnumerableBase<Entity>
   {
     /// <summary>
     /// Create a new instance of EntityContainer.

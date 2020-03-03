@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Linq2Acad
 {
-  public class DBVisualStyleContainer : DBDictionaryEnumerable<DBVisualStyle>
+  public sealed class DBVisualStyleContainer : DBDictionaryEnumerable<DBVisualStyle>
   {
     internal DBVisualStyleContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
@@ -73,7 +73,7 @@ namespace Linq2Acad
     }
   }
 
-  public class DetailViewStyleContainer : DBDictionaryEnumerable<DetailViewStyle>
+  public sealed class DetailViewStyleContainer : DBDictionaryEnumerable<DetailViewStyle>
   {
     internal DetailViewStyleContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
@@ -139,7 +139,7 @@ namespace Linq2Acad
     }
   }
 
-  public class GroupContainer : DBDictionaryEnumerable<Group>
+  public sealed class GroupContainer : DBDictionaryEnumerable<Group>
   {
     internal GroupContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
@@ -232,7 +232,7 @@ namespace Linq2Acad
     }
   }
 
-  public class LayoutContainer : DBDictionaryEnumerable<Layout>
+  public sealed class LayoutContainer : DBDictionaryEnumerable<Layout>
   {
     internal LayoutContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
@@ -303,7 +303,7 @@ namespace Linq2Acad
     }
   }
 
-  public class MaterialContainer : DBDictionaryEnumerable<Material>
+  public sealed class MaterialContainer : DBDictionaryEnumerable<Material>
   {
     internal MaterialContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
@@ -369,7 +369,7 @@ namespace Linq2Acad
     }
   }
 
-  public class MLeaderStyleContainer : DBDictionaryEnumerable<MLeaderStyle>
+  public sealed class MLeaderStyleContainer : DBDictionaryEnumerable<MLeaderStyle>
   {
     internal MLeaderStyleContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
@@ -435,7 +435,7 @@ namespace Linq2Acad
     }
   }
 
-  public class MlineStyleContainer : DBDictionaryEnumerable<MlineStyle>
+  public sealed class MlineStyleContainer : DBDictionaryEnumerable<MlineStyle>
   {
     internal MlineStyleContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
@@ -501,7 +501,7 @@ namespace Linq2Acad
     }
   }
 
-  public class PlotSettingsContainer : DBDictionaryEnumerable<PlotSettings>
+  public sealed class PlotSettingsContainer : DBDictionaryEnumerable<PlotSettings>
   {
     private bool modelType;
 
@@ -571,7 +571,7 @@ namespace Linq2Acad
     }
   }
 
-  public class SectionViewStyleContainer : DBDictionaryEnumerable<SectionViewStyle>
+  public sealed class SectionViewStyleContainer : DBDictionaryEnumerable<SectionViewStyle>
   {
     internal SectionViewStyleContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
@@ -637,7 +637,7 @@ namespace Linq2Acad
     }
   }
 
-  public class TableStyleContainer : DBDictionaryEnumerable<TableStyle>
+  public sealed class TableStyleContainer : DBDictionaryEnumerable<TableStyle>
   {
     internal TableStyleContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)

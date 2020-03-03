@@ -15,8 +15,8 @@ namespace Linq2Acad
     {
     }
 
-    protected SymbolTableEnumerable(Database database, Transaction transaction, ObjectId containerID,
-                                    Func<IEnumerable<ObjectId>, IEnumerable<ObjectId>> filter)
+    protected internal SymbolTableEnumerable(Database database, Transaction transaction, ObjectId containerID,
+                                             Func<IEnumerable<ObjectId>, IEnumerable<ObjectId>> filter)
       : base(database, transaction, containerID, i => (ObjectId)i, filter)
     {
     }
