@@ -58,6 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Sources\Linq2Acad\Require.cs">
+      <Link>Require.cs</Link>
+    </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\XRefStatus.cs">
       <Link>XRefStatus.cs</Link>
     </Compile>
@@ -114,9 +117,6 @@
     </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\Extensions\DbObjectsExtensions.cs">
       <Link>Extensions\DbObjectsExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Sources\Linq2Acad\Error.cs">
-      <Link>Error.cs</Link>
     </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\Helpers.cs">
       <Link>Helpers.cs</Link>

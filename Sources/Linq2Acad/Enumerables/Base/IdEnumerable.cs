@@ -50,8 +50,8 @@ namespace Linq2Acad
 
   public class LazayIdEnumerable<T> : IdEnumerable<T>
   {
-    internal IEnumerable ids;
-    internal Func<object, T> getID;
+    internal readonly IEnumerable ids;
+    internal readonly Func<object, T> getID;
 
     public LazayIdEnumerable(IEnumerable ids, Func<object, T> getID)
     {
@@ -109,7 +109,7 @@ namespace Linq2Acad
       {
         if (!enumerator.MoveNext())
         {
-          throw new ArgumentOutOfRangeException("index");
+          throw new ArgumentOutOfRangeException(nameof(index));
         }
 
         if (index == 0)
@@ -226,7 +226,7 @@ namespace Linq2Acad
 
   internal class MaterializedIdEnumerable<T> : IdEnumerable<T>
   {
-    private IEnumerable<T> ids;
+    private readonly IEnumerable<T> ids;
 
     public MaterializedIdEnumerable(IEnumerable<T> ids)
     {
@@ -285,7 +285,7 @@ namespace Linq2Acad
 
   public class ConcatIdEnumerable<T> : IdEnumerable<T>
   {
-    internal Tuple<IEnumerable, Func<object, T>>[] ids;
+    internal readonly Tuple<IEnumerable, Func<object, T>>[] ids;
 
     public ConcatIdEnumerable(params Tuple<IEnumerable, Func<object, T>>[] ids)
     {
@@ -319,8 +319,10 @@ namespace Linq2Acad
       else
       {
         var enumerable = second as IEnumerable;
-        Func<object, T> getID = id => (T)id;
-        return new ConcatIdEnumerable<T>(ids.Concat(new[] { Tuple.Create(enumerable, getID) }).ToArray());
+        return new ConcatIdEnumerable<T>(ids.Concat(new[]
+                                                    {
+                                                      Tuple.Create(enumerable, new Func<object, T>(id => (T)id))
+                                                    }).ToArray());
       }
     }
 
@@ -353,7 +355,7 @@ namespace Linq2Acad
           {
             if (i == (ids.Length - 1))
             {
-              throw new ArgumentOutOfRangeException("index");
+              throw new ArgumentOutOfRangeException(nameof(index));
             }
             else
             {
@@ -370,7 +372,7 @@ namespace Linq2Acad
         }
       }
 
-      throw new ArgumentOutOfRangeException("index");
+      throw new ArgumentOutOfRangeException(nameof(index));
     }
 
     public override T ElementAtOrDefault(int index)

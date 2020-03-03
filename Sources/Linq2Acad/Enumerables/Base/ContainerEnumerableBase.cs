@@ -8,8 +8,8 @@ namespace Linq2Acad
 {
   public abstract class ContainerEnumerableBase<T> : LazyElementEnumerable<T, ObjectId, DBObject> where T : DBObject
   {
-    protected Database database;
-    protected Transaction transaction;
+    protected readonly Database database;
+    protected readonly Transaction transaction;
 
     protected internal ContainerEnumerableBase(Database database, Transaction transaction, ObjectId containerID, Func<object, ObjectId> getID)
       : base(new LazayIdEnumerable<ObjectId>(((IEnumerable)transaction.GetObject(containerID, OpenMode.ForRead)).Cast<object>(), getID),
@@ -30,20 +30,13 @@ namespace Linq2Acad
       ID = containerID;
     }
 
-    internal ObjectId ID { get; private set; }
+    internal ObjectId ID { get; }
 
     public override bool Contains(T value)
     {
-      if (value == null) throw Error.ArgumentNull("value");
+      Require.ParameterNotNull(value, nameof(value));
       
-      try
-      {
-        return ContainsInternal(value.ObjectId);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return ContainsInternal(value.ObjectId);
     }
 
     public bool Contains(ObjectId id)
@@ -54,14 +47,7 @@ namespace Linq2Acad
       }
       else
       {
-        try
-        {
-          return ContainsInternal(id);
-        }
-        catch (Exception e)
-        {
-          throw Error.AutoCadException(e);
-        }
+        return ContainsInternal(id);
       }
     }
 
@@ -72,38 +58,16 @@ namespace Linq2Acad
 
     public T Element(ObjectId id)
     {
-      if (!id.IsValid) throw Error.InvalidObject("ObjectId");
+      Require.IsValid(id, nameof(id));
 
-      try
-      {
-        return ElementInternal(id, false);
-      }
-      catch (InvalidCastException e)
-      {
-        throw e;
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return ElementInternal(id, false);
     }
 
     public T Element(ObjectId id, bool forWrite)
     {
-      if (!id.IsValid) throw Error.InvalidObject("ObjectId");
+      Require.IsValid(id, nameof(id));
       
-      try
-      {
-        return ElementInternal(id, forWrite);
-      }
-      catch (InvalidCastException e)
-      {
-        throw e;
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return ElementInternal(id, forWrite);
     }
 
     public T ElementOrDefault(ObjectId id)
@@ -114,18 +78,7 @@ namespace Linq2Acad
       }
       else
       {
-        try
-        {
-          return ElementInternal(id, false);
-        }
-        catch (InvalidCastException e)
-        {
-          throw e;
-        }
-        catch (Exception e)
-        {
-          throw Error.AutoCadException(e);
-        }
+        return ElementInternal(id, false);
       }
     }
 
@@ -137,18 +90,7 @@ namespace Linq2Acad
       }
       else
       {
-        try
-        {
-          return ElementInternal(id, forWrite);
-        }
-        catch (InvalidCastException e)
-        {
-          throw e;
-        }
-        catch (Exception e)
-        {
-          throw Error.AutoCadException(e);
-        }
+        return ElementInternal(id, forWrite);
       }
     }
 
@@ -159,49 +101,28 @@ namespace Linq2Acad
 
     public ImportResult<T> Import(T item)
     {
-      if (item == null) Error.ArgumentNull("item");
+      Require.ParameterNotNull(item, nameof(item));
 
-      try
-      {
-        return ImportInternal(item, false);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return ImportInternal(item, false);
     }
 
     public ImportResult<T> Import(T item, bool replaceIfDuplicate)
     {
-      if (item == null) Error.ArgumentNull("item");
+      Require.ParameterNotNull(item, nameof(item));
 
-      try
-      {
-        return ImportInternal(item, replaceIfDuplicate);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return ImportInternal(item, replaceIfDuplicate);
     }
 
     public IReadOnlyCollection<ImportResult<T>> Import(IEnumerable<T> items, bool replaceIfDuplicate)
     {
-      if (items == null) Error.ArgumentNull("items");
-      if (items.Any(i => i.Database == database)) throw Error.Generic("Wrong database origin");
+      Require.ParameterNotNull(items, nameof(items));
+      Require.DifferentOrigin(database, items, nameof(items));
 
       var result = new List<ImportResult<T>>();
 
       foreach (var item in items)
       {
-        try
-        {
-          result.Add(ImportInternal(item, replaceIfDuplicate));
-        }
-        catch (Exception e)
-        {
-          throw Error.AutoCadException(e);
-        }
+        result.Add(ImportInternal(item, replaceIfDuplicate));
       }
 
       return result;
@@ -223,7 +144,7 @@ namespace Linq2Acad
 
     private class DataProvider : IDataProvider<ObjectId, DBObject>
     {
-      private Transaction transaction;
+      private readonly Transaction transaction;
 
       public DataProvider(Transaction transaction)
       {

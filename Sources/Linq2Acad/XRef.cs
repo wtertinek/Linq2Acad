@@ -9,7 +9,7 @@ namespace Linq2Acad
 {
   public class XRef
   {
-    private Transaction transaction;
+    private readonly Transaction transaction;
 
     internal XRef(ObjectId blockId, Database database, Transaction transaction)
       : this((BlockTableRecord)transaction.GetObject(blockId, OpenMode.ForRead), database, transaction)
@@ -18,98 +18,38 @@ namespace Linq2Acad
 
     internal XRef(BlockTableRecord block, Database database, Transaction transaction)
     {
-      this.Database = database;
-      this.transaction = transaction;
       Block = block;
-      Status = new XRefStatus(Block);
+      Database = database;
+      this.transaction = transaction;
+      Status = new XRefInfo(Block.XrefStatus);
     }
 
-    internal Database Database { get; private set; }
+    internal Database Database { get; }
 
-    public BlockTableRecord Block { get; private set; }
+    public BlockTableRecord Block { get; }
 
     public string BlockName
     {
-      get
-      {
-        try
-        {
-          return Block.Name;
-        }
-        catch (Exception e)
-        {
-          throw Error.AutoCadException(e);
-        }
-      }
-      set
-      {
-        try
-        {
-          Block.Name = value;
-        }
-        catch (Exception e)
-        {
-          throw Error.AutoCadException(e);
-        }
-      }    
+      get { return Block.Name; }
+      set { Block.Name = value; }    
     }
 
     public string FilePath
     {
-      get
-      {
-        try
-        {
-          return Block.PathName;
-        }
-        catch (Exception e)
-        {
-          throw Error.AutoCadException(e);
-        }
-      }
-      set
-      {
-        try
-        {
-          Block.PathName = value;
-        }
-        catch (Exception e)
-        {
-          throw Error.AutoCadException(e);
-        }
-      }
+      get { return Block.PathName; }
+      set { Block.PathName = value; }
     }
 
-    public XRefStatus Status { get; private set; }
+    public XRefInfo Status { get; }
 
     public bool IsFromAttachReference
     {
-      get
-      {
-        try
-        {
-          return !Block.IsFromOverlayReference;
-        }
-        catch (Exception e)
-        {
-          throw Error.AutoCadException(e);
-        }
-      }
+      get { return !Block.IsFromOverlayReference; }
     }
 
     public bool IsFromOverlayReference
     {
-      get
-      {
-        try
-        {
-          return Block.IsFromOverlayReference;
-        }
-        catch (Exception e)
-        {
-          throw Error.AutoCadException(e);
-        }
-      }
+      get { return Block.IsFromOverlayReference; }
     }
 
     public void Bind()
@@ -119,58 +59,30 @@ namespace Linq2Acad
 
     public void Bind(bool insertSymbolNamesWithoutPrefixes)
     {
-      try
+      using (var idCollection = new ObjectIdCollection(new[] { Block.ObjectId }))
       {
-        using (var idCollection = new ObjectIdCollection(new[] { Block.ObjectId }))
-        {
-          Database.BindXrefs(idCollection, !insertSymbolNamesWithoutPrefixes);
-        }
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
+        Database.BindXrefs(idCollection, !insertSymbolNamesWithoutPrefixes);
       }
     }
 
     public void Detach()
     {
-      try
-      {
-        Database.DetachXref(Block.ObjectId);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      Database.DetachXref(Block.ObjectId);
     }
 
     public void Reload()
     {
-      try
+      using (var idCollection = new ObjectIdCollection(new[] { Block.ObjectId }))
       {
-        using (var idCollection = new ObjectIdCollection(new[] { Block.ObjectId }))
-        {
-          Database.ReloadXrefs(idCollection);
-        }
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
+        Database.ReloadXrefs(idCollection);
       }
     }
 
     public void Unload()
     {
-      try
+      using (var idCollection = new ObjectIdCollection(new[] { Block.ObjectId }))
       {
-        using (var idCollection = new ObjectIdCollection(new[] { Block.ObjectId }))
-        {
-          Database.UnloadXrefs(idCollection);
-        }
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
+        Database.UnloadXrefs(idCollection);
       }
     }
   }

@@ -12,9 +12,9 @@ namespace Linq2Acad
   /// </summary>
   public class XRefContainer : IEnumerable<XRef>
   {
-    private Database database;
-    private Transaction transaction;
-    private XRefBlockContainer xRefBlockContainer;
+    private readonly Database database;
+    private readonly Transaction transaction;
+    private readonly XRefBlockContainer xRefBlockContainer;
 
     /// <summary>
     /// Creates a new instance of XRefContainer.
@@ -53,11 +53,11 @@ namespace Linq2Acad
     /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>fileName</i> is null.</exception>
     public XRef Attach(string fileName)
     {
-      if (fileName == null) throw Error.ArgumentNull("fileName");
-      if (!System.IO.File.Exists(fileName)) throw Error.FileNotFound(fileName);
+      Require.ParameterNotNull(fileName, nameof(fileName));
+      Require.FileExists(fileName, nameof(fileName));
 
       var baseName = System.IO.Path.GetFileNameWithoutExtension(fileName);
-      if (!Helpers.IsNameValid(baseName)) throw Error.InvalidName(baseName);
+      Require.IsValidSymbolName(baseName, nameof(fileName));
 
       return AttachInternal(fileName, GetBlockName(baseName));
     }
@@ -71,12 +71,11 @@ namespace Linq2Acad
     /// <exception cref="System.ArgumentNullException">Thrown when parameters <i>file name</i> or <i>block name</i> is null.</exception>
     public XRef Attach(string fileName, string blockName)
     {
-      if (fileName == null) throw Error.ArgumentNull("fileName");
-      if (!System.IO.File.Exists(fileName)) throw Error.FileNotFound(fileName);
-
-      if (blockName == null) throw Error.ArgumentNull("blockName");
-      if (!Helpers.IsNameValid(blockName)) throw Error.InvalidName(blockName);
-      if (xRefBlockContainer.Contains(blockName)) throw Error.ObjectExists<XRef>(blockName);
+      Require.ParameterNotNull(fileName, nameof(fileName));
+      Require.FileExists(fileName, nameof(fileName));
+      Require.ParameterNotNull(blockName, nameof(blockName));
+      Require.IsValidSymbolName(blockName, nameof(blockName));
+      Require.NameDoesNotExists<XRef>(xRefBlockContainer.Contains(blockName), blockName);
 
       return AttachInternal(fileName, blockName);
     }
@@ -89,15 +88,8 @@ namespace Linq2Acad
     /// <returns>A new instance of XRef.</returns>
     private XRef AttachInternal(string fileName, string blockName)
     {
-      try
-      {
-        var id = database.AttachXref(fileName, blockName);
-        return new XRef(id, database, transaction);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      var id = database.AttachXref(fileName, blockName);
+      return new XRef(id, database, transaction);
     }
 
     /// <summary>
@@ -108,11 +100,11 @@ namespace Linq2Acad
     /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>fileName</i> is null.</exception>
     public XRef Overlay(string fileName)
     {
-      if (fileName == null) throw Error.ArgumentNull("fileName");
-      if (!System.IO.File.Exists(fileName)) throw Error.FileNotFound(fileName);
+      Require.ParameterNotNull(fileName, nameof(fileName));
+      Require.FileExists(fileName, nameof(fileName));
 
       var baseName = System.IO.Path.GetFileNameWithoutExtension(fileName);
-      if (!Helpers.IsNameValid(baseName)) throw Error.InvalidName(baseName);
+      Require.IsValidSymbolName(baseName, nameof(fileName));
 
       return OverlayInternal(fileName, GetBlockName(baseName));
     }
@@ -126,12 +118,11 @@ namespace Linq2Acad
     /// <exception cref="System.ArgumentNullException">Thrown when parameters <i>file name</i> or <i>block name</i> is null.</exception>
     public XRef Overlay(string fileName, string blockName)
     {
-      if (fileName == null) throw Error.ArgumentNull("fileName");
-      if (!System.IO.File.Exists(fileName)) throw Error.FileNotFound(fileName);
+      Require.ParameterNotNull(fileName, nameof(fileName));
+      Require.FileExists(fileName, nameof(fileName));
 
-      if (blockName == null) throw Error.ArgumentNull("blockName");
-      if (!Helpers.IsNameValid(blockName)) throw Error.InvalidName(blockName);
-      if (xRefBlockContainer.Contains(blockName)) throw Error.ObjectExists<XRef>(blockName);
+      Require.IsValidSymbolName(blockName, nameof(blockName));
+      Require.NameDoesNotExists<XRef>(xRefBlockContainer.Contains(blockName), blockName);
 
       return OverlayInternal(fileName, blockName);
     }
@@ -144,39 +135,18 @@ namespace Linq2Acad
     /// <returns>A new instance of XRef.</returns>
     private XRef OverlayInternal(string fileName, string blockName)
     {
-      try
-      {
-        var id = database.OverlayXref(fileName, blockName);
-        return new XRef(id, database, transaction);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      var id = database.OverlayXref(fileName, blockName);
+      return new XRef(id, database, transaction);
     }
 
     public void Resolve()
     {
-      try
-      {
-        database.ResolveXrefs(true, false);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      database.ResolveXrefs(true, false);
     }
 
     public void Resolve(bool onlyNewlyAdded)
     {
-      try
-      {
-        database.ResolveXrefs(true, onlyNewlyAdded);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      database.ResolveXrefs(true, onlyNewlyAdded);
     }
 
     /// <summary>

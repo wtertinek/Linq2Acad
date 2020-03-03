@@ -49,12 +49,21 @@ namespace Linq2Acad
         newTransaction = true;
       }
 
-      action(tr);
-
-      if (newTransaction)
+      try
       {
-        tr.Commit();
-        tr.Dispose();
+        action(tr);
+      }
+      catch
+      {
+        throw;
+      }
+      finally
+      {
+        if (newTransaction)
+        {
+          tr.Commit();
+          tr.Dispose();
+        }
       }
     }
 
@@ -128,7 +137,7 @@ namespace Linq2Acad
 
                                    if (memoryStream.Read(chunk, 0, size) != size)
                                    {
-                                     throw Error.IO("Error reading from MemoryStream");
+                                     throw new Exception("Error reading from MemoryStream");
                                    }
 
                                    return chunk;
@@ -161,24 +170,6 @@ namespace Linq2Acad
         memoryStream.Position = 0;
         var formatter = new BinaryFormatter();
         return (T)formatter.Deserialize(memoryStream);
-      }
-    }
-
-    /// <summary>
-    /// Returns true, if the given name is a valid SymbolTable name.
-    /// </summary>
-    /// <param name="name">The name to check.</param>
-    /// <returns>True, if the given name is a valid SymbolTable name.</returns>
-    public static bool IsNameValid(string name)
-    {
-      try
-      {
-        SymbolUtilityServices.ValidateSymbolName(name, false);
-        return true;
-      }
-      catch
-      {
-        return false;
       }
     }
   }

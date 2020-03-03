@@ -24,82 +24,77 @@ namespace Linq2Acad
     /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     public static void SaveData<T>(this DBObject source, string key, T data)
     {
-      Action<ResultBuffer> saveData = buffer =>
-                                      {
-                                        if (!source.IsWriteEnabled)
-                                        {
-                                          source.UpgradeOpen();
-                                        }
+      Require.ParameterNotNull(source, nameof(source));
 
-                                        if (source.ExtensionDictionary.IsNull)
-                                        {
-                                          source.CreateExtensionDictionary();
-                                        }
-
-                                        Helpers.WrapInTransaction(source, tr =>
-                                                                          {
-                                                                            var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForWrite);
-
-                                                                            if (dict.Contains(key))
-                                                                            {
-                                                                              var xRecord = (Xrecord)tr.GetObject(dict.GetAt(key), OpenMode.ForWrite);
-                                                                              xRecord.Data = buffer;
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                              var xRecord = new Xrecord();
-                                                                              xRecord.Data = buffer;
-                                                                              dict.SetAt(key, xRecord);
-                                                                              tr.AddNewlyCreatedDBObject(xRecord, true);
-                                                                            }
-                                                                          });
-                                      };
-
-      Func<DxfCode, ResultBuffer> getResultBuffer = code => new ResultBuffer(new[] { new TypedValue((int)code, data) });
-
-      try
+      void saveData(ResultBuffer buffer)
       {
-        // TODO: Add further types
+        if (!source.IsWriteEnabled)
+        {
+          source.UpgradeOpen();
+        }
 
-        if (typeof(T) == typeof(bool))
+        if (source.ExtensionDictionary.IsNull)
         {
-          saveData(getResultBuffer(DxfCode.Bool));
+          source.CreateExtensionDictionary();
         }
-        else if (typeof(T) == typeof(double))
-        {
-          saveData(getResultBuffer(DxfCode.Real));
-        }
-        else if (typeof(T) == typeof(byte))
-        {
-          saveData(getResultBuffer(DxfCode.Int8));
-        }
-        else if (typeof(T) == typeof(char) ||
-                 typeof(T) == typeof(short))
-        {
-          saveData(getResultBuffer(DxfCode.Int16));
-        }
-        else if (typeof(T) == typeof(int))
-        {
-          saveData(getResultBuffer(DxfCode.Int32));
-        }
-        else if (typeof(T) == typeof(long))
-        {
-          saveData(getResultBuffer(DxfCode.Int64));
-        }
-        else if (typeof(T) == typeof(string))
-        {
-          saveData(getResultBuffer(DxfCode.Text));
-        }
-        else
-        {
-          saveData(new ResultBuffer(Helpers.Serialize(data)
-                                           .Select(a => new TypedValue((int)DxfCode.BinaryChunk, a))
-                                           .ToArray()));
-        }
+
+        Helpers.WrapInTransaction(source, tr =>
+                                          {
+                                            var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForWrite);
+
+                                            if (dict.Contains(key))
+                                            {
+                                              var xRecord = (Xrecord)tr.GetObject(dict.GetAt(key), OpenMode.ForWrite);
+                                              xRecord.Data = buffer;
+                                            }
+                                            else
+                                            {
+                                              var xRecord = new Xrecord();
+                                              xRecord.Data = buffer;
+                                              dict.SetAt(key, xRecord);
+                                              tr.AddNewlyCreatedDBObject(xRecord, true);
+                                            }
+                                          });
       }
-      catch (Exception e)
+
+      ResultBuffer getResultBuffer(DxfCode code) => new ResultBuffer(new[] { new TypedValue((int)code, data) });
+
+      // TODO: Add further types
+
+      if (typeof(T) == typeof(bool))
       {
-        throw Error.AutoCadException(e);
+        saveData(getResultBuffer(DxfCode.Bool));
+      }
+      else if (typeof(T) == typeof(double))
+      {
+        saveData(getResultBuffer(DxfCode.Real));
+      }
+      else if (typeof(T) == typeof(byte))
+      {
+        saveData(getResultBuffer(DxfCode.Int8));
+      }
+      else if (typeof(T) == typeof(char) ||
+                typeof(T) == typeof(short))
+      {
+        saveData(getResultBuffer(DxfCode.Int16));
+      }
+      else if (typeof(T) == typeof(int))
+      {
+        saveData(getResultBuffer(DxfCode.Int32));
+      }
+      else if (typeof(T) == typeof(long))
+      {
+        saveData(getResultBuffer(DxfCode.Int64));
+      }
+      else if (typeof(T) == typeof(string))
+      {
+        saveData(getResultBuffer(DxfCode.Text));
+      }
+      else
+      {
+        saveData(new ResultBuffer(Helpers.Serialize(data)
+                                          .Select(a => new TypedValue((int)DxfCode.BinaryChunk, a))
+                                          .ToArray()));
       }
     }
 
@@ -127,6 +122,9 @@ namespace Linq2Acad
     /// <returns>The object in the extension dictionary.</returns>
     public static T GetData<T>(this DBObject source, string key, bool useXData)
     {
+      Require.ParameterNotNull(source, nameof(source));
+      Require.StringNotEmpty(key, nameof(key));
+
       if (useXData)
       {
         return GetFromXData<T>(source, key);
@@ -152,42 +150,31 @@ namespace Linq2Acad
         throw new KeyNotFoundException();
       }
 
-      try
+      var items = new List<TypedValue>();
+
+      Helpers.WrapInTransaction(source,
+                                tr =>
+                                {
+                                  var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForRead);
+
+                                  Require.NameExists<T>(dict.Contains(key), key);
+
+                                  var xRecord = (Xrecord)tr.GetObject(dict.GetAt(key), OpenMode.ForRead);
+                                  items = xRecord.Data
+                                                  .Cast<TypedValue>()
+                                                  .ToList();
+                                });
+
+      if (items.Count == 1 &&
+          (items[0].TypeCode != (int)DxfCode.BinaryChunk ||
+            typeof(T).Equals(typeof(byte[]))))
       {
-        var items = new TypedValue[0];
-
-        Helpers.WrapInTransaction(source, tr =>
-                                          {
-                                            var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForRead);
-
-                                            if (dict.Contains(key))
-                                            {
-                                              var xRecord = (Xrecord)tr.GetObject(dict.GetAt(key), OpenMode.ForRead);
-                                              items = xRecord.Data
-                                                             .Cast<TypedValue>()
-                                                             .ToArray();
-                                            }
-                                            else
-                                            {
-                                              throw Error.KeyNotFound(key);
-                                            }
-                                          });
-
-        if (items.Length == 1 &&
-            (items[0].TypeCode != (int)DxfCode.BinaryChunk ||
-             typeof(T).Equals(typeof(byte[]))))
-        {
-          return (T)items[0].Value;
-        }
-        else
-        {
-          return Helpers.Deserialize<T>(items.SelectMany(i => (byte[])i.Value)
-                                              .ToArray());
-        }
+        return (T)items[0].Value;
       }
-      catch (Exception e)
+      else
       {
-        throw Error.AutoCadException(e);
+        return Helpers.Deserialize<T>(items.SelectMany(i => (byte[])i.Value)
+                                            .ToArray());
       }
     }
 
@@ -203,80 +190,75 @@ namespace Linq2Acad
     {
       var resultBuffer = source.GetXDataForApplication(regAppName);
 
-      if (resultBuffer == null)
+      Require.ObjectNotNull(resultBuffer, $"RegApp '{regAppName}' not found");
+
+      using (resultBuffer)
       {
-        throw Error.KeyNotFound(regAppName);
-      }
-      else
-      {
-        using (resultBuffer)
+        var xData = resultBuffer.Cast<TypedValue>()
+                                .Skip(1)
+                                .ToArray();
+
+        var targetType = typeof(T);
+        var enumerable = typeof(T).GetInterface(typeof(IEnumerable<>).Name);
+
+        if (typeof(T).Equals(typeof(string)))
         {
-          var xData = resultBuffer.Cast<TypedValue>()
-                                  .Skip(1)
-                                  .ToArray();
+          enumerable = null;
+        }
+        else if (enumerable != null)
+        {
+          targetType = enumerable.GenericTypeArguments
+                                  .FirstOrDefault();
+        }
 
-          var targetType = typeof(T);
-          var enumerable = typeof(T).GetInterface(typeof(IEnumerable<>).Name);
+        var tmpValues = new List<object>();
+        CollectValues(xData, tmpValues, targetType);
+        var values = tmpValues.ToArray();
 
-          if (typeof(T).Equals(typeof(string)))
+        if (values.Length == 1 && values[0] is object[])
+        {
+          values = values[0] as object[];
+        }
+
+        if (enumerable != null)
+        {
+          if (targetType == typeof(object))
           {
-            enumerable = null;
-          }
-          else if (enumerable != null)
-          {
-            targetType = enumerable.GenericTypeArguments
-                                   .FirstOrDefault();
-          }
-
-          var tmpValues = new List<object>();
-          CollectValues(xData, tmpValues, targetType);
-          var values = tmpValues.ToArray();
-
-          if (values.Length == 1 && values[0] is object[])
-          {
-            values = values[0] as object[];
-          }
-
-          if (enumerable != null)
-          {
-            if (targetType == typeof(object))
-            {
-              return (T)(object)values;
-            }
-            else
-            {
-              var newValues = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(targetType));
-
-              foreach (var value in values)
-              {
-                if (typeof(T).Equals(typeof(Vector3d)))
-                {
-                  var tmp = (Point3d)value;
-                  newValues.Add(new Vector3d(tmp.X, tmp.Y, tmp.Z));
-                }
-                else
-                {
-                  newValues.Add(value);
-                }
-              }
-
-              return (T)newValues;
-            }
-          }
-          else if (values.Length == 1)
-          {
-            return (T)values[0];
+            return (T)(object)values;
           }
           else
           {
-            if (typeof(T).Equals(typeof(object)))
+            var newValues = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(targetType));
+
+            foreach (var value in values)
             {
-              return (T)(object)values;
+              if (typeof(T).Equals(typeof(Vector3d)))
+              {
+                var tmp = (Point3d)value;
+                newValues.Add(new Vector3d(tmp.X, tmp.Y, tmp.Z));
+              }
+              else
+              {
+                newValues.Add(value);
+              }
             }
-            else
-            {
-              throw Error.Generic("XData contains multiple: " + values.GetType().Name + " cannot be converted to " + typeof(T).Name);
-            }
+
+            return (T)newValues;
+          }
+        }
+        else if (values.Length == 1)
+        {
+          return (T)values[0];
+        }
+        else
+        {
+          if (typeof(T).Equals(typeof(object)))
+          {
+            return (T)(object)values;
+          }
+          else
+          {
+            throw new Exception("XData contains multiple: " + values.GetType().Name + " cannot be converted to " + typeof(T).Name);
           }
         }
       }
@@ -296,7 +278,7 @@ namespace Linq2Acad
         switch (input[i].TypeCode)
         {
           case (int)DxfCode.ExtendedDataRegAppName:
-            throw Error.Generic("Error in XData: There can't be another RegApp inside a RegApp");
+            throw new Exception("Error in XData: There can't be another RegApp inside a RegApp");
           case (int)DxfCode.ExtendedDataAsciiString:
           case (int)DxfCode.ExtendedDataLayerName:
           case (int)DxfCode.ExtendedDataHandle:
@@ -311,7 +293,7 @@ namespace Linq2Acad
             }
             catch (InvalidCastException)
             {
-              throw Error.InvalidConversion((DxfCode)input[i].TypeCode, targetType.Name);
+              throw new Exception($"DxfCode.{(DxfCode)input[i].TypeCode} cannot be converted to type {targetType.Name}");
             }
             break;
           case (int)DxfCode.ExtendedDataXCoordinate:
@@ -332,7 +314,7 @@ namespace Linq2Acad
             }
             catch (InvalidCastException)
             {
-              throw Error.InvalidConversion((DxfCode)input[i].TypeCode, targetType.Name);
+              throw new Exception($"DxfCode.{(DxfCode)input[i].TypeCode} cannot be converted to type {targetType.Name}");
             }
             break;
           case (int)DxfCode.ExtendedDataControlString:
@@ -349,7 +331,7 @@ namespace Linq2Acad
             }
             break;
           default:
-            throw Error.Generic("DxfCode." + ((DxfCode)input[i].TypeCode) + " is not a valid XData DxfCode");
+            throw new Exception("DxfCode." + ((DxfCode)input[i].TypeCode) + " is not a valid XData DxfCode");
         }
       }
 
@@ -378,6 +360,9 @@ namespace Linq2Acad
     /// <returns>True, if the extension dictionary contains an entry with the given key.</returns>
     public static bool HasData(this DBObject source, string key, bool useXData)
     {
+      Require.ParameterNotNull(source, nameof(source));
+      Require.StringNotEmpty(key, nameof(key));
+
       if (useXData)
       {
         var resultBuffer = source.GetXDataForApplication(key);
@@ -394,27 +379,20 @@ namespace Linq2Acad
       }
       else
       {
-        try
+        if (source.ExtensionDictionary.IsNull)
         {
-          if (source.ExtensionDictionary.IsNull)
-          {
-            return false;
-          }
-          else
-          {
-            var hasData = false;
-            Helpers.WrapInTransaction(source, tr =>
-                                              {
-                                                var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForRead);
-                                                hasData = dict.Contains(key);
-                                              });
-
-            return hasData;
-          }
+          return false;
         }
-        catch (Exception e)
+        else
         {
-          throw Error.AutoCadException(e);
+          var hasData = false;
+          Helpers.WrapInTransaction(source, tr =>
+                                            {
+                                              var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForRead);
+                                              hasData = dict.Contains(key);
+                                            });
+
+          return hasData;
         }
       }
     }
@@ -428,33 +406,20 @@ namespace Linq2Acad
     /// <exception cref="System.Collections.Generic.KeyNotFoundException">Thrown when the given key is not found.</exception>
     public static void RemoveData(this DBObject source, string key)
     {
-      var keyFound = false;
+      Require.ParameterNotNull(source, nameof(source));
+      Require.StringNotEmpty(key, nameof(key));
 
-      try
-      {
-        if (source.ExtensionDictionary.IsValid)
-        {
-          Helpers.WrapInTransaction(source, tr =>
-                                            {
-                                              var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForWrite);
+      Require.IsValid(source.ExtensionDictionary, nameof(source.ExtensionDictionary));
 
-                                              if (dict.Contains(key))
-                                              {
-                                                keyFound = true;
-                                                dict.Remove(key);
-                                              }
-                                            });
-        }
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      Helpers.WrapInTransaction(source,
+                                tr =>
+                                {
+                                  var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForWrite);
 
-      if (!keyFound)
-      {
-        throw Error.KeyNotFound(key);
-      }
+                                  Require.NameExists<DBObject>(dict.Contains(key), key);
+
+                                  dict.Remove(key);
+                                });
     }
   }
 }

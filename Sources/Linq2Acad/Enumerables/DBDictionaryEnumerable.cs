@@ -27,30 +27,18 @@ namespace Linq2Acad
 
     public T Element(string name)
     {
-      if (name == null) throw Error.ArgumentNull("name");
+      Require.StringNotEmpty(name, nameof(name));
+      Require.NameExists<T>(Contains(name), name);
 
-      try
-      {
-        return ElementInternal(name, false);
-      }
-      catch
-      {
-        throw Error.KeyNotFound(name);
-      }
+      return ElementInternal(name, false);
     }
 
     public T Element(string name, bool forWrite)
     {
-      if (name == null) throw Error.ArgumentNull("name");
+      Require.StringNotEmpty(name, nameof(name));
+      Require.NameExists<T>(Contains(name), name);
 
-      try
-      {
-        return ElementInternal(name, forWrite);
-      }
-      catch
-      {
-        throw Error.KeyNotFound(name);
-      }
+      return ElementInternal(name, forWrite);
     }
 
     private T ElementInternal(string name, bool forWrite)
@@ -62,30 +50,16 @@ namespace Linq2Acad
 
     public T ElementOrDefault(string name)
     {
-      if (name == null) throw Error.ArgumentNull("name");
+      Require.StringNotEmpty(name, nameof(name));
 
-      try
-      {
-        return ElementOrDefaultInternal(name, false);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return ElementOrDefaultInternal(name, false);
     }
 
     public T ElementOrDefault(string name, bool forWrite)
     {
-      if (name == null) throw Error.ArgumentNull("name");
+      Require.StringNotEmpty(name, nameof(name));
 
-      try
-      {
-        return ElementOrDefaultInternal(name, forWrite);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return ElementOrDefaultInternal(name, forWrite);
     }
 
     private T ElementOrDefaultInternal(string name, bool forWrite)
@@ -105,14 +79,7 @@ namespace Linq2Acad
 
     public override sealed int Count()
     {
-      try
-      {
-        return ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Count;
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Count;
     }
 
     protected override sealed void AddRangeInternal(IEnumerable<T> items, IEnumerable<string> names)

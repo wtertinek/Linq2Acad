@@ -36,10 +36,12 @@ namespace Linq2Acad
     {
       using (var db = AcadDatabase.Active())
       {
-        db.ModelSpace
-          .OfType<BlockReference>()
-          .UpgradeOpen()
-          .ForEach(br => br.Erase());
+        foreach (var br in db.ModelSpace
+                             .OfType<BlockReference>()
+                             .UpgradeOpen())
+        {
+          br.Erase();
+        }
       }
 
       WriteMessage("All block references removed from model space");
@@ -87,8 +89,10 @@ namespace Linq2Acad
     {
       using (var db = AcadDatabase.Active())
       {
-        db.Layers
-          .ForEach(l => WriteMessage(l.Name));
+        foreach (var layer in db.Layers)
+        {
+          WriteMessage(layer.Name);
+        }
       }
     }
 
@@ -102,13 +106,15 @@ namespace Linq2Acad
 
       using (var db = AcadDatabase.Active())
       {
-        var layer = db.Layers
-                      .Element(layerName);
+        var layerToIgnore = db.Layers
+                              .Element(layerName);
 
-        db.Layers
-          .Except(layer)
-          .UpgradeOpen()
-          .ForEach(l => l.IsOff = true);
+        foreach (var layer in db.Layers
+                                .Except(layerToIgnore)
+                                .UpgradeOpen())
+        {
+          layer.IsOff = true;
+        }
       }
 
       WriteMessage("All layers (except " + layerName + ") turned off");

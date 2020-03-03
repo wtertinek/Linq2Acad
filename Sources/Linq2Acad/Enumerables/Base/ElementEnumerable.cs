@@ -73,7 +73,7 @@ namespace Linq2Acad
 
   public class LazyElementEnumerable<T, TId, TConstraint> : ElementEnumerable<T, TId> where T : TConstraint
   {
-    private IDataProvider<TId, TConstraint> dataProvider;
+    private readonly IDataProvider<TId, TConstraint> dataProvider;
 
     public LazyElementEnumerable(IdEnumerable<TId> ids, IDataProvider<TId, TConstraint> dataProvider)
     {
@@ -81,7 +81,7 @@ namespace Linq2Acad
       this.dataProvider = dataProvider;
     }
 
-    internal IdEnumerable<TId> IDs { get; private set; }
+    internal IdEnumerable<TId> IDs { get; }
     
     public override sealed IEnumerator<T> GetEnumerator()
     {
@@ -245,6 +245,8 @@ namespace Linq2Acad
 
     public override sealed ElementEnumerable<T, TId> Union(IEnumerable<T> second)
     {
+      Require.ParameterNotNull(second, nameof(second));
+
       if (second is LazyElementEnumerable<T, TId, TConstraint>)
       {
         return new LazyElementEnumerable<T, TId, TConstraint>(new MaterializedIdEnumerable<TId>(IDs.Union((second as LazyElementEnumerable<T, TId, TConstraint>).IDs)), dataProvider);
@@ -276,9 +278,9 @@ namespace Linq2Acad
 
   #region Class MaterializedElementEnumerable
 
-  class MaterializedElementEnumerable<T, TId> : ElementEnumerable<T, TId>
+  internal class MaterializedElementEnumerable<T, TId> : ElementEnumerable<T, TId>
   {
-    private IEnumerable<T> elements;
+    private readonly IEnumerable<T> elements;
 
     public MaterializedElementEnumerable(IEnumerable<T> elements)
     {

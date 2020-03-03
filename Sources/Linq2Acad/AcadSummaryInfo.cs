@@ -13,7 +13,7 @@ namespace Linq2Acad
   /// </summary>
   public class AcadSummaryInfo
   {
-    private Database database;
+    private readonly Database database;
 
     private ObservableDictionary customProperties;
     private string author;
@@ -139,7 +139,7 @@ namespace Linq2Acad
 
           foreach (DictionaryEntry entry in new DatabaseSummaryInfoBuilder(database.SummaryInfo).CustomPropertyTable)
           {
-            customProperties[entry.Key.ToString()] = entry.Value != null ? entry.Value.ToString() : null;
+            customProperties[entry.Key.ToString()] = entry.Value?.ToString();
           }
 
           customProperties.Changed += (sender, e) => customPropertiesChanged = true;
@@ -321,7 +321,7 @@ namespace Linq2Acad
 
     private class ObservableDictionary : IDictionary<string, string>
     {
-      private Dictionary<string, string> dict;
+      private readonly Dictionary<string, string> dict;
 
       public ObservableDictionary()
       {

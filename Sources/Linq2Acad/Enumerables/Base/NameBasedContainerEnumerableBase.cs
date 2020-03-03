@@ -24,14 +24,7 @@ namespace Linq2Acad
 
     public bool Contains(string name)
     {
-      try
-      {
-        return ContainsInternal(name);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return ContainsInternal(name);
     }
 
     protected abstract bool ContainsInternal(string name);

@@ -11,38 +11,37 @@ namespace Linq2Acad
   {
     public static bool Contains(this DynamicBlockReferencePropertyCollection properties, string name)
     {
+      Require.ParameterNotNull(properties, nameof(properties));
+      Require.StringNotEmpty(name, nameof(name));
+
       return properties.Cast<DynamicBlockReferenceProperty>()
                        .Any(p => p.PropertyName == name);
     }
 
     public static object GetValue(this DynamicBlockReferencePropertyCollection properties, string name)
     {
+      Require.ParameterNotNull(properties, nameof(properties));
+      Require.StringNotEmpty(name, nameof(name));
+
       var property = properties.Cast<DynamicBlockReferenceProperty>()
                                .FirstOrDefault(p => p.PropertyName == name);
 
-      if (property == null)
-      {
-        throw Error.KeyNotFound(name);
-      }
-      else
-      {
-        return property.Value;
-      }
+      Require.ObjectNotNull(property, $"No {nameof(DynamicBlockReferenceProperty)} with name '{name}' found");
+
+      return property.Value;
     }
 
     public static void SetValue(this DynamicBlockReferencePropertyCollection properties, string name, object value)
     {
+      Require.ParameterNotNull(properties, nameof(properties));
+      Require.StringNotEmpty(name, nameof(name));
+
       var property = properties.Cast<DynamicBlockReferenceProperty>()
                                .FirstOrDefault(a => a.PropertyName == name);
 
-      if (property == null)
-      {
-        throw Error.KeyNotFound(name);
-      }
-      else
-      {
-        property.Value = value;
-      }
+      Require.ObjectNotNull(property, $"No {nameof(DynamicBlockReferenceProperty)} with name '{name}' found");
+
+      property.Value = value;
     }
   }
 }

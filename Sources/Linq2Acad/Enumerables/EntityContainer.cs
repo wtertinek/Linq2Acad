@@ -26,10 +26,7 @@ namespace Linq2Acad
     /// <summary>
     /// The ObjectId of the container.
     /// </summary>
-    public ObjectId ObjectId
-    {
-      get { return ID; }
-    }
+    public ObjectId ObjectId => ID;
 
     /// <summary>
     /// Adds an Entity to the container.
@@ -40,17 +37,10 @@ namespace Linq2Acad
     /// <returns>The ObjectId of the Entity that was added.</returns>
     public ObjectId Add(Entity entity)
     {
-      if (entity == null) throw Error.ArgumentNull("entity");
-      if (!entity.ObjectId.IsNull) throw Error.EntityBelongsToBlock();
+      Require.ParameterNotNull(entity, nameof(entity));
+      Require.NewlyCreated(entity, nameof(entity));
       
-      try
-      {
-        return AddInternal(new[] { entity }, false).First();
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return AddInternal(new[] { entity }, false).First();
     }
 
     /// <summary>
@@ -63,17 +53,10 @@ namespace Linq2Acad
     /// <returns>The ObjectId of the Entity that was added.</returns>
     public ObjectId Add(Entity entity, bool setDatabaseDefaults)
     {
-      if (entity == null) throw Error.ArgumentNull("entity");
-      if (!entity.ObjectId.IsNull) throw Error.EntityBelongsToBlock();
+      Require.ParameterNotNull(entity, nameof(entity));
+      Require.NewlyCreated(entity, nameof(entity));
 
-      try
-      {
-        return AddInternal(new[] { entity }, setDatabaseDefaults).First();
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return AddInternal(new[] { entity }, setDatabaseDefaults).First();
     }
 
     /// <summary>
@@ -85,19 +68,15 @@ namespace Linq2Acad
     /// <returns>The ObjectIds of the Entities that were added.</returns>
     public IEnumerable<ObjectId> Add(IEnumerable<Entity> entities)
     {
-      if (entities == null) throw Error.ArgumentNull("entities");
-      if (entities.Any(e => e == null)) throw Error.ElementNull("entities");
-      var alreadyInBlock = entities.FirstOrDefault(e => !e.ObjectId.IsNull);
-      if (alreadyInBlock != null) throw Error.EntityBelongsToBlock(alreadyInBlock.ObjectId);
+      Require.ParameterNotNull(entities, nameof(entities));
+      Require.ElementsNotNull(entities, nameof(entities));
 
-      try
+      foreach (var entity in entities)
       {
-        return AddInternal(entities, false);
+        Require.NewlyCreated(entity, nameof(entity));
       }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+
+      return AddInternal(entities, false);
     }
 
     /// <summary>
@@ -110,19 +89,15 @@ namespace Linq2Acad
     /// <returns>The ObjectIds of the Entities that were added.</returns>
     public IEnumerable<ObjectId> Add(IEnumerable<Entity> entities, bool setDatabaseDefaults)
     {
-      if (entities == null) throw Error.ArgumentNull("entities");
-      if (entities.Any(e => e == null)) throw Error.ElementNull("entities");
-      var alreadyInBlock = entities.FirstOrDefault(e => !e.ObjectId.IsNull);
-      if (alreadyInBlock != null) throw Error.EntityBelongsToBlock(alreadyInBlock.ObjectId);
-      
-      try
+      Require.ParameterNotNull(entities, nameof(entities));
+      Require.ElementsNotNull(entities, nameof(entities));
+
+      foreach (var entity in entities)
       {
-        return AddInternal(entities, setDatabaseDefaults);
+        Require.NewlyCreated(entity, nameof(entity));
       }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+
+      return AddInternal(entities, setDatabaseDefaults);
     }
 
     /// <summary>
@@ -153,14 +128,9 @@ namespace Linq2Acad
     /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     public void Clear()
     {
-      try
+      foreach (var entity in this.UpgradeOpen())
       {
-        this.UpgradeOpen()
-             .ForEach(e => e.Erase());
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
+        entity.Erase();
       }
     }
   }

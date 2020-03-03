@@ -7,73 +7,21 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Linq2Acad
 {
-  public class XRefStatus
+  public class XRefInfo
   {
-    private BlockTableRecord block;
+    private readonly XrefStatus status;
 
-    internal XRefStatus(BlockTableRecord block)
+    internal XRefInfo(XrefStatus status)
     {
-      this.block = block;
+      this.status = status;
     }
 
-    public bool FileNotFound
-    {
-      get
-      {
-        try
-        {
-          return (block.XrefStatus & XrefStatus.FileNotFound) == XrefStatus.FileNotFound;
-        }
-        catch (Exception e)
-        {
-          throw Error.AutoCadException(e);
-        }
-      }
-    }
+    public bool FileNotFound => (status & XrefStatus.FileNotFound) == XrefStatus.FileNotFound;
 
-    public bool IsResolved
-    {
-      get
-      {
-        try
-        {
-          return (block.XrefStatus & XrefStatus.Resolved) == XrefStatus.Resolved;
-        }
-        catch (Exception e)
-        {
-          throw Error.AutoCadException(e);
-        }
-      }
-    }
+    public bool IsResolved => (status & XrefStatus.Resolved) == XrefStatus.Resolved;
 
-    public bool IsLoaded
-    {
-      get
-      {
-        try
-        {
-          return !((block.XrefStatus & XrefStatus.Unloaded) == XrefStatus.Unloaded);
-        }
-        catch (Exception e)
-        {
-          throw Error.AutoCadException(e);
-        }
-      }
-    }
+    public bool IsLoaded => !((status & XrefStatus.Unloaded) == XrefStatus.Unloaded);
 
-    public bool IsReferenced
-    {
-      get
-      {
-        try
-        {
-          return !((block.XrefStatus & XrefStatus.Unreferenced) == XrefStatus.Unreferenced);
-        }
-        catch (Exception e)
-        {
-          throw Error.AutoCadException(e);
-        }
-      }
-    }
+    public bool IsReferenced => !((status & XrefStatus.Unreferenced) == XrefStatus.Unreferenced);
   }
 }

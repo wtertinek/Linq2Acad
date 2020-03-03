@@ -11,38 +11,34 @@ namespace Linq2Acad
   {
     public static bool Contains(this AttributeCollection attributes, string tag)
     {
+      Require.ParameterNotNull(attributes, nameof(attributes));
+
       return attributes.Cast<AttributeReference>()
                        .Any(a => a.Tag == tag);
     }
 
     public static string GetValue(this AttributeCollection attributes, string tag)
     {
+      Require.ParameterNotNull(attributes, nameof(attributes));
+
       var attribute = attributes.Cast<AttributeReference>()
                                 .FirstOrDefault(a => a.Tag == tag);
 
-      if (attribute == null)
-      {
-        throw Error.KeyNotFound(tag);
-      }
-      else
-      {
-        return attribute.TextString;
-      }
+      Require.ObjectNotNull(attribute, $"No {nameof(AttributeReference)} with Tag '{tag}' found");
+
+      return attribute.TextString;
     }
 
     public static void SetValue(this AttributeCollection attributes, string tag, string value)
     {
+      Require.ParameterNotNull(attributes, nameof(attributes));
+
       var attribute = attributes.Cast<AttributeReference>()
                                 .FirstOrDefault(a => a.Tag == tag);
 
-      if (attribute == null)
-      {
-        throw Error.KeyNotFound(tag);
-      }
-      else
-      {
-        attribute.TextString = value;
-      }
+      Require.ObjectNotNull(attribute, $"No {nameof(AttributeReference)} with Tag '{tag}' found");
+
+      attribute.TextString = value;
     }
   }
 }

@@ -21,8 +21,10 @@ namespace Linq2Acad
     /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>formatString</i> is null.</exception>
     public static void WriteLine(this Editor editor, string formatString, params object[] args)
     {
-      if (formatString == null) throw Error.ArgumentNull("formatString");
-      editor.WriteMessage(string.Format("\n" + formatString, args));
+      Require.ParameterNotNull(editor, nameof(editor));
+      Require.ParameterNotNull(formatString, nameof(formatString));
+
+      editor.WriteMessage(string.Format(System.Globalization.CultureInfo.CurrentCulture, "\n" + formatString, args));
     }
 
     /// <summary>
@@ -37,8 +39,10 @@ namespace Linq2Acad
     /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>message</i> or <i>validate</i> is null.</exception>
     public static PromptResult GetString(this Editor editor, string message, Func<string, bool> validate)
     {
-      if (message == null) throw Error.ArgumentNull("message");
-      if (validate == null) throw Error.ArgumentNull("validate");
+      Require.ParameterNotNull(editor, nameof(editor));
+      Require.ParameterNotNull(message, nameof(message));
+      Require.ParameterNotNull(validate, nameof(validate));
+
       return GetStringInternal(editor, message, validate, null);
     }
 
@@ -55,9 +59,11 @@ namespace Linq2Acad
     /// <returns>Returns the PromptResult.</returns>
     public static PromptResult GetString(this Editor editor, string message, Func<string, bool> validate, string errorMessage)
     {
-      if (message == null) throw Error.ArgumentNull("message");
-      if (validate == null) throw Error.ArgumentNull("validate");
-      if (errorMessage == null) throw Error.ArgumentNull("errorMessage");
+      Require.ParameterNotNull(editor, nameof(editor));
+      Require.ParameterNotNull(message, nameof(message));
+      Require.ParameterNotNull(validate, nameof(validate));
+      Require.ParameterNotNull(errorMessage, nameof(errorMessage));
+
       return GetStringInternal(editor, message, validate, errorMessage);
     }
 

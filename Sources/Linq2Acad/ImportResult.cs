@@ -28,11 +28,11 @@ namespace Linq2Acad
     /// <summary>
     /// The item that has been imported.
     /// </summary>
-    public T Item { get; private set; }
+    public T Item { get; }
 
     /// <summary>
     /// ID mapping from objects in the source database to objects in the target database.
     /// </summary>
-    public Dictionary<ObjectId, ObjectId> Mapping { get; private set; }
+    public Dictionary<ObjectId, ObjectId> Mapping { get; }
   }
 }

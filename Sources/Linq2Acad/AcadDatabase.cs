@@ -15,10 +15,11 @@ namespace Linq2Acad
   /// </summary>
   public sealed class AcadDatabase : IDisposable
   {
+    private readonly bool commitTransaction;
+    private readonly bool disposeTransaction;
+    private readonly bool disposeDatabase;
     private Transaction transaction;
-    private bool commitTransaction;
-    private bool disposeTransaction;
-    private bool disposeDatabase;
+    private readonly AcadSummaryInfo summaryInfo;
 
     /// <summary>
     /// Creates a new instance of AcadDatabase.
@@ -41,34 +42,32 @@ namespace Linq2Acad
     private AcadDatabase(Database database, Transaction transaction, bool commitTransaction, bool disposeTransaction)
     {
       Database = database;
-      SummaryInfo = new AcadSummaryInfo(database);
       this.transaction = transaction;
       this.commitTransaction = commitTransaction;
       this.disposeTransaction = disposeTransaction;
+      summaryInfo = new AcadSummaryInfo(database);
     }
 
     /// <summary>
     /// The darawing database in use.
     /// </summary>
-    public Database Database { get; private set; }
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)]
+    public Database Database { get; }
 
     /// <summary>
     /// Immediately discards all changes and the underlying transaction.
     /// </summary>
     public void DiscardChanges()
     {
-      try
+      Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+      if (!transaction.IsDisposed)
       {
-        if (!transaction.IsDisposed)
-        {
-          transaction.Abort();
-          transaction.Dispose();
-        }
+        transaction.Abort();
+        transaction.Dispose();
       }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+
+      transaction = Database.TransactionManager.StartTransaction();
     }
 
     /// <summary>
@@ -76,35 +75,26 @@ namespace Linq2Acad
     /// </summary>
     public void Dispose()
     {
-      try
+      Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+      if (commitTransaction)
       {
-        if (!transaction.IsDisposed)
+        transaction.Commit();
+
+        if (SummaryInfo.Changed)
         {
-          if (commitTransaction)
-          {
-            transaction.Commit();
-
-            if (SummaryInfo.Changed)
-            {
-              SummaryInfo.Commit();
-            }
-          }
-
-          if (disposeTransaction)
-          {
-            transaction.Dispose();
-          }
-        }
-
-        if (disposeDatabase &&
-            !Database.IsDisposed)
-        {
-          Database.Dispose();
+          SummaryInfo.Commit();
         }
       }
-      catch (Exception e)
+
+      if (disposeTransaction)
       {
-        throw Error.AutoCadException(e);
+        transaction.Dispose();
+      }
+
+      if (disposeDatabase)
+      {
+        Database.Dispose();
       }
     }
 
@@ -116,40 +106,37 @@ namespace Linq2Acad
     /// <param name="fileName">The name of the file.</param>
     public void SaveAs(string fileName)
     {
-      if (fileName == null) throw Error.ArgumentNull("fileName");
+      Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+      Require.StringNotEmpty(fileName, nameof(fileName));
 
-      try
-      {
-        Database.SaveAs(fileName, DwgVersion.Newest);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e, "Error saving drawing database to file " + fileName);
-      }
+      Database.SaveAs(fileName, DwgVersion.Newest);
     }
 
     /// <summary>
     /// Adds the given object to the underlaying transaction. This is only needed for objects that are not stored in containers (e.g. AttributeReference).
     /// </summary>
     /// <param name="obj">The object to add to the transaction.</param>
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)]
     public void AddNewlyCreatedDBObject(DBObject obj)
     {
-      if (obj == null) throw Error.ArgumentNull("obj");
+      Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+      Require.ParameterNotNull(obj, nameof(obj));
 
-      try
-      {
-        transaction.AddNewlyCreatedDBObject(obj, true);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e, "Error adding newly created object to transaction");
-      }
+      transaction.AddNewlyCreatedDBObject(obj, true);
     }
 
     /// <summary>
     /// Accesses the database's summary info.
     /// </summary>
-    public AcadSummaryInfo SummaryInfo { get; private set; }
+    public AcadSummaryInfo SummaryInfo
+    {
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return summaryInfo;
+      }
+    }
 
     #region Element | Elements
 
@@ -164,20 +151,10 @@ namespace Linq2Acad
     /// <returns>The object with the given ObjectId.</returns>
     public T Element<T>(ObjectId id) where T : DBObject
     {
-      if (!id.IsValid) throw Error.InvalidObject("ObjectId");
+      Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+      Require.IsValid(id, nameof(id));
       
-      try
-      {
-        return ElementInternal<T>(id, false);
-      }
-      catch (InvalidCastException e)
-      {
-        throw e;
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return ElementInternal<T>(id, false);
     }
 
     /// <summary>
@@ -192,20 +169,10 @@ namespace Linq2Acad
     /// <returns>The object with the given ObjectId.</returns>
     public T Element<T>(ObjectId id, bool forWrite) where T : DBObject
     {
-      if (!id.IsValid) throw Error.InvalidObject("ObjectId");
+      Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+      Require.IsValid(id, nameof(id));
 
-      try
-      {
-        return ElementInternal<T>(id, forWrite);
-      }
-      catch (InvalidCastException e)
-      {
-        throw e;
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return ElementInternal<T>(id, forWrite);
     }
 
     /// <summary>
@@ -219,24 +186,15 @@ namespace Linq2Acad
     /// <returns>The object with the given ObjectId.</returns>
     public T ElementOrDefault<T>(ObjectId id) where T : DBObject
     {
+      Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
       if (!id.IsValid)
       {
         return null;
       }
       else
       {
-        try
-        {
-          return ElementInternal<T>(id, false);
-        }
-        catch (InvalidCastException e)
-        {
-          throw e;
-        }
-        catch (Exception e)
-        {
-          throw Error.AutoCadException(e);
-        }
+        return ElementInternal<T>(id, false);
       }
     }
 
@@ -252,24 +210,15 @@ namespace Linq2Acad
     /// <returns>The object with the given ObjectId.</returns>
     public T ElementOrDefault<T>(ObjectId id, bool forWrite) where T : DBObject
     {
+      Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
       if (!id.IsValid)
       {
         return null;
       }
       else
       {
-        try
-        {
-          return ElementInternal<T>(id, forWrite);
-        }
-        catch (InvalidCastException e)
-        {
-          throw e;
-        }
-        catch (Exception e)
-        {
-          throw Error.AutoCadException(e);
-        }
+        return ElementInternal<T>(id, forWrite);
       }
     }
 
@@ -282,6 +231,8 @@ namespace Linq2Acad
     /// <returns>The object with the given ObjectId.</returns>
     private T ElementInternal<T>(ObjectId id, bool forWrite) where T : DBObject
     {
+      Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
       return (T)transaction.GetObject(id, forWrite ? OpenMode.ForWrite : OpenMode.ForRead);
     }
 
@@ -296,24 +247,10 @@ namespace Linq2Acad
     /// <returns>The objects with the given ObjectIds.</returns>
     public IEnumerable<T> Elements<T>(IEnumerable<ObjectId> ids) where T : DBObject
     {
-      if (ids == null) throw Error.ArgumentNull("ids");
+      Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+      Require.ElementsValid(ids, nameof(ids));
       
-      try
-      {
-        return ElementsInternal<T>(ids, false);
-      }
-      catch (InvalidObjectException e)
-      {
-        throw Error.Generic(e.Message);
-      }
-      catch (InvalidCastException e)
-      {
-        throw e;
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return ElementsInternal<T>(ids, false);
     }
 
     /// <summary>
@@ -328,24 +265,10 @@ namespace Linq2Acad
     /// <returns>The objects with the given ObjectIds.</returns>
     public IEnumerable<T> Elements<T>(IEnumerable<ObjectId> ids, bool forWrite) where T : DBObject
     {
-      if (ids == null) throw Error.ArgumentNull("ids");
+      Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+      Require.ElementsValid(ids, nameof(ids));
 
-      try
-      {
-        return ElementsInternal<T>(ids, forWrite);
-      }
-      catch (InvalidObjectException e)
-      {
-        throw Error.Generic(e.Message);
-      }
-      catch (InvalidCastException e)
-      {
-        throw e;
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return ElementsInternal<T>(ids, forWrite);
     }
 
     /// <summary>
@@ -359,24 +282,11 @@ namespace Linq2Acad
     /// <returns>The objects with the given ObjectIds.</returns>
     public IEnumerable<T> Elements<T>(ObjectIdCollection ids) where T : DBObject
     {
-      if (ids == null) throw Error.ArgumentNull("ids");
-      
-      try
-      {
-        return ElementsInternal<T>(ids.Cast<ObjectId>(), false);
-      }
-      catch (InvalidObjectException e)
-      {
-        throw Error.Generic(e.Message);
-      }
-      catch (InvalidCastException e)
-      {
-        throw e;
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+      Require.ParameterNotNull(ids, nameof(ids));
+      Require.ElementsValid(ids.Cast<ObjectId>(), nameof(ids));
+
+      return ElementsInternal<T>(ids.Cast<ObjectId>(), false);
     }
 
     /// <summary>
@@ -391,24 +301,11 @@ namespace Linq2Acad
     /// <returns>The objects with the given ObjectIds.</returns>
     public IEnumerable<T> Elements<T>(ObjectIdCollection ids, bool forWrite) where T : DBObject
     {
-      if (ids == null) throw Error.ArgumentNull("ids");
+      Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+      Require.ParameterNotNull(ids, nameof(ids));
+      Require.ElementsValid(ids.Cast<ObjectId>(), nameof(ids));
 
-      try
-      {
-        return ElementsInternal<T>(ids.Cast<ObjectId>(), forWrite);
-      }
-      catch (InvalidObjectException e)
-      {
-        throw Error.Generic(e.Message);
-      }
-      catch (InvalidCastException e)
-      {
-        throw e;
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return ElementsInternal<T>(ids.Cast<ObjectId>(), forWrite);
     }
 
     /// <summary>
@@ -424,7 +321,6 @@ namespace Linq2Acad
 
       foreach (var id in ids)
       {
-        if (!id.IsValid) throw Error.InvalidObject("ObjectId");
         yield return (T)transaction.GetObject(id, openMode);
       }
     }
@@ -438,7 +334,12 @@ namespace Linq2Acad
     /// </summary>
     public BlockContainer Blocks
     {
-      get { return new BlockContainer(Database, transaction); }
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new BlockContainer(Database, transaction);
+      }
     }
 
     /// <summary>
@@ -446,7 +347,12 @@ namespace Linq2Acad
     /// </summary>
     public LayerContainer Layers
     {
-      get { return new LayerContainer(Database, transaction); }
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new LayerContainer(Database, transaction);
+      }
     }
 
     /// <summary>
@@ -454,7 +360,12 @@ namespace Linq2Acad
     /// </summary>
     public DimStyleContainer DimStyles
     {
-      get { return new DimStyleContainer(Database, transaction); }
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new DimStyleContainer(Database, transaction);
+      }
     }
 
     /// <summary>
@@ -462,7 +373,12 @@ namespace Linq2Acad
     /// </summary>
     public LinetypeContainer Linetypes
     {
-      get { return new LinetypeContainer(Database, transaction); }
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new LinetypeContainer(Database, transaction);
+      }
     }
 
     /// <summary>
@@ -470,7 +386,12 @@ namespace Linq2Acad
     /// </summary>
     public RegAppContainer RegApps
     {
-      get { return new RegAppContainer(Database, transaction); }
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new RegAppContainer(Database, transaction);
+      }
     }
 
     /// <summary>
@@ -478,7 +399,12 @@ namespace Linq2Acad
     /// </summary>
     public TextStyleContainer TextStyles
     {
-      get { return new TextStyleContainer(Database, transaction); }
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new TextStyleContainer(Database, transaction);
+      }
     }
 
     /// <summary>
@@ -486,7 +412,12 @@ namespace Linq2Acad
     /// </summary>
     public UcsContainer Ucss
     {
-      get { return new UcsContainer(Database, transaction); }
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new UcsContainer(Database, transaction);
+      }
     }
 
     /// <summary>
@@ -494,7 +425,12 @@ namespace Linq2Acad
     /// </summary>
     public ViewportContainer Viewports
     {
-      get { return new ViewportContainer(Database, transaction); }
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new ViewportContainer(Database, transaction);
+      }
     }
 
     /// <summary>
@@ -502,7 +438,12 @@ namespace Linq2Acad
     /// </summary>
     public ViewContainer Views
     {
-      get { return new ViewContainer(Database, transaction); }
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new ViewContainer(Database, transaction);
+      }
     }
 
     /// <summary>
@@ -510,7 +451,12 @@ namespace Linq2Acad
     /// </summary>
     public XRefContainer XRefs
     {
-      get { return new XRefContainer(Database, transaction); }
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new XRefContainer(Database, transaction);
+      }
     }
 
     #endregion
@@ -522,7 +468,12 @@ namespace Linq2Acad
     /// </summary>
     public LayoutContainer Layouts
     {
-      get { return new LayoutContainer(Database, transaction, Database.LayoutDictionaryId); }
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new LayoutContainer(Database, transaction, Database.LayoutDictionaryId);
+      }
     }
 
     /// <summary>
@@ -530,7 +481,12 @@ namespace Linq2Acad
     /// </summary>
     public GroupContainer Groups
     {
-      get { return new GroupContainer(Database, transaction, Database.GroupDictionaryId); }
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new GroupContainer(Database, transaction, Database.GroupDictionaryId);
+      }
     }
 
     /// <summary>
@@ -538,7 +494,12 @@ namespace Linq2Acad
     /// </summary>
     public MLeaderStyleContainer MLeaderStyles
     {
-      get { return new MLeaderStyleContainer(Database, transaction, Database.MLeaderStyleDictionaryId); }
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new MLeaderStyleContainer(Database, transaction, Database.MLeaderStyleDictionaryId);
+      }
     }
 
     /// <summary>
@@ -546,7 +507,12 @@ namespace Linq2Acad
     /// </summary>
     public MlineStyleContainer MlineStyles
     {
-      get { return new MlineStyleContainer(Database, transaction, Database.MLStyleDictionaryId); }
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new MlineStyleContainer(Database, transaction, Database.MLStyleDictionaryId);
+      }
     }
 
     /// <summary>
@@ -554,7 +520,12 @@ namespace Linq2Acad
     /// </summary>
     public MaterialContainer Materials
     {
-      get { return new MaterialContainer(Database, transaction, Database.MaterialDictionaryId); }
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new MaterialContainer(Database, transaction, Database.MaterialDictionaryId);
+      }
     }
 
     /// <summary>
@@ -562,7 +533,12 @@ namespace Linq2Acad
     /// </summary>
     public DBVisualStyleContainer DBVisualStyles
     {
-      get { return new DBVisualStyleContainer(Database, transaction, Database.VisualStyleDictionaryId); }
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new DBVisualStyleContainer(Database, transaction, Database.VisualStyleDictionaryId);
+      }
     }
 
     /// <summary>
@@ -570,7 +546,12 @@ namespace Linq2Acad
     /// </summary>
     public PlotSettingsContainer PlotSettings
     {
-      get { return new PlotSettingsContainer(Database, transaction, Database.PlotSettingsDictionaryId); }
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new PlotSettingsContainer(Database, transaction, Database.PlotSettingsDictionaryId);
+      }
     }
 
     /// <summary>
@@ -578,7 +559,12 @@ namespace Linq2Acad
     /// </summary>
     public TableStyleContainer TableStyles
     {
-      get { return new TableStyleContainer(Database, transaction, Database.TableStyleDictionaryId); }
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new TableStyleContainer(Database, transaction, Database.TableStyleDictionaryId);
+      }
     }
 
     /// <summary>
@@ -586,7 +572,12 @@ namespace Linq2Acad
     /// </summary>
     public SectionViewStyleContainer SectionViewStyles
     {
-      get { return new SectionViewStyleContainer(Database, transaction, Database.SectionViewStyleDictionaryId); }
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new SectionViewStyleContainer(Database, transaction, Database.SectionViewStyleDictionaryId);
+      }
     }
 
     /// <summary>
@@ -594,7 +585,12 @@ namespace Linq2Acad
     /// </summary>
     public DetailViewStyleContainer DetailViewStyles
     {
-      get { return new DetailViewStyleContainer(Database, transaction, Database.DetailViewStyleDictionaryId); }
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new DetailViewStyleContainer(Database, transaction, Database.DetailViewStyleDictionaryId);
+      }
     }
 
     #endregion
@@ -608,14 +604,9 @@ namespace Linq2Acad
     {
       get
       {
-        try
-        {
-          return new EntityContainer(Database, transaction, Database.CurrentSpaceId);
-        }
-        catch (Exception e)
-        {
-          throw Error.AutoCadException(e);
-        }
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new EntityContainer(Database, transaction, Database.CurrentSpaceId);
       }
     }
 
@@ -626,15 +617,10 @@ namespace Linq2Acad
     {
       get
       {
-        try
-        {
-          var modelSpaceId = ((BlockTable)transaction.GetObject(Database.BlockTableId, OpenMode.ForRead))[BlockTableRecord.ModelSpace];
-          return new EntityContainer(Database, transaction, modelSpaceId);
-        }
-        catch (Exception e)
-        {
-          throw Error.AutoCadException(e);
-        }
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        var modelSpaceId = ((BlockTable)transaction.GetObject(Database.BlockTableId, OpenMode.ForRead))[BlockTableRecord.ModelSpace];
+        return new EntityContainer(Database, transaction, modelSpaceId);
       }
     }
 
@@ -645,6 +631,8 @@ namespace Linq2Acad
     /// <returns>An IEnumerable&lt;EntityContainer&gt;. Each EntityContainer provides access to the entities of one layout.</returns>
     public IEnumerable<EntityContainer> PaperSpace()
     {
+      Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
       foreach (var layout in Layouts.Where(l => !l.ModelType)
                                     .OrderBy(l => l.TabOrder))
       {
@@ -659,21 +647,16 @@ namespace Linq2Acad
     /// <returns>An EntityContainer to access the layout's entities.</returns>
     public EntityContainer PaperSpace(int index)
     {
-      var layouts = Layouts.ToArray();
-      if (index < 0 || index >= layouts.Length) throw Error.IndexOutOfRange("index", layouts.Length);
-      
-      var blockId = Layouts.Where(l => !l.ModelType)
-                           .OrderBy(l => l.TabOrder)
-                           .ElementAt(index)
-                           .BlockTableRecordId;
-      try
-      {
-        return new EntityContainer(Database, transaction, blockId);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+      var paperSpaceLayouts = Layouts.Where(l => !l.ModelType)
+                                     .OrderBy(l => l.TabOrder)
+                                     .ToArray();
+
+      Require.ValidArrayIndex(index, paperSpaceLayouts.Length, nameof(index));
+
+      return new EntityContainer(Database, transaction, paperSpaceLayouts.ElementAt(index)
+                                                               .BlockTableRecordId);
     }
 
     /// <summary>
@@ -683,19 +666,15 @@ namespace Linq2Acad
     /// <returns>An EntityContainer to access the layout's entities.</returns>
     public EntityContainer PaperSpace(string name)
     {
-      if (name == null) throw Error.ArgumentNull("name");
+      Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+      Require.ParameterNotNull(name, nameof(name));
+      Require.NameExists<Layout>(Layouts.Contains(name), nameof(name));
 
-      try
-      {
-        var layout = Layouts.Element(name);
-        if (layout.ModelType) throw Error.Generic("Not a paper space layout");
+      var layout = Layouts.Element(name);
 
-        return new EntityContainer(Database, transaction, layout.BlockTableRecordId);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      Require.IsTrue(layout.ModelType, $"{name} is not a paper space layout");
+
+      return new EntityContainer(Database, transaction, layout.BlockTableRecordId);
     }
 
     #endregion
@@ -709,18 +688,7 @@ namespace Linq2Acad
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Create()
     {
-      Database db = null;
-
-      try
-      {
-        db = new Database(true, true);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
-
-      return new AcadDatabase(db, false);
+      return Create(false);
     }
 
     /// <summary>
@@ -731,18 +699,7 @@ namespace Linq2Acad
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Create(bool keepOpen)
     {
-      Database db = null;
-
-      try
-      {
-        db = new Database(true, true);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
-
-      return new AcadDatabase(db, keepOpen);
+      return new AcadDatabase(new Database(true, true), keepOpen);
     }
 
     /// <summary>
@@ -752,7 +709,8 @@ namespace Linq2Acad
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Active()
     {
-      if (Application.DocumentManager.MdiActiveDocument == null) Error.NoActiveDocument();
+      Require.ObjectNotNull(Application.DocumentManager.MdiActiveDocument, "No active document");
+
       return new AcadDatabase(Application.DocumentManager.MdiActiveDocument.Database, true);
     }
 
@@ -768,9 +726,10 @@ namespace Linq2Acad
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)]
     public static AcadDatabase Active(Transaction transaction, bool commitTransaction, bool disposeTransaction)
     {
-      if (Application.DocumentManager.MdiActiveDocument == null) Error.NoActiveDocument();
-      if (transaction == null) throw Error.ArgumentNull("transaction");
-      if (transaction.IsDisposed) throw Error.InvalidObject("Transaction");
+      Require.ObjectNotNull(Application.DocumentManager.MdiActiveDocument, "No active document");
+      Require.ParameterNotNull(transaction, nameof(transaction));
+      Require.NotDisposed(transaction.IsDisposed, nameof(Transaction), nameof(transaction));
+
       return new AcadDatabase(Application.DocumentManager.MdiActiveDocument.Database, transaction, commitTransaction, disposeTransaction);
     }
 
@@ -783,8 +742,9 @@ namespace Linq2Acad
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Use(Database database)
     {
-      if (database == null) throw Error.ArgumentNull("database");
-      if (database.IsDisposed) throw Error.InvalidObject("Database");
+      Require.ParameterNotNull(database, nameof(database));
+      Require.NotDisposed(database.IsDisposed, nameof(Database), nameof(database));
+
       return new AcadDatabase(database, true);
     }
 
@@ -801,10 +761,11 @@ namespace Linq2Acad
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)]
     public static AcadDatabase Use(Database database, Transaction transaction, bool commitTransaction, bool disposeTransaction)
     {
-      if (database == null) throw Error.ArgumentNull("database");
-      if (database.IsDisposed) throw Error.InvalidObject("Database");
-      if (transaction == null) throw Error.ArgumentNull("transaction");
-      if (transaction.IsDisposed) throw Error.InvalidObject("Transaction");
+      Require.ParameterNotNull(database, nameof(database));
+      Require.NotDisposed(database.IsDisposed, nameof(Database), nameof(database));
+      Require.ParameterNotNull(transaction, nameof(transaction));
+      Require.NotDisposed(transaction.IsDisposed, nameof(transaction));
+
       return new AcadDatabase(database, transaction, commitTransaction, disposeTransaction);
     }
 
@@ -819,17 +780,10 @@ namespace Linq2Acad
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Open(string fileName, DwgOpenMode openMode)
     {
-      if (fileName == null) throw Error.ArgumentNull("fileName");
-      if (!File.Exists(fileName)) throw Error.FileNotFound(fileName);
+      Require.StringNotEmpty(fileName, nameof(fileName));
+      Require.FileExists(fileName, nameof(fileName));
 
-      try
-      {
-        return OpenInternal(fileName, openMode, null, false);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e, "Error opening drawing file " + fileName);
-      }
+      return OpenInternal(fileName, openMode, null, false);
     }
 
     /// <summary>
@@ -844,17 +798,10 @@ namespace Linq2Acad
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Open(string fileName, DwgOpenMode openMode, bool keepOpen)
     {
-      if (fileName == null) throw Error.ArgumentNull("fileName");
-      if (!File.Exists(fileName)) throw Error.FileNotFound(fileName);
+      Require.StringNotEmpty(fileName, nameof(fileName));
+      Require.FileExists(fileName, nameof(fileName));
       
-      try
-      {
-        return OpenInternal(fileName, openMode, null, keepOpen);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e, "Error opening drawing file " + fileName);
-      }
+      return OpenInternal(fileName, openMode, null, keepOpen);
     }
 
     /// <summary>
@@ -869,17 +816,10 @@ namespace Linq2Acad
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Open(string fileName, DwgOpenMode openMode, string password)
     {
-      if (fileName == null) throw Error.ArgumentNull("fileName");
-      if (!File.Exists(fileName)) throw Error.FileNotFound(fileName);
+      Require.StringNotEmpty(fileName, nameof(fileName));
+      Require.FileExists(fileName, nameof(fileName));
       
-      try
-      {
-        return OpenInternal(fileName, openMode, password, false);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e, "Error opening drawing file " + fileName);
-      }
+      return OpenInternal(fileName, openMode, password, false);
     }
 
     /// <summary>
@@ -895,17 +835,10 @@ namespace Linq2Acad
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Open(string fileName, DwgOpenMode openMode, string password, bool keepOpen)
     {
-      if (fileName == null) throw Error.ArgumentNull("fileName");
-      if (!File.Exists(fileName)) throw Error.FileNotFound(fileName);
+      Require.StringNotEmpty(fileName, nameof(fileName));
+      Require.FileExists(fileName, nameof(fileName));
 
-      try
-      {
-        return OpenInternal(fileName, openMode, password, keepOpen);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e, "Error opening drawing file " + fileName);
-      }
+      return OpenInternal(fileName, openMode, password, keepOpen);
     }
 
     /// <summary>

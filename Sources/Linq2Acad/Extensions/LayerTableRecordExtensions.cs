@@ -21,16 +21,10 @@ namespace Linq2Acad
     /// <exception cref="System.Exception">Thrown when adding the entity throws an exception.</exception>
     public static void Add(this LayerTableRecord layer, Entity entity)
     {
-      if (entity == null) throw Error.ArgumentNull("entity");
+      Require.ParameterNotNull(layer, nameof(layer));
+      Require.ParameterNotNull(entity, nameof(entity));
 
-      try
-      {
-        AddInternal(layer, entity);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      AddInternal(layer, entity);
     }
 
     /// <summary>
@@ -42,18 +36,12 @@ namespace Linq2Acad
     /// <exception cref="System.Exception">Thrown when adding an entity throws an exception.</exception>
     public static void AddRange(this LayerTableRecord layer, IEnumerable<Entity> entities)
     {
-      if (entities == null) throw Error.ArgumentNull("entities");
+      Require.ParameterNotNull(layer, nameof(layer));
+      Require.ParameterNotNull(entities, nameof(entities));
 
       foreach (var entity in entities)
       {
-        try
-        {
-          AddInternal(layer, entity);
-        }
-        catch (Exception e)
-        {
-          throw Error.AutoCadException(e);
-        }
+        AddInternal(layer, entity);
       }
     }
 

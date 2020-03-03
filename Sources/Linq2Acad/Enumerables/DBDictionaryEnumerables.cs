@@ -21,55 +21,33 @@ namespace Linq2Acad
 
     public DBVisualStyle Create(string name)
     {
-      if (name == null) throw Error.ArgumentNull("name");
-      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.ObjectExists<DBVisualStyle>(name);
+      Require.IsValidSymbolName(name, nameof(name));
+      Require.NameDoesNotExists<DBVisualStyle>(Contains(name), name);
 
-      try
-      {
-        return CreateInternal(name);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return CreateInternal(name);
     }
 
     public void Add(DBVisualStyle item)
     {
-      if (item == null) throw Error.ArgumentNull("item");
-      if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-      if (Contains(item.Name)) throw Error.ObjectExists<DBVisualStyle>(item.Name);
+      Require.ParameterNotNull(item, nameof(item));
+      Require.IsValidSymbolName(item.Name, nameof(item.Name));
+      Require.NameDoesNotExists<DBVisualStyle>(Contains(item.Name), item.Name);
 
-      try
-      {
-        AddRangeInternal(new[] { item }, new[] { item.Name });
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      AddRangeInternal(new[] { item }, new[] { item.Name });
     }
 
     public void AddRange(IEnumerable<DBVisualStyle> items)
     {
-      if (items == null) throw Error.ArgumentNull("items");
+      Require.ParameterNotNull(items, nameof(items));
 
       foreach (var item in items)
       {
-        if (item == null) throw Error.ArgumentNull("item");
-        if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-        if (Contains(item.Name)) throw Error.ObjectExists<DBVisualStyle>(item.Name);
+        Require.ParameterNotNull(item, nameof(item));
+        Require.IsValidSymbolName(item.Name, nameof(item.Name));
+        Require.NameDoesNotExists<DBVisualStyle>(Contains(item.Name), item.Name);
       }
 
-      try
-      {
-        AddRangeInternal(items, items.Select(i => i.Name));
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      AddRangeInternal(items, items.Select(i => i.Name));
     }
   }
 
@@ -87,55 +65,33 @@ namespace Linq2Acad
 
     public DetailViewStyle Create(string name)
     {
-      if (name == null) throw Error.ArgumentNull("name");
-      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.ObjectExists<DetailViewStyle>(name);
+      Require.IsValidSymbolName(name, nameof(name));
+      Require.NameDoesNotExists<DetailViewStyle>(Contains(name), name);
 
-      try
-      {
-        return CreateInternal(name);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return CreateInternal(name);
     }
 
     public void Add(DetailViewStyle item)
     {
-      if (item == null) throw Error.ArgumentNull("item");
-      if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-      if (Contains(item.Name)) throw Error.ObjectExists<DetailViewStyle>(item.Name);
+      Require.ParameterNotNull(item, nameof(item));
+      Require.IsValidSymbolName(item.Name, nameof(item.Name));
+      Require.NameDoesNotExists<DetailViewStyle>(Contains(item.Name), item.Name);
 
-      try
-      {
-        AddRangeInternal(new[] { item }, new[] { item.Name });
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      AddRangeInternal(new[] { item }, new[] { item.Name });
     }
 
     public void AddRange(IEnumerable<DetailViewStyle> items)
     {
-      if (items == null) throw Error.ArgumentNull("items");
+      Require.ParameterNotNull(items, nameof(items));
 
       foreach (var item in items)
       {
-        if (item == null) throw Error.ArgumentNull("item");
-        if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-        if (Contains(item.Name)) throw Error.ObjectExists<DetailViewStyle>(item.Name);
+        Require.ParameterNotNull(item, nameof(item));
+        Require.IsValidSymbolName(item.Name, nameof(item.Name));
+        Require.NameDoesNotExists<DetailViewStyle>(Contains(item.Name), item.Name);
       }
 
-      try
-      {
-        AddRangeInternal(items, items.Select(i => i.Name));
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      AddRangeInternal(items, items.Select(i => i.Name));
     }
   }
 
@@ -153,82 +109,52 @@ namespace Linq2Acad
 
     public Group Create(string name)
     {
-      if (name == null) throw Error.ArgumentNull("name");
-      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.ObjectExists<Group>(name);
+      Require.IsValidSymbolName(name, nameof(name));
+      Require.NameDoesNotExists<Group>(Contains(name), name);
 
-      try
-      {
-        return CreateInternal(name);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return CreateInternal(name);
     }
 
     public Group Create(string name, IEnumerable<Entity> entities)
     {
-      if (name == null) throw Error.ArgumentNull("name");
-      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.ObjectExists<Group>(name);
+      Require.IsValidSymbolName(name, nameof(name));
+      Require.NameDoesNotExists<Group>(Contains(name), name);
 
-      try
+      var group = CreateInternal(name);
+
+      if (entities.Any())
       {
-        var group = CreateInternal(name);
-
-        if (entities.Any())
+        using (var idCollection = new ObjectIdCollection(entities.Select(e => e.ObjectId)
+                                                                  .ToArray()))
         {
-          using (var idCollection = new ObjectIdCollection(entities.Select(e => e.ObjectId)
-                                                                   .ToArray()))
-          {
-            group.Append(idCollection);
-          }
+          group.Append(idCollection);
         }
+      }
 
-        return group;
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return group;
     }
 
     public void Add(Group item)
     {
-      if (item == null) throw Error.ArgumentNull("item");
-      if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-      if (Contains(item.Name)) throw Error.ObjectExists<Group>(item.Name);
+      Require.ParameterNotNull(item, nameof(item));
+      Require.IsValidSymbolName(item.Name, nameof(item.Name));
+      Require.NameDoesNotExists<Group>(Contains(item.Name), item.Name);
 
-      try
-      {
-        AddRangeInternal(new[] { item }, new[] { item.Name });
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      AddRangeInternal(new[] { item }, new[] { item.Name });
     }
 
     public void AddRange(IEnumerable<Group> items)
     {
-      if (items == null) throw Error.ArgumentNull("items");
+      Require.ParameterNotNull(items, nameof(items));
 
       foreach (var item in items)
       {
-        if (item == null) throw Error.ArgumentNull("item");
-        if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-        if (Contains(item.Name)) throw Error.ObjectExists<Group>(item.Name);
+        Require.ParameterNotNull(item, nameof(item));
+        Require.IsValidSymbolName(item.Name, nameof(item.Name));
+        Require.NameDoesNotExists<Group>(Contains(item.Name), item.Name);
       }
 
-      try
-      {
-        AddRangeInternal(items, items.Select(i => i.Name));
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      AddRangeInternal(items, items.Select(i => i.Name));
     }
   }
 
@@ -251,55 +177,33 @@ namespace Linq2Acad
 
     public Layout Create(string name)
     {
-      if (name == null) throw Error.ArgumentNull("name");
-      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.ObjectExists<Layout>(name);
+      Require.IsValidSymbolName(name, nameof(name));
+      Require.NameDoesNotExists<Layout>(Contains(name), name);
 
-      try
-      {
-        return CreateInternal(name);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return CreateInternal(name);
     }
 
     public void Add(Layout item)
     {
-      if (item == null) throw Error.ArgumentNull("item");
-      if (!Helpers.IsNameValid(item.LayoutName)) throw Error.InvalidName(item.LayoutName);
-      if (Contains(item.LayoutName)) throw Error.ObjectExists<Layout>(item.LayoutName);
+      Require.ParameterNotNull(item, nameof(item));
+      Require.IsValidSymbolName(item.LayoutName, nameof(item.LayoutName));
+      Require.NameDoesNotExists<Layout>(Contains(item.LayoutName), item.LayoutName);
 
-      try
-      {
-        AddRangeInternal(new[] { item }, new[] { item.LayoutName });
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      AddRangeInternal(new[] { item }, new[] { item.LayoutName });
     }
 
     public void AddRange(IEnumerable<Layout> items)
     {
-      if (items == null) throw Error.ArgumentNull("items");
+      Require.ParameterNotNull(items, nameof(items));
 
       foreach (var item in items)
       {
-        if (item == null) throw Error.ArgumentNull("item");
-        if (!Helpers.IsNameValid(item.LayoutName)) throw Error.InvalidName(item.LayoutName);
-        if (Contains(item.LayoutName)) throw Error.ObjectExists<Layout>(item.LayoutName);
+        Require.ParameterNotNull(item, nameof(item));
+        Require.IsValidSymbolName(item.LayoutName, nameof(item.LayoutName));
+        Require.NameDoesNotExists<Layout>(Contains(item.LayoutName), item.LayoutName);
       }
 
-      try
-      {
-        AddRangeInternal(items, items.Select(i => i.LayoutName));
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      AddRangeInternal(items, items.Select(i => i.LayoutName));
     }
   }
 
@@ -317,55 +221,33 @@ namespace Linq2Acad
 
     public Material Create(string name)
     {
-      if (name == null) throw Error.ArgumentNull("name");
-      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.ObjectExists<Material>(name);
+      Require.IsValidSymbolName(name, nameof(name));
+      Require.NameDoesNotExists<Material>(Contains(name), name);
 
-      try
-      {
-        return CreateInternal(name);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return CreateInternal(name);
     }
 
     public void Add(Material item)
     {
-      if (item == null) throw Error.ArgumentNull("item");
-      if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-      if (Contains(item.Name)) throw Error.ObjectExists<Material>(item.Name);
+      Require.ParameterNotNull(item, nameof(item));
+      Require.IsValidSymbolName(item.Name, nameof(item.Name));
+      Require.NameDoesNotExists<Material>(Contains(item.Name), item.Name);
 
-      try
-      {
-        AddRangeInternal(new[] { item }, new[] { item.Name });
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      AddRangeInternal(new[] { item }, new[] { item.Name });
     }
 
     public void AddRange(IEnumerable<Material> items)
     {
-      if (items == null) throw Error.ArgumentNull("items");
+      Require.ParameterNotNull(items, nameof(items));
 
       foreach (var item in items)
       {
-        if (item == null) throw Error.ArgumentNull("item");
-        if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-        if (Contains(item.Name)) throw Error.ObjectExists<Material>(item.Name);
+        Require.ParameterNotNull(item, nameof(item));
+        Require.IsValidSymbolName(item.Name, nameof(item.Name));
+        Require.NameDoesNotExists<Material>(Contains(item.Name), item.Name);
       }
 
-      try
-      {
-        AddRangeInternal(items, items.Select(i => i.Name));
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      AddRangeInternal(items, items.Select(i => i.Name));
     }
   }
 
@@ -383,55 +265,33 @@ namespace Linq2Acad
 
     public MLeaderStyle Create(string name)
     {
-      if (name == null) throw Error.ArgumentNull("name");
-      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.ObjectExists<MLeaderStyle>(name);
+      Require.IsValidSymbolName(name, nameof(name));
+      Require.NameDoesNotExists<MLeaderStyle>(Contains(name), name);
 
-      try
-      {
-        return CreateInternal(name);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return CreateInternal(name);
     }
 
     public void Add(MLeaderStyle item)
     {
-      if (item == null) throw Error.ArgumentNull("item");
-      if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-      if (Contains(item.Name)) throw Error.ObjectExists<MLeaderStyle>(item.Name);
+      Require.ParameterNotNull(item, nameof(item));
+      Require.IsValidSymbolName(item.Name, nameof(item.Name));
+      Require.NameDoesNotExists<MLeaderStyle>(Contains(item.Name), item.Name);
 
-      try
-      {
-        AddRangeInternal(new[] { item }, new[] { item.Name });
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      AddRangeInternal(new[] { item }, new[] { item.Name });
     }
 
     public void AddRange(IEnumerable<MLeaderStyle> items)
     {
-      if (items == null) throw Error.ArgumentNull("items");
+      Require.ParameterNotNull(items, nameof(items));
 
       foreach (var item in items)
       {
-        if (item == null) throw Error.ArgumentNull("item");
-        if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-        if (Contains(item.Name)) throw Error.ObjectExists<MLeaderStyle>(item.Name);
+        Require.ParameterNotNull(item, nameof(item));
+        Require.IsValidSymbolName(item.Name, nameof(item.Name));
+        Require.NameDoesNotExists<MLeaderStyle>(Contains(item.Name), item.Name);
       }
 
-      try
-      {
-        AddRangeInternal(items, items.Select(i => i.Name));
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      AddRangeInternal(items, items.Select(i => i.Name));
     }
   }
 
@@ -449,55 +309,33 @@ namespace Linq2Acad
 
     public MlineStyle Create(string name)
     {
-      if (name == null) throw Error.ArgumentNull("name");
-      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.ObjectExists<MlineStyle>(name);
+      Require.IsValidSymbolName(name, nameof(name));
+      Require.NameDoesNotExists<MlineStyle>(Contains(name), name);
 
-      try
-      {
-        return CreateInternal(name);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return CreateInternal(name);
     }
 
     public void Add(MlineStyle item)
     {
-      if (item == null) throw Error.ArgumentNull("item");
-      if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-      if (Contains(item.Name)) throw Error.ObjectExists<MlineStyle>(item.Name);
+      Require.ParameterNotNull(item, nameof(item));
+      Require.IsValidSymbolName(item.Name, nameof(item.Name));
+      Require.NameDoesNotExists<MlineStyle>(Contains(item.Name), item.Name);
 
-      try
-      {
-        AddRangeInternal(new[] { item }, new[] { item.Name });
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      AddRangeInternal(new[] { item }, new[] { item.Name });
     }
 
     public void AddRange(IEnumerable<MlineStyle> items)
     {
-      if (items == null) throw Error.ArgumentNull("items");
+      Require.ParameterNotNull(items, nameof(items));
 
       foreach (var item in items)
       {
-        if (item == null) throw Error.ArgumentNull("item");
-        if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-        if (Contains(item.Name)) throw Error.ObjectExists<MlineStyle>(item.Name);
+        Require.ParameterNotNull(item, nameof(item));
+        Require.IsValidSymbolName(item.Name, nameof(item.Name));
+        Require.NameDoesNotExists<MlineStyle>(Contains(item.Name), item.Name);
       }
 
-      try
-      {
-        AddRangeInternal(items, items.Select(i => i.Name));
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      AddRangeInternal(items, items.Select(i => i.Name));
     }
   }
 
@@ -517,57 +355,35 @@ namespace Linq2Acad
 
     public PlotSettings Create(string name, bool modelType)
     {
-      if (name == null) throw Error.ArgumentNull("name");
-      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.ObjectExists<PlotSettings>(name);
+      Require.IsValidSymbolName(name, nameof(name));
+      Require.NameDoesNotExists<PlotSettings>(Contains(name), name);
 
       this.modelType = modelType;
       
-      try
-      {
-        return CreateInternal(name);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return CreateInternal(name);
     }
 
     public void Add(PlotSettings item)
     {
-      if (item == null) throw Error.ArgumentNull("item");
-      if (!Helpers.IsNameValid(item.PlotSettingsName)) throw Error.InvalidName(item.PlotSettingsName);
-      if (Contains(item.PlotSettingsName)) throw Error.ObjectExists<PlotSettings>(item.PlotSettingsName);
+      Require.ParameterNotNull(item, nameof(item));
+      Require.IsValidSymbolName(item.PlotSettingsName, nameof(item.PlotSettingsName));
+      Require.NameDoesNotExists<PlotSettings>(Contains(item.PlotSettingsName), item.PlotSettingsName);
 
-      try
-      {
-        AddRangeInternal(new[] { item }, new[] { item.PlotSettingsName });
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      AddRangeInternal(new[] { item }, new[] { item.PlotSettingsName });
     }
 
     public void AddRange(IEnumerable<PlotSettings> items)
     {
-      if (items == null) throw Error.ArgumentNull("items");
+      Require.ParameterNotNull(items, nameof(items));
 
       foreach (var item in items)
       {
-        if (item == null) throw Error.ArgumentNull("item");
-        if (!Helpers.IsNameValid(item.PlotSettingsName)) throw Error.InvalidName(item.PlotSettingsName);
-        if (Contains(item.PlotSettingsName)) throw Error.ObjectExists<PlotSettings>(item.PlotSettingsName);
+        Require.ParameterNotNull(item, nameof(item));
+        Require.IsValidSymbolName(item.PlotSettingsName, nameof(item.PlotSettingsName));
+        Require.NameDoesNotExists<PlotSettings>(Contains(item.PlotSettingsName), item.PlotSettingsName);
       }
 
-      try
-      {
-        AddRangeInternal(items, items.Select(i => i.PlotSettingsName));
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      AddRangeInternal(items, items.Select(i => i.PlotSettingsName));
     }
   }
 
@@ -585,55 +401,33 @@ namespace Linq2Acad
 
     public SectionViewStyle Create(string name)
     {
-      if (name == null) throw Error.ArgumentNull("name");
-      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.ObjectExists<SectionViewStyle>(name);
+      Require.IsValidSymbolName(name, nameof(name));
+      Require.NameDoesNotExists<SectionViewStyle>(Contains(name), name);
 
-      try
-      {
-        return CreateInternal(name);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return CreateInternal(name);
     }
 
     public void Add(SectionViewStyle item)
     {
-      if (item == null) throw Error.ArgumentNull("item");
-      if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-      if (Contains(item.Name)) throw Error.ObjectExists<SectionViewStyle>(item.Name);
+      Require.ParameterNotNull(item, nameof(item));
+      Require.IsValidSymbolName(item.Name, nameof(item.Name));
+      Require.NameDoesNotExists<SectionViewStyle>(Contains(item.Name), item.Name);
 
-      try
-      {
-        AddRangeInternal(new[] { item }, new[] { item.Name });
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      AddRangeInternal(new[] { item }, new[] { item.Name });
     }
 
     public void AddRange(IEnumerable<SectionViewStyle> items)
     {
-      if (items == null) throw Error.ArgumentNull("items");
+      Require.ParameterNotNull(items, nameof(items));
 
       foreach (var item in items)
       {
-        if (item == null) throw Error.ArgumentNull("item");
-        if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-        if (Contains(item.Name)) throw Error.ObjectExists<SectionViewStyle>(item.Name);
+        Require.ParameterNotNull(item, nameof(item));
+        Require.IsValidSymbolName(item.Name, nameof(item.Name));
+        Require.NameDoesNotExists<SectionViewStyle>(Contains(item.Name), item.Name);
       }
 
-      try
-      {
-        AddRangeInternal(items, items.Select(i => i.Name));
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      AddRangeInternal(items, items.Select(i => i.Name));
     }
   }
 
@@ -651,55 +445,33 @@ namespace Linq2Acad
 
     public TableStyle Create(string name)
     {
-      if (name == null) throw Error.ArgumentNull("name");
-      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.ObjectExists<TableStyle>(name);
+      Require.IsValidSymbolName(name, nameof(name));
+      Require.NameDoesNotExists<TableStyle>(Contains(name), name);
 
-      try
-      {
-        return CreateInternal(name);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return CreateInternal(name);
     }
 
     public void Add(TableStyle item)
     {
-      if (item == null) throw Error.ArgumentNull("item");
-      if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-      if (Contains(item.Name)) throw Error.ObjectExists<TableStyle>(item.Name);
+      Require.ParameterNotNull(item, nameof(item));
+      Require.IsValidSymbolName(item.Name, nameof(item.Name));
+      Require.NameDoesNotExists<TableStyle>(Contains(item.Name), item.Name);
 
-      try
-      {
-        AddRangeInternal(new[] { item }, new[] { item.Name });
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      AddRangeInternal(new[] { item }, new[] { item.Name });
     }
 
     public void AddRange(IEnumerable<TableStyle> items)
     {
-      if (items == null) throw Error.ArgumentNull("items");
+      Require.ParameterNotNull(items, nameof(items));
 
       foreach (var item in items)
       {
-        if (item == null) throw Error.ArgumentNull("item");
-        if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-        if (Contains(item.Name)) throw Error.ObjectExists<TableStyle>(item.Name);
+        Require.ParameterNotNull(item, nameof(item));
+        Require.IsValidSymbolName(item.Name, nameof(item.Name));
+        Require.NameDoesNotExists<TableStyle>(Contains(item.Name), item.Name);
       }
 
-      try
-      {
-        AddRangeInternal(items, items.Select(i => i.Name));
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      AddRangeInternal(items, items.Select(i => i.Name));
     }
   }
 }

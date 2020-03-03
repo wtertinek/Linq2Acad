@@ -28,6 +28,8 @@ namespace Linq2Acad
     /// <param name="name">The name of the element.</param>
     protected override void SetName(T item, string name)
     {
+      Require.ParameterNotNull(item, nameof(item));
+
       item.Name = name;
     }
 
@@ -63,6 +65,9 @@ namespace Linq2Acad
 
     protected override sealed void AddRangeInternal(IEnumerable<T> items, IEnumerable<string> names)
     {
+      Require.ParameterNotNull(items, nameof(items));
+      Require.ParameterNotNull(names, nameof(names));
+
       var table = (SymbolTable)transaction.GetObject(ID, OpenMode.ForWrite);
 
       foreach (var item in items)
@@ -88,30 +93,18 @@ namespace Linq2Acad
 
     public T Element(string name)
     {
-      if (name == null) throw Error.ArgumentNull("name");
+      Require.StringNotEmpty(name, nameof(name));
+      Require.NameExists<T>(Contains(name), name);
 
-      try
-      {
-        return ElementInternal(name, false);
-      }
-      catch
-      {
-        throw Error.KeyNotFound(name);
-      }
+      return ElementInternal(name, false);
     }
 
     public T Element(string name, bool forWrite)
     {
-      if (name == null) throw Error.ArgumentNull("name");
+      Require.StringNotEmpty(name, nameof(name));
+      Require.NameExists<T>(Contains(name), name);
 
-      try
-      {
-        return ElementInternal(name, forWrite);
-      }
-      catch
-      {
-        throw Error.KeyNotFound(name);
-      }
+      return ElementInternal(name, forWrite);
     }
 
     private T ElementInternal(string name, bool forWrite)
@@ -122,30 +115,16 @@ namespace Linq2Acad
 
     public T ElementOrDefault(string name)
     {
-      if (name == null) throw Error.ArgumentNull("name");
+      Require.StringNotEmpty(name, nameof(name));
 
-      try
-      {
-        return ElementOrDefaultInternal(name, false);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return ElementOrDefaultInternal(name, false);
     }
 
     public T ElementOrDefault(string name, bool forWrite)
     {
-      if (name == null) throw Error.ArgumentNull("name");
+      Require.StringNotEmpty(name, nameof(name));
 
-      try
-      {
-        return ElementOrDefaultInternal(name, forWrite);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return ElementOrDefaultInternal(name, forWrite);
     }
 
     private T ElementOrDefaultInternal(string name, bool forWrite)
@@ -178,56 +157,40 @@ namespace Linq2Acad
 
     public T Create(string name)
     {
-      if (name == null) throw Error.ArgumentNull("name");
-      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.ObjectExists<T>(name);
+      Require.IsValidSymbolName(name, nameof(name));
+      Require.NameDoesNotExists<T>(Contains(name), name);
 
-      try
-      {
-        return CreateInternal(name);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return CreateInternal(name);
     }
 
     public IEnumerable<T> Create(IEnumerable<string> names)
     {
-      if (names == null) throw Error.ArgumentNull("names");
-      var invalidName = names.FirstOrDefault(n => !Helpers.IsNameValid(n));
-      if (invalidName != null) throw Error.InvalidName(invalidName);
-      var existingName = names.FirstOrDefault(n => Contains(n));
-      if (existingName != null) throw Error.ObjectExists<T>(existingName);
+      Require.ParameterNotNull(names, nameof(names));
+      Require.ElementsNotNull(names, nameof(names));
+      var existingName = names.FirstOrDefault(Contains);
+      Require.NameDoesNotExists<T>(Contains(existingName), existingName);
 
-      try
-      {
-        return CreateInternal(names);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return CreateInternal(names);
     }
 
     public void Add(T item)
     {
-      if (item == null) throw Error.ArgumentNull("item");
-      if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-      if (Contains(item.Name)) throw Error.ObjectExists<T>(item.Name);
+      Require.ParameterNotNull(item, nameof(item));
+      Require.IsValidSymbolName(item.Name, nameof(item.Name));
+      Require.NameDoesNotExists<T>(Contains(item.Name), item.Name);
 
       AddRangeInternal(new[] { item }, new[] { item.Name });
     }
 
     public void AddRange(IEnumerable<T> items)
     {
-      if (items == null) throw Error.ArgumentNull("items");
+      Require.ParameterNotNull(items, nameof(items));
 
       foreach (var item in items)
       {
-        if (item == null) throw Error.ArgumentNull("item");
-        if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
-        if (Contains(item.Name)) throw Error.ObjectExists<T>(item.Name);
+        Require.ParameterNotNull(item, nameof(item));
+        Require.IsValidSymbolName(item.Name, nameof(item.Name));
+        Require.NameDoesNotExists<T>(Contains(item.Name), item.Name);
       }
 
       AddRangeInternal(items, items.Select(i => i.Name));
@@ -250,51 +213,34 @@ namespace Linq2Acad
 
     public T Create(string name)
     {
-      if (name == null) throw Error.ArgumentNull("name");
-      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
+      Require.IsValidSymbolName(name, nameof(name));
 
-      try
-      {
-        return CreateInternal(name);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return CreateInternal(name);
     }
 
     public IEnumerable<T> Create(IEnumerable<string> names)
     {
-      if (names == null) throw Error.ArgumentNull("names");
-      var invalidName = names.FirstOrDefault(n => !Helpers.IsNameValid(n));
-      if (invalidName != null) throw Error.InvalidName(invalidName);
+      Require.ElementsNotNull(names, nameof(names));
 
-      try
-      {
-        return CreateInternal(names);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+      return CreateInternal(names);
     }
 
     public void Add(T item)
     {
-      if (item == null) throw Error.ArgumentNull("item");
-      if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
+      Require.ParameterNotNull(item, nameof(item));
+      Require.IsValidSymbolName(item.Name, nameof(item.Name));
 
       AddRangeInternal(new[] { item }, new[] { item.Name });
     }
 
     public void AddRange(IEnumerable<T> items)
     {
-      if (items == null) throw Error.ArgumentNull("items");
+      Require.ParameterNotNull(items, nameof(items));
 
       foreach (var item in items)
       {
-        if (item == null) throw Error.ArgumentNull("item");
-        if (!Helpers.IsNameValid(item.Name)) throw Error.InvalidName(item.Name);
+        Require.ParameterNotNull(item, nameof(item));
+        Require.IsValidSymbolName(item.Name, nameof(item.Name));
       }
 
       AddRangeInternal(items, items.Select(i => i.Name));

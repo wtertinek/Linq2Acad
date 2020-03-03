@@ -114,11 +114,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Linq2Acad\Linq2Acad.csproj">
-      <Project>{7702e342-fabc-49a4-9337-bfc9b5b3b99e}</Project>
+      <Project>{c3405e6d-1153-471a-9620-a2369b1dc93f}</Project>
       <Name>Linq2Acad</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

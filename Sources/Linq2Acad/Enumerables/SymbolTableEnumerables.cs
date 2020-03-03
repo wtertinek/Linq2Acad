@@ -81,25 +81,22 @@ namespace Linq2Acad
     /// <exception cref="System.ArgumentNullException">Thrown when parameters <i>name</i> or <i>entities</i> is null.</exception>
     public BlockTableRecord Create(string name, IEnumerable<Entity> entities)
     {
-      if (name == null) throw Error.ArgumentNull("name");
-      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.ObjectExists<BlockTableRecord>(name);
-      if (entities.Any(e => e == null)) throw Error.ElementNull("entities");
-      var alreadyInBlock = entities.FirstOrDefault(e => !e.ObjectId.IsNull);
-      if (alreadyInBlock != null) throw Error.EntityBelongsToBlock(alreadyInBlock.ObjectId);
+      Require.IsValidSymbolName(name, nameof(name));
+      Require.NameDoesNotExists<BlockTableRecord>(Contains(name), name);
+      Require.ElementsNotNull(entities, nameof(entities));
 
-      try
-      {
-        var block = CreateInternal(name);
-        entities.UpgradeOpen()
-                .ForEach(e => block.AppendEntity(e));
+      // TODO: What about this check?
+      //var alreadyInBlock = entities.FirstOrDefault(e => !e.ObjectId.IsNull);
+      //if (alreadyInBlock != null) throw Error.WrongOrigin(alreadyInBlock.ObjectId);
 
-        return block;
-      }
-      catch (Exception e)
+      var block = CreateInternal(name);
+
+      foreach (var entity in entities.UpgradeOpen())
       {
-        throw Error.AutoCadException(e);
+        block.AppendEntity(entity);
       }
+
+      return block;
     }
 
     /// <summary>
@@ -111,27 +108,19 @@ namespace Linq2Acad
     /// <exception cref="System.ArgumentNullException">Thrown when parameters <i>newBlockName</i> or <i>fileName</i> is null.</exception>
     public BlockTableRecord Import(string newBlockName, string fileName)
     {
-      if (newBlockName == null) throw Error.ArgumentNull("newBlockName");
-      if (!Helpers.IsNameValid(newBlockName)) throw Error.InvalidName(newBlockName);
-      if (Contains(newBlockName)) throw Error.ObjectExists<BlockTableRecord>(newBlockName);
-      if (fileName == null) throw Error.ArgumentNull("fileName");
-      if (!System.IO.File.Exists(fileName)) throw Error.FileNotFound(fileName);
+      Require.ParameterNotNull(newBlockName, nameof(newBlockName));
+      Require.NameDoesNotExists<BlockTableRecord>(Contains(newBlockName), newBlockName);
+      Require.ParameterNotNull(fileName, nameof(fileName));
+      Require.FileExists(fileName, nameof(fileName));
 
-      try
+      var blockId = ObjectId.Null;
+
+      using (var db = AcadDatabase.Open(fileName, DwgOpenMode.ReadOnly))
       {
-        var blockId = ObjectId.Null;
-
-        using (var db = AcadDatabase.Open(fileName, DwgOpenMode.ReadOnly))
-        {
-          blockId = database.Insert(newBlockName, db.Database, true);
-        }
-
-        return (BlockTableRecord)transaction.GetObject(blockId, OpenMode.ForRead);
+        blockId = database.Insert(newBlockName, db.Database, true);
       }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
+
+      return (BlockTableRecord)transaction.GetObject(blockId, OpenMode.ForRead);
     }
   }
 
@@ -166,6 +155,8 @@ namespace Linq2Acad
     /// <param name="name">The name of the element.</param>
     protected override void SetName(DimStyleTableRecord item, string name)
     {
+      Require.ParameterNotNull(item, nameof(item));
+
       item.Name = name;
     }
   }
@@ -203,23 +194,18 @@ namespace Linq2Acad
     /// <exception cref="System.ArgumentNullException">Thrown when parameters <i>name</i> or <i>entities</i> is null.</exception>
     public LayerTableRecord Create(string name, IEnumerable<Entity> entities)
     {
-      if (name == null) throw Error.ArgumentNull("name");
-      if (!Helpers.IsNameValid(name)) throw Error.InvalidName(name);
-      if (Contains(name)) throw Error.ObjectExists<BlockTableRecord>(name);
-      if (entities.Any(e => e == null)) throw Error.ElementNull("entities");
+      Require.IsValidSymbolName(name, nameof(name));
+      Require.NameDoesNotExists<BlockTableRecord>(Contains(name), name);
+      Require.ElementsNotNull(entities, nameof(entities));
 
-      try
-      {
-        var layer = CreateInternal(name);
-        entities.UpgradeOpen()
-                .ForEach(e => e.LayerId = layer.ObjectId);
+      var layer = CreateInternal(name);
 
-        return layer;
-      }
-      catch (Exception e)
+      foreach (var entity in entities.UpgradeOpen())
       {
-        throw Error.AutoCadException(e);
+         entity.LayerId = layer.ObjectId;
       }
+
+      return layer;
     }
   }
 
@@ -355,20 +341,13 @@ namespace Linq2Acad
     {
       get
       {
-        try
+        if (database.CurrentViewportTableRecordId.IsValid)
         {
-          if (database.CurrentViewportTableRecordId.IsValid)
-          {
-            return (ViewportTableRecord)transaction.GetObject(database.CurrentViewportTableRecordId, OpenMode.ForRead);
-          }
-          else
-          {
-            return null;
-          }
+          return (ViewportTableRecord)transaction.GetObject(database.CurrentViewportTableRecordId, OpenMode.ForRead);
         }
-        catch (Exception e)
+        else
         {
-          throw Error.AutoCadException(e);
+          return null;
         }
       }
     }

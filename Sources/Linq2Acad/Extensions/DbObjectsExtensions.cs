@@ -22,18 +22,12 @@ namespace Linq2Acad
     /// <exception cref="System.ArgumentNullException">Thrown when parameter  <i>action</i> is null.</exception>
     public static void ForEach<T>(this IEnumerable<T> items, Action<T> action) where T : DBObject
     {
-      if (action == null) throw Error.ArgumentNull("action");
+      Require.ParameterNotNull(items, nameof(items));
+      Require.ParameterNotNull(action, nameof(action));
 
       foreach (var item in items)
       {
-        try
-        {
-          action(item);
-        }
-        catch (Exception e)
-        {
-          throw Error.AutoCadException(e);
-        }
+        action(item);
       }
     }
 
@@ -46,18 +40,13 @@ namespace Linq2Acad
     /// <returns>The given elements in OpenMode.ForWrite.</returns>
     public static IEnumerable<T> UpgradeOpen<T>(this IEnumerable<T> source) where T : DBObject
     {
+      Require.ParameterNotNull(source, nameof(source));
+
       foreach (var item in source)
       {
-        try
+        if (!item.IsWriteEnabled)
         {
-          if (!item.IsWriteEnabled)
-          {
-            item.UpgradeOpen();
-          }
-        }
-        catch (Exception e)
-        {
-          throw Error.AutoCadException(e);
+          item.UpgradeOpen();
         }
 
         yield return item;
@@ -72,18 +61,13 @@ namespace Linq2Acad
     /// <returns>The given elements in OpenMode.ForWrite.</returns>
     public static IEnumerable<T> DowngradeOpen<T>(this IEnumerable<T> source) where T : DBObject
     {
+      Require.ParameterNotNull(source, nameof(source));
+
       foreach (var item in source)
       {
-        try
+        if (!item.IsReadEnabled)
         {
-          if (!item.IsReadEnabled)
-          {
-            item.DowngradeOpen();
-          }
-        }
-        catch (Exception e)
-        {
-          throw Error.AutoCadException(e);
+          item.DowngradeOpen();
         }
 
         yield return item;
