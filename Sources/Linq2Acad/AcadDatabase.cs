@@ -78,58 +78,33 @@ namespace Linq2Acad
     {
       try
       {
-        DisposeInternal(false);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
-    }
-
-    /// <summary>
-    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-    /// </summary>
-    /// <param name="force">True, if the drawing database and the transaction should be disposed of, even if <i>keepOpen</i> was set to true.</param>
-    public void Dispose(bool force)
-    {
-      try
-      {
-        DisposeInternal(force);
-      }
-      catch (Exception e)
-      {
-        throw Error.AutoCadException(e);
-      }
-    }
-
-    /// <summary>
-    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-    /// </summary>
-    /// <param name="force">True, if the drawing database and the transaction should be disposed of, even if keepOpen was used.</param>
-    private void DisposeInternal(bool force)
-    {
-      if (!transaction.IsDisposed)
-      {
-        if (commitTransaction)
+        if (!transaction.IsDisposed)
         {
-          transaction.Commit();
-
-          if (SummaryInfo.Changed)
+          if (commitTransaction)
           {
-            SummaryInfo.Commit();
+            transaction.Commit();
+
+            if (SummaryInfo.Changed)
+            {
+              SummaryInfo.Commit();
+            }
+          }
+
+          if (disposeTransaction)
+          {
+            transaction.Dispose();
           }
         }
 
-        if (disposeTransaction || force)
+        if (disposeDatabase &&
+            !Database.IsDisposed)
         {
-          transaction.Dispose();
+          Database.Dispose();
         }
       }
-
-      if ((disposeDatabase || force) &&
-          !Database.IsDisposed)
+      catch (Exception e)
       {
-        Database.Dispose();
+        throw Error.AutoCadException(e);
       }
     }
 
