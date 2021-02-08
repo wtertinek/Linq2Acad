@@ -15,7 +15,10 @@ namespace Linq2Acad
   /// </summary>
   public enum SaveAsDwgVersion
   {
-    None,
+    /// <summary>
+    /// This is the default value
+    /// </summary>
+    DontChange,
     DWG2004,
     DWG2007,
     DWG2010,
@@ -23,18 +26,26 @@ namespace Linq2Acad
 #if AutoCAD_2018 || AutoCAD_2019 || AutoCAD_2020 || AutoCAD_2021
     DWG2018,
 #endif
-    DontChange, // Better than Current? Or Keep? EDIT: We can use Database.LastSavedAsVersion for that
-    NewestAvailable // We could remove this one, since the newest available is AutoCad20xx wit hthe higehst number
+    NewestAvailable
   }
 
   public class CreateOptions
   {
-    public bool SaveFileOnCommit { get; set; }
-
+    /// <summary>
+    /// If specified, path to save the database to.
+    /// </summary>
     public string SaveAsFileName { get; set; }
 
+    /// <summary>
+    /// DWG version to use when saving the database to file. 
+    /// Defaults to that used by the running AutoCAD version. 
+    /// </summary>
     public SaveAsDwgVersion DwgVersion { get; set; }
 
+    /// <summary>
+    /// True, if the database should be kept open after it has been used.
+    /// False, if the database should be closed.
+    /// </summary>
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)]
     public bool KeepDatabaseOpen { get; set; }
   }
@@ -43,18 +54,28 @@ namespace Linq2Acad
   {
     public string Password { get; set; }
 
+    /// <summary>
+    /// True, if the database should be kept open after it has been used.
+    /// False, if the database should be closed.
+    /// </summary>
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)]
     public bool KeepDatabaseOpen { get; set; }
   }
 
   public class OpenForEditOptions
   {
-    public bool SaveFileOnCommit { get; set; }
-
     public string SaveAsFileName { get; set; }
 
+    /// <summary>
+    /// DWG version to use when saving the database to file. 
+    /// Keeps the current version by default.
+    /// </summary>
     public SaveAsDwgVersion DwgVersion { get; set; }
 
+    /// <summary>
+    /// True, if the database should be kept open after it has been used.
+    /// False, if the database should be closed.
+    /// </summary>
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)]
     public bool KeepDatabaseOpen { get; set; }
 
@@ -183,8 +204,6 @@ namespace Linq2Acad
     {
       switch (dwgVersion)
       {
-        case SaveAsDwgVersion.None:
-          return DwgVersion.Newest;
         case SaveAsDwgVersion.DWG2004:
           return DwgVersion.AC1015;
         case SaveAsDwgVersion.DWG2007:
@@ -197,14 +216,12 @@ namespace Linq2Acad
         case SaveAsDwgVersion.DWG2018:
           return DwgVersion.AC1032;
 #endif
-        case SaveAsDwgVersion.DontChange:
-          return Database.LastSavedAsVersion;
         case SaveAsDwgVersion.NewestAvailable:
           return DwgVersion.Newest;
+        case SaveAsDwgVersion.DontChange:
         default:
-          // TODO: should we throw an exception?
-          return DwgVersion.Newest;
-      }
+          return Database.LastSavedAsVersion;
+       }
     }
 
     /// <summary>
@@ -786,7 +803,6 @@ namespace Linq2Acad
       return Create(new CreateOptions()
       {
         KeepDatabaseOpen = false,
-        SaveFileOnCommit = false,
         DwgVersion = SaveAsDwgVersion.NewestAvailable
       });
     }
@@ -795,16 +811,12 @@ namespace Linq2Acad
     /// Provides access to a newly created drawing database.
     /// </summary>
     /// <param name="options">Database create options.</param>
-    /// <exception cref="System.ArgumentNullException">Thrown when SaveFileOnCommit is True but no filename is provided.</exception>
     /// <exception cref="System.Exception">Thrown when creating the drawing database throws an exception.</exception>
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Create(CreateOptions options)
     {
-      if (options.SaveFileOnCommit)
-      {
-        Require.ParameterNotNull(options.SaveAsFileName, nameof(options.SaveAsFileName));
-      }
-      return new AcadDatabase(new Database(true, true), options.KeepDatabaseOpen, options.SaveFileOnCommit, options.SaveAsFileName, options.DwgVersion);
+      bool saveOnCommit = !string.IsNullOrEmpty(options.SaveAsFileName);
+      return new AcadDatabase(new Database(true, true), options.KeepDatabaseOpen, saveOnCommit, options.SaveAsFileName, options.DwgVersion);
     }
 
     /// <summary>
@@ -921,7 +933,6 @@ namespace Linq2Acad
       Require.FileExists(fileName, nameof(fileName));
       return OpenForEdit(fileName, new OpenForEditOptions()
       {
-        SaveFileOnCommit = true,
         SaveAsFileName = fileName,
         KeepDatabaseOpen = false,
         DwgVersion = SaveAsDwgVersion.DontChange,
@@ -944,7 +955,7 @@ namespace Linq2Acad
 
       Database database = GetDatabase(fileName, DwgOpenMode.ReadWrite, options.Password);
       var outFileName = options.SaveAsFileName ?? fileName;
-      return new AcadDatabase(database, options.KeepDatabaseOpen, options.SaveFileOnCommit, outFileName, options.DwgVersion);
+      return new AcadDatabase(database, options.KeepDatabaseOpen, true, outFileName, options.DwgVersion);
     }
 
     /// <summary>
