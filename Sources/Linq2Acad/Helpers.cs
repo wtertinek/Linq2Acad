@@ -11,23 +11,6 @@ using System.Threading.Tasks;
 namespace Linq2Acad
 {
   /// <summary>
-  /// The mode in which a drawing database should be opened from file.
-  /// </summary>
-  internal enum DwgOpenMode
-  {
-    /// <summary>
-    /// Opens the drawing database read-only.
-    /// </summary>
-    /// <remarks>The drawing database is opened in OpenForReadAndReadShare mode.</remarks>
-    ReadOnly,
-    /// <summary>
-    /// Opens the drawing database with exclusive read and write access rights.
-    /// </summary>
-    /// <remarks>The drawing database is opened in OpenForReadAndWriteNoShare mode.</remarks>
-    ReadWrite
-  }
-
-  /// <summary>
   /// Container class for static helper methods.
   /// </summary>
   internal static class Helpers

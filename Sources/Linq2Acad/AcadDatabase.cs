@@ -34,13 +34,13 @@ namespace Linq2Acad
     /// <summary>
     /// If specified, path to save the database to.
     /// </summary>
-    public string SaveAsFileName { get; set; }
+    public string SaveFileName { get; set; }
 
     /// <summary>
     /// DWG version to use when saving the database to file. 
     /// Defaults to that used by the running AutoCAD version. 
     /// </summary>
-    public SaveAsDwgVersion DwgVersion { get; set; }
+    public SaveAsDwgVersion SaveDwgVersion { get; set; }
 
     /// <summary>
     /// True, if the database should be kept open after it has been used.
@@ -803,7 +803,7 @@ namespace Linq2Acad
       return Create(new CreateOptions()
       {
         KeepDatabaseOpen = false,
-        DwgVersion = SaveAsDwgVersion.NewestAvailable
+        SaveDwgVersion = SaveAsDwgVersion.NewestAvailable
       });
     }
 
@@ -815,8 +815,8 @@ namespace Linq2Acad
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Create(CreateOptions options)
     {
-      bool saveOnCommit = !string.IsNullOrEmpty(options.SaveAsFileName);
-      return new AcadDatabase(new Database(true, true), options.KeepDatabaseOpen, saveOnCommit, options.SaveAsFileName, options.DwgVersion);
+      bool saveOnCommit = !string.IsNullOrEmpty(options.SaveFileName);
+      return new AcadDatabase(new Database(true, true), options.KeepDatabaseOpen, saveOnCommit, options.SaveFileName, options.SaveDwgVersion);
     }
 
     /// <summary>
@@ -899,7 +899,7 @@ namespace Linq2Acad
       Require.StringNotEmpty(fileName, nameof(fileName));
       Require.FileExists(fileName, nameof(fileName));
 
-      return OpenInternal(fileName, DwgOpenMode.ReadOnly, null, false);
+      return OpenInternal(fileName, null, false);
     }
 
     /// <summary>
@@ -916,7 +916,7 @@ namespace Linq2Acad
       Require.StringNotEmpty(fileName, nameof(fileName));
       Require.FileExists(fileName, nameof(fileName));
 
-      return OpenInternal(fileName, DwgOpenMode.ReadOnly, options.Password, options.KeepDatabaseOpen);
+      return OpenInternal(fileName, options.Password, options.KeepDatabaseOpen);
     }
 
     /// <summary>
@@ -953,7 +953,7 @@ namespace Linq2Acad
       Require.StringNotEmpty(fileName, nameof(fileName));
       Require.FileExists(fileName, nameof(fileName));
 
-      Database database = GetDatabase(fileName, DwgOpenMode.ReadWrite, options.Password);
+      Database database = GetDatabase(fileName, false, options.Password);
       var outFileName = options.SaveAsFileName ?? fileName;
       return new AcadDatabase(database, options.KeepDatabaseOpen, true, outFileName, options.DwgVersion);
     }
@@ -962,13 +962,12 @@ namespace Linq2Acad
     /// Provides access to the drawing database in the given file.
     /// </summary>
     /// <param name="fileName">The name of the drawing database to open.</param>
-    /// <param name="openMode">The mode in which the drawing database should be opened.</param>
     /// <param name="password">The password for the darwing database.</param>
     /// <param name="keepOpen">True, if the database should be kept open after it has been used. False, if the database should be closed.</param>
     /// <returns>The AcadDatabase instance.</returns>
-    private static AcadDatabase OpenInternal(string fileName, DwgOpenMode openMode, string password, bool keepOpen)
+    private static AcadDatabase OpenInternal(string fileName, string password, bool keepOpen)
     {
-      Database database = GetDatabase(fileName, openMode, password);
+      Database database = GetDatabase(fileName, true, password);
       return new AcadDatabase(database, keepOpen);
     }
 
@@ -976,13 +975,13 @@ namespace Linq2Acad
     /// Provides access to the drawing database in the given file.
     /// </summary>
     /// <param name="fileName">The name of the drawing database to open.</param>
-    /// <param name="openMode">The mode in which the drawing database should be opened.</param>
+    /// <param name="readOnly">If true open the drawing in read only mode. If false, open it in read/write mode.</param>
     /// <param name="password">The password for the darwing database.</param>
     /// <returns>The Autocad Database instance.</returns>
-    private static Database GetDatabase(string fileName, DwgOpenMode openMode, string password)
+    private static Database GetDatabase(string fileName, bool readOnly, string password)
     {
       var database = new Database(false, true);
-      database.ReadDwgFile(fileName, openMode == DwgOpenMode.ReadWrite ? FileOpenMode.OpenForReadAndWriteNoShare : FileOpenMode.OpenForReadAndReadShare, false, password);
+      database.ReadDwgFile(fileName, readOnly ? FileOpenMode.OpenForReadAndReadShare : FileOpenMode.OpenForReadAndWriteNoShare, false, password);
       database.CloseInput(true);
       return database;
     }
