@@ -115,7 +115,7 @@ namespace Linq2Acad
 
       var blockId = ObjectId.Null;
 
-      using (var db = AcadDatabase.Open(fileName, DwgOpenMode.ReadOnly))
+      using (var db = AcadDatabase.OpenReadOnly(fileName))
       {
         blockId = database.Insert(newBlockName, db.Database, true);
       }

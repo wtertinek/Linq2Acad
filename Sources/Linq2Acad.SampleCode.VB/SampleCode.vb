@@ -133,7 +133,7 @@ Partial Public Class SampleCode
     Dim filePath = GetString("Enter file path")
     Dim blockName = GetString("Enter block name")
 
-    Using sourceDb = AcadDatabase.Open(filePath, DwgOpenMode.ReadOnly)
+    Using sourceDb = AcadDatabase.OpenReadOnly(filePath)
       Dim block = sourceDb.Blocks.Element(blockName)
 
       Using activeDb = AcadDatabase.Active()
@@ -151,7 +151,7 @@ Partial Public Class SampleCode
   Public Sub OpeningADrawingFromFileAndCountingTheBlockReferencesInTheModelSpace()
     Dim filePath = GetString("Enter file path")
 
-    Using db = AcadDatabase.Open(filePath, DwgOpenMode.ReadOnly)
+    Using db = AcadDatabase.OpenReadOnly(filePath)
       Dim count = db.ModelSpace.OfType(Of BlockReference)().Count()
 
       WriteMessage("Model space block references in file " + filePath + ": " + count)
