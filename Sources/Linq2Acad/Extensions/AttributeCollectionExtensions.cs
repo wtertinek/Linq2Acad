@@ -27,6 +27,12 @@ namespace Linq2Acad
       attribute.TextString = value;
     }
 
+    public static void CleanValues(this AttributeCollection attributes)
+    {
+      GetAttributeReferences(attributes, OpenMode.ForWrite)
+        .ForEach(ar => ar.TextString = "");
+    }
+
     private static AttributeReference GetAttributeReference(AttributeCollection attributes, string tag, OpenMode openMode)
     {
       var attribute = GetAttributeReferences(attributes, openMode)
