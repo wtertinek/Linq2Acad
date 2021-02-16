@@ -220,7 +220,7 @@ namespace Linq2Acad
           return DwgVersion.Newest;
         case SaveAsDwgVersion.DontChange:
         default:
-          return Database.LastSavedAsVersion;
+          return Database.OriginalFileSavedByVersion;
        }
     }
 
