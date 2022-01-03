@@ -60,7 +60,7 @@ namespace Linq2Acad
       }
       else
       {
-        return Array.Empty<AttributeReference>();
+        return new AttributeReference[0];
       }
     }
   }
