@@ -101,7 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Linq2Acad\Linq2Acad.csproj">
-      <Project>{c3405e6d-1153-471a-9620-a2369b1dc93f}</Project>
+      <Project>{669a5563-4f96-4125-a7ac-dee493f02d62}</Project>
       <Name>Linq2Acad</Name>
     </ProjectReference>
   </ItemGroup>

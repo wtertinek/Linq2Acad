@@ -23,7 +23,7 @@ namespace Linq2Acad
     DWG2007,
     DWG2010,
     DWG2013,
-#if AutoCAD_2018 || AutoCAD_2019 || AutoCAD_2020 || AutoCAD_2021
+#if AutoCAD_2018 || AutoCAD_2019 || AutoCAD_2020 || AutoCAD_2021 || AutoCAD_2022
     DWG2018,
 #endif
     NewestAvailable
@@ -212,7 +212,7 @@ namespace Linq2Acad
           return DwgVersion.AC1024;
         case SaveAsDwgVersion.DWG2013:
           return DwgVersion.AC1027;
-#if AutoCAD_2018 || AutoCAD_2019 || AutoCAD_2020 || AutoCAD_2021
+#if AutoCAD_2018 || AutoCAD_2019 || AutoCAD_2020 || AutoCAD_2021 || AutoCAD_2022
         case SaveAsDwgVersion.DWG2018:
           return DwgVersion.AC1032;
 #endif
