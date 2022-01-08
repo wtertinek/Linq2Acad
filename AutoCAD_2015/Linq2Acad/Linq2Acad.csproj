@@ -46,8 +46,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Sources\Linq2Acad\CreateOptions.cs">
+      <Link>CreateOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\OpenForEditOptions.cs">
+      <Link>OpenForEditOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\OpenReadOnlyOptions.cs">
+      <Link>OpenReadOnlyOptions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\Require.cs">
       <Link>Require.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\SaveAsDwgVersion.cs">
+      <Link>SaveAsDwgVersion.cs</Link>
     </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\XRefStatus.cs">
       <Link>XRefStatus.cs</Link>
