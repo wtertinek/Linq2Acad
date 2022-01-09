@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Linq2Acad-2015</id>
+    <authors>Linq2Acad Contributors</authors>
+    <version>$version$</version>
+    <title>Linq2Acad 2015</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/wtertinek/Linq2Acad</projectUrl>
+    <description>Linq2Acad for AutoCAD 2015</description>
+    <tags>AutoCAD LINQ</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework4.5.1">
+        <dependency id="AutoCAD.NET.Core" version="[20.0.0,20.1.0)" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

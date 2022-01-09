@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Linq2Acad-2020</id>
+    <authors>Linq2Acad Contributors</authors>
+    <version>$version$</version>
+    <title>Linq2Acad 2020</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/wtertinek/Linq2Acad</projectUrl>
+    <description>Linq2Acad for AutoCAD 2020</description>
+    <tags>AutoCAD LINQ</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework4.7">
+        <dependency id="AutoCAD.NET.Core" version="[23.1.0,24.0.0)" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
