@@ -11,7 +11,7 @@ namespace Linq2Acad
     protected readonly Database database;
     protected readonly Transaction transaction;
 
-    protected internal ContainerEnumerableBase(Database database, Transaction transaction, ObjectId containerID, Func<object, ObjectId> getID)
+    protected ContainerEnumerableBase(Database database, Transaction transaction, ObjectId containerID, Func<object, ObjectId> getID)
       : base(new LazayIdEnumerable<ObjectId>(((IEnumerable)transaction.GetObject(containerID, OpenMode.ForRead)).Cast<object>(), getID),
              new DataProvider(transaction))
     {
@@ -20,8 +20,8 @@ namespace Linq2Acad
       ID = containerID;
     }
 
-    protected internal ContainerEnumerableBase(Database database, Transaction transaction, ObjectId containerID, Func<object, ObjectId> getID,
-                                               Func<IEnumerable<ObjectId>, IEnumerable<ObjectId>> filter)
+    protected ContainerEnumerableBase(Database database, Transaction transaction, ObjectId containerID, Func<object, ObjectId> getID,
+                                      Func<IEnumerable<ObjectId>, IEnumerable<ObjectId>> filter)
       : base(new MaterializedIdEnumerable<ObjectId>(filter(((IEnumerable)transaction.GetObject(containerID, OpenMode.ForRead)).Cast<object>().Select(i => getID(i)))),
              new DataProvider(transaction))
     {

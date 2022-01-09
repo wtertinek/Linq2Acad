@@ -13,7 +13,7 @@ namespace Linq2Acad
 
   #region Base class ElementEnumerable
 
-  public abstract class IdEnumerable<T> : IEnumerable<T>
+  internal abstract class IdEnumerable<T> : IEnumerable<T>
   {
     [DebuggerStepThrough]
     protected IdEnumerable()
@@ -48,7 +48,7 @@ namespace Linq2Acad
 
   #region Class LazayIdEnumerable
 
-  public class LazayIdEnumerable<T> : IdEnumerable<T>
+  internal class LazayIdEnumerable<T> : IdEnumerable<T>
   {
     internal readonly IEnumerable ids;
     internal readonly Func<object, T> getID;
@@ -283,7 +283,7 @@ namespace Linq2Acad
 
   #region Class ConcatIdEnumerable
 
-  public class ConcatIdEnumerable<T> : IdEnumerable<T>
+  internal class ConcatIdEnumerable<T> : IdEnumerable<T>
   {
     internal readonly Tuple<IEnumerable, Func<object, T>>[] ids;
 

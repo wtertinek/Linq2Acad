@@ -75,7 +75,7 @@ namespace Linq2Acad
   {
     private readonly IDataProvider<TId, TConstraint> dataProvider;
 
-    public LazyElementEnumerable(IdEnumerable<TId> ids, IDataProvider<TId, TConstraint> dataProvider)
+    internal LazyElementEnumerable(IdEnumerable<TId> ids, IDataProvider<TId, TConstraint> dataProvider)
     {
       IDs = ids;
       this.dataProvider = dataProvider;
@@ -405,7 +405,9 @@ namespace Linq2Acad
 
   #endregion
 
-  public interface IDataProvider<TId, TConstraint>
+  #region Interface IDataProvider<TId, TConstraint>
+
+  internal interface IDataProvider<TId, TConstraint>
   {
     T GetElement<T>(TId id) where T : TConstraint;
 
@@ -413,4 +415,6 @@ namespace Linq2Acad
 
     IEnumerable<TId> Filter<T>(IEnumerable<TId> ids) where T : TConstraint;
   }
+
+  #endregion
 }
