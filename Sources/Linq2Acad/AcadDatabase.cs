@@ -72,7 +72,6 @@ namespace Linq2Acad
     /// <summary>
     /// The darawing database in use.
     /// </summary>
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)]
     public Database Database { get; }
 
     /// <summary>
@@ -156,7 +155,6 @@ namespace Linq2Acad
     /// Adds the given object to the underlaying transaction. This is only needed for objects that are not stored in containers (e.g. AttributeReference).
     /// </summary>
     /// <param name="obj">The object to add to the transaction.</param>
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)]
     public void AddNewlyCreatedDBObject(DBObject obj)
     {
       Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
