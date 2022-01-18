@@ -140,7 +140,7 @@ namespace Linq2Acad
       }
     }
 
-    #region Nested class DataProvider
+    #region Private nested class DataProvider
 
     private class DataProvider : IDataProvider<ObjectId, DBObject>
     {

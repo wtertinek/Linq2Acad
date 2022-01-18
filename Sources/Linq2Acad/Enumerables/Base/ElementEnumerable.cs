@@ -276,7 +276,7 @@ namespace Linq2Acad
 
   #endregion
 
-  #region Class MaterializedElementEnumerable
+  #region Internal class MaterializedElementEnumerable
 
   internal class MaterializedElementEnumerable<T, TId> : ElementEnumerable<T, TId>
   {
@@ -405,7 +405,7 @@ namespace Linq2Acad
 
   #endregion
 
-  #region Interface IDataProvider<TId, TConstraint>
+  #region Internal interface IDataProvider<TId, TConstraint>
 
   internal interface IDataProvider<TId, TConstraint>
   {

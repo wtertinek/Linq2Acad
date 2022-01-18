@@ -57,7 +57,8 @@ namespace Linq2Acad
                                           });
       }
 
-      ResultBuffer getResultBuffer(DxfCode code) => new ResultBuffer(new[] { new TypedValue((int)code, data) });
+      ResultBuffer getResultBuffer(DxfCode code)
+        => new ResultBuffer(new[] { new TypedValue((int)code, data) });
 
       // TODO: Add further types
 
@@ -93,8 +94,8 @@ namespace Linq2Acad
       else
       {
         saveData(new ResultBuffer(Helpers.Serialize(data)
-                                          .Select(a => new TypedValue((int)DxfCode.BinaryChunk, a))
-                                          .ToArray()));
+                                         .Select(a => new TypedValue((int)DxfCode.BinaryChunk, a))
+                                         .ToArray()));
       }
     }
 
@@ -161,20 +162,20 @@ namespace Linq2Acad
 
                                   var xRecord = (Xrecord)tr.GetObject(dict.GetAt(key), OpenMode.ForRead);
                                   items = xRecord.Data
-                                                  .Cast<TypedValue>()
-                                                  .ToList();
+                                                 .Cast<TypedValue>()
+                                                 .ToList();
                                 });
 
       if (items.Count == 1 &&
           (items[0].TypeCode != (int)DxfCode.BinaryChunk ||
-            typeof(T).Equals(typeof(byte[]))))
+           typeof(T).Equals(typeof(byte[]))))
       {
         return (T)items[0].Value;
       }
       else
       {
         return Helpers.Deserialize<T>(items.SelectMany(i => (byte[])i.Value)
-                                            .ToArray());
+                                           .ToArray());
       }
     }
 
@@ -208,7 +209,7 @@ namespace Linq2Acad
         else if (enumerable != null)
         {
           targetType = enumerable.GenericTypeArguments
-                                  .FirstOrDefault();
+                                 .FirstOrDefault();
         }
 
         var tmpValues = new List<object>();

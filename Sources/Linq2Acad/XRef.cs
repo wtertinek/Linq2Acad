@@ -12,18 +12,10 @@ namespace Linq2Acad
   /// </summary>
   public class XRef
   {
-    private readonly Transaction transaction;
-
-    internal XRef(ObjectId blockId, Database database, Transaction transaction)
-      : this((BlockTableRecord)transaction.GetObject(blockId, OpenMode.ForRead), database, transaction)
-    {
-    }
-
-    internal XRef(BlockTableRecord block, Database database, Transaction transaction)
+    internal XRef(BlockTableRecord block, Database database)
     {
       Block = block;
       Database = database;
-      this.transaction = transaction;
       Status = new XRefInfo(Block.XrefStatus);
     }
 

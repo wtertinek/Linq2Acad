@@ -11,7 +11,7 @@ namespace Linq2Acad
   // This code is based on the implementation of System.Linq.Enumerable
   // http://referencesource.microsoft.com/#system.core/System/Linq/Enumerable.cs
 
-  #region Base class ElementEnumerable
+  #region Internal base class IdEnumerable
 
   internal abstract class IdEnumerable<T> : IEnumerable<T>
   {
@@ -46,7 +46,7 @@ namespace Linq2Acad
 
   #endregion
 
-  #region Class LazayIdEnumerable
+  #region Internal class LazayIdEnumerable
 
   internal class LazayIdEnumerable<T> : IdEnumerable<T>
   {
@@ -222,7 +222,7 @@ namespace Linq2Acad
 
   #endregion
 
-  #region Class MaterializedIdEnumerable
+  #region Internal class MaterializedIdEnumerable
 
   internal class MaterializedIdEnumerable<T> : IdEnumerable<T>
   {
@@ -281,7 +281,7 @@ namespace Linq2Acad
 
   #endregion
 
-  #region Class ConcatIdEnumerable
+  #region Internal class ConcatIdEnumerable
 
   internal class ConcatIdEnumerable<T> : IdEnumerable<T>
   {

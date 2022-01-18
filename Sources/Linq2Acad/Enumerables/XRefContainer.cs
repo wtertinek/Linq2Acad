@@ -34,7 +34,7 @@ namespace Linq2Acad
     {
       foreach (var block in xRefBlockContainer)
       {
-        yield return new XRef(block, database, transaction);
+        yield return new XRef((BlockTableRecord)transaction.GetObject(block.ObjectId, OpenMode.ForRead), database);
       }
     }
 
@@ -89,7 +89,7 @@ namespace Linq2Acad
     private XRef AttachInternal(string fileName, string blockName)
     {
       var id = database.AttachXref(fileName, blockName);
-      return new XRef(id, database, transaction);
+      return new XRef((BlockTableRecord)transaction.GetObject(id, OpenMode.ForRead), database);
     }
 
     /// <summary>
@@ -136,7 +136,7 @@ namespace Linq2Acad
     private XRef OverlayInternal(string fileName, string blockName)
     {
       var id = database.OverlayXref(fileName, blockName);
-      return new XRef(id, database, transaction);
+      return new XRef((BlockTableRecord)transaction.GetObject(id, OpenMode.ForRead), database);
     }
 
     /// <summary>
