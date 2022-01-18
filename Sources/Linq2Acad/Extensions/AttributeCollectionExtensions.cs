@@ -7,20 +7,40 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Linq2Acad
 {
+  /// <summary>
+  /// Extension methods for AttributeCollections.
+  /// </summary>
   public static class AttributeCollectionExtensions
   {
+    /// <summary>
+    /// Checks the given AttributeCollection for an AttributeReference with the given tag.
+    /// </summary>
+    /// <param name="attributes">The AttributeCollection.</param>
+    /// <param name="tag">The tag to look for.</param>
+    /// <returns>True if the AttributeCollection contains an AttributeReference with the given tag, otherwise false.</returns>
     public static bool Contains(this AttributeCollection attributes, string tag)
     {
       return GetAttributeReferences(attributes, OpenMode.ForRead)
              .Any(a => a.Tag == tag);
     }
 
+    /// <summary>
+    /// Gets the value of the AttributeReference with the given tag.
+    /// </summary>
+    /// <param name="attributes">The AttributeCollection.</param>
+    /// <param name="tag">The tag to look for.</param>
     public static string GetValue(this AttributeCollection attributes, string tag)
     {
       var attribute = GetAttributeReference(attributes, tag, OpenMode.ForRead);
       return attribute.TextString;
     }
 
+    /// <summary>
+    /// Sets the value of the AttributeReference with the given tag.
+    /// </summary>
+    /// <param name="attributes">The AttributeCollection.</param>
+    /// <param name="tag">The tag to look for.</param>
+    /// <param name="value">The value to set.</param>
     public static void SetValue(this AttributeCollection attributes, string tag, string value)
     {
       var attribute = GetAttributeReference(attributes, tag, OpenMode.ForWrite);
@@ -28,6 +48,10 @@ namespace Linq2Acad
     }
 
     public static void CleanValues(this AttributeCollection attributes)
+    /// <summary>
+    /// Resets the values of all AttributeReferences in the AttributeCollection.
+    /// </summary>
+    /// <param name="attributes">The AttributeCollection.</param>
     {
       GetAttributeReferences(attributes, OpenMode.ForWrite)
         .ForEach(ar => ar.TextString = "");

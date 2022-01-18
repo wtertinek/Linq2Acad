@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace Linq2Acad
 {
+  /// <summary>
+  /// Provides options for opening a database for edit.
+  /// </summary>
   public class OpenForEditOptions
   {
+    /// <summary>
+    /// If specified, the database will be saved to the given file path instead of the file path the DWG has been opened from.
+    /// </summary>
     public string SaveAsFileName { get; set; }
 
     /// <summary>
@@ -17,12 +23,15 @@ namespace Linq2Acad
     public SaveAsDwgVersion DwgVersion { get; set; }
 
     /// <summary>
-    /// True, if the database should be kept open after it has been used.
-    /// False, if the database should be closed.
+    /// The password to use when opening the database.
+    /// </summary>
+    public string Password { get; set; }
+
+    /// <summary>
+    /// Set thi option to true, if the database should be kept open after it has been used.
+    /// This is an advanced feature, use with caution.
     /// </summary>
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)]
     public bool KeepDatabaseOpen { get; set; }
-
-    public string Password { get; set; }
   }
 }

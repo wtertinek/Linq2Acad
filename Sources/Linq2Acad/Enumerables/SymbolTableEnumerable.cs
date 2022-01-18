@@ -21,11 +21,6 @@ namespace Linq2Acad
     {
     }
 
-    /// <summary>
-    /// Sets the name of a newly created element.
-    /// </summary>
-    /// <param name="item">The newly created element.</param>
-    /// <param name="name">The name of the element.</param>
     protected override void SetName(T item, string name)
     {
       Require.ParameterNotNull(item, nameof(item));
@@ -155,6 +150,10 @@ namespace Linq2Acad
     {
     }
 
+    /// <summary>
+    /// Creates a new element.
+    /// </summary>
+    /// <param name="name">The unique name of the element.</param>
     public T Create(string name)
     {
       Require.IsValidSymbolName(name, nameof(name));
@@ -163,6 +162,10 @@ namespace Linq2Acad
       return CreateInternal(name);
     }
 
+    /// <summary>
+    /// Creates a colletion of new elements.
+    /// </summary>
+    /// <param name="names">The unique names of the new elements.</param>
     public IEnumerable<T> Create(IEnumerable<string> names)
     {
       Require.ParameterNotNull(names, nameof(names));
@@ -173,6 +176,10 @@ namespace Linq2Acad
       return CreateInternal(names);
     }
 
+    /// <summary>
+    /// Adds a new element to the table.
+    /// </summary>
+    /// <param name="item">The element to add.</param>
     public void Add(T item)
     {
       Require.ParameterNotNull(item, nameof(item));
@@ -182,6 +189,10 @@ namespace Linq2Acad
       AddRangeInternal(new[] { item }, new[] { item.Name });
     }
 
+    /// <summary>
+    /// Adds new elemenets to the table.
+    /// </summary>
+    /// <param name="items">The elements to add.</param>
     public void AddRange(IEnumerable<T> items)
     {
       Require.ParameterNotNull(items, nameof(items));
@@ -211,6 +222,10 @@ namespace Linq2Acad
     {
     }
 
+    /// <summary>
+    /// Creates a new element.
+    /// </summary>
+    /// <param name="name">The unique name of the element.</param>
     public T Create(string name)
     {
       Require.IsValidSymbolName(name, nameof(name));
@@ -218,6 +233,10 @@ namespace Linq2Acad
       return CreateInternal(name);
     }
 
+    /// <summary>
+    /// Creates a colletion of new elements.
+    /// </summary>
+    /// <param name="names">The unique names of the new elements.</param>
     public IEnumerable<T> Create(IEnumerable<string> names)
     {
       Require.ElementsNotNull(names, nameof(names));
@@ -225,6 +244,10 @@ namespace Linq2Acad
       return CreateInternal(names);
     }
 
+    /// <summary>
+    /// Adds a new element to the table.
+    /// </summary>
+    /// <param name="item">The element to add.</param>
     public void Add(T item)
     {
       Require.ParameterNotNull(item, nameof(item));
@@ -233,6 +256,10 @@ namespace Linq2Acad
       AddRangeInternal(new[] { item }, new[] { item.Name });
     }
 
+    /// <summary>
+    /// Adds new elemenets to the table.
+    /// </summary>
+    /// <param name="items">The elements to add.</param>
     public void AddRange(IEnumerable<T> items)
     {
       Require.ParameterNotNull(items, nameof(items));

@@ -45,7 +45,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// True, if a property has changed. Else, false.
+    /// True, if a property has changed.
     /// </summary>
     internal bool Changed
     {

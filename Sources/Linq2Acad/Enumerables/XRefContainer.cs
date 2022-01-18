@@ -139,11 +139,18 @@ namespace Linq2Acad
       return new XRef(id, database, transaction);
     }
 
+    /// <summary>
+    /// Resolves existing XRefs in the working database.
+    /// </summary>
     public void Resolve()
     {
       database.ResolveXrefs(true, false);
     }
 
+    /// <summary>
+    /// Resolves existing XRefs in the working database.
+    /// </summary>
+    /// <param name="onlyNewlyAdded">True, if only newly added XRefs should be processed.</param>
     public void Resolve(bool onlyNewlyAdded)
     {
       database.ResolveXrefs(true, onlyNewlyAdded);

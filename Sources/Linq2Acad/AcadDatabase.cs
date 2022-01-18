@@ -761,6 +761,7 @@ namespace Linq2Acad
 
     /// <summary>
     /// Provides access to the drawing database of the active document.
+    /// This is an advanced feature, use with caution.
     /// </summary>
     /// <param name="transaction">The transaction to use.</param>
     /// <param name="commitTransaction">True, if the transaction in use should be committed when this instance is disposed of.</param>
@@ -795,6 +796,7 @@ namespace Linq2Acad
 
     /// <summary>
     /// Provides access to the given drawing database.
+    /// This is an advanced feature, use with caution.
     /// </summary>
     /// <param name="database">The darwing database to use.</param>
     /// <param name="transaction">The transaction to use.</param>
