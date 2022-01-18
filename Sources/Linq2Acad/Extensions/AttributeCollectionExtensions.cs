@@ -47,11 +47,11 @@ namespace Linq2Acad
       attribute.TextString = value;
     }
 
-    public static void CleanValues(this AttributeCollection attributes)
     /// <summary>
     /// Resets the values of all AttributeReferences in the AttributeCollection.
     /// </summary>
     /// <param name="attributes">The AttributeCollection.</param>
+    public static void ClearValues(this AttributeCollection attributes)
     {
       GetAttributeReferences(attributes, OpenMode.ForWrite)
         .ForEach(ar => ar.TextString = "");
