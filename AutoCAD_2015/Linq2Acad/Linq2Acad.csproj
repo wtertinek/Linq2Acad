@@ -49,6 +49,9 @@
     <Compile Include="..\..\Sources\Linq2Acad\CreateOptions.cs">
       <Link>CreateOptions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\DbObjects.cs">
+      <Link>DbObjects.cs</Link>
+    </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\OpenForEditOptions.cs">
       <Link>OpenForEditOptions.cs</Link>
     </Compile>
