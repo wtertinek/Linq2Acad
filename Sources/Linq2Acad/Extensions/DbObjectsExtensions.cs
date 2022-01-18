@@ -13,7 +13,7 @@ namespace Linq2Acad
   public static class DbObjectsExtensions
   {
     /// <summary>
-    /// Performs the specified action on each elemenet of the System.Collections.Generic.IEnumerable&lt;DBObject&gt;.
+    /// Performs the specified action on each element of the System.Collections.Generic.IEnumerable&lt;DBObject&gt;.
     /// </summary>
     /// <typeparam name="T">The type of elements in this System.Collections.Generic.IEnumerable&lt;DBObject&gt;.</typeparam>
     /// <param name="items">The System.Collections.Generic.IEnumerable&lt;DBObject&gt; instance.</param>

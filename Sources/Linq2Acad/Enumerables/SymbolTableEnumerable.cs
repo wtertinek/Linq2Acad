@@ -190,7 +190,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Adds new elemenets to the table.
+    /// Adds new elements to the table.
     /// </summary>
     /// <param name="items">The elements to add.</param>
     public void AddRange(IEnumerable<T> items)
@@ -257,7 +257,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Adds new elemenets to the table.
+    /// Adds new elements to the table.
     /// </summary>
     /// <param name="items">The elements to add.</param>
     public void AddRange(IEnumerable<T> items)

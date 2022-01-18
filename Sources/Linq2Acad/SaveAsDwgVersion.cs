@@ -16,24 +16,24 @@ namespace Linq2Acad
     /// </summary>
     DontChange,
     /// <summary>
-    /// DWG 2004 format
+    /// DWG 2004 format (AC1015)
     /// </summary>
     DWG2004,
     /// <summary>
-    /// DWG 2007 format
+    /// DWG 2007 format (AC1021)
     /// </summary>
     DWG2007,
     /// <summary>
-    /// DWG 2010 format
+    /// DWG 2010 format (AC1024)
     /// </summary>
     DWG2010,
     /// <summary>
-    /// DWG 213 format
+    /// DWG 2013 format (AC1027)
     /// </summary>
     DWG2013,
 #if AutoCAD_2018 || AutoCAD_2019 || AutoCAD_2020 || AutoCAD_2021 || AutoCAD_2022
     /// <summary>
-    /// DWG 2018 format
+    /// DWG 2018 format (AC1032)
     /// </summary>
     DWG2018,
 #endif
