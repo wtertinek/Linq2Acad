@@ -56,21 +56,14 @@ namespace Linq2Acad
       return IDs.Any(oid => oid.Equals(id));
     }
 
-    public T Element(ObjectId id)
-    {
-      Require.IsValid(id, nameof(id));
-
-      return ElementInternal(id, false);
-    }
-
-    public T Element(ObjectId id, bool forWrite)
+    public T Element(ObjectId id, bool openForWrite = false)
     {
       Require.IsValid(id, nameof(id));
       
-      return ElementInternal(id, forWrite);
+      return ElementInternal(id, openForWrite);
     }
 
-    public T ElementOrDefault(ObjectId id)
+    public T ElementOrDefault(ObjectId id, bool openForWrite = false)
     {
       if (!id.IsValid)
       {
@@ -78,25 +71,13 @@ namespace Linq2Acad
       }
       else
       {
-        return ElementInternal(id, false);
+        return ElementInternal(id, openForWrite);
       }
     }
 
-    public T ElementOrDefault(ObjectId id, bool forWrite)
+    private T ElementInternal(ObjectId id, bool openForWrite)
     {
-      if (!id.IsValid)
-      {
-        return null;
-      }
-      else
-      {
-        return ElementInternal(id, forWrite);
-      }
-    }
-
-    private T ElementInternal(ObjectId id, bool forWrite)
-    {
-      return (T)transaction.GetObject(id, forWrite ? OpenMode.ForWrite : OpenMode.ForRead);
+      return (T)transaction.GetObject(id, openForWrite ? OpenMode.ForWrite : OpenMode.ForRead);
     }
 
     public ImportResult<T> Import(T item)

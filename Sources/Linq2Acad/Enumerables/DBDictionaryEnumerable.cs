@@ -25,46 +25,31 @@ namespace Linq2Acad
       return ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Contains(name);
     }
 
-    public T Element(string name)
+    public T Element(string name, bool openForWrite = false)
     {
       Require.StringNotEmpty(name, nameof(name));
       Require.NameExists<T>(Contains(name), name);
 
-      return ElementInternal(name, false);
+      return ElementInternal(name, openForWrite);
     }
 
-    public T Element(string name, bool forWrite)
-    {
-      Require.StringNotEmpty(name, nameof(name));
-      Require.NameExists<T>(Contains(name), name);
-
-      return ElementInternal(name, forWrite);
-    }
-
-    private T ElementInternal(string name, bool forWrite)
+    private T ElementInternal(string name, bool openForWrite)
     {
       var dict = (DBDictionary)transaction.GetObject(ID, OpenMode.ForRead);
       var id = dict.GetAt(name);
-      return (T)transaction.GetObject(id, forWrite ? OpenMode.ForWrite : OpenMode.ForRead);
+      return (T)transaction.GetObject(id, openForWrite ? OpenMode.ForWrite : OpenMode.ForRead);
     }
 
-    public T ElementOrDefault(string name)
+    public T ElementOrDefault(string name, bool openForWrite = false)
     {
       Require.StringNotEmpty(name, nameof(name));
 
-      return ElementOrDefaultInternal(name, false);
+      return ElementOrDefaultInternal(name, openForWrite);
     }
 
-    public T ElementOrDefault(string name, bool forWrite)
+    private T ElementOrDefaultInternal(string name, bool openForWrite)
     {
-      Require.StringNotEmpty(name, nameof(name));
-
-      return ElementOrDefaultInternal(name, forWrite);
-    }
-
-    private T ElementOrDefaultInternal(string name, bool forWrite)
-    {
-      var dict = (DBDictionary)transaction.GetObject(ID, forWrite ? OpenMode.ForWrite : OpenMode.ForRead);
+      var dict = (DBDictionary)transaction.GetObject(ID, openForWrite ? OpenMode.ForWrite : OpenMode.ForRead);
 
       if (dict.Contains(name))
       {

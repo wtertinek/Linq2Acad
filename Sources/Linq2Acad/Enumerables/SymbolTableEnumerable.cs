@@ -86,49 +86,34 @@ namespace Linq2Acad
     {
     }
 
-    public T Element(string name)
+    public T Element(string name, bool openForWrite = false)
     {
       Require.StringNotEmpty(name, nameof(name));
       Require.NameExists<T>(Contains(name), name);
 
-      return ElementInternal(name, false);
+      return ElementInternal(name, openForWrite);
     }
 
-    public T Element(string name, bool forWrite)
-    {
-      Require.StringNotEmpty(name, nameof(name));
-      Require.NameExists<T>(Contains(name), name);
-
-      return ElementInternal(name, forWrite);
-    }
-
-    private T ElementInternal(string name, bool forWrite)
+    private T ElementInternal(string name, bool openForWrite)
     {
       var table = (SymbolTable)transaction.GetObject(ID, OpenMode.ForRead);
-      return (T)transaction.GetObject(table[name], forWrite ? OpenMode.ForWrite : OpenMode.ForRead);
+      return (T)transaction.GetObject(table[name], openForWrite ? OpenMode.ForWrite : OpenMode.ForRead);
     }
 
-    public T ElementOrDefault(string name)
+    public T ElementOrDefault(string name, bool openForWrite = false)
     {
       Require.StringNotEmpty(name, nameof(name));
 
-      return ElementOrDefaultInternal(name, false);
+      return ElementOrDefaultInternal(name, openForWrite);
     }
 
-    public T ElementOrDefault(string name, bool forWrite)
-    {
-      Require.StringNotEmpty(name, nameof(name));
-
-      return ElementOrDefaultInternal(name, forWrite);
-    }
-
-    private T ElementOrDefaultInternal(string name, bool forWrite)
+    private T ElementOrDefaultInternal(string name, bool openForWrite)
     {
       var table = (SymbolTable)transaction.GetObject(ID, OpenMode.ForRead);
 
       if (table.Has(name))
       {
-        return (T)transaction.GetObject(table[name], forWrite ? OpenMode.ForWrite : OpenMode.ForRead);
+        return (T)transaction.GetObject(table[name], openForWrite ? OpenMode.ForWrite : OpenMode.ForRead);
       }
       else
       {
