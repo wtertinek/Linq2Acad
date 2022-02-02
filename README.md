@@ -6,7 +6,9 @@ In general, the library should be a more intuitive API for working with the draw
 **Supported AutoCAD versions**: 2015 and later
 
 ## !!! Linq2Acad is on NuGet !!!
-A public Beta of Linq2Acad is now available on **NuGet**! There is a dedicated package per AutoCAD version, the packages are named [**Linq2Acad-20xx**](https://www.nuget.org/packages?q=linq2acad). Since we are in beta phase, the packages are declared as prerelease, so check *Include prereleases* in the NuGet browser in Visual Studio in order to find them.
+A public Beta of Linq2Acad is now available on **NuGet**! There is a dedicated package per AutoCAD version, the packages are named [**Linq2Acad-20xx**](https://www.nuget.org/packages?q=linq2acad). Since we are in beta phase, the packages are declared as prerelease, so check *Include prereleases* in the NuGet browser in Visual Studio in order to find them. The planned release date is March 1st 2022.
+
+**Please contribute to this project by opening an [issue](https://github.com/wtertinek/Linq2Acad/issues) for problems you encounter or for feature requests**.
 
 ### Sample Code
 Code from [SampleCode.cs](https://github.com/wtertinek/Linq2Acad/blob/master/Sources/Linq2Acad.SampleCode.CS/SampleCode.cs). See [SampleCode.vb](https://github.com/wtertinek/Linq2Acad/blob/master/Sources/Linq2Acad.SampleCode.VB/SampleCode.vb) for VB samples.
