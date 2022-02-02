@@ -5,8 +5,8 @@ In general, the library should be a more intuitive API for working with the draw
 
 **Supported AutoCAD versions**: 2015 and later
 
-### TODO
-The library is still under development. Working with Blocks and Entities works best at the moment. Access to other tables and dictionaries is implemented, but basically untested. Tests and features will be added little by little.
+## !!! Linq2Acad is on NuGet !!!
+A public Beta of Linq2Acad is now available on **NuGet**! There is a dedicated package per AutoCAD version, the packages are named [**Linq2Acad-20xx**](https://www.nuget.org/packages?q=linq2acad). Since we are in beta phase, the packages are declared as prerelease, so check *Include prereleases* in the NuGet browser in Visual Studio in order to find them.
 
 ### Sample Code
 Code from [SampleCode.cs](https://github.com/wtertinek/Linq2Acad/blob/master/Sources/Linq2Acad.SampleCode.CS/SampleCode.cs). See [SampleCode.vb](https://github.com/wtertinek/Linq2Acad/blob/master/Sources/Linq2Acad.SampleCode.VB/SampleCode.vb) for VB samples.
