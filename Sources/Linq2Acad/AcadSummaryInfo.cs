@@ -317,6 +317,28 @@ namespace Linq2Acad
       }
     }
 
+    #region Overrides to remove methods from IntelliSense
+
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+    public override bool Equals(object obj)
+    {
+      return base.Equals(obj);
+    }
+
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+    public override int GetHashCode()
+    {
+      return base.GetHashCode();
+    }
+
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+    public override string ToString()
+    {
+      return base.ToString();
+    }
+
+    #endregion
+
     #region Nested class ObservableDictionary
 
     private class ObservableDictionary : IDictionary<string, string>

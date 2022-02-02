@@ -708,12 +708,6 @@ namespace Linq2Acad
     #region Overrides to remove methods from IntelliSense
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-    public new Type GetType()
-    {
-      return base.GetType();
-    }
-
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override bool Equals(object obj)
     {
       return base.Equals(obj);
@@ -729,18 +723,6 @@ namespace Linq2Acad
     public override string ToString()
     {
       return base.ToString();
-    }
-
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-    public static new bool Equals(object objA, object objB)
-    {
-      return Object.Equals(objA, objB);
-    }
-
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-    public static new bool ReferenceEquals(object objA, object objB)
-    {
-      return Object.ReferenceEquals(objA, objB);
     }
 
     #endregion
