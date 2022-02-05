@@ -79,7 +79,7 @@ namespace Linq2Acad
     /// <returns>Returns the PromptResult.</returns>
     private static PromptResult GetStringInternal(Editor editor, string message, Func<string, bool> validate, string errorMessage)
     {
-      PromptResult result = null;
+      PromptResult result;
 
       do
       {

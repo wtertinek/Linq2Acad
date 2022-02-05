@@ -16,14 +16,10 @@ namespace Linq2Acad
     }
 
     protected override sealed bool ContainsInternal(ObjectId id)
-    {
-      return ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Contains(id);
-    }
+      => ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Contains(id);
 
     protected override sealed bool ContainsInternal(string name)
-    {
-      return ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Contains(name);
-    }
+      => ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Contains(name);
 
     public T Element(string name, bool openForWrite = false)
     {
@@ -63,9 +59,7 @@ namespace Linq2Acad
     }
 
     public override sealed int Count()
-    {
-      return ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Count;
-    }
+      => ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Count;
 
     protected override sealed void AddRangeInternal(IEnumerable<T> items, IEnumerable<string> names)
     {

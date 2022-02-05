@@ -23,9 +23,7 @@ namespace Linq2Acad
     public abstract IEnumerator<T> GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator()
-    {
-      return GetEnumerator();
-    }
+      => GetEnumerator();
 
     public abstract IdEnumerable<T> Concat(IEnumerable<T> second);
 
@@ -74,23 +72,22 @@ namespace Linq2Acad
       if (second is LazayIdEnumerable<T>)
       {
         var other = second as LazayIdEnumerable<T>;
-        return new ConcatIdEnumerable<T>(Tuple.Create(ids, getID), Tuple.Create(other.ids, other.getID));
+        return new ConcatIdEnumerable<T>((ids, getID), (other.ids, other.getID));
       }
       else if (second is ConcatIdEnumerable<T>)
       {
-        return new ConcatIdEnumerable<T>(new[] { Tuple.Create(ids, getID) }.Concat((second as ConcatIdEnumerable<T>).ids).ToArray());
+        return new ConcatIdEnumerable<T>(new[] { (ids, getID) }.Concat((second as ConcatIdEnumerable<T>).ids).ToArray());
       }
       else
       {
-        return new ConcatIdEnumerable<T>(Tuple.Create(ids, getID),
-                                         Tuple.Create(second as IEnumerable, (Func<object, T>)(id => (T)id)));
+        return new ConcatIdEnumerable<T>((ids, getID),
+                                         (second, (Func<object, T>)(id => (T)id)));
       }
     }
 
     public override int Count()
     {
       var count = 0;
-
       var enumerator = ids.GetEnumerator();
 
       while (enumerator.MoveNext())
@@ -140,7 +137,7 @@ namespace Linq2Acad
         index--;
       }
 
-      return default(T);
+      return default;
     }
 
     public override T Last()
@@ -183,14 +180,13 @@ namespace Linq2Acad
       }
       else
       {
-        return default(T);
+        return default;
       }
     }
 
     public override long LongCount()
     {
       long count = 0;
-
       var enumerator = ids.GetEnumerator();
 
       while (enumerator.MoveNext())
@@ -229,54 +225,34 @@ namespace Linq2Acad
     private readonly IEnumerable<T> ids;
 
     public MaterializedIdEnumerable(IEnumerable<T> ids)
-    {
-      this.ids = ids;
-    }
+      => this.ids = ids;
 
     public override IEnumerator<T> GetEnumerator()
-    {
-      return ids.GetEnumerator();
-    }
+      => ids.GetEnumerator();
 
     public override IdEnumerable<T> Concat(IEnumerable<T> second)
-    {
-      return new MaterializedIdEnumerable<T>(ids.Concat(second));
-    }
+      => new MaterializedIdEnumerable<T>(ids.Concat(second));
 
     public override int Count()
-    {
-      return ids.Count();
-    }
+      => ids.Count();
 
     public override T ElementAt(int index)
-    {
-      return ids.ElementAt(index);
-    }
+      => ids.ElementAt(index);
 
     public override T ElementAtOrDefault(int index)
-    {
-      return ids.ElementAtOrDefault(index);
-    }
+      => ids.ElementAtOrDefault(index);
 
     public override T Last()
-    {
-      return ids.Last();
-    }
+      => ids.Last();
 
     public override T LastOrDefault()
-    {
-      return ids.LastOrDefault();
-    }
+      => ids.LastOrDefault();
 
     public override long LongCount()
-    {
-      return ids.LongCount();
-    }
+      => ids.LongCount();
 
     public override IEnumerable<T> Skip(int count)
-    {
-      return ids.Skip(count);
-    }
+      => ids.Skip(count);
   }
 
   #endregion
@@ -285,12 +261,10 @@ namespace Linq2Acad
 
   internal class ConcatIdEnumerable<T> : IdEnumerable<T>
   {
-    internal readonly Tuple<IEnumerable, Func<object, T>>[] ids;
+    internal readonly (IEnumerable, Func<object, T>)[] ids;
 
-    public ConcatIdEnumerable(params Tuple<IEnumerable, Func<object, T>>[] ids)
-    {
-      this.ids = ids;
-    }
+    public ConcatIdEnumerable(params (IEnumerable, Func<object, T>)[] ids)
+      => this.ids = ids;
 
     public override IEnumerator<T> GetEnumerator()
     {
@@ -310,7 +284,7 @@ namespace Linq2Acad
       if (second is LazayIdEnumerable<T>)
       {
         var other = second as LazayIdEnumerable<T>;
-        return new ConcatIdEnumerable<T>(ids.Concat(new [] { Tuple.Create(other.ids, other.getID) }).ToArray());
+        return new ConcatIdEnumerable<T>(ids.Concat(new [] { (other.ids, other.getID) }).ToArray());
       }
       else if (second is ConcatIdEnumerable<T>)
       {
@@ -321,7 +295,7 @@ namespace Linq2Acad
         var enumerable = second as IEnumerable;
         return new ConcatIdEnumerable<T>(ids.Concat(new[]
                                                     {
-                                                      Tuple.Create(enumerable, new Func<object, T>(id => (T)id))
+                                                      (enumerable, new Func<object, T>(id => (T)id))
                                                     }).ToArray());
       }
     }
@@ -397,7 +371,7 @@ namespace Linq2Acad
         }
       }
 
-      return default(T);
+      return default;
     }
 
     public override T Last()
@@ -443,7 +417,7 @@ namespace Linq2Acad
         }
       }
 
-      return default(T);
+      return default;
     }
 
     public override long LongCount()

@@ -19,10 +19,8 @@ namespace Linq2Acad
     /// <param name="tag">The tag to look for.</param>
     /// <returns>True if the AttributeCollection contains an AttributeReference with the given tag, otherwise false.</returns>
     public static bool Contains(this AttributeCollection attributes, string tag)
-    {
-      return GetAttributeReferences(attributes, OpenMode.ForRead)
-             .Any(a => a.Tag == tag);
-    }
+      => GetAttributeReferences(attributes, OpenMode.ForRead)
+         .Any(a => a.Tag == tag);
 
     /// <summary>
     /// Gets the value of the AttributeReference with the given tag.
@@ -52,10 +50,8 @@ namespace Linq2Acad
     /// </summary>
     /// <param name="attributes">The AttributeCollection.</param>
     public static void ClearValues(this AttributeCollection attributes)
-    {
-      GetAttributeReferences(attributes, OpenMode.ForWrite)
-        .ForEach(ar => ar.TextString = "");
-    }
+      => GetAttributeReferences(attributes, OpenMode.ForWrite)
+         .ForEach(ar => ar.TextString = "");
 
     private static AttributeReference GetAttributeReference(AttributeCollection attributes, string tag, OpenMode openMode)
     {

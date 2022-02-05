@@ -59,9 +59,7 @@ namespace Linq2Acad
     /// <param name="action">The action to perfrom.</param>
     /// <param name="keepUpgraded">True, if the item should stay write enabled after the action has been performed.</param>
     public static void WriteWrap<T>(T item, Action action, bool keepUpgraded = false) where T : DBObject
-    {
-      WriteWrap<T, object>(item, () => { action(); return null; }, keepUpgraded);
-    }
+      => WriteWrap<T, object>(item, () => { action(); return null; }, keepUpgraded);
 
     /// <summary>
     /// Performs a write operation on a given DBObject. If the object is not write enabled, UpgradeOpen is
@@ -114,17 +112,17 @@ namespace Linq2Acad
         memoryStream.Position = 0;
         var fullChunks = (int)memoryStream.Length / ChunkSize;
 
-        Func<int, byte[]> read = size =>
-                                 {
-                                   var chunk = new byte[size];
+        byte[] read(int size)
+        {
+          var chunk = new byte[size];
 
-                                   if (memoryStream.Read(chunk, 0, size) != size)
-                                   {
-                                     throw new Exception("Error reading from MemoryStream");
-                                   }
+          if (memoryStream.Read(chunk, 0, size) != size)
+          {
+            throw new Exception("Error reading from MemoryStream");
+          }
 
-                                   return chunk;
-                                 };
+          return chunk;
+        }
 
         for (int i = 0; i < fullChunks; i++)
         {

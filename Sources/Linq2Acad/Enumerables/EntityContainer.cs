@@ -26,7 +26,8 @@ namespace Linq2Acad
     /// <summary>
     /// The ObjectId of the container.
     /// </summary>
-    public ObjectId ObjectId => ID;
+    public ObjectId ObjectId
+      => ID;
 
     /// <summary>
     /// Adds an Entity to the container.

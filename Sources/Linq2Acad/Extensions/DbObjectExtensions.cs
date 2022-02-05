@@ -38,23 +38,23 @@ namespace Linq2Acad
           source.CreateExtensionDictionary();
         }
 
-        Helpers.WrapInTransaction(source, tr =>
-                                          {
-                                            var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForWrite);
+        Helpers.WrapInTransaction(source,
+                                  tr =>
+                                  {
+                                    var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForWrite);
 
-                                            if (dict.Contains(key))
-                                            {
-                                              var xRecord = (Xrecord)tr.GetObject(dict.GetAt(key), OpenMode.ForWrite);
-                                              xRecord.Data = buffer;
-                                            }
-                                            else
-                                            {
-                                              var xRecord = new Xrecord();
-                                              xRecord.Data = buffer;
-                                              dict.SetAt(key, xRecord);
-                                              tr.AddNewlyCreatedDBObject(xRecord, true);
-                                            }
-                                          });
+                                    if (dict.Contains(key))
+                                    {
+                                      var xRecord = (Xrecord)tr.GetObject(dict.GetAt(key), OpenMode.ForWrite);
+                                      xRecord.Data = buffer;
+                                    }
+                                    else
+                                    {
+                                      var xRecord = new Xrecord { Data = buffer };
+                                      dict.SetAt(key, xRecord);
+                                      tr.AddNewlyCreatedDBObject(xRecord, true);
+                                    }
+                                  });
       }
 
       ResultBuffer getResultBuffer(DxfCode code)
@@ -108,9 +108,7 @@ namespace Linq2Acad
     /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     /// <returns>The object in the extension dictionary.</returns>
     public static T GetData<T>(this DBObject source, string key)
-    {
-      return GetData<T>(source, key, false);
-    }
+      => GetData<T>(source, key, false);
 
     /// <summary>
     /// Reads an object from the source object's extension dictionary or from XData.
@@ -126,14 +124,9 @@ namespace Linq2Acad
       Require.ParameterNotNull(source, nameof(source));
       Require.StringNotEmpty(key, nameof(key));
 
-      if (useXData)
-      {
-        return GetFromXData<T>(source, key);
-      }
-      else
-      {
-        return GetFromXExtensionDictionary<T>(source, key);
-      }
+      return useXData
+               ? GetFromXData<T>(source, key)
+               : GetFromXExtensionDictionary<T>(source, key);
     }
 
     /// <summary>
@@ -347,9 +340,7 @@ namespace Linq2Acad
     /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     /// <returns>True, if the extension dictionary contains an entry with the given key.</returns>
     public static bool HasData(this DBObject source, string key)
-    {
-      return HasData(source, key, false);
-    }
+      => HasData(source, key, false);
 
     /// <summary>
     /// Returns true, if the source object has an entry with the given key in the extension dictionary.
@@ -387,11 +378,12 @@ namespace Linq2Acad
         else
         {
           var hasData = false;
-          Helpers.WrapInTransaction(source, tr =>
-                                            {
-                                              var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForRead);
-                                              hasData = dict.Contains(key);
-                                            });
+          Helpers.WrapInTransaction(source,
+                                    tr =>
+                                    {
+                                      var dict = (DBDictionary)tr.GetObject(source.ExtensionDictionary, OpenMode.ForRead);
+                                      hasData = dict.Contains(key);
+                                    });
 
           return hasData;
         }

@@ -23,15 +23,15 @@ namespace Linq2Acad
     }
 
     public bool Contains(string name)
-    {
-      return ContainsInternal(name);
-    }
+      => ContainsInternal(name);
 
     protected abstract bool ContainsInternal(string name);
 
     protected abstract T CreateNew();
 
-    protected virtual void SetName(T item, string name) { }
+    protected virtual void SetName(T item, string name)
+    {
+    }
 
     protected abstract void AddRangeInternal(IEnumerable<T> items, IEnumerable<string> names);
 

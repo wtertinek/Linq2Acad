@@ -40,28 +40,21 @@ namespace Linq2Acad
     /// </summary>
     /// <param name="database">The drawing database to use.</param>
     internal AcadSummaryInfo(Database database)
-    {
-      this.database = database;
-    }
+      => this.database = database;
 
     /// <summary>
     /// True, if a property has changed.
     /// </summary>
     internal bool Changed
-    {
-      get
-      {
-        return customPropertiesChanged ||
-               authorChanged ||
-               commentsChanged ||
-               hyperlinkBaseChanged ||
-               keywordsChanged ||
-               lastSavedByChanged ||
-               revisionNumberChanged ||
-               subjectChanged ||
-               titleChanged;
-      }
-    }
+      => customPropertiesChanged ||
+         authorChanged ||
+         commentsChanged ||
+         hyperlinkBaseChanged ||
+         keywordsChanged ||
+         lastSavedByChanged ||
+         revisionNumberChanged ||
+         subjectChanged ||
+         titleChanged;
 
     /// <summary>
     /// Commits the changes made to the summary info.
@@ -321,21 +314,15 @@ namespace Linq2Acad
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override bool Equals(object obj)
-    {
-      return base.Equals(obj);
-    }
+      => base.Equals(obj);
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override int GetHashCode()
-    {
-      return base.GetHashCode();
-    }
+      => base.GetHashCode();
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override string ToString()
-    {
-      return base.ToString();
-    }
+      => base.ToString();
 
     #endregion
 
@@ -346,21 +333,14 @@ namespace Linq2Acad
       private readonly Dictionary<string, string> dict;
 
       public ObservableDictionary()
-      {
-        dict = new Dictionary<string, string>();
-      }
+        => dict = new Dictionary<string, string>();
 
       #region Changed event
 
       public event EventHandler Changed;
 
       private void OnChanged()
-      {
-        if (Changed != null)
-        {
-          Changed(this, EventArgs.Empty);
-        }
-      }
+        => Changed?.Invoke(this, EventArgs.Empty);
 
       #endregion
 
@@ -371,14 +351,10 @@ namespace Linq2Acad
       }
 
       public bool ContainsKey(string key)
-      {
-        return dict.ContainsKey(key);
-      }
+        => dict.ContainsKey(key);
 
       public ICollection<string> Keys
-      {
-        get { return dict.Keys; }
-      }
+        => dict.Keys;
 
       public bool Remove(string key)
       {
@@ -388,18 +364,14 @@ namespace Linq2Acad
       }
 
       public bool TryGetValue(string key, out string value)
-      {
-        return dict.TryGetValue(key, out value);
-      }
+        => dict.TryGetValue(key, out value);
 
       public ICollection<string> Values
-      {
-        get { return dict.Values; }
-      }
+        => dict.Values;
 
       public string this[string key]
       {
-        get { return dict[key]; }
+        get => dict[key];
         set
         {
           dict[key] = value;
@@ -420,9 +392,7 @@ namespace Linq2Acad
       }
 
       public bool Contains(KeyValuePair<string, string> item)
-      {
-        return dict.ContainsKey(item.Key);
-      }
+        => dict.ContainsKey(item.Key);
 
       public void CopyTo(KeyValuePair<string, string>[] array, int arrayIndex)
       {
@@ -434,14 +404,10 @@ namespace Linq2Acad
       }
 
       public int Count
-      {
-        get { return dict.Count; }
-      }
+        => dict.Count;
 
       public bool IsReadOnly
-      {
-        get { return false; }
-      }
+        => false;
 
       public bool Remove(KeyValuePair<string, string> item)
       {
@@ -451,14 +417,10 @@ namespace Linq2Acad
       }
 
       public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
-      {
-        return dict.GetEnumerator();
-      }
+        => dict.GetEnumerator();
 
       System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-      {
-        return GetEnumerator();
-      }
+        => GetEnumerator();
     }
 
     #endregion

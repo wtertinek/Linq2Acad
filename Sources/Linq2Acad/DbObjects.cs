@@ -50,14 +50,7 @@ namespace Linq2Acad
     {
       Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
 
-      if (!id.IsValid)
-      {
-        return null;
-      }
-      else
-      {
-        return ElementInternal<T>(id, openForWrite);
-      }
+      return !id.IsValid ? null : ElementInternal<T>(id, openForWrite);
     }
 
     /// <summary>

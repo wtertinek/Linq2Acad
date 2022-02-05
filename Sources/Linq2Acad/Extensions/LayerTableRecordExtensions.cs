@@ -51,8 +51,6 @@ namespace Linq2Acad
     /// <param name="layer">The layer instance.</param>
     /// <param name="entity">The entity to add.</param>
     private static void AddInternal(LayerTableRecord layer, Entity entity)
-    {
-      Helpers.WriteWrap(entity, () => entity.LayerId = layer.ObjectId);
-    }
+      => Helpers.WriteWrap(entity, () => entity.LayerId = layer.ObjectId);
   }
 }

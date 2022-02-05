@@ -49,9 +49,7 @@ namespace Linq2Acad
     /// </summary>
     /// <returns>A newly crated element of type BlockTableRecord.</returns>
     protected override BlockTableRecord CreateNew()
-    {
-      return new BlockTableRecord();
-    }
+      => new BlockTableRecord();
 
     /// <summary>
     /// Converts the Block with the given ObjectId into an EntityContainer that allows querying for entities.
@@ -59,18 +57,14 @@ namespace Linq2Acad
     /// <param name="id">The id of the object.</param>
     /// <returns></returns>
     public EntityContainer ElementAsEntityContainer(ObjectId id)
-    {
-      return new EntityContainer(database, transaction, id);
-    }
+      => new EntityContainer(database, transaction, id);
 
     /// <summary>
     /// Converts each Block into an EntityContainer that allows querying for entities.
     /// </summary>
     /// <returns>The elements of the Block table as EntitiyContainers.</returns>
     public IEnumerable<EntityContainer> AsEntityContainers()
-    {
-      return this.Select(b => new EntityContainer(database, transaction, b.ObjectId));
-    }
+      => this.Select(b => new EntityContainer(database, transaction, b.ObjectId));
 
     /// <summary>
     /// Creates a new BlockTableRecord and adds the given Entites to it.
@@ -144,9 +138,7 @@ namespace Linq2Acad
     /// </summary>
     /// <returns>A newly crated element of type DimStypeTableRecord.</returns>
     protected override DimStyleTableRecord CreateNew()
-    {
-      return new DimStyleTableRecord();
-    }
+      => new DimStyleTableRecord();
 
     /// <summary>
     /// Sets the name of a newly created element.
@@ -181,9 +173,7 @@ namespace Linq2Acad
     /// </summary>
     /// <returns>A newly crated element of type LayerTableRecord.</returns>
     protected override LayerTableRecord CreateNew()
-    {
-      return new LayerTableRecord();
-    }
+      => new LayerTableRecord();
 
     /// <summary>
     /// Creates a new LayerTableRecord and adds the given Entites to it.
@@ -254,9 +244,7 @@ namespace Linq2Acad
     /// </summary>
     /// <returns>A newly crated element of type RegAppTableRecord.</returns>
     protected override RegAppTableRecord CreateNew()
-    {
-      return new RegAppTableRecord();
-    }
+      => new RegAppTableRecord();
   }
 
   /// <summary>
@@ -279,9 +267,7 @@ namespace Linq2Acad
     /// </summary>
     /// <returns>A newly crated element of type TextStyleTableRecord.</returns>
     protected override TextStyleTableRecord CreateNew()
-    {
-      return new TextStyleTableRecord();
-    }
+      => new TextStyleTableRecord();
   }
 
   /// <summary>
@@ -304,9 +290,7 @@ namespace Linq2Acad
     /// </summary>
     /// <returns>A newly crated element of type UcsTableRecord.</returns>
     protected override UcsTableRecord CreateNew()
-    {
-      return new UcsTableRecord();
-    }
+      => new UcsTableRecord();
   }
 
   /// <summary>
@@ -329,28 +313,16 @@ namespace Linq2Acad
     /// </summary>
     /// <returns>A newly crated element of type ViewportTableRecord.</returns>
     protected override ViewportTableRecord CreateNew()
-    {
-      return new ViewportTableRecord();
-    }
+      => new ViewportTableRecord();
 
     /// <summary>
     /// Returns the current Viewport or null, if there is no current Viewport.
     /// </summary>
     /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     public ViewportTableRecord Current
-    {
-      get
-      {
-        if (database.CurrentViewportTableRecordId.IsValid)
-        {
-          return (ViewportTableRecord)transaction.GetObject(database.CurrentViewportTableRecordId, OpenMode.ForRead);
-        }
-        else
-        {
-          return null;
-        }
-      }
-    }
+      => database.CurrentViewportTableRecordId.IsValid
+           ? (ViewportTableRecord)transaction.GetObject(database.CurrentViewportTableRecordId, OpenMode.ForRead)
+           : null;
   }
 
   /// <summary>

@@ -29,14 +29,10 @@ namespace Linq2Acad
     }
 
     protected override sealed bool ContainsInternal(ObjectId id)
-    {
-      return ((SymbolTable)transaction.GetObject(ID, OpenMode.ForRead)).Has(id);
-    }
+      => ((SymbolTable)transaction.GetObject(ID, OpenMode.ForRead)).Has(id);
 
     protected override sealed bool ContainsInternal(string name)
-    {
-      return ((SymbolTable)transaction.GetObject(ID, OpenMode.ForRead)).Has(name);
-    }
+      => ((SymbolTable)transaction.GetObject(ID, OpenMode.ForRead)).Has(name);
 
     protected IEnumerable<T> CreateInternal(IEnumerable<string> names)
     {
@@ -111,14 +107,9 @@ namespace Linq2Acad
     {
       var table = (SymbolTable)transaction.GetObject(ID, OpenMode.ForRead);
 
-      if (table.Has(name))
-      {
-        return (T)transaction.GetObject(table[name], openForWrite ? OpenMode.ForWrite : OpenMode.ForRead);
-      }
-      else
-      {
-        return null;
-      }
+      return table.Has(name)
+               ? (T)transaction.GetObject(table[name], openForWrite ? OpenMode.ForWrite : OpenMode.ForRead)
+               : null;
     }
   }
 

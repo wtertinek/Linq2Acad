@@ -18,9 +18,7 @@ namespace Linq2Acad
     }
 
     protected override DBVisualStyle CreateNew()
-    {
-      return new DBVisualStyle();
-    }
+      => new DBVisualStyle();
 
     /// <summary>
     /// Creates a new DBVisualStyle element.
@@ -77,9 +75,7 @@ namespace Linq2Acad
     }
 
     protected override DetailViewStyle CreateNew()
-    {
-      return new DetailViewStyle();
-    }
+      => new DetailViewStyle();
 
     /// <summary>
     /// Creates a new DetailViewStyle element.
@@ -136,9 +132,7 @@ namespace Linq2Acad
     }
 
     protected override Group CreateNew()
-    {
-      return new Group();
-    }
+      => new Group();
 
     /// <summary>
     /// Creates a new Group element.
@@ -219,14 +213,10 @@ namespace Linq2Acad
     }
 
     protected override Layout CreateNew()
-    {
-      throw new NotImplementedException();
-    }
+      => throw new NotImplementedException();
 
     protected override Layout CreateInternal(string name)
-    {
-      return (Layout)transaction.GetObject(LayoutManager.Current.CreateLayout(name), OpenMode.ForWrite);
-    }
+      => (Layout)transaction.GetObject(LayoutManager.Current.CreateLayout(name), OpenMode.ForWrite);
 
     /// <summary>
     /// Creates a new Layout element.
@@ -283,9 +273,7 @@ namespace Linq2Acad
     }
 
     protected override Material CreateNew()
-    {
-      return new Material();
-    }
+      => new Material();
 
     /// <summary>
     /// Creates a new Material element.
@@ -342,9 +330,7 @@ namespace Linq2Acad
     }
 
     protected override MLeaderStyle CreateNew()
-    {
-      return new MLeaderStyle();
-    }
+      => new MLeaderStyle();
 
     /// <summary>
     /// Creates a new MLeaderStyle element.
@@ -401,9 +387,7 @@ namespace Linq2Acad
     }
 
     protected override MlineStyle CreateNew()
-    {
-      return new MlineStyle();
-    }
+      => new MlineStyle();
 
     /// <summary>
     /// Creates a new MlineStyle element.
@@ -462,9 +446,7 @@ namespace Linq2Acad
     }
 
     protected override PlotSettings CreateNew()
-    {
-      return new PlotSettings(modelType);
-    }
+      => new PlotSettings(modelType);
 
     /// <summary>
     /// Creates a new PlotSettings element.
@@ -524,9 +506,7 @@ namespace Linq2Acad
     }
 
     protected override SectionViewStyle CreateNew()
-    {
-      return new SectionViewStyle();
-    }
+      => new SectionViewStyle();
 
     /// <summary>
     /// Creates a new SectionViewStyle element.
@@ -583,9 +563,7 @@ namespace Linq2Acad
     }
 
     protected override TableStyle CreateNew()
-    {
-      return new TableStyle();
-    }
+      => new TableStyle();
 
     /// <summary>
     /// Creates a new TableStyle element.

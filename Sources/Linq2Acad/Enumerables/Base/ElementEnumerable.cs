@@ -18,9 +18,7 @@ namespace Linq2Acad
     public abstract IEnumerator<T> GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator()
-    {
-      return GetEnumerator();
-    }
+      => GetEnumerator();
 
     public abstract ElementEnumerable<T, TId> Concat(T element);
 
@@ -82,69 +80,43 @@ namespace Linq2Acad
     }
 
     internal IdEnumerable<TId> IDs { get; }
-    
+
     public override sealed IEnumerator<T> GetEnumerator()
-    {
-      return IDs.Select(id => dataProvider.GetElement<T>(id))
-                .GetEnumerator();
-    }
+      => IDs.Select(id => dataProvider.GetElement<T>(id))
+            .GetEnumerator();
 
     public override sealed ElementEnumerable<T, TId> Concat(T element)
-    {
-      return Concat(new[] { element });
-    }
+      => Concat(new[] { element });
 
     public override sealed ElementEnumerable<T, TId> Concat(IEnumerable<T> second)
-    {
-      if (second is LazyElementEnumerable<T, TId, TConstraint>)
-      {
-        return new LazyElementEnumerable<T, TId, TConstraint>(IDs.Concat((second as LazyElementEnumerable<T, TId, TConstraint>).IDs), dataProvider);
-      }
-      else
-      {
-        return new MaterializedElementEnumerable<T, TId>(IDs.Select(id => dataProvider.GetElement<T>(id))
+      => second is LazyElementEnumerable<T, TId, TConstraint>
+           ? new LazyElementEnumerable<T, TId, TConstraint>(IDs.Concat((second as LazyElementEnumerable<T, TId, TConstraint>).IDs), dataProvider)
+           : (ElementEnumerable<T, TId>)new MaterializedElementEnumerable<T, TId>(IDs.Select(id => dataProvider.GetElement<T>(id))
                                                             .Concat(second));
-      }
-    }
 
     public override bool Contains(T value)
-    {
-      return IDs.Contains(dataProvider.GetId(value));
-    }
+      => IDs.Contains(dataProvider.GetId(value));
 
     public override int Count()
-    {
-      return IDs.Count();
-    }
+      => IDs.Count();
 
     public override sealed ElementEnumerable<T, TId> Distinct()
-    {
-      return new LazyElementEnumerable<T, TId, TConstraint>(new MaterializedIdEnumerable<TId>(IDs.Distinct()), dataProvider);
-    }
+      => new LazyElementEnumerable<T, TId, TConstraint>(new MaterializedIdEnumerable<TId>(IDs.Distinct()), dataProvider);
 
     public override sealed T ElementAt(int index)
-    {
-      return dataProvider.GetElement<T>(IDs.ElementAt(index));
-    }
+      => dataProvider.GetElement<T>(IDs.ElementAt(index));
 
     public override sealed T ElementAtOrDefault(int index)
     {
       var id = IDs.ElementAtOrDefault(index);
 
-      if (Object.Equals(id, default(TId)))
-      {
-        return default(T);
-      }
-      else
-      {
-        return dataProvider.GetElement<T>(id);
-      }
+      return Equals(id, default(TId))
+               ? default
+               : dataProvider.GetElement<T>(id);
     }
 
     public override sealed ElementEnumerable<T, TId> Except(T element)
-    {
-      return Except(new[] { element });
-    }
+      => Except(new[] { element });
 
     public override sealed ElementEnumerable<T, TId> Except(IEnumerable<T> second)
     {
@@ -160,9 +132,7 @@ namespace Linq2Acad
     }
 
     public override sealed ElementEnumerable<T, TId> Intersect(T element)
-    {
-      return Intersect(new[] { element });
-    }
+      => Intersect(new[] { element });
 
     public override sealed ElementEnumerable<T, TId> Intersect(IEnumerable<T> second)
     {
@@ -178,70 +148,41 @@ namespace Linq2Acad
     }
 
     public override sealed T Last()
-    {
-      return dataProvider.GetElement<T>(IDs.Last());
-    }
+      => dataProvider.GetElement<T>(IDs.Last());
 
     public override sealed T LastOrDefault()
     {
       var id = IDs.LastOrDefault();
-
-      if (Object.Equals(id, default(TId)))
-      {
-        return default(T);
-      }
-      else
-      {
-        return dataProvider.GetElement<T>(id);
-      }
+      return Equals(id, default(TId))
+               ? default
+               : dataProvider.GetElement<T>(id);
     }
 
     public override sealed long LongCount()
-    {
-      return IDs.LongCount();
-    }
+      => IDs.LongCount();
 
     public override ElementEnumerable<TResult, TId> OfType<TResult>()
-    {
-      return new LazyElementEnumerable<TResult, TId, TConstraint>(new MaterializedIdEnumerable<TId>(dataProvider.Filter<TResult>(IDs)), dataProvider);
-    }
+      => new LazyElementEnumerable<TResult, TId, TConstraint>(new MaterializedIdEnumerable<TId>(dataProvider.Filter<TResult>(IDs)), dataProvider);
 
     public override sealed ElementEnumerable<T, TId> Reverse()
-    {
-      return new LazyElementEnumerable<T, TId, TConstraint>(new MaterializedIdEnumerable<TId>(IDs.Reverse()), dataProvider);
-    }
+      => new LazyElementEnumerable<T, TId, TConstraint>(new MaterializedIdEnumerable<TId>(IDs.Reverse()), dataProvider);
 
     public override sealed bool SequenceEqual(T element)
-    {
-      return SequenceEqual(new[] { element });
-    }
+      => SequenceEqual(new[] { element });
 
     public override sealed bool SequenceEqual(IEnumerable<T> second)
-    {
-      if (second is LazyElementEnumerable<T, TId, TConstraint>)
-      {
-        return IDs.SequenceEqual((second as LazyElementEnumerable<T, TId, TConstraint>).IDs);
-      }
-      else
-      {
-        return IDs.SequenceEqual(second.Select(e => dataProvider.GetId(e)));
-      }
-    }
+      => second is LazyElementEnumerable<T, TId, TConstraint>
+           ? IDs.SequenceEqual((second as LazyElementEnumerable<T, TId, TConstraint>).IDs)
+           : IDs.SequenceEqual(second.Select(e => dataProvider.GetId(e)));
 
     public override sealed ElementEnumerable<T, TId> Skip(int count)
-    {
-      return new LazyElementEnumerable<T, TId, TConstraint>(new MaterializedIdEnumerable<TId>(IDs.Skip(count)), dataProvider);
-    }
+      => new LazyElementEnumerable<T, TId, TConstraint>(new MaterializedIdEnumerable<TId>(IDs.Skip(count)), dataProvider);
 
     public override sealed ElementEnumerable<T, TId> Take(int count)
-    {
-      return new LazyElementEnumerable<T, TId, TConstraint>(new MaterializedIdEnumerable<TId>(IDs.Take(count)), dataProvider);
-    }
+      => new LazyElementEnumerable<T, TId, TConstraint>(new MaterializedIdEnumerable<TId>(IDs.Take(count)), dataProvider);
 
     public override sealed ElementEnumerable<T, TId> Union(T element)
-    {
-      return Union(new[] { element });
-    }
+      => Union(new[] { element });
 
     public override sealed ElementEnumerable<T, TId> Union(IEnumerable<T> second)
     {
@@ -283,124 +224,76 @@ namespace Linq2Acad
     private readonly IEnumerable<T> elements;
 
     public MaterializedElementEnumerable(IEnumerable<T> elements)
-    {
-      this.elements = elements;
-    }
+      => this.elements = elements;
 
     public override sealed IEnumerator<T> GetEnumerator()
-    {
-      return elements.GetEnumerator();
-    }
+      => elements.GetEnumerator();
 
     public override sealed ElementEnumerable<T, TId> Concat(T element)
-    {
-      return Concat(new[] { element });
-    }
+      => Concat(new[] { element });
 
     public override sealed ElementEnumerable<T, TId> Concat(IEnumerable<T> second)
-    {
-      return new MaterializedElementEnumerable<T, TId>(elements.Concat(second));
-    }
+      => new MaterializedElementEnumerable<T, TId>(elements.Concat(second));
 
     public override sealed bool Contains(T value)
-    {
-      return elements.Contains(value);
-    }
+      => elements.Contains(value);
 
     public override sealed int Count()
-    {
-      return elements.Count();
-    }
+      => elements.Count();
 
     public override sealed ElementEnumerable<T, TId> Distinct()
-    {
-      return new MaterializedElementEnumerable<T, TId>(elements.Distinct());
-    }
+      => new MaterializedElementEnumerable<T, TId>(elements.Distinct());
 
     public override sealed T ElementAt(int index)
-    {
-      return elements.ElementAt(index);
-    }
+      => elements.ElementAt(index);
 
     public override sealed T ElementAtOrDefault(int index)
-    {
-      return elements.ElementAtOrDefault(index);
-    }
+      => elements.ElementAtOrDefault(index);
 
     public override sealed ElementEnumerable<T, TId> Except(T element)
-    {
-      return Except(new[] { element });
-    }
+      => Except(new[] { element });
 
     public override sealed ElementEnumerable<T, TId> Except(IEnumerable<T> second)
-    {
-      return new MaterializedElementEnumerable<T, TId>(elements.Except(second));
-    }
+      => new MaterializedElementEnumerable<T, TId>(elements.Except(second));
 
     public override sealed ElementEnumerable<T, TId> Intersect(T element)
-    {
-      return Intersect(new[] { element });
-    }
+      => Intersect(new[] { element });
 
     public override sealed ElementEnumerable<T, TId> Intersect(IEnumerable<T> second)
-    {
-      return new MaterializedElementEnumerable<T, TId>(elements.Intersect(second));
-    }
+      => new MaterializedElementEnumerable<T, TId>(elements.Intersect(second));
 
     public override sealed T Last()
-    {
-      return elements.Last();
-    }
+      => elements.Last();
 
     public override sealed T LastOrDefault()
-    {
-      return elements.LastOrDefault();
-    }
+      => elements.LastOrDefault();
 
     public override sealed long LongCount()
-    {
-      return elements.LongCount();
-    }
+      => elements.LongCount();
 
     public override ElementEnumerable<TResult, TId> OfType<TResult>()
-    {
-      return new MaterializedElementEnumerable<TResult, TId>(elements.OfType<TResult>());
-    }
+      => new MaterializedElementEnumerable<TResult, TId>(elements.OfType<TResult>());
 
     public override sealed ElementEnumerable<T, TId> Reverse()
-    {
-      return new MaterializedElementEnumerable<T, TId>(elements.Reverse());
-    }
+      => new MaterializedElementEnumerable<T, TId>(elements.Reverse());
 
     public override sealed bool SequenceEqual(T element)
-    {
-      return SequenceEqual(new[] { element });
-    }
+      => SequenceEqual(new[] { element });
 
     public override sealed bool SequenceEqual(IEnumerable<T> second)
-    {
-      return elements.SequenceEqual(second);
-    }
+      => elements.SequenceEqual(second);
 
     public override sealed ElementEnumerable<T, TId> Skip(int count)
-    {
-      return new MaterializedElementEnumerable<T, TId>(elements.Skip(count));
-    }
+      => new MaterializedElementEnumerable<T, TId>(elements.Skip(count));
 
     public override sealed ElementEnumerable<T, TId> Take(int count)
-    {
-      return new MaterializedElementEnumerable<T, TId>(elements.Take(count));
-    }
+      => new MaterializedElementEnumerable<T, TId>(elements.Take(count));
 
     public override sealed ElementEnumerable<T, TId> Union(T element)
-    {
-      return Union(new[] { element });
-    }
+      => Union(new[] { element });
 
     public override sealed ElementEnumerable<T, TId> Union(IEnumerable<T> second)
-    {
-      return new MaterializedElementEnumerable<T, TId>(elements.Union(second));
-    }
+      => new MaterializedElementEnumerable<T, TId>(elements.Union(second));
   }
 
   #endregion

@@ -15,28 +15,30 @@ namespace Linq2Acad
     private readonly XrefStatus status;
 
     internal XRefInfo(XrefStatus status)
-    {
-      this.status = status;
-    }
+      => this.status = status;
 
     /// <summary>
     /// True, if the XRef is not found.
     /// </summary>
-    public bool FileNotFound => (status & XrefStatus.FileNotFound) == XrefStatus.FileNotFound;
+    public bool FileNotFound
+      => (status & XrefStatus.FileNotFound) == XrefStatus.FileNotFound;
 
     /// <summary>
     /// True, if the XRef is resolved.
     /// </summary>
-    public bool IsResolved => (status & XrefStatus.Resolved) == XrefStatus.Resolved;
+    public bool IsResolved
+      => (status & XrefStatus.Resolved) == XrefStatus.Resolved;
 
     /// <summary>
     /// True, if the XRef is loaded.
     /// </summary>
-    public bool IsLoaded => !((status & XrefStatus.Unloaded) == XrefStatus.Unloaded);
+    public bool IsLoaded
+      => !((status & XrefStatus.Unloaded) == XrefStatus.Unloaded);
 
     /// <summary>
     /// True, if the XRef is referenced.
     /// </summary>
-    public bool IsReferenced => !((status & XrefStatus.Unreferenced) == XrefStatus.Unreferenced);
+    public bool IsReferenced
+      => !((status & XrefStatus.Unreferenced) == XrefStatus.Unreferenced);
   }
 }

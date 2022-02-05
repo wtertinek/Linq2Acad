@@ -31,8 +31,8 @@ namespace Linq2Acad
     /// </summary>
     public string BlockName
     {
-      get { return Block.Name; }
-      set { Block.Name = value; }    
+      get => Block.Name;
+      set => Block.Name = value;
     }
 
     /// <summary>
@@ -40,10 +40,9 @@ namespace Linq2Acad
     /// </summary>
     public string FilePath
     {
-      get { return Block.PathName; }
-      set { Block.PathName = value; }
+      get => Block.PathName;
+      set => Block.PathName = value;
     }
-
 
     /// <summary>
     /// Gets the status of the XRef.
@@ -54,25 +53,19 @@ namespace Linq2Acad
     /// True, if the XRef is from an attached reference.
     /// </summary>
     public bool IsFromAttachReference
-    {
-      get { return !Block.IsFromOverlayReference; }
-    }
+      => !Block.IsFromOverlayReference;
 
     /// <summary>
     /// True, if the XRef is from an overlay reference.
     /// </summary>
     public bool IsFromOverlayReference
-    {
-      get { return Block.IsFromOverlayReference; }
-    }
+      => Block.IsFromOverlayReference;
 
     /// <summary>
     /// Binds the XRef.
     /// </summary>
     public void Bind()
-    {
-      Bind(false);
-    }
+      => Bind(false);
 
     /// <summary>
     /// Binds the XRef.
@@ -90,9 +83,7 @@ namespace Linq2Acad
     /// Detaches the XRef.
     /// </summary>
     public void Detach()
-    {
-      Database.DetachXref(Block.ObjectId);
-    }
+      => Database.DetachXref(Block.ObjectId);
 
     /// <summary>
     /// Reloads the XRef.

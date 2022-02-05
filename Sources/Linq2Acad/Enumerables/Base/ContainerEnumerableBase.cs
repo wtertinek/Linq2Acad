@@ -40,21 +40,10 @@ namespace Linq2Acad
     }
 
     public bool Contains(ObjectId id)
-    {
-      if (!id.IsValid)
-      {
-        return false;
-      }
-      else
-      {
-        return ContainsInternal(id);
-      }
-    }
+      => id.IsValid && ContainsInternal(id);
 
     protected virtual bool ContainsInternal(ObjectId id)
-    {
-      return IDs.Any(oid => oid.Equals(id));
-    }
+      => IDs.Any(oid => oid.Equals(id));
 
     public T Element(ObjectId id, bool openForWrite = false)
     {
@@ -64,21 +53,10 @@ namespace Linq2Acad
     }
 
     public T ElementOrDefault(ObjectId id, bool openForWrite = false)
-    {
-      if (!id.IsValid)
-      {
-        return null;
-      }
-      else
-      {
-        return ElementInternal(id, openForWrite);
-      }
-    }
+      => id.IsValid ? ElementInternal(id, openForWrite) : null;
 
     private T ElementInternal(ObjectId id, bool openForWrite)
-    {
-      return (T)transaction.GetObject(id, openForWrite ? OpenMode.ForWrite : OpenMode.ForRead);
-    }
+      => (T)transaction.GetObject(id, openForWrite ? OpenMode.ForWrite : OpenMode.ForRead);
 
     public ImportResult<T> Import(T item)
     {
@@ -128,19 +106,13 @@ namespace Linq2Acad
       private readonly Transaction transaction;
 
       public DataProvider(Transaction transaction)
-      {
-        this.transaction = transaction;
-      }
+        => this.transaction = transaction;
 
       public TElement GetElement<TElement>(ObjectId id) where TElement : DBObject
-      {
-        return (TElement)transaction.GetObject(id, OpenMode.ForRead);
-      }
+        => (TElement)transaction.GetObject(id, OpenMode.ForRead);
 
       public ObjectId GetId<TElement>(TElement element) where TElement : DBObject
-      {
-        return element.ObjectId;
-      }
+        => element.ObjectId;
 
       public IEnumerable<ObjectId> Filter<TElement>(IEnumerable<ObjectId> ids) where TElement : DBObject
       {
