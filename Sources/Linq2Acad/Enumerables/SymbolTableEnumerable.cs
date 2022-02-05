@@ -8,7 +8,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Linq2Acad
 {
-  public abstract class SymbolTableEnumerable<T> : NameBasedContainerEnumerableBase<T> where T : SymbolTableRecord
+  public abstract class SymbolTableEnumerable<T> : NameBasedContainerEnumerableBase<T> where T : SymbolTableRecord, new()
   {
     protected SymbolTableEnumerable(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID, i => (ObjectId)i)
@@ -21,18 +21,13 @@ namespace Linq2Acad
     {
     }
 
-    protected override void SetName(T item, string name)
+    protected T CreateInternal(string name)
     {
-      Require.ParameterNotNull(item, nameof(item));
-
+      var item = new T();
+      AddRangeInternal(new[] { item });
       item.Name = name;
+      return item;
     }
-
-    protected override sealed bool ContainsInternal(ObjectId id)
-      => ((SymbolTable)transaction.GetObject(ID, OpenMode.ForRead)).Has(id);
-
-    protected override sealed bool ContainsInternal(string name)
-      => ((SymbolTable)transaction.GetObject(ID, OpenMode.ForRead)).Has(name);
 
     protected IEnumerable<T> CreateInternal(IEnumerable<string> names)
     {
@@ -41,23 +36,22 @@ namespace Linq2Acad
 
       for (int i = 0; i < items.Length; i++)
       {
-        items[i] = CreateNew();
+        items[i] = new T();
       }
 
-      AddRangeInternal(items, names);
+      AddRangeInternal(items);
 
       for (int i = 0; i < items.Length; i++)
       {
-        SetName(items[i], tmpNames[i]);
+        items[i].Name = tmpNames[i];
       }
 
       return items;
     }
 
-    protected override sealed void AddRangeInternal(IEnumerable<T> items, IEnumerable<string> names)
+    protected void AddRangeInternal(IEnumerable<T> items)
     {
       Require.ParameterNotNull(items, nameof(items));
-      Require.ParameterNotNull(names, nameof(names));
 
       var table = (SymbolTable)transaction.GetObject(ID, OpenMode.ForWrite);
 
@@ -67,9 +61,15 @@ namespace Linq2Acad
         transaction.AddNewlyCreatedDBObject(item, true);
       }
     }
+
+    protected override sealed bool ContainsInternal(ObjectId id)
+      => ((SymbolTable)transaction.GetObject(ID, OpenMode.ForRead)).Has(id);
+
+    protected override sealed bool ContainsInternal(string name)
+      => ((SymbolTable)transaction.GetObject(ID, OpenMode.ForRead)).Has(name);
   }
 
-  public abstract class UniqueNameSymbolTableEnumerableBase<T> : SymbolTableEnumerable<T> where T : SymbolTableRecord
+  public abstract class UniqueNameSymbolTableEnumerableBase<T> : SymbolTableEnumerable<T> where T : SymbolTableRecord, new()
   {
     protected UniqueNameSymbolTableEnumerableBase(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
@@ -113,7 +113,7 @@ namespace Linq2Acad
     }
   }
 
-  public abstract class UniqueNameSymbolTableEnumerable<T> : UniqueNameSymbolTableEnumerableBase<T> where T : SymbolTableRecord
+  public abstract class UniqueNameSymbolTableEnumerable<T> : UniqueNameSymbolTableEnumerableBase<T> where T : SymbolTableRecord, new()
   {
     protected UniqueNameSymbolTableEnumerable(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
@@ -162,7 +162,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(item.Name, nameof(item.Name));
       Require.NameDoesNotExists<T>(Contains(item.Name), item.Name);
 
-      AddRangeInternal(new[] { item }, new[] { item.Name });
+      AddRangeInternal(new[] { item });
     }
 
     /// <summary>
@@ -180,12 +180,11 @@ namespace Linq2Acad
         Require.NameDoesNotExists<T>(Contains(item.Name), item.Name);
       }
 
-      AddRangeInternal(items, items.Select(i => i.Name));
+      AddRangeInternal(items);
     }
-
   }
 
-  public abstract class NonUniqueNameSymbolTableEnumerable<T> : SymbolTableEnumerable<T> where T : SymbolTableRecord
+  public abstract class NonUniqueNameSymbolTableEnumerable<T> : SymbolTableEnumerable<T> where T : SymbolTableRecord, new()
   {
     protected NonUniqueNameSymbolTableEnumerable(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID)
@@ -229,7 +228,7 @@ namespace Linq2Acad
       Require.ParameterNotNull(item, nameof(item));
       Require.IsValidSymbolName(item.Name, nameof(item.Name));
 
-      AddRangeInternal(new[] { item }, new[] { item.Name });
+      AddRangeInternal(new[] { item });
     }
 
     /// <summary>
@@ -246,7 +245,7 @@ namespace Linq2Acad
         Require.IsValidSymbolName(item.Name, nameof(item.Name));
       }
 
-      AddRangeInternal(items, items.Select(i => i.Name));
+      AddRangeInternal(items);
     }
   }
 }

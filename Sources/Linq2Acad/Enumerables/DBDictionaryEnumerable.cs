@@ -15,6 +15,23 @@ namespace Linq2Acad
     {
     }
 
+    protected T AddInternal(T newItem, string name)
+    {
+      AddRangeInternal(new[] { (newItem, name) });
+      return newItem;
+    }
+
+    protected void AddRangeInternal(IEnumerable<(T Item, string Name)> items)
+    {
+      var dict = (DBDictionary)transaction.GetObject(ID, OpenMode.ForWrite);
+
+      foreach (var item in items)
+      {
+        dict.SetAt(item.Name, item.Item);
+        transaction.AddNewlyCreatedDBObject(item.Item, true);
+      }
+    }
+
     protected override sealed bool ContainsInternal(ObjectId id)
       => ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Contains(id);
 
@@ -60,18 +77,5 @@ namespace Linq2Acad
 
     public override sealed int Count()
       => ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Count;
-
-    protected override sealed void AddRangeInternal(IEnumerable<T> items, IEnumerable<string> names)
-    {
-      var dict = (DBDictionary)transaction.GetObject(ID, OpenMode.ForWrite);
-      var mItems = items.ToArray();
-      var mNames = names.ToArray();
-
-      for (int i = 0; i < mItems.Length; i++)
-      {
-        dict.SetAt(mNames[i], mItems[i]);
-        transaction.AddNewlyCreatedDBObject(mItems[i], true);
-      }
-    }
   }
 }

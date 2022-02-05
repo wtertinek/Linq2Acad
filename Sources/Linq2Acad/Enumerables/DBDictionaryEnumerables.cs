@@ -17,9 +17,6 @@ namespace Linq2Acad
     {
     }
 
-    protected override DBVisualStyle CreateNew()
-      => new DBVisualStyle();
-
     /// <summary>
     /// Creates a new DBVisualStyle element.
     /// </summary>
@@ -29,7 +26,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(name, nameof(name));
       Require.NameDoesNotExists<DBVisualStyle>(Contains(name), name);
 
-      return CreateInternal(name);
+      return AddInternal(new DBVisualStyle(), name);
     }
 
     /// <summary>
@@ -42,7 +39,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(item.Name, nameof(item.Name));
       Require.NameDoesNotExists<DBVisualStyle>(Contains(item.Name), item.Name);
 
-      AddRangeInternal(new[] { item }, new[] { item.Name });
+      AddInternal(item, item.Name);
     }
 
     /// <summary>
@@ -60,7 +57,7 @@ namespace Linq2Acad
         Require.NameDoesNotExists<DBVisualStyle>(Contains(item.Name), item.Name);
       }
 
-      AddRangeInternal(items, items.Select(i => i.Name));
+      AddRangeInternal(items.Select(i => (i, i.Name)));
     }
   }
 
@@ -74,9 +71,6 @@ namespace Linq2Acad
     {
     }
 
-    protected override DetailViewStyle CreateNew()
-      => new DetailViewStyle();
-
     /// <summary>
     /// Creates a new DetailViewStyle element.
     /// </summary>
@@ -86,7 +80,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(name, nameof(name));
       Require.NameDoesNotExists<DetailViewStyle>(Contains(name), name);
 
-      return CreateInternal(name);
+      return AddInternal(new DetailViewStyle(), name);
     }
 
     /// <summary>
@@ -99,7 +93,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(item.Name, nameof(item.Name));
       Require.NameDoesNotExists<DetailViewStyle>(Contains(item.Name), item.Name);
 
-      AddRangeInternal(new[] { item }, new[] { item.Name });
+      AddInternal(item, item.Name);
     }
 
     /// <summary>
@@ -117,7 +111,7 @@ namespace Linq2Acad
         Require.NameDoesNotExists<DetailViewStyle>(Contains(item.Name), item.Name);
       }
 
-      AddRangeInternal(items, items.Select(i => i.Name));
+      AddRangeInternal(items.Select(i => (i, i.Name)));
     }
   }
 
@@ -131,9 +125,6 @@ namespace Linq2Acad
     {
     }
 
-    protected override Group CreateNew()
-      => new Group();
-
     /// <summary>
     /// Creates a new Group element.
     /// </summary>
@@ -143,7 +134,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(name, nameof(name));
       Require.NameDoesNotExists<Group>(Contains(name), name);
 
-      return CreateInternal(name);
+      return AddInternal(new Group(), name);
     }
 
     /// <summary>
@@ -156,7 +147,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(name, nameof(name));
       Require.NameDoesNotExists<Group>(Contains(name), name);
 
-      var group = CreateInternal(name);
+      var group = AddInternal(new Group(), name);
 
       if (entities.Any())
       {
@@ -180,7 +171,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(item.Name, nameof(item.Name));
       Require.NameDoesNotExists<Group>(Contains(item.Name), item.Name);
 
-      AddRangeInternal(new[] { item }, new[] { item.Name });
+      AddInternal(item, item.Name);
     }
 
     /// <summary>
@@ -198,7 +189,7 @@ namespace Linq2Acad
         Require.NameDoesNotExists<Group>(Contains(item.Name), item.Name);
       }
 
-      AddRangeInternal(items, items.Select(i => i.Name));
+      AddRangeInternal(items.Select(i => (i, i.Name)));
     }
   }
 
@@ -212,12 +203,6 @@ namespace Linq2Acad
     {
     }
 
-    protected override Layout CreateNew()
-      => throw new NotImplementedException();
-
-    protected override Layout CreateInternal(string name)
-      => (Layout)transaction.GetObject(LayoutManager.Current.CreateLayout(name), OpenMode.ForWrite);
-
     /// <summary>
     /// Creates a new Layout element.
     /// </summary>
@@ -227,7 +212,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(name, nameof(name));
       Require.NameDoesNotExists<Layout>(Contains(name), name);
 
-      return CreateInternal(name);
+      return AddInternal((Layout)transaction.GetObject(LayoutManager.Current.CreateLayout(name), OpenMode.ForWrite), name);
     }
 
     /// <summary>
@@ -240,7 +225,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(item.LayoutName, nameof(item.LayoutName));
       Require.NameDoesNotExists<Layout>(Contains(item.LayoutName), item.LayoutName);
 
-      AddRangeInternal(new[] { item }, new[] { item.LayoutName });
+      AddRangeInternal(new[] { (item, item.LayoutName) });
     }
 
     /// <summary>
@@ -258,7 +243,7 @@ namespace Linq2Acad
         Require.NameDoesNotExists<Layout>(Contains(item.LayoutName), item.LayoutName);
       }
 
-      AddRangeInternal(items, items.Select(i => i.LayoutName));
+      AddRangeInternal(items.Select(i => (i, i.LayoutName)));
     }
   }
 
@@ -272,9 +257,6 @@ namespace Linq2Acad
     {
     }
 
-    protected override Material CreateNew()
-      => new Material();
-
     /// <summary>
     /// Creates a new Material element.
     /// </summary>
@@ -284,7 +266,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(name, nameof(name));
       Require.NameDoesNotExists<Material>(Contains(name), name);
 
-      return CreateInternal(name);
+      return AddInternal(new Material(), name);
     }
 
     /// <summary>
@@ -297,7 +279,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(item.Name, nameof(item.Name));
       Require.NameDoesNotExists<Material>(Contains(item.Name), item.Name);
 
-      AddRangeInternal(new[] { item }, new[] { item.Name });
+      AddInternal(item, item.Name);
     }
 
     /// <summary>
@@ -315,7 +297,7 @@ namespace Linq2Acad
         Require.NameDoesNotExists<Material>(Contains(item.Name), item.Name);
       }
 
-      AddRangeInternal(items, items.Select(i => i.Name));
+      AddRangeInternal(items.Select(i => (i, i.Name)));
     }
   }
 
@@ -329,9 +311,6 @@ namespace Linq2Acad
     {
     }
 
-    protected override MLeaderStyle CreateNew()
-      => new MLeaderStyle();
-
     /// <summary>
     /// Creates a new MLeaderStyle element.
     /// </summary>
@@ -341,7 +320,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(name, nameof(name));
       Require.NameDoesNotExists<MLeaderStyle>(Contains(name), name);
 
-      return CreateInternal(name);
+      return AddInternal(new MLeaderStyle(), name);
     }
 
     /// <summary>
@@ -354,7 +333,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(item.Name, nameof(item.Name));
       Require.NameDoesNotExists<MLeaderStyle>(Contains(item.Name), item.Name);
 
-      AddRangeInternal(new[] { item }, new[] { item.Name });
+      AddInternal(item, item.Name);
     }
 
     /// <summary>
@@ -372,7 +351,7 @@ namespace Linq2Acad
         Require.NameDoesNotExists<MLeaderStyle>(Contains(item.Name), item.Name);
       }
 
-      AddRangeInternal(items, items.Select(i => i.Name));
+      AddRangeInternal(items.Select(i => (i, i.Name)));
     }
   }
 
@@ -386,9 +365,6 @@ namespace Linq2Acad
     {
     }
 
-    protected override MlineStyle CreateNew()
-      => new MlineStyle();
-
     /// <summary>
     /// Creates a new MlineStyle element.
     /// </summary>
@@ -398,7 +374,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(name, nameof(name));
       Require.NameDoesNotExists<MlineStyle>(Contains(name), name);
 
-      return CreateInternal(name);
+      return AddInternal(new MlineStyle(), name);
     }
 
     /// <summary>
@@ -411,7 +387,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(item.Name, nameof(item.Name));
       Require.NameDoesNotExists<MlineStyle>(Contains(item.Name), item.Name);
 
-      AddRangeInternal(new[] { item }, new[] { item.Name });
+      AddInternal(item, item.Name);
     }
 
     /// <summary>
@@ -429,7 +405,7 @@ namespace Linq2Acad
         Require.NameDoesNotExists<MlineStyle>(Contains(item.Name), item.Name);
       }
 
-      AddRangeInternal(items, items.Select(i => i.Name));
+      AddRangeInternal(items.Select(i => (i, i.Name)));
     }
   }
 
@@ -445,9 +421,6 @@ namespace Linq2Acad
     {
     }
 
-    protected override PlotSettings CreateNew()
-      => new PlotSettings(modelType);
-
     /// <summary>
     /// Creates a new PlotSettings element.
     /// </summary>
@@ -460,7 +433,7 @@ namespace Linq2Acad
 
       this.modelType = modelType;
       
-      return CreateInternal(name);
+      return AddInternal(new PlotSettings(modelType), name);
     }
 
     /// <summary>
@@ -473,7 +446,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(item.PlotSettingsName, nameof(item.PlotSettingsName));
       Require.NameDoesNotExists<PlotSettings>(Contains(item.PlotSettingsName), item.PlotSettingsName);
 
-      AddRangeInternal(new[] { item }, new[] { item.PlotSettingsName });
+      AddRangeInternal(new[] { (item , item.PlotSettingsName) });
     }
 
     /// <summary>
@@ -491,7 +464,7 @@ namespace Linq2Acad
         Require.NameDoesNotExists<PlotSettings>(Contains(item.PlotSettingsName), item.PlotSettingsName);
       }
 
-      AddRangeInternal(items, items.Select(i => i.PlotSettingsName));
+      AddRangeInternal(items.Select(i => (i, i.PlotSettingsName)));
     }
   }
 
@@ -505,9 +478,6 @@ namespace Linq2Acad
     {
     }
 
-    protected override SectionViewStyle CreateNew()
-      => new SectionViewStyle();
-
     /// <summary>
     /// Creates a new SectionViewStyle element.
     /// </summary>
@@ -517,7 +487,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(name, nameof(name));
       Require.NameDoesNotExists<SectionViewStyle>(Contains(name), name);
 
-      return CreateInternal(name);
+      return AddInternal(new SectionViewStyle(), name);
     }
 
     /// <summary>
@@ -530,7 +500,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(item.Name, nameof(item.Name));
       Require.NameDoesNotExists<SectionViewStyle>(Contains(item.Name), item.Name);
 
-      AddRangeInternal(new[] { item }, new[] { item.Name });
+      AddInternal(item, item.Name);
     }
 
     /// <summary>
@@ -548,7 +518,7 @@ namespace Linq2Acad
         Require.NameDoesNotExists<SectionViewStyle>(Contains(item.Name), item.Name);
       }
 
-      AddRangeInternal(items, items.Select(i => i.Name));
+      AddRangeInternal(items.Select(i => (i, i.Name)));
     }
   }
 
@@ -562,9 +532,6 @@ namespace Linq2Acad
     {
     }
 
-    protected override TableStyle CreateNew()
-      => new TableStyle();
-
     /// <summary>
     /// Creates a new TableStyle element.
     /// </summary>
@@ -574,7 +541,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(name, nameof(name));
       Require.NameDoesNotExists<TableStyle>(Contains(name), name);
 
-      return CreateInternal(name);
+      return AddInternal(new TableStyle(), name);
     }
 
     /// <summary>
@@ -587,7 +554,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(item.Name, nameof(item.Name));
       Require.NameDoesNotExists<TableStyle>(Contains(item.Name), item.Name);
 
-      AddRangeInternal(new[] { item }, new[] { item.Name });
+      AddInternal(item, item.Name);
     }
 
     /// <summary>
@@ -605,7 +572,7 @@ namespace Linq2Acad
         Require.NameDoesNotExists<TableStyle>(Contains(item.Name), item.Name);
       }
 
-      AddRangeInternal(items, items.Select(i => i.Name));
+      AddRangeInternal(items.Select(i => (i, i.Name)));
     }
   }
 }

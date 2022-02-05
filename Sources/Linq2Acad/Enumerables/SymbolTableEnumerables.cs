@@ -45,13 +45,6 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Factory method that create a new element.
-    /// </summary>
-    /// <returns>A newly crated element of type BlockTableRecord.</returns>
-    protected override BlockTableRecord CreateNew()
-      => new BlockTableRecord();
-
-    /// <summary>
     /// Converts the Block with the given ObjectId into an EntityContainer that allows querying for entities.
     /// </summary>
     /// <param name="id">The id of the object.</param>
@@ -132,25 +125,6 @@ namespace Linq2Acad
       : base(database, transaction, database.DimStyleTableId)
     {
     }
-
-    /// <summary>
-    /// Factory method that create a new element.
-    /// </summary>
-    /// <returns>A newly crated element of type DimStypeTableRecord.</returns>
-    protected override DimStyleTableRecord CreateNew()
-      => new DimStyleTableRecord();
-
-    /// <summary>
-    /// Sets the name of a newly created element.
-    /// </summary>
-    /// <param name="item">The newly created element.</param>
-    /// <param name="name">The name of the element.</param>
-    protected override void SetName(DimStyleTableRecord item, string name)
-    {
-      Require.ParameterNotNull(item, nameof(item));
-
-      item.Name = name;
-    }
   }
 
   /// <summary>
@@ -167,13 +141,6 @@ namespace Linq2Acad
       : base(database, transaction, database.LayerTableId)
     {
     }
-
-    /// <summary>
-    /// Factory method that create a new element.
-    /// </summary>
-    /// <returns>A newly crated element of type LayerTableRecord.</returns>
-    protected override LayerTableRecord CreateNew()
-      => new LayerTableRecord();
 
     /// <summary>
     /// Creates a new LayerTableRecord and adds the given Entites to it.
@@ -213,15 +180,6 @@ namespace Linq2Acad
       : base(database, transaction, database.LinetypeTableId)
     {
     }
-
-    /// <summary>
-    /// Factory method that create a new element.
-    /// </summary>
-    /// <returns>A newly crated element of type LinetypeTableRecord.</returns>
-    protected override LinetypeTableRecord CreateNew()
-    {
-      return new LinetypeTableRecord();
-    }
   }
 
   /// <summary>
@@ -238,13 +196,6 @@ namespace Linq2Acad
       : base(database, transaction, database.RegAppTableId)
     {
     }
-
-    /// <summary>
-    /// Factory method that create a new element.
-    /// </summary>
-    /// <returns>A newly crated element of type RegAppTableRecord.</returns>
-    protected override RegAppTableRecord CreateNew()
-      => new RegAppTableRecord();
   }
 
   /// <summary>
@@ -261,13 +212,6 @@ namespace Linq2Acad
       : base(database, transaction, database.TextStyleTableId)
     {
     }
-
-    /// <summary>
-    /// Factory method that create a new element.
-    /// </summary>
-    /// <returns>A newly crated element of type TextStyleTableRecord.</returns>
-    protected override TextStyleTableRecord CreateNew()
-      => new TextStyleTableRecord();
   }
 
   /// <summary>
@@ -284,13 +228,6 @@ namespace Linq2Acad
       : base(database, transaction, database.UcsTableId)
     {
     }
-
-    /// <summary>
-    /// Factory method that create a new element.
-    /// </summary>
-    /// <returns>A newly crated element of type UcsTableRecord.</returns>
-    protected override UcsTableRecord CreateNew()
-      => new UcsTableRecord();
   }
 
   /// <summary>
@@ -307,13 +244,6 @@ namespace Linq2Acad
       : base(database, transaction, database.ViewportTableId)
     {
     }
-
-    /// <summary>
-    /// Factory method that create a new element.
-    /// </summary>
-    /// <returns>A newly crated element of type ViewportTableRecord.</returns>
-    protected override ViewportTableRecord CreateNew()
-      => new ViewportTableRecord();
 
     /// <summary>
     /// Returns the current Viewport or null, if there is no current Viewport.
@@ -339,16 +269,6 @@ namespace Linq2Acad
       : base(database, transaction, database.ViewTableId)
     {
     }
-
-    /// <summary>
-    /// Factory method that create a new element.
-    /// </summary>
-    /// <returns>A newly crated element of type ViewTableRecord.</returns>
-    protected override ViewTableRecord CreateNew()
-    {
-      return new ViewTableRecord();
-    }
-  }
 
   /// <summary>
   /// A container class that provides access to the XRef elements.
