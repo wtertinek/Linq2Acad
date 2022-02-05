@@ -28,10 +28,12 @@ Removing all BlockReferences from the model space:
 ```c#
 using (var db = AcadDatabase.Active())
 {
-  db.ModelSpace
-    .OfType<BlockReference>()
-    .UpgradeOpen()
-    .ForEach(br => br.Erase());
+  foreach (var br in db.ModelSpace
+                       .OfType<BlockReference>()
+                       .UpgradeOpen())
+  {
+    br.Erase();
+  }
 }
 ```
 
@@ -64,8 +66,10 @@ Printing all layer names:
 ```c#
 using (var db = AcadDatabase.Active())
 {
-  db.Layers
-    .ForEach(l => WriteMessage(l.Name));
+  foreach (var layer in db.Layers)
+  {
+    WriteMessage(layer.Name);
+  }
 }
 ```
 
@@ -76,13 +80,15 @@ var layerName = GetString("Enter layer name");
 
 using (var db = AcadDatabase.Active())
 {
-  var layer = db.Layers
-                .Element(layerName);
+  var layerToIgnore = db.Layers
+                        .Element(layerName);
 
-  db.Layers
-    .Except(layer)
-    .UpgradeOpen()
-    .ForEach(l => l.IsOff = true);
+  foreach (var layer in db.Layers
+                          .Except(layerToIgnore)
+                          .UpgradeOpen())
+  {
+    layer.IsOff = true;
+  }
 }
 ```
 
@@ -125,7 +131,7 @@ Importing a block from a drawing file:
 var filePath = GetString("Enter file path");
 var blockName = GetString("Enter block name");
 
-using (var sourceDb = AcadDatabase.Open(filePath, DwgOpenMode.ReadOnly))
+using (var sourceDb = AcadDatabase.OpenReadOnly(filePath))
 {
   var block = sourceDb.Blocks
                       .Element(blockName);
@@ -143,7 +149,7 @@ Opening a drawing from file and counting the BlockReferences in the model space:
 ```c#
 var filePath = GetString("Enter file path");
 
-using (var db = AcadDatabase.Open(filePath, DwgOpenMode.ReadOnly))
+using (var db = AcadDatabase.OpenReadOnly(filePath))
 {
   var count = db.ModelSpace
                 .OfType<BlockReference>()
