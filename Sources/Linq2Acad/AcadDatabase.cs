@@ -166,12 +166,12 @@ namespace Linq2Acad
     /// <summary>
     /// Provides access to all database objects.
     /// </summary>
-    public DbObjects DbObjects
+    public DbObjectContainer DbObjects
     {
       get
       {
         Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new DbObjects(Database, transaction);
+        return new DbObjectContainer(Database, transaction);
       }
     }
 

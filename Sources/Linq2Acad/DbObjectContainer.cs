@@ -7,12 +7,12 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Linq2Acad
 {
-  public class DbObjects
+  public class DbObjectContainer
   {
     private readonly Database database;
     private readonly Transaction transaction;
 
-    internal DbObjects(Database database, Transaction transaction)
+    internal DbObjectContainer(Database database, Transaction transaction)
     {
       this.database = database;
       this.transaction = transaction;
