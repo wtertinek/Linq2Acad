@@ -269,44 +269,5 @@ namespace Linq2Acad
       : base(database, transaction, database.ViewTableId)
     {
     }
-
-  /// <summary>
-  /// A container class that provides access to the XRef elements.
-  /// </summary>
-  internal class XRefBlockContainer : UniqueNameSymbolTableEnumerableBase<BlockTableRecord>
-  {
-    /// <summary>
-    /// Creates a new instance of XRefContainer.
-    /// </summary>
-    /// <param name="database">The drawing database to use.</param>
-    /// <param name="transaction">The transaction to use.</param>
-    internal XRefBlockContainer(Database database, Transaction transaction)
-      : base(database, transaction, database.BlockTableId, ids => Filter(ids, transaction))
-    {
-    }
-
-    /// <summary>
-    /// Filters the initial set of ObjectIds. Here we only take XRefs.
-    /// </summary>
-    /// <param name="ids">The initial set of ObjectIds.</param>
-    /// <param name="transaction">The transaction to use.</param>
-    /// <returns>A filtered set of ObjectIds.</returns>
-    private static IEnumerable<ObjectId> Filter(IEnumerable<ObjectId> ids, Transaction transaction)
-    {
-      foreach (var id in ids)
-      {
-        var btr = (BlockTableRecord)transaction.GetObject(id, OpenMode.ForRead);
-
-        if (btr.IsFromExternalReference)
-        {
-          yield return btr.ObjectId;
-        }
-      }
-    }
-
-    protected override BlockTableRecord CreateNew()
-    {
-      throw new NotImplementedException();
-    }
   }
 }

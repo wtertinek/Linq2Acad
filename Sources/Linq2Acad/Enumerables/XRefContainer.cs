@@ -14,7 +14,6 @@ namespace Linq2Acad
   {
     private readonly Database database;
     private readonly Transaction transaction;
-    private readonly XRefBlockContainer xRefBlockContainer;
 
     /// <summary>
     /// Creates a new instance of XRefContainer.
@@ -25,14 +24,13 @@ namespace Linq2Acad
     {
       this.database = database;
       this.transaction = transaction;
-      xRefBlockContainer = new XRefBlockContainer(database, transaction);
     }
 
     #region IEnumerable implementation
 
     public IEnumerator<XRef> GetEnumerator()
     {
-      foreach (var block in xRefBlockContainer)
+      foreach (var block in new XRefBlockContainer(database, transaction))
       {
         yield return new XRef((BlockTableRecord)transaction.GetObject(block.ObjectId, OpenMode.ForRead), database);
       }
@@ -75,7 +73,7 @@ namespace Linq2Acad
       Require.FileExists(fileName, nameof(fileName));
       Require.ParameterNotNull(blockName, nameof(blockName));
       Require.IsValidSymbolName(blockName, nameof(blockName));
-      Require.NameDoesNotExists<XRef>(xRefBlockContainer.Contains(blockName), blockName);
+      Require.NameDoesNotExists<XRef>(new XRefBlockContainer(database, transaction).Contains(blockName), blockName);
 
       return AttachInternal(fileName, blockName);
     }
@@ -122,7 +120,7 @@ namespace Linq2Acad
       Require.FileExists(fileName, nameof(fileName));
 
       Require.IsValidSymbolName(blockName, nameof(blockName));
-      Require.NameDoesNotExists<XRef>(xRefBlockContainer.Contains(blockName), blockName);
+      Require.NameDoesNotExists<XRef>(new XRefBlockContainer(database, transaction).Contains(blockName), blockName);
 
       return OverlayInternal(fileName, blockName);
     }
@@ -165,12 +163,39 @@ namespace Linq2Acad
       var blockName = baseName;
       int idx = 0;
 
-      while (xRefBlockContainer.Contains(blockName))
+      var xRefBlocks = new XRefBlockContainer(database, transaction);
+
+      while (xRefBlocks.Contains(blockName))
       {
         blockName = baseName + "_" + idx++;
       }
 
       return blockName;
     }
+
+    #region Private nested class XRefBlockContainer
+
+    private class XRefBlockContainer : UniqueNameSymbolTableEnumerableBase<BlockTableRecord>
+    {
+      internal XRefBlockContainer(Database database, Transaction transaction)
+        : base(database, transaction, database.BlockTableId, ids => Filter(ids, transaction))
+      {
+      }
+
+      private static IEnumerable<ObjectId> Filter(IEnumerable<ObjectId> ids, Transaction transaction)
+      {
+        foreach (var id in ids)
+        {
+          var btr = (BlockTableRecord)transaction.GetObject(id, OpenMode.ForRead);
+
+          if (btr.IsFromExternalReference)
+          {
+            yield return btr.ObjectId;
+          }
+        }
+      }
+    }
+
+    #endregion
   }
 }
