@@ -69,7 +69,7 @@ namespace Linq2Acad
     public BlockTableRecord Create(string name, IEnumerable<Entity> entities)
     {
       Require.IsValidSymbolName(name, nameof(name));
-      Require.NameDoesNotExists<BlockTableRecord>(Contains(name), name);
+      Require.NameDoesNotExist<BlockTableRecord>(Contains(name), name);
       Require.ElementsNotNull(entities, nameof(entities));
 
       // TODO: What about this check?
@@ -96,7 +96,7 @@ namespace Linq2Acad
     public BlockTableRecord Import(string newBlockName, string fileName)
     {
       Require.ParameterNotNull(newBlockName, nameof(newBlockName));
-      Require.NameDoesNotExists<BlockTableRecord>(Contains(newBlockName), newBlockName);
+      Require.NameDoesNotExist<BlockTableRecord>(Contains(newBlockName), newBlockName);
       Require.ParameterNotNull(fileName, nameof(fileName));
       Require.FileExists(fileName, nameof(fileName));
 
@@ -152,7 +152,7 @@ namespace Linq2Acad
     public LayerTableRecord Create(string name, IEnumerable<Entity> entities)
     {
       Require.IsValidSymbolName(name, nameof(name));
-      Require.NameDoesNotExists<BlockTableRecord>(Contains(name), name);
+      Require.NameDoesNotExist<BlockTableRecord>(Contains(name), name);
       Require.ElementsNotNull(entities, nameof(entities));
 
       var layer = CreateInternal(name);

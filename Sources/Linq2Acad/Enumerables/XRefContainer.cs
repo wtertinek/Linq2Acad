@@ -73,7 +73,7 @@ namespace Linq2Acad
       Require.FileExists(fileName, nameof(fileName));
       Require.ParameterNotNull(blockName, nameof(blockName));
       Require.IsValidSymbolName(blockName, nameof(blockName));
-      Require.NameDoesNotExists<XRef>(new XRefBlockContainer(database, transaction).Contains(blockName), blockName);
+      Require.NameDoesNotExist<XRef>(new XRefBlockContainer(database, transaction).Contains(blockName), blockName);
 
       return AttachInternal(fileName, blockName);
     }
@@ -120,7 +120,7 @@ namespace Linq2Acad
       Require.FileExists(fileName, nameof(fileName));
 
       Require.IsValidSymbolName(blockName, nameof(blockName));
-      Require.NameDoesNotExists<XRef>(new XRefBlockContainer(database, transaction).Contains(blockName), blockName);
+      Require.NameDoesNotExist<XRef>(new XRefBlockContainer(database, transaction).Contains(blockName), blockName);
 
       return OverlayInternal(fileName, blockName);
     }

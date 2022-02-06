@@ -70,7 +70,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// The darawing database in use.
+    /// The drawing database in use.
     /// </summary>
     public Database Database { get; }
 

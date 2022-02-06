@@ -107,7 +107,7 @@
       <Link>Enumerables\DBDictionaryEnumerables.cs</Link>
     </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\Enumerables\Base\ContainerEnumerableBase.cs">
-      <Link>Enumerables\ContainerEnumerableBase.cs</Link>
+      <Link>Enumerables\Base\ContainerEnumerableBase.cs</Link>
     </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\Enumerables\SymbolTableEnumerables.cs">
       <Link>Enumerables\SymbolTableEnumerables.cs</Link>

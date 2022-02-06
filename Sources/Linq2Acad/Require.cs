@@ -28,7 +28,7 @@ namespace Linq2Acad
       }
     }
 
-    public static void NameDoesNotExists<T>(bool contains, string name)
+    public static void NameDoesNotExist<T>(bool contains, string name)
     {
       if (contains)
       {

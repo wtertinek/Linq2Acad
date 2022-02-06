@@ -133,7 +133,7 @@ namespace Linq2Acad
     public T Create(string name)
     {
       Require.IsValidSymbolName(name, nameof(name));
-      Require.NameDoesNotExists<T>(Contains(name), name);
+      Require.NameDoesNotExist<T>(Contains(name), name);
 
       return CreateInternal(name);
     }
@@ -147,7 +147,7 @@ namespace Linq2Acad
       Require.ParameterNotNull(names, nameof(names));
       Require.ElementsNotNull(names, nameof(names));
       var existingName = names.FirstOrDefault(Contains);
-      Require.NameDoesNotExists<T>(Contains(existingName), existingName);
+      Require.NameDoesNotExist<T>(Contains(existingName), existingName);
 
       return CreateInternal(names);
     }
@@ -160,7 +160,7 @@ namespace Linq2Acad
     {
       Require.ParameterNotNull(item, nameof(item));
       Require.IsValidSymbolName(item.Name, nameof(item.Name));
-      Require.NameDoesNotExists<T>(Contains(item.Name), item.Name);
+      Require.NameDoesNotExist<T>(Contains(item.Name), item.Name);
 
       AddRangeInternal(new[] { item });
     }
@@ -177,7 +177,7 @@ namespace Linq2Acad
       {
         Require.ParameterNotNull(item, nameof(item));
         Require.IsValidSymbolName(item.Name, nameof(item.Name));
-        Require.NameDoesNotExists<T>(Contains(item.Name), item.Name);
+        Require.NameDoesNotExist<T>(Contains(item.Name), item.Name);
       }
 
       AddRangeInternal(items);
