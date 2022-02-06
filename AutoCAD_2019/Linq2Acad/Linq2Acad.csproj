@@ -49,8 +49,8 @@
     <Compile Include="..\..\Sources\Linq2Acad\CreateOptions.cs">
       <Link>CreateOptions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Sources\Linq2Acad\DbObjectContainer.cs">
-      <Link>DbObjectContainer.cs</Link>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\DbObjectContainer.cs">
+      <Link>Containers\DbObjectContainer.cs</Link>
     </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\OpenForEditOptions.cs">
       <Link>OpenForEditOptions.cs</Link>
@@ -58,17 +58,74 @@
     <Compile Include="..\..\Sources\Linq2Acad\OpenReadOnlyOptions.cs">
       <Link>OpenReadOnlyOptions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Sources\Linq2Acad\Require.cs">
-      <Link>Require.cs</Link>
+    <Compile Include="..\..\Sources\Linq2Acad\Helpers\Require.cs">
+      <Link>Helpers\Require.cs</Link>
     </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\SaveAsDwgVersion.cs">
       <Link>SaveAsDwgVersion.cs</Link>
     </Compile>
-    <Compile Include="..\..\Sources\Linq2Acad\XRefStatus.cs">
-      <Link>XRefStatus.cs</Link>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\XRef\XRefStatus.cs">
+      <Link>Containers\XRef\XRefStatus.cs</Link>
     </Compile>
-    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\EntityContainer.cs">
-      <Link>Enumerables\EntityContainer.cs</Link>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\EntityContainer.cs">
+      <Link>Containers\EntityContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\SymbolTable\BlockContainer.cs">
+      <Link>Containers\SymbolTable\BlockContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\SymbolTable\DimStyleContainer.cs">
+      <Link>Containers\SymbolTable\DimStyleContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\SymbolTable\LayerContainer.cs">
+      <Link>Containers\SymbolTable\LayerContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\SymbolTable\LinetypeContainer.cs">
+      <Link>Containers\SymbolTable\LinetypeContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\SymbolTable\RegAppContainer.cs">
+      <Link>Containers\SymbolTable\RegAppContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\SymbolTable\TextStyleContainer.cs">
+      <Link>Containers\SymbolTable\TextStyleContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\SymbolTable\UcsContainer.cs">
+      <Link>Containers\SymbolTable\UcsContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\SymbolTable\ViewportContainer.cs">
+      <Link>Containers\SymbolTable\ViewportContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\SymbolTable\ViewContainer.cs">
+      <Link>Containers\SymbolTable\ViewContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\DBDictionary\DBVisualStyleContainer.cs">
+      <Link>Containers\DBDictionary\DBVisualStyleContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\DBDictionary\DetailViewStyleContainer.cs">
+      <Link>Containers\DBDictionary\DetailViewStyleContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\DBDictionary\GroupContainer.cs">
+      <Link>Containers\DBDictionary\GroupContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\DBDictionary\LayoutContainer.cs">
+      <Link>Containers\DBDictionary\LayoutContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\DBDictionary\MaterialContainer.cs">
+      <Link>Containers\DBDictionary\MaterialContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\DBDictionary\MLeaderStyleContainer.cs">
+      <Link>Containers\DBDictionary\MLeaderStyleContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\DBDictionary\MlineStyleContainer.cs">
+      <Link>Containers\DBDictionary\MlineStyleContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\DBDictionary\PlotSettingsContainer.cs">
+      <Link>Containers\DBDictionary\PlotSettingsContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\DBDictionary\SectionViewStyleContainer.cs">
+      <Link>Containers\DBDictionary\SectionViewStyleContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\DBDictionary\TableStyleContainer.cs">
+      <Link>Containers\DBDictionary\TableStyleContainer.cs</Link>
     </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\Extensions\AttributeCollectionExtensions.cs">
       <Link>Extensions\AttributeCollectionExtensions.cs</Link>
@@ -79,8 +136,8 @@
     <Compile Include="..\..\Sources\Linq2Acad\Extensions\XRefsExtensions.cs">
       <Link>Extensions\XRefsExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Sources\Linq2Acad\XRef.cs">
-      <Link>XRef.cs</Link>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\XRef\XRef.cs">
+      <Link>Containers\XRef\XRef.cs</Link>
     </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\Extensions\DbObjectExtensions.cs">
       <Link>Extensions\DbObjectExtensions.cs</Link>
@@ -88,41 +145,35 @@
     <Compile Include="..\..\Sources\Linq2Acad\Extensions\EditorExtensions.cs">
       <Link>Extensions\EditorExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\Base\ElementEnumerable.cs">
-      <Link>Enumerables\Base\ElementEnumerable.cs</Link>
+    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\ElementEnumerable.cs">
+      <Link>Enumerables\ElementEnumerable.cs</Link>
     </Compile>
-    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\Base\IdEnumerable.cs">
-      <Link>Enumerables\Base\IdEnumerable.cs</Link>
+    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\IdEnumerable.cs">
+      <Link>Enumerables\IdEnumerable.cs</Link>
     </Compile>
-    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\Base\NameBasedContainerEnumerableBase.cs">
-      <Link>Enumerables\Base\NameBasedContainerEnumerableBase.cs</Link>
+    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\NameBasedContainerEnumerableBase.cs">
+      <Link>Enumerables\NameBasedContainerEnumerableBase.cs</Link>
     </Compile>
-    <Compile Include="..\..\Sources\Linq2Acad\ImportResult.cs">
-      <Link>ImportResult.cs</Link>
+    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\ImportResult.cs">
+      <Link>Enumerables\ImportResult.cs</Link>
     </Compile>
-    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\DBDictionaryEnumerable.cs">
-      <Link>Enumerables\DBDictionaryEnumerable.cs</Link>
+    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\DBDictionaryEnumerableBase.cs">
+      <Link>Enumerables\DBDictionaryEnumerableBase.cs</Link>
     </Compile>
-    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\DBDictionaryEnumerables.cs">
-      <Link>Enumerables\DBDictionaryEnumerables.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\Base\ContainerEnumerableBase.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\ContainerEnumerableBase.cs">
       <Link>Enumerables\ContainerEnumerableBase.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\SymbolTableEnumerables.cs">
-      <Link>Enumerables\SymbolTableEnumerables.cs</Link>
     </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\AcadDatabase.cs">
       <Link>AcadDatabase.cs</Link>
     </Compile>
-    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\SymbolTableEnumerable.cs">
+    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\SymbolTableEnumerableBase.cs">
       <Link>Enumerables\SymbolTableEnumerable.cs</Link>
     </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\Extensions\DbObjectsExtensions.cs">
       <Link>Extensions\DbObjectsExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Sources\Linq2Acad\Helpers.cs">
-      <Link>Helpers.cs</Link>
+    <Compile Include="..\..\Sources\Linq2Acad\Helpers\Helpers.cs">
+      <Link>Helpers\Helpers.cs</Link>
     </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\Extensions\LayerTableRecordExtensions.cs">
       <Link>Extensions\LayerTableRecordExtensions.cs</Link>
@@ -133,8 +184,8 @@
     <Compile Include="..\..\Sources\Linq2Acad\AcadSummaryInfo.cs">
       <Link>AcadSummaryInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\Sources\Linq2Acad\Enumerables\XRefContainer.cs">
-      <Link>Enumerables\XRefContainer.cs</Link>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\XRef\XRefContainer.cs">
+      <Link>Containers\XRef\XRefContainer.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
