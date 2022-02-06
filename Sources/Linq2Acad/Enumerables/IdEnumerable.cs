@@ -72,16 +72,16 @@ namespace Linq2Acad
       if (second is LazayIdEnumerable<T>)
       {
         var other = second as LazayIdEnumerable<T>;
-        return new ConcatIdEnumerable<T>((ids, getID), (other.ids, other.getID));
+        return new ConcatIdEnumerable<T>(Tuple.Create(ids, getID), Tuple.Create(other.ids, other.getID));
       }
       else if (second is ConcatIdEnumerable<T>)
       {
-        return new ConcatIdEnumerable<T>(new[] { (ids, getID) }.Concat((second as ConcatIdEnumerable<T>).ids).ToArray());
+        return new ConcatIdEnumerable<T>(new[] { Tuple.Create(ids, getID) }.Concat((second as ConcatIdEnumerable<T>).ids).ToArray());
       }
       else
       {
-        return new ConcatIdEnumerable<T>((ids, getID),
-                                         (second, (Func<object, T>)(id => (T)id)));
+        return new ConcatIdEnumerable<T>(Tuple.Create(ids, getID),
+                                         Tuple.Create((IEnumerable)second, (Func<object, T>)(id => (T)id)));
       }
     }
 
@@ -261,9 +261,9 @@ namespace Linq2Acad
 
   internal class ConcatIdEnumerable<T> : IdEnumerable<T>
   {
-    internal readonly (IEnumerable, Func<object, T>)[] ids;
+    internal readonly Tuple<IEnumerable, Func<object, T>>[] ids;
 
-    public ConcatIdEnumerable(params (IEnumerable, Func<object, T>)[] ids)
+    public ConcatIdEnumerable(params Tuple<IEnumerable, Func<object, T>>[] ids)
       => this.ids = ids;
 
     public override IEnumerator<T> GetEnumerator()
@@ -284,7 +284,7 @@ namespace Linq2Acad
       if (second is LazayIdEnumerable<T>)
       {
         var other = second as LazayIdEnumerable<T>;
-        return new ConcatIdEnumerable<T>(ids.Concat(new [] { (other.ids, other.getID) }).ToArray());
+        return new ConcatIdEnumerable<T>(ids.Concat(new [] { Tuple.Create(other.ids, other.getID) }).ToArray());
       }
       else if (second is ConcatIdEnumerable<T>)
       {
@@ -295,7 +295,7 @@ namespace Linq2Acad
         var enumerable = second as IEnumerable;
         return new ConcatIdEnumerable<T>(ids.Concat(new[]
                                                     {
-                                                      (enumerable, new Func<object, T>(id => (T)id))
+                                                      Tuple.Create(enumerable, new Func<object, T>(id => (T)id))
                                                     }).ToArray());
       }
     }

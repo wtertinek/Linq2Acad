@@ -17,18 +17,18 @@ namespace Linq2Acad
 
     protected T AddInternal(T newItem, string name)
     {
-      AddRangeInternal(new[] { (newItem, name) });
+      AddRangeInternal(new[] { Tuple.Create(newItem, name) });
       return newItem;
     }
 
-    protected void AddRangeInternal(IEnumerable<(T Item, string Name)> items)
+    protected void AddRangeInternal(IEnumerable<Tuple<T, string>> items)
     {
       var dict = (DBDictionary)transaction.GetObject(ID, OpenMode.ForWrite);
 
       foreach (var item in items)
       {
-        dict.SetAt(item.Name, item.Item);
-        transaction.AddNewlyCreatedDBObject(item.Item, true);
+        dict.SetAt(item.Item2, item.Item1);
+        transaction.AddNewlyCreatedDBObject(item.Item1, true);
       }
     }
 

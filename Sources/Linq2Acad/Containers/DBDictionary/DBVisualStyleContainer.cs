@@ -58,7 +58,7 @@ namespace Linq2Acad
         Require.NameDoesNotExist<DBVisualStyle>(Contains(item.Name), item.Name);
       }
 
-      AddRangeInternal(items.Select(i => (i, i.Name)));
+      AddRangeInternal(items.Select(i => Tuple.Create(i, i.Name)));
     }
   }
 }

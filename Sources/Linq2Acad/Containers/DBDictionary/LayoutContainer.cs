@@ -40,7 +40,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(item.LayoutName, nameof(item.LayoutName));
       Require.NameDoesNotExist<Layout>(Contains(item.LayoutName), item.LayoutName);
 
-      AddRangeInternal(new[] { (item, item.LayoutName) });
+      AddRangeInternal(new[] { Tuple.Create(item, item.LayoutName) });
     }
 
     /// <summary>
@@ -58,7 +58,7 @@ namespace Linq2Acad
         Require.NameDoesNotExist<Layout>(Contains(item.LayoutName), item.LayoutName);
       }
 
-      AddRangeInternal(items.Select(i => (i, i.LayoutName)));
+      AddRangeInternal(items.Select(i => Tuple.Create(i, i.LayoutName)));
     }
   }
 }

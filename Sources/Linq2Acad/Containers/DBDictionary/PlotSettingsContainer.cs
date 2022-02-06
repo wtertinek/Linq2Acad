@@ -45,7 +45,7 @@ namespace Linq2Acad
       Require.IsValidSymbolName(item.PlotSettingsName, nameof(item.PlotSettingsName));
       Require.NameDoesNotExist<PlotSettings>(Contains(item.PlotSettingsName), item.PlotSettingsName);
 
-      AddRangeInternal(new[] { (item, item.PlotSettingsName) });
+      AddRangeInternal(new[] { Tuple.Create(item, item.PlotSettingsName) });
     }
 
     /// <summary>
@@ -63,7 +63,7 @@ namespace Linq2Acad
         Require.NameDoesNotExist<PlotSettings>(Contains(item.PlotSettingsName), item.PlotSettingsName);
       }
 
-      AddRangeInternal(items.Select(i => (i, i.PlotSettingsName)));
+      AddRangeInternal(items.Select(i => Tuple.Create(i, i.PlotSettingsName)));
     }
   }
 }
