@@ -75,6 +75,242 @@ namespace Linq2Acad
     public Database Database { get; }
 
     /// <summary>
+    /// Provies access to the summary info.
+    /// </summary>
+    public AcadSummaryInfo SummaryInfo
+    {
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        return summaryInfo;
+      }
+    }
+
+    /// <summary>
+    /// Provides access to all database objects.
+    /// </summary>
+    public DbObjectContainer DbObjects
+    {
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        return new DbObjectContainer(Database, transaction);
+      }
+    }
+
+    /// <summary>
+    /// Provides access to all style related tables and dictionaries.
+    /// </summary>
+    public StylesContainer Styles
+    {
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        return new StylesContainer(Database, transaction);
+      }
+    }
+
+    /// <summary>
+    /// Provides access to the XRef elements.
+    /// </summary>
+    public XRefContainer XRefs
+    {
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        return new XRefContainer(Database, transaction);
+      }
+    }
+
+    #region Tables
+
+    /// <summary>
+    /// Provides access to the elements of the Block table.
+    /// </summary>
+    public BlockContainer Blocks
+    {
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        return new BlockContainer(Database, transaction);
+      }
+    }
+
+    /// <summary>
+    /// Provides access to the elements of the Layer table.
+    /// </summary>
+    public LayerContainer Layers
+    {
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        return new LayerContainer(Database, transaction);
+      }
+    }
+
+    /// <summary>
+    /// Provides access to the elements of the Linetype table.
+    /// </summary>
+    public LinetypeContainer Linetypes
+    {
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        return new LinetypeContainer(Database, transaction);
+      }
+    }
+
+    /// <summary>
+    /// Provides access to the elements of the RegApp table.
+    /// </summary>
+    public RegAppContainer RegApps
+    {
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        return new RegAppContainer(Database, transaction);
+      }
+    }
+
+    /// <summary>
+    /// Provides access to the elements of the Ucs table.
+    /// </summary>
+    public UcsContainer Ucss
+    {
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        return new UcsContainer(Database, transaction);
+      }
+    }
+
+    /// <summary>
+    /// Provides access to the elements of the Viewport table.
+    /// </summary>
+    public ViewportContainer Viewports
+    {
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        return new ViewportContainer(Database, transaction);
+      }
+    }
+
+    /// <summary>
+    /// Provides access to the elements of the View table.
+    /// </summary>
+    public ViewContainer Views
+    {
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        return new ViewContainer(Database, transaction);
+      }
+    }
+
+    #endregion
+
+    #region Dictionaries
+
+    /// <summary>
+    /// Provides access to the elements of the Layout dictionary.
+    /// </summary>
+    public LayoutContainer Layouts
+    {
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        return new LayoutContainer(Database, transaction, Database.LayoutDictionaryId);
+      }
+    }
+
+    /// <summary>
+    /// Provides access to the elements of the Group dictionary.
+    /// </summary>
+    public GroupContainer Groups
+    {
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        return new GroupContainer(Database, transaction, Database.GroupDictionaryId);
+      }
+    }
+
+    /// <summary>
+    /// Provides access to the elements of the Material dictionary.
+    /// </summary>
+    public MaterialContainer Materials
+    {
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        return new MaterialContainer(Database, transaction, Database.MaterialDictionaryId);
+      }
+    }
+
+
+    /// <summary>
+    /// Provides access to the elements of the PlotSetting dictionary.
+    /// </summary>
+    public PlotSettingsContainer PlotSettings
+    {
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        return new PlotSettingsContainer(Database, transaction, Database.PlotSettingsDictionaryId);
+      }
+    }
+
+    #endregion
+
+    #region CurrentSpace | ModelSpace | PaperSpace
+
+    /// <summary>
+    /// Provides access to the entities of the currently active space.
+    /// </summary>
+    public EntityContainer CurrentSpace
+    {
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        return new EntityContainer(Database, transaction, Database.CurrentSpaceId);
+      }
+    }
+
+    /// <summary>
+    /// Provides access to the model space entities.
+    /// </summary>
+    public EntityContainer ModelSpace
+    {
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        var modelSpaceId = ((BlockTable)transaction.GetObject(Database.BlockTableId, OpenMode.ForRead))[BlockTableRecord.ModelSpace];
+        return new EntityContainer(Database, transaction, modelSpaceId);
+      }
+    }
+
+    /// <summary>
+    /// Provides access to the entities of all layouts. Each element provides access to the entities of one layout.
+    /// The elements are in the order of the AutoCAD layout tabs.
+    /// </summary>
+    /// <returns>An IEnumerable&lt;EntityContainer&gt;. Each EntityContainer provides access to the entities of one layout.</returns>
+    public IEnumerable<PaperSpaceEntityContainer> PaperSpace
+    {
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new PaperSpaceLayoutContainer(Database, transaction);
+      }
+    }
+
+    #endregion
+
+    #region Instance methods
+
+    /// <summary>
     /// Immediately discards all changes and the underlying transaction.
     /// </summary>
     public void DiscardChanges()
@@ -148,321 +384,6 @@ namespace Linq2Acad
         case SaveAsDwgVersion.DontChange:
         default:
           return Database.OriginalFileSavedByVersion;
-       }
-    }
-
-    /// <summary>
-    /// Provies access to the summary info.
-    /// </summary>
-    public AcadSummaryInfo SummaryInfo
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return summaryInfo;
-      }
-    }
-
-    /// <summary>
-    /// Provides access to all database objects.
-    /// </summary>
-    public DbObjectContainer DbObjects
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new DbObjectContainer(Database, transaction);
-      }
-    }
-
-    #region Tables
-
-    /// <summary>
-    /// Provides access to the elements of the Block table.
-    /// </summary>
-    public BlockContainer Blocks
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new BlockContainer(Database, transaction);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the Layer table.
-    /// </summary>
-    public LayerContainer Layers
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new LayerContainer(Database, transaction);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the DimStyle table.
-    /// </summary>
-    public DimStyleContainer DimStyles
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new DimStyleContainer(Database, transaction);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the Linetype table.
-    /// </summary>
-    public LinetypeContainer Linetypes
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new LinetypeContainer(Database, transaction);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the RegApp table.
-    /// </summary>
-    public RegAppContainer RegApps
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new RegAppContainer(Database, transaction);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the TextStyle table.
-    /// </summary>
-    public TextStyleContainer TextStyles
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new TextStyleContainer(Database, transaction);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the Ucs table.
-    /// </summary>
-    public UcsContainer Ucss
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new UcsContainer(Database, transaction);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the Viewport table.
-    /// </summary>
-    public ViewportContainer Viewports
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new ViewportContainer(Database, transaction);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the View table.
-    /// </summary>
-    public ViewContainer Views
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new ViewContainer(Database, transaction);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the XRef elements.
-    /// </summary>
-    public XRefContainer XRefs
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new XRefContainer(Database, transaction);
-      }
-    }
-
-    #endregion
-
-    #region Dictionaries
-
-    /// <summary>
-    /// Provides access to the elements of the Layout dictionary.
-    /// </summary>
-    public LayoutContainer Layouts
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new LayoutContainer(Database, transaction, Database.LayoutDictionaryId);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the Group dictionary.
-    /// </summary>
-    public GroupContainer Groups
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new GroupContainer(Database, transaction, Database.GroupDictionaryId);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the MLeaderStyle dictionary.
-    /// </summary>
-    public MLeaderStyleContainer MLeaderStyles
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new MLeaderStyleContainer(Database, transaction, Database.MLeaderStyleDictionaryId);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the MlineStyle dictionary.
-    /// </summary>
-    public MlineStyleContainer MlineStyles
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new MlineStyleContainer(Database, transaction, Database.MLStyleDictionaryId);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the Material dictionary.
-    /// </summary>
-    public MaterialContainer Materials
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new MaterialContainer(Database, transaction, Database.MaterialDictionaryId);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the DBVisualStyle dictionary.
-    /// </summary>
-    public DBVisualStyleContainer DBVisualStyles
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new DBVisualStyleContainer(Database, transaction, Database.VisualStyleDictionaryId);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the PlotSetting dictionary.
-    /// </summary>
-    public PlotSettingsContainer PlotSettings
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new PlotSettingsContainer(Database, transaction, Database.PlotSettingsDictionaryId);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the TableStyle dictionary.
-    /// </summary>
-    public TableStyleContainer TableStyles
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new TableStyleContainer(Database, transaction, Database.TableStyleDictionaryId);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the SectionViewStyle dictionary.
-    /// </summary>
-    public SectionViewStyleContainer SectionViewStyles
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new SectionViewStyleContainer(Database, transaction, Database.SectionViewStyleDictionaryId);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the DetailViewStyle dictionary.
-    /// </summary>
-    public DetailViewStyleContainer DetailViewStyles
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new DetailViewStyleContainer(Database, transaction, Database.DetailViewStyleDictionaryId);
-      }
-    }
-
-    #endregion
-
-    #region CurrentSpace | ModelSpace | PaperSpace
-
-    /// <summary>
-    /// Provides access to the entities of the currently active space.
-    /// </summary>
-    public EntityContainer CurrentSpace
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        return new EntityContainer(Database, transaction, Database.CurrentSpaceId);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the model space entities.
-    /// </summary>
-    public EntityContainer ModelSpace
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-
-        var modelSpaceId = ((BlockTable)transaction.GetObject(Database.BlockTableId, OpenMode.ForRead))[BlockTableRecord.ModelSpace];
-        return new EntityContainer(Database, transaction, modelSpaceId);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the entities of all layouts. Each element provides access to the entities of one layout.
-    /// The elements are in the order of the AutoCAD layout tabs.
-    /// </summary>
-    /// <returns>An IEnumerable&lt;EntityContainer&gt;. Each EntityContainer provides access to the entities of one layout.</returns>
-    public IEnumerable<PaperSpaceEntityContainer> PaperSpace
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-
-        return new PaperSpaceLayoutContainer(Database, transaction);
       }
     }
 

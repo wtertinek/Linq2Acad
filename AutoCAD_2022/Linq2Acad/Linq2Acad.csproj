@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\StylesContainer.cs">
+      <Link>Containers\StylesContainer.cs</Link>
+    </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\Containers\PaperSpaceEntityContainer.cs">
       <Link>Containers\PaperSpaceEntityContainer.cs</Link>
     </Compile>
