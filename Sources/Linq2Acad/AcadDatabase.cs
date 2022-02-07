@@ -456,52 +456,14 @@ namespace Linq2Acad
     /// The elements are in the order of the AutoCAD layout tabs.
     /// </summary>
     /// <returns>An IEnumerable&lt;EntityContainer&gt;. Each EntityContainer provides access to the entities of one layout.</returns>
-    public IEnumerable<EntityContainer> PaperSpace()
+    public IEnumerable<PaperSpaceEntityContainer> PaperSpace
     {
-      Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-
-      foreach (var layout in Layouts.Where(l => !l.ModelType)
-                                    .OrderBy(l => l.TabOrder))
+      get
       {
-        yield return new EntityContainer(Database, transaction, layout.BlockTableRecordId);
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+
+        return new PaperSpaceLayoutContainer(Database, transaction);
       }
-    }
-
-    /// <summary>
-    /// Provides access to the entities of the layout with the given tab index.
-    /// </summary>
-    /// <param name="index">The zero-based tab index of the layout.</param>
-    /// <returns>An EntityContainer to access the layout's entities.</returns>
-    public EntityContainer PaperSpace(int index)
-    {
-      Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-
-      var paperSpaceLayouts = Layouts.Where(l => !l.ModelType)
-                                     .OrderBy(l => l.TabOrder)
-                                     .ToArray();
-
-      Require.ValidArrayIndex(index, paperSpaceLayouts.Length, nameof(index));
-
-      return new EntityContainer(Database, transaction, paperSpaceLayouts.ElementAt(index)
-                                                               .BlockTableRecordId);
-    }
-
-    /// <summary>
-    /// Provides access to the entities of the layout with the given name.
-    /// </summary>
-    /// <param name="name">The name of the layout.</param>
-    /// <returns>An EntityContainer to access the layout's entities.</returns>
-    public EntityContainer PaperSpace(string name)
-    {
-      Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-      Require.ParameterNotNull(name, nameof(name));
-      Require.NameExists<Layout>(Layouts.Contains(name), nameof(name));
-
-      var layout = Layouts.Element(name);
-
-      Require.IsTrue(layout.ModelType, $"{name} is not a paper space layout");
-
-      return new EntityContainer(Database, transaction, layout.BlockTableRecordId);
     }
 
     #endregion

@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\PaperSpaceEntityContainer.cs">
+      <Link>Containers\PaperSpaceEntityContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\PaperSpaceEntityContainerEnumerable.cs">
+      <Link>Containers\PaperSpaceEntityContainerEnumerable.cs</Link>
+    </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\CreateOptions.cs">
       <Link>CreateOptions.cs</Link>
     </Compile>
@@ -64,8 +70,8 @@
     <Compile Include="..\..\Sources\Linq2Acad\SaveAsDwgVersion.cs">
       <Link>SaveAsDwgVersion.cs</Link>
     </Compile>
-    <Compile Include="..\..\Sources\Linq2Acad\Containers\XRef\XRefStatus.cs">
-      <Link>Containers\XRef\XRefStatus.cs</Link>
+    <Compile Include="..\..\Sources\Linq2Acad\Containers\XRef\XRefInfo.cs">
+      <Link>Containers\XRef\XRefInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\Containers\EntityContainer.cs">
       <Link>Containers\EntityContainer.cs</Link>

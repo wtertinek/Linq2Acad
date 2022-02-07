@@ -269,7 +269,7 @@ namespace Linq2Acad
     {
       using (var db = AcadDatabase.Active())
       {
-        var count = db.PaperSpace()
+        var count = db.PaperSpace
                       .SelectMany(ps => ps)
                       .Count();
 

@@ -10,15 +10,9 @@ namespace Linq2Acad
   /// <summary>
   /// Represents a container that holds Entity objects.
   /// </summary>
-  public sealed class EntityContainer : ContainerEnumerableBase<Entity>
+  public class EntityContainer : ContainerEnumerableBase<Entity>
   {
-    /// <summary>
-    /// Create a new instance of EntityContainer.
-    /// </summary>
-    /// <param name="database">The drawing database to use.</param>
-    /// <param name="transaction">The transaction to use.</param>
-    /// <param name="containerID">The ObjectId of the container.</param>
-    public EntityContainer(Database database, Transaction transaction, ObjectId containerID)
+    internal EntityContainer(Database database, Transaction transaction, ObjectId containerID)
       : base(database, transaction, containerID, i => (ObjectId)i)
     {
     }
