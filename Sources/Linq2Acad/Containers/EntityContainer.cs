@@ -27,26 +27,11 @@ namespace Linq2Acad
     /// Adds an Entity to the container.
     /// </summary>
     /// <param name="entity">The Entity to be added.</param>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameter  <i>entity</i> is null.</exception>
-    /// <exception cref="System.Exception">Thrown when the given Entity belongs to another block or an AutoCAD error occurs.</exception>
-    /// <returns>The ObjectId of the Entity that was added.</returns>
-    public ObjectId Add(Entity entity)
-    {
-      Require.ParameterNotNull(entity, nameof(entity));
-      Require.NewlyCreated(entity, nameof(entity));
-      
-      return AddInternal(new[] { entity }, false).First();
-    }
-
-    /// <summary>
-    /// Adds an Entity to the container.
-    /// </summary>
-    /// <param name="entity">The Entity to be added.</param>
     /// <param name="setDatabaseDefaults">True, if the database defaults should be set.</param>
     /// <exception cref="System.ArgumentNullException">Thrown when parameter  <i>entity</i> is null.</exception>
     /// <exception cref="System.Exception">Thrown when the given Entity belongs to another block or an AutoCAD error occurs.</exception>
     /// <returns>The ObjectId of the Entity that was added.</returns>
-    public ObjectId Add(Entity entity, bool setDatabaseDefaults)
+    public ObjectId Add(Entity entity, bool setDatabaseDefaults = false)
     {
       Require.ParameterNotNull(entity, nameof(entity));
       Require.NewlyCreated(entity, nameof(entity));
@@ -58,31 +43,11 @@ namespace Linq2Acad
     /// Adds Entities to the container.
     /// </summary>
     /// <param name="entities">The Entities to be added.</param>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameter  <i>entities</i> is null.</exception>
-    /// <exception cref="System.Exception">Thrown when the an Entity belongs to another block or an AutoCAD error occurs.</exception>
-    /// <returns>The ObjectIds of the Entities that were added.</returns>
-    public IEnumerable<ObjectId> Add(IEnumerable<Entity> entities)
-    {
-      Require.ParameterNotNull(entities, nameof(entities));
-      Require.ElementsNotNull(entities, nameof(entities));
-
-      foreach (var entity in entities)
-      {
-        Require.NewlyCreated(entity, nameof(entity));
-      }
-
-      return AddInternal(entities, false);
-    }
-
-    /// <summary>
-    /// Adds Entities to the container.
-    /// </summary>
-    /// <param name="entities">The Entities to be added.</param>
     /// <param name="setDatabaseDefaults">True, if the database defaults should be set.</param>
     /// <exception cref="System.ArgumentNullException">Thrown when parameter  <i>entities</i> is null.</exception>
     /// <exception cref="System.Exception">Thrown when the an Entity belongs to another block or an AutoCAD error occurs.</exception>
     /// <returns>The ObjectIds of the Entities that were added.</returns>
-    public IEnumerable<ObjectId> Add(IEnumerable<Entity> entities, bool setDatabaseDefaults)
+    public IEnumerable<ObjectId> AddRange(IEnumerable<Entity> entities, bool setDatabaseDefaults = false)
     {
       Require.ParameterNotNull(entities, nameof(entities));
       Require.ElementsNotNull(entities, nameof(entities));
