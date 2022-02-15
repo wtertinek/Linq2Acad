@@ -253,3 +253,12 @@ using (var db = AcadDatabase.Active())
 ### Understanding how this library works
 
 Please refer to the following which details in a step-by-step fashion: (i) how this library works and (ii) the decision making process and logic behind the library's derivation: https://wtertinek.com/2016/07/06/linq-and-the-autocad-net-api-final-part/
+
+### Upgrade to Nuget - Instructions
+
+1. Remove your existing `Linq2Acad` **PROJECT** completely from your existing Visual Studio solution. You should see a lot of red squiggly lines. That's great!
+2. Install the Nuget Packages. Voila!
+
+(If you add Nuget while already having a `Linq2Acad` project there, and THEN you subsequently remove the latter project - you might have a lot of problems.)
+
+
