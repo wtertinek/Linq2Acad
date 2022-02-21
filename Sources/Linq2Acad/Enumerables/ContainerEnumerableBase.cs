@@ -80,33 +80,26 @@ namespace Linq2Acad
     private T ElementInternal(ObjectId id, bool openForWrite)
       => (T)transaction.GetObject(id, openForWrite ? OpenMode.ForWrite : OpenMode.ForRead);
 
-    public ImportResult<T> Import(T item)
-    {
-      Require.ParameterNotNull(item, nameof(item));
-
-      return ImportInternal(item, false);
-    }
-
-    public ImportResult<T> Import(T item, bool replaceIfDuplicate)
     /// <summary>
     /// Imports the specified element into the current database.
     /// </summary>
     /// <param name="element">The element to import.</param>
     /// <param name="replaceIfDuplicate">true, if the the imported element should be replaced if it is already present; otherwise, false.</param>
     /// <returns>An object that represents the result of an import operation.</returns>
+    public ImportResult<T> Import(T element, bool replaceIfDuplicate = false)
     {
       Require.ParameterNotNull(element, nameof(element));
 
       return ImportInternal(element, replaceIfDuplicate);
     }
 
-    public IReadOnlyCollection<ImportResult<T>> Import(IEnumerable<T> items, bool replaceIfDuplicate)
     /// <summary>
     /// Imports the specified elements into the current database.
     /// </summary>
     /// <param name="elements">The elements to import.</param>
     /// <param name="replaceIfDuplicate">true, if the the imported element should be replaced if it is already present; otherwise, false.</param>
     /// <returns>An object that represents the result of an import operation.</returns>
+    public IReadOnlyCollection<ImportResult<T>> Import(IEnumerable<T> elements, bool replaceIfDuplicate = false)
     {
       Require.ParameterNotNull(elements, nameof(elements));
       Require.DifferentOrigin(database, elements, nameof(elements));

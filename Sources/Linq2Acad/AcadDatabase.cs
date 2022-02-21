@@ -490,53 +490,20 @@ namespace Linq2Acad
     /// Provides read only access to the drawing database in the given file.
     /// </summary>
     /// <param name="fileName">The name of the drawing database to open.</param>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>fileName</i> is null.</exception>
-    /// <exception cref="System.IO.FileNotFoundException">Thrown when the file cannot be found.</exception>
-    /// <exception cref="System.Exception">Thrown when opening the darwing database throws an exception.</exception>
-    /// <returns>The AcadDatabase instance.</returns>
-    public static AcadDatabase OpenReadOnly(string fileName)
-    {
-      Require.StringNotEmpty(fileName, nameof(fileName));
-      Require.FileExists(fileName, nameof(fileName));
-
-      return OpenInternal(fileName, null, false);
-    }
-
-    /// <summary>
-    /// Provides read only access to the drawing database in the given file.
-    /// </summary>
-    /// <param name="fileName">The name of the drawing database to open.</param>
     /// <param name="options">Options for opening the database.</param>
     /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>fileName</i> is null.</exception>
     /// <exception cref="System.IO.FileNotFoundException">Thrown when the file cannot be found.</exception>
     /// <exception cref="System.Exception">Thrown when opening the darwing database throws an exception.</exception>
     /// <returns>The AcadDatabase instance.</returns>
-    public static AcadDatabase OpenReadOnly(string fileName, OpenReadOnlyOptions options)
+    public static AcadDatabase OpenReadOnly(string fileName, OpenReadOnlyOptions options = null)
     {
       Require.StringNotEmpty(fileName, nameof(fileName));
       Require.FileExists(fileName, nameof(fileName));
 
-      return OpenInternal(fileName, options.Password, options.KeepDatabaseOpen);
-    }
+      options = options ?? new OpenReadOnlyOptions();
 
-    /// <summary>
-    /// Provides read/write access to the drawing database in the given file.
-    /// </summary>
-    /// <param name="fileName">The name of the drawing database to open.</param>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>fileName</i> is null.</exception>
-    /// <exception cref="System.IO.FileNotFoundException">Thrown when the file cannot be found.</exception>
-    /// <exception cref="System.Exception">Thrown when opening the darwing database throws an exception.</exception>
-    /// <returns>The AcadDatabase instance.</returns>
-    public static AcadDatabase OpenForEdit(string fileName)
-    {
-      Require.StringNotEmpty(fileName, nameof(fileName));
-      Require.FileExists(fileName, nameof(fileName));
-      return OpenForEdit(fileName, new OpenForEditOptions()
-      {
-        SaveAsFileName = fileName,
-        KeepDatabaseOpen = false,
-        DwgVersion = SaveAsDwgVersion.DontChange,
-      });
+      Database database = GetDatabase(fileName, true, options.Password);
+      return new AcadDatabase(database, options.KeepDatabaseOpen);
     }
 
     /// <summary>
@@ -548,27 +515,20 @@ namespace Linq2Acad
     /// <exception cref="System.IO.FileNotFoundException">Thrown when the file cannot be found.</exception>
     /// <exception cref="System.Exception">Thrown when opening the darwing database throws an exception.</exception>
     /// <returns>The AcadDatabase instance.</returns>
-    public static AcadDatabase OpenForEdit(string fileName, OpenForEditOptions options)
+    public static AcadDatabase OpenForEdit(string fileName, OpenForEditOptions options = null)
     {
       Require.StringNotEmpty(fileName, nameof(fileName));
       Require.FileExists(fileName, nameof(fileName));
 
+      options = options ?? new OpenForEditOptions()
+                           {
+                             SaveAsFileName = fileName,
+                             KeepDatabaseOpen = false,
+                             DwgVersion = SaveAsDwgVersion.DontChange,
+                           };
       Database database = GetDatabase(fileName, false, options.Password);
       var outFileName = options.SaveAsFileName ?? fileName;
       return new AcadDatabase(database, options.KeepDatabaseOpen, true, outFileName, options.DwgVersion);
-    }
-
-    /// <summary>
-    /// Provides access to the drawing database in the given file.
-    /// </summary>
-    /// <param name="fileName">The name of the drawing database to open.</param>
-    /// <param name="password">The password for the darwing database.</param>
-    /// <param name="keepOpen">True, if the database should be kept open after it has been used. False, if the database should be closed.</param>
-    /// <returns>The AcadDatabase instance.</returns>
-    private static AcadDatabase OpenInternal(string fileName, string password, bool keepOpen)
-    {
-      Database database = GetDatabase(fileName, true, password);
-      return new AcadDatabase(database, keepOpen);
     }
 
     /// <summary>
