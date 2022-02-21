@@ -60,7 +60,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Returns the element with the specified name or a default value if the element cannot be found.
+    /// Returns the element with the specified name or <i>null</i> if the element cannot be found.
     /// </summary>
     /// <param name="name">The name of the element.</param>
     /// <param name="openForWrite">True, if the object should be opened for-write. By default the object is opened readonly.</param>

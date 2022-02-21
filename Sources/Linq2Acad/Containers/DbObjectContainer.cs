@@ -37,7 +37,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Returns the database object with the given ObjectId, or a default value if the element does not exist.
+    /// Returns the database object with the given ObjectId, or <i>null</i> if the element does not exist.
     /// </summary>
     /// <typeparam name="T">The type of the object.</typeparam>
     /// <param name="id">The ID of the object.</param>

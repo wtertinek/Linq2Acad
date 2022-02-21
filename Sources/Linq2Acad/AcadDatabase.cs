@@ -452,7 +452,7 @@ namespace Linq2Acad
     /// <summary>
     /// Provides access to the given drawing database.
     /// </summary>
-    /// <param name="database">The darwing database to use.</param>
+    /// <param name="database">The drawing database to use.</param>
     /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>database</i> is null.</exception>
     /// <exception cref="System.Exception">Thrown when the database is invalid.</exception>
     /// <returns>The AcadDatabase instance.</returns>
@@ -468,7 +468,7 @@ namespace Linq2Acad
     /// Provides access to the given drawing database.
     /// This is an advanced feature, use with caution.
     /// </summary>
-    /// <param name="database">The darwing database to use.</param>
+    /// <param name="database">The drawing database to use.</param>
     /// <param name="transaction">The transaction to use.</param>
     /// <param name="commitTransaction">True, if the transaction in use should be committed when this instance is disposed of.</param>
     /// <param name="disposeTransaction">True, if the transaction in use should be disposed of when this instance is disposed of.</param>
@@ -493,7 +493,7 @@ namespace Linq2Acad
     /// <param name="options">Options for opening the database.</param>
     /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>fileName</i> is null.</exception>
     /// <exception cref="System.IO.FileNotFoundException">Thrown when the file cannot be found.</exception>
-    /// <exception cref="System.Exception">Thrown when opening the darwing database throws an exception.</exception>
+    /// <exception cref="System.Exception">Thrown when opening the drawing database throws an exception.</exception>
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase OpenReadOnly(string fileName, OpenReadOnlyOptions options = null)
     {
@@ -513,7 +513,7 @@ namespace Linq2Acad
     /// <param name="options">Options for opening and closing the database.</param>
     /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>fileName</i> is null.</exception>
     /// <exception cref="System.IO.FileNotFoundException">Thrown when the file cannot be found.</exception>
-    /// <exception cref="System.Exception">Thrown when opening the darwing database throws an exception.</exception>
+    /// <exception cref="System.Exception">Thrown when opening the drawing database throws an exception.</exception>
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase OpenForEdit(string fileName, OpenForEditOptions options = null)
     {
@@ -536,7 +536,7 @@ namespace Linq2Acad
     /// </summary>
     /// <param name="fileName">The name of the drawing database to open.</param>
     /// <param name="readOnly">If true open the drawing in read only mode. If false, open it in read/write mode.</param>
-    /// <param name="password">The password for the darwing database.</param>
+    /// <param name="password">The password for the drawing database.</param>
     /// <returns>The Autocad Database instance.</returns>
     private static Database GetDatabase(string fileName, bool readOnly, string password)
     {

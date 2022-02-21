@@ -69,7 +69,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Returns the element with the specified ID or a default value if the element cannot be found.
+    /// Returns the element with the specified ID or <i>null</i> if the element cannot be found.
     /// </summary>
     /// <param name="id">The ID of the element.</param>
     /// <param name="openForWrite">True, if the object should be opened for-write. By default the object is opened readonly.</param>

@@ -103,7 +103,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Returns the element with the specified name or a default value if the element cannot be found.
+    /// Returns the element with the specified name or <i>null</i> if the element cannot be found.
     /// </summary>
     /// <param name="name">The name of the element.</param>
     /// <param name="openForWrite">True, if the object should be opened for-write. By default the object is opened readonly.</param>
@@ -178,7 +178,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Adds new elements to the table.
+    /// Adds a range of new elements to the table.
     /// </summary>
     /// <param name="elements">The elements to add.</param>
     public void AddRange(IEnumerable<T> elements)
@@ -244,7 +244,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Adds new elements to the table.
+    /// Adds a range of new elements to the table.
     /// </summary>
     /// <param name="elements">The elements to add.</param>
     public void AddRange(IEnumerable<T> elements)
