@@ -33,32 +33,32 @@ namespace Linq2Acad
     /// <summary>
     /// Adds a newly created DBVisualStyle element.
     /// </summary>
-    /// <param name="item">The DBVisualStyle element to add.</param>
-    public void Add(DBVisualStyle item)
+    /// <param name="element">The DBVisualStyle element to add.</param>
+    public void Add(DBVisualStyle element)
     {
-      Require.ParameterNotNull(item, nameof(item));
-      Require.IsValidSymbolName(item.Name, nameof(item.Name));
-      Require.NameDoesNotExist<DBVisualStyle>(Contains(item.Name), item.Name);
+      Require.ParameterNotNull(element, nameof(element));
+      Require.IsValidSymbolName(element.Name, nameof(element.Name));
+      Require.NameDoesNotExist<DBVisualStyle>(Contains(element.Name), element.Name);
 
-      AddInternal(item, item.Name);
+      AddInternal(element, element.Name);
     }
 
     /// <summary>
     /// Adds a collection of newly created DBVisualStyle elements.
     /// </summary>
-    /// <param name="items">The DBVisualStyle elements to add.</param>
-    public void AddRange(IEnumerable<DBVisualStyle> items)
+    /// <param name="elements">The DBVisualStyle elements to add.</param>
+    public void AddRange(IEnumerable<DBVisualStyle> elements)
     {
-      Require.ParameterNotNull(items, nameof(items));
+      Require.ParameterNotNull(elements, nameof(elements));
 
-      foreach (var item in items)
+      foreach (var element in elements)
       {
-        Require.ParameterNotNull(item, nameof(item));
-        Require.IsValidSymbolName(item.Name, nameof(item.Name));
-        Require.NameDoesNotExist<DBVisualStyle>(Contains(item.Name), item.Name);
+        Require.ParameterNotNull(element, nameof(element));
+        Require.IsValidSymbolName(element.Name, nameof(element.Name));
+        Require.NameDoesNotExist<DBVisualStyle>(Contains(element.Name), element.Name);
       }
 
-      AddRangeInternal(items.Select(i => Tuple.Create(i, i.Name)));
+      AddRangeInternal(elements.Select(i => Tuple.Create(i, i.Name)));
     }
   }
 }

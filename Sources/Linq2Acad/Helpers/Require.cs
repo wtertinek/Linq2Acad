@@ -12,9 +12,9 @@ namespace Linq2Acad
   [DebuggerStepThrough]
   internal static class Require
   {
-    public static void NewlyCreated<T>(T item, string parameterName) where T : DBObject
+    public static void NewlyCreated<T>(T element, string parameterName) where T : DBObject
     {
-      if (!item.ObjectId.IsNull)
+      if (!element.ObjectId.IsNull)
       {
         throw new Exception($"{typeof(T).Name} {parameterName} must be newly created");
       }

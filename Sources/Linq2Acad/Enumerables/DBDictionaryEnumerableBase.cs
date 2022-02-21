@@ -21,14 +21,14 @@ namespace Linq2Acad
       return newItem;
     }
 
-    protected void AddRangeInternal(IEnumerable<Tuple<T, string>> items)
+    protected void AddRangeInternal(IEnumerable<Tuple<T, string>> elements)
     {
       var dict = (DBDictionary)transaction.GetObject(ID, OpenMode.ForWrite);
 
-      foreach (var item in items)
+      foreach (var element in elements)
       {
-        dict.SetAt(item.Item2, item.Item1);
-        transaction.AddNewlyCreatedDBObject(item.Item1, true);
+        dict.SetAt(element.Item2, element.Item1);
+        transaction.AddNewlyCreatedDBObject(element.Item1, true);
       }
     }
 
@@ -38,6 +38,12 @@ namespace Linq2Acad
     protected override sealed bool ContainsInternal(string name)
       => ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Contains(name);
 
+    /// <summary>
+    /// Returns the element with the specified name.
+    /// </summary>
+    /// <param name="name">The name of the element.</param>
+    /// <param name="openForWrite">True, if the object should be opened for-write. By default the object is opened readonly.</param>
+    /// <returns>The element with the specified name.</returns>
     public T Element(string name, bool openForWrite = false)
     {
       Require.StringNotEmpty(name, nameof(name));
@@ -53,6 +59,12 @@ namespace Linq2Acad
       return (T)transaction.GetObject(id, openForWrite ? OpenMode.ForWrite : OpenMode.ForRead);
     }
 
+    /// <summary>
+    /// Returns the element with the specified name or a default value if the element cannot be found.
+    /// </summary>
+    /// <param name="name">The name of the element.</param>
+    /// <param name="openForWrite">True, if the object should be opened for-write. By default the object is opened readonly.</param>
+    /// <returns>The element with the specified name.</returns>
     public T ElementOrDefault(string name, bool openForWrite = false)
     {
       Require.StringNotEmpty(name, nameof(name));

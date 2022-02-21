@@ -55,11 +55,11 @@ namespace Linq2Acad
     /// called on the object and the action performed.
     /// </summary>
     /// <typeparam name="T">The actual type of the item.</typeparam>
-    /// <param name="item">The item to perform the action on.</param>
+    /// <param name="element">The element to perform the action on.</param>
     /// <param name="action">The action to perfrom.</param>
     /// <param name="keepUpgraded">True, if the item should stay write enabled after the action has been performed.</param>
-    public static void WriteWrap<T>(T item, Action action, bool keepUpgraded = false) where T : DBObject
-      => WriteWrap<T, object>(item, () => { action(); return null; }, keepUpgraded);
+    public static void WriteWrap<T>(T element, Action action, bool keepUpgraded = false) where T : DBObject
+      => WriteWrap<T, object>(element, () => { action(); return null; }, keepUpgraded);
 
     /// <summary>
     /// Performs a write operation on a given DBObject. If the object is not write enabled, UpgradeOpen is
@@ -67,25 +67,25 @@ namespace Linq2Acad
     /// </summary>
     /// <typeparam name="T">The actual type of the item.</typeparam>
     /// <typeparam name="TResult">The result type of the write operation.</typeparam>
-    /// <param name="item">The item to perform the action on.</param>
+    /// <param name="element">The element to perform the action on.</param>
     /// <param name="function">The function to call on the object.</param>
     /// <param name="keepUpgraded">True, if the item should stay write enabled after the action has been performed.</param>
     /// <returns>Returns the result of the write operation.</returns>
-    public static TResult WriteWrap<T, TResult>(T item, Func<TResult> function, bool keepUpgraded = false) where T : DBObject
+    public static TResult WriteWrap<T, TResult>(T element, Func<TResult> function, bool keepUpgraded = false) where T : DBObject
     {
       bool changed = false;
 
-      if (!item.IsWriteEnabled)
+      if (!element.IsWriteEnabled)
       {
         changed = true;
-        item.UpgradeOpen();
+        element.UpgradeOpen();
       }
 
       TResult result = function();
 
       if (!keepUpgraded && changed)
       {
-        item.DowngradeOpen();
+        element.DowngradeOpen();
       }
 
       return result;

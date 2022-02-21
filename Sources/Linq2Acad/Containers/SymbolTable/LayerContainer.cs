@@ -24,7 +24,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Creates a new LayerTableRecord and adds the given Entites to it.
+    /// Creates a new LayerTableRecord and adds the given Entities to it.
     /// </summary>
     /// <param name="name">The name of the new LayerTableRecord.</param>
     /// <param name="entities">The Entities that should be added to the new LayerTableRecord.</param>

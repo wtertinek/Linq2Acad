@@ -33,32 +33,32 @@ namespace Linq2Acad
     /// <summary>
     /// Adds a newly created DetailViewStyle element.
     /// </summary>
-    /// <param name="item">The DetailViewStyle element to add.</param>
-    public void Add(DetailViewStyle item)
+    /// <param name="element">The DetailViewStyle element to add.</param>
+    public void Add(DetailViewStyle element)
     {
-      Require.ParameterNotNull(item, nameof(item));
-      Require.IsValidSymbolName(item.Name, nameof(item.Name));
-      Require.NameDoesNotExist<DetailViewStyle>(Contains(item.Name), item.Name);
+      Require.ParameterNotNull(element, nameof(element));
+      Require.IsValidSymbolName(element.Name, nameof(element.Name));
+      Require.NameDoesNotExist<DetailViewStyle>(Contains(element.Name), element.Name);
 
-      AddInternal(item, item.Name);
+      AddInternal(element, element.Name);
     }
 
     /// <summary>
     /// Adds a collection of newly created DetailViewStyle elements.
     /// </summary>
-    /// <param name="items">The DetailViewStyle elements to add.</param>
-    public void AddRange(IEnumerable<DetailViewStyle> items)
+    /// <param name="elements">The DetailViewStyle elements to add.</param>
+    public void AddRange(IEnumerable<DetailViewStyle> elements)
     {
-      Require.ParameterNotNull(items, nameof(items));
+      Require.ParameterNotNull(elements, nameof(elements));
 
-      foreach (var item in items)
+      foreach (var element in elements)
       {
-        Require.ParameterNotNull(item, nameof(item));
-        Require.IsValidSymbolName(item.Name, nameof(item.Name));
-        Require.NameDoesNotExist<DetailViewStyle>(Contains(item.Name), item.Name);
+        Require.ParameterNotNull(element, nameof(element));
+        Require.IsValidSymbolName(element.Name, nameof(element.Name));
+        Require.NameDoesNotExist<DetailViewStyle>(Contains(element.Name), element.Name);
       }
 
-      AddRangeInternal(items.Select(i => Tuple.Create(i, i.Name)));
+      AddRangeInternal(elements.Select(i => Tuple.Create(i, i.Name)));
     }
   }
 }

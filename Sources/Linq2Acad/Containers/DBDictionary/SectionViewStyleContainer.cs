@@ -33,32 +33,32 @@ namespace Linq2Acad
     /// <summary>
     /// Adds a newly created SectionViewStyle element.
     /// </summary>
-    /// <param name="item">The SectionViewStyle to element add.</param>
-    public void Add(SectionViewStyle item)
+    /// <param name="element">The SectionViewStyle to element add.</param>
+    public void Add(SectionViewStyle element)
     {
-      Require.ParameterNotNull(item, nameof(item));
-      Require.IsValidSymbolName(item.Name, nameof(item.Name));
-      Require.NameDoesNotExist<SectionViewStyle>(Contains(item.Name), item.Name);
+      Require.ParameterNotNull(element, nameof(element));
+      Require.IsValidSymbolName(element.Name, nameof(element.Name));
+      Require.NameDoesNotExist<SectionViewStyle>(Contains(element.Name), element.Name);
 
-      AddInternal(item, item.Name);
+      AddInternal(element, element.Name);
     }
 
     /// <summary>
     /// Adds a collection of newly created SectionViewStyle elements.
     /// </summary>
-    /// <param name="items">The SectionViewStyle elements to add.</param>
-    public void AddRange(IEnumerable<SectionViewStyle> items)
+    /// <param name="elements">The SectionViewStyle elements to add.</param>
+    public void AddRange(IEnumerable<SectionViewStyle> elements)
     {
-      Require.ParameterNotNull(items, nameof(items));
+      Require.ParameterNotNull(elements, nameof(elements));
 
-      foreach (var item in items)
+      foreach (var element in elements)
       {
-        Require.ParameterNotNull(item, nameof(item));
-        Require.IsValidSymbolName(item.Name, nameof(item.Name));
-        Require.NameDoesNotExist<SectionViewStyle>(Contains(item.Name), item.Name);
+        Require.ParameterNotNull(element, nameof(element));
+        Require.IsValidSymbolName(element.Name, nameof(element.Name));
+        Require.NameDoesNotExist<SectionViewStyle>(Contains(element.Name), element.Name);
       }
 
-      AddRangeInternal(items.Select(i => Tuple.Create(i, i.Name)));
+      AddRangeInternal(elements.Select(i => Tuple.Create(i, i.Name)));
     }
   }
 }

@@ -57,32 +57,32 @@ namespace Linq2Acad
     /// <summary>
     /// Adds a newly created Group element.
     /// </summary>
-    /// <param name="item">The Group element to add.</param>
-    public void Add(Group item)
+    /// <param name="element">The Group element to add.</param>
+    public void Add(Group element)
     {
-      Require.ParameterNotNull(item, nameof(item));
-      Require.IsValidSymbolName(item.Name, nameof(item.Name));
-      Require.NameDoesNotExist<Group>(Contains(item.Name), item.Name);
+      Require.ParameterNotNull(element, nameof(element));
+      Require.IsValidSymbolName(element.Name, nameof(element.Name));
+      Require.NameDoesNotExist<Group>(Contains(element.Name), element.Name);
 
-      AddInternal(item, item.Name);
+      AddInternal(element, element.Name);
     }
 
     /// <summary>
     /// Adds a collection of newly created Group elements.
     /// </summary>
-    /// <param name="items">The Group elements to add.</param>
-    public void AddRange(IEnumerable<Group> items)
+    /// <param name="elements">The Group elements to add.</param>
+    public void AddRange(IEnumerable<Group> elements)
     {
-      Require.ParameterNotNull(items, nameof(items));
+      Require.ParameterNotNull(elements, nameof(elements));
 
-      foreach (var item in items)
+      foreach (var element in elements)
       {
-        Require.ParameterNotNull(item, nameof(item));
-        Require.IsValidSymbolName(item.Name, nameof(item.Name));
-        Require.NameDoesNotExist<Group>(Contains(item.Name), item.Name);
+        Require.ParameterNotNull(element, nameof(element));
+        Require.IsValidSymbolName(element.Name, nameof(element.Name));
+        Require.NameDoesNotExist<Group>(Contains(element.Name), element.Name);
       }
 
-      AddRangeInternal(items.Select(i => Tuple.Create(i, i.Name)));
+      AddRangeInternal(elements.Select(i => Tuple.Create(i, i.Name)));
     }
   }
 }

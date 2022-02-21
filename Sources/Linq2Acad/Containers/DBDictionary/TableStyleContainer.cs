@@ -33,32 +33,32 @@ namespace Linq2Acad
     /// <summary>
     /// Adds a newly created TableStyle element.
     /// </summary>
-    /// <param name="item">The TableStyle to element add.</param>
-    public void Add(TableStyle item)
+    /// <param name="element">The TableStyle to element add.</param>
+    public void Add(TableStyle element)
     {
-      Require.ParameterNotNull(item, nameof(item));
-      Require.IsValidSymbolName(item.Name, nameof(item.Name));
-      Require.NameDoesNotExist<TableStyle>(Contains(item.Name), item.Name);
+      Require.ParameterNotNull(element, nameof(element));
+      Require.IsValidSymbolName(element.Name, nameof(element.Name));
+      Require.NameDoesNotExist<TableStyle>(Contains(element.Name), element.Name);
 
-      AddInternal(item, item.Name);
+      AddInternal(element, element.Name);
     }
 
     /// <summary>
     /// Adds a collection of newly created TableStyle elements.
     /// </summary>
-    /// <param name="items">The TableStyle elements to add.</param>
-    public void AddRange(IEnumerable<TableStyle> items)
+    /// <param name="elements">The TableStyle elements to add.</param>
+    public void AddRange(IEnumerable<TableStyle> elements)
     {
-      Require.ParameterNotNull(items, nameof(items));
+      Require.ParameterNotNull(elements, nameof(elements));
 
-      foreach (var item in items)
+      foreach (var element in elements)
       {
-        Require.ParameterNotNull(item, nameof(item));
-        Require.IsValidSymbolName(item.Name, nameof(item.Name));
-        Require.NameDoesNotExist<TableStyle>(Contains(item.Name), item.Name);
+        Require.ParameterNotNull(element, nameof(element));
+        Require.IsValidSymbolName(element.Name, nameof(element.Name));
+        Require.NameDoesNotExist<TableStyle>(Contains(element.Name), element.Name);
       }
 
-      AddRangeInternal(items.Select(i => Tuple.Create(i, i.Name)));
+      AddRangeInternal(elements.Select(i => Tuple.Create(i, i.Name)));
     }
   }
 }

@@ -23,42 +23,42 @@ namespace Linq2Acad
 
     protected T CreateInternal(string name)
     {
-      var item = new T();
-      AddRangeInternal(new[] { item });
-      item.Name = name;
-      return item;
+      var element = new T();
+      AddRangeInternal(new[] { element });
+      element.Name = name;
+      return element;
     }
 
     protected IEnumerable<T> CreateInternal(IEnumerable<string> names)
     {
       var tmpNames = names.ToArray();
-      var items = new T[tmpNames.Length];
+      var elements = new T[tmpNames.Length];
 
-      for (int i = 0; i < items.Length; i++)
+      for (int i = 0; i < elements.Length; i++)
       {
-        items[i] = new T();
+        elements[i] = new T();
       }
 
-      AddRangeInternal(items);
+      AddRangeInternal(elements);
 
-      for (int i = 0; i < items.Length; i++)
+      for (int i = 0; i < elements.Length; i++)
       {
-        items[i].Name = tmpNames[i];
+        elements[i].Name = tmpNames[i];
       }
 
-      return items;
+      return elements;
     }
 
-    protected void AddRangeInternal(IEnumerable<T> items)
+    protected void AddRangeInternal(IEnumerable<T> elements)
     {
-      Require.ParameterNotNull(items, nameof(items));
+      Require.ParameterNotNull(elements, nameof(elements));
 
       var table = (SymbolTable)transaction.GetObject(ID, OpenMode.ForWrite);
 
-      foreach (var item in items)
+      foreach (var element in elements)
       {
-        table.Add(item);
-        transaction.AddNewlyCreatedDBObject(item, true);
+        table.Add(element);
+        transaction.AddNewlyCreatedDBObject(element, true);
       }
     }
 
@@ -82,6 +82,12 @@ namespace Linq2Acad
     {
     }
 
+    /// <summary>
+    /// Returns the element with the specified name.
+    /// </summary>
+    /// <param name="name">The name of the element.</param>
+    /// <param name="openForWrite">True, if the object should be opened for-write. By default the object is opened readonly.</param>
+    /// <returns>The element with the specified name.</returns>
     public T Element(string name, bool openForWrite = false)
     {
       Require.StringNotEmpty(name, nameof(name));
@@ -96,6 +102,12 @@ namespace Linq2Acad
       return (T)transaction.GetObject(table[name], openForWrite ? OpenMode.ForWrite : OpenMode.ForRead);
     }
 
+    /// <summary>
+    /// Returns the element with the specified name or a default value if the element cannot be found.
+    /// </summary>
+    /// <param name="name">The name of the element.</param>
+    /// <param name="openForWrite">True, if the object should be opened for-write. By default the object is opened readonly.</param>
+    /// <returns>The element with the specified name.</returns>
     public T ElementOrDefault(string name, bool openForWrite = false)
     {
       Require.StringNotEmpty(name, nameof(name));
@@ -155,32 +167,32 @@ namespace Linq2Acad
     /// <summary>
     /// Adds a new element to the table.
     /// </summary>
-    /// <param name="item">The element to add.</param>
-    public void Add(T item)
+    /// <param name="element">The element to add.</param>
+    public void Add(T element)
     {
-      Require.ParameterNotNull(item, nameof(item));
-      Require.IsValidSymbolName(item.Name, nameof(item.Name));
-      Require.NameDoesNotExist<T>(Contains(item.Name), item.Name);
+      Require.ParameterNotNull(element, nameof(element));
+      Require.IsValidSymbolName(element.Name, nameof(element.Name));
+      Require.NameDoesNotExist<T>(Contains(element.Name), element.Name);
 
-      AddRangeInternal(new[] { item });
+      AddRangeInternal(new[] { element });
     }
 
     /// <summary>
     /// Adds new elements to the table.
     /// </summary>
-    /// <param name="items">The elements to add.</param>
-    public void AddRange(IEnumerable<T> items)
+    /// <param name="elements">The elements to add.</param>
+    public void AddRange(IEnumerable<T> elements)
     {
-      Require.ParameterNotNull(items, nameof(items));
+      Require.ParameterNotNull(elements, nameof(elements));
 
-      foreach (var item in items)
+      foreach (var element in elements)
       {
-        Require.ParameterNotNull(item, nameof(item));
-        Require.IsValidSymbolName(item.Name, nameof(item.Name));
-        Require.NameDoesNotExist<T>(Contains(item.Name), item.Name);
+        Require.ParameterNotNull(element, nameof(element));
+        Require.IsValidSymbolName(element.Name, nameof(element.Name));
+        Require.NameDoesNotExist<T>(Contains(element.Name), element.Name);
       }
 
-      AddRangeInternal(items);
+      AddRangeInternal(elements);
     }
   }
 
@@ -222,30 +234,30 @@ namespace Linq2Acad
     /// <summary>
     /// Adds a new element to the table.
     /// </summary>
-    /// <param name="item">The element to add.</param>
-    public void Add(T item)
+    /// <param name="element">The element to add.</param>
+    public void Add(T element)
     {
-      Require.ParameterNotNull(item, nameof(item));
-      Require.IsValidSymbolName(item.Name, nameof(item.Name));
+      Require.ParameterNotNull(element, nameof(element));
+      Require.IsValidSymbolName(element.Name, nameof(element.Name));
 
-      AddRangeInternal(new[] { item });
+      AddRangeInternal(new[] { element });
     }
 
     /// <summary>
     /// Adds new elements to the table.
     /// </summary>
-    /// <param name="items">The elements to add.</param>
-    public void AddRange(IEnumerable<T> items)
+    /// <param name="elements">The elements to add.</param>
+    public void AddRange(IEnumerable<T> elements)
     {
-      Require.ParameterNotNull(items, nameof(items));
+      Require.ParameterNotNull(elements, nameof(elements));
 
-      foreach (var item in items)
+      foreach (var element in elements)
       {
-        Require.ParameterNotNull(item, nameof(item));
-        Require.IsValidSymbolName(item.Name, nameof(item.Name));
+        Require.ParameterNotNull(element, nameof(element));
+        Require.IsValidSymbolName(element.Name, nameof(element.Name));
       }
 
-      AddRangeInternal(items);
+      AddRangeInternal(elements);
     }
   }
 }

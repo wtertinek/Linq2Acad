@@ -33,32 +33,32 @@ namespace Linq2Acad
     /// <summary>
     /// Adds a newly created Layout element.
     /// </summary>
-    /// <param name="item">The Layout to element add.</param>
-    public void Add(Layout item)
+    /// <param name="element">The Layout to element add.</param>
+    public void Add(Layout element)
     {
-      Require.ParameterNotNull(item, nameof(item));
-      Require.IsValidSymbolName(item.LayoutName, nameof(item.LayoutName));
-      Require.NameDoesNotExist<Layout>(Contains(item.LayoutName), item.LayoutName);
+      Require.ParameterNotNull(element, nameof(element));
+      Require.IsValidSymbolName(element.LayoutName, nameof(element.LayoutName));
+      Require.NameDoesNotExist<Layout>(Contains(element.LayoutName), element.LayoutName);
 
-      AddRangeInternal(new[] { Tuple.Create(item, item.LayoutName) });
+      AddRangeInternal(new[] { Tuple.Create(element, element.LayoutName) });
     }
 
     /// <summary>
     /// Adds a collection of newly created Layout elements.
     /// </summary>
-    /// <param name="items">The Layout elements to add.</param>
-    public void AddRange(IEnumerable<Layout> items)
+    /// <param name="elements">The Layout elements to add.</param>
+    public void AddRange(IEnumerable<Layout> elements)
     {
-      Require.ParameterNotNull(items, nameof(items));
+      Require.ParameterNotNull(elements, nameof(elements));
 
-      foreach (var item in items)
+      foreach (var element in elements)
       {
-        Require.ParameterNotNull(item, nameof(item));
-        Require.IsValidSymbolName(item.LayoutName, nameof(item.LayoutName));
-        Require.NameDoesNotExist<Layout>(Contains(item.LayoutName), item.LayoutName);
+        Require.ParameterNotNull(element, nameof(element));
+        Require.IsValidSymbolName(element.LayoutName, nameof(element.LayoutName));
+        Require.NameDoesNotExist<Layout>(Contains(element.LayoutName), element.LayoutName);
       }
 
-      AddRangeInternal(items.Select(i => Tuple.Create(i, i.LayoutName)));
+      AddRangeInternal(elements.Select(i => Tuple.Create(i, i.LayoutName)));
     }
   }
 }

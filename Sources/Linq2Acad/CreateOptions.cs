@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Linq2Acad
 {
   /// <summary>
-  /// Provides options for creationg a database.
+  /// Provides options for creating a database.
   /// </summary>
   public class CreateOptions
   {
@@ -18,7 +18,7 @@ namespace Linq2Acad
 
     /// <summary>
     /// DWG version to use when saving the database to file. 
-    /// Defaults to that used by the running AutoCAD version. 
+    /// Defaults to the DWG version used by the running AutoCAD version. 
     /// </summary>
     public SaveAsDwgVersion SaveDwgVersion { get; set; }
 

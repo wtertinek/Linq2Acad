@@ -22,7 +22,7 @@ namespace Linq2Acad
     /// Returns the database object with the given ObjectId.
     /// </summary>
     /// <typeparam name="T">The type of the object.</typeparam>
-    /// <param name="id">The id of the object.</param>
+    /// <param name="id">The ID of the object.</param>
     /// <param name="openForWrite">True, if the object should be opened for-write. By default the object is opened readonly.</param>
     /// <exception cref="System.ArgumentOutOfRangeException">Thrown when an invalid ObjectId is passed.</exception>
     /// <exception cref="System.InvalidCastException">Thrown when the object cannot be casted to the target type.</exception>
@@ -40,7 +40,7 @@ namespace Linq2Acad
     /// Returns the database object with the given ObjectId, or a default value if the element does not exist.
     /// </summary>
     /// <typeparam name="T">The type of the object.</typeparam>
-    /// <param name="id">The id of the object.</param>
+    /// <param name="id">The ID of the object.</param>
     /// <param name="openForWrite">True, if the object should be opened for-write. By default the object is opened readonly.</param>
     /// <exception cref="System.ArgumentOutOfRangeException">Thrown when an invalid ObjectId is passed.</exception>
     /// <exception cref="System.InvalidCastException">Thrown when the object cannot be casted to the target type.</exception>
@@ -57,7 +57,7 @@ namespace Linq2Acad
     /// Returns the database object with the given ObjectId.
     /// </summary>
     /// <typeparam name="T">The type of the object.</typeparam>
-    /// <param name="id">The id of the object.</param>
+    /// <param name="id">The ID of the object.</param>
     /// <param name="openForWrite">True, if the object should be opened for-write.</param>
     /// <returns>The object with the given ObjectId.</returns>
     private T ElementInternal<T>(ObjectId id, bool openForWrite) where T : DBObject

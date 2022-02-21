@@ -16,18 +16,18 @@ namespace Linq2Acad
     /// Performs the specified action on each element of the System.Collections.Generic.IEnumerable&lt;DBObject&gt;.
     /// </summary>
     /// <typeparam name="T">The type of elements in this System.Collections.Generic.IEnumerable&lt;DBObject&gt;.</typeparam>
-    /// <param name="items">The System.Collections.Generic.IEnumerable&lt;DBObject&gt; instance.</param>
+    /// <param name="elements">The System.Collections.Generic.IEnumerable&lt;DBObject&gt; instance.</param>
     /// <param name="action">The action to execute.</param>
     /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     /// <exception cref="System.ArgumentNullException">Thrown when parameter  <i>action</i> is null.</exception>
-    public static void ForEach<T>(this IEnumerable<T> items, Action<T> action) where T : DBObject
+    public static void ForEach<T>(this IEnumerable<T> elements, Action<T> action) where T : DBObject
     {
-      Require.ParameterNotNull(items, nameof(items));
+      Require.ParameterNotNull(elements, nameof(elements));
       Require.ParameterNotNull(action, nameof(action));
 
-      foreach (var item in items)
+      foreach (var element in elements)
       {
-        action(item);
+        action(element);
       }
     }
 
@@ -42,14 +42,14 @@ namespace Linq2Acad
     {
       Require.ParameterNotNull(source, nameof(source));
 
-      foreach (var item in source)
+      foreach (var element in source)
       {
-        if (!item.IsWriteEnabled)
+        if (!element.IsWriteEnabled)
         {
-          item.UpgradeOpen();
+          element.UpgradeOpen();
         }
 
-        yield return item;
+        yield return element;
       }
     }
 
@@ -63,14 +63,14 @@ namespace Linq2Acad
     {
       Require.ParameterNotNull(source, nameof(source));
 
-      foreach (var item in source)
+      foreach (var element in source)
       {
-        if (!item.IsReadEnabled)
+        if (!element.IsReadEnabled)
         {
-          item.DowngradeOpen();
+          element.DowngradeOpen();
         }
 
-        yield return item;
+        yield return element;
       }
     }
   }

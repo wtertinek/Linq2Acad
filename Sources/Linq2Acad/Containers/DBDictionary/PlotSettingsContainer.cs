@@ -38,32 +38,32 @@ namespace Linq2Acad
     /// <summary>
     /// Adds a newly created PlotSettings element.
     /// </summary>
-    /// <param name="item">The PlotSettings to element add.</param>
-    public void Add(PlotSettings item)
+    /// <param name="element">The PlotSettings to element add.</param>
+    public void Add(PlotSettings element)
     {
-      Require.ParameterNotNull(item, nameof(item));
-      Require.IsValidSymbolName(item.PlotSettingsName, nameof(item.PlotSettingsName));
-      Require.NameDoesNotExist<PlotSettings>(Contains(item.PlotSettingsName), item.PlotSettingsName);
+      Require.ParameterNotNull(element, nameof(element));
+      Require.IsValidSymbolName(element.PlotSettingsName, nameof(element.PlotSettingsName));
+      Require.NameDoesNotExist<PlotSettings>(Contains(element.PlotSettingsName), element.PlotSettingsName);
 
-      AddRangeInternal(new[] { Tuple.Create(item, item.PlotSettingsName) });
+      AddRangeInternal(new[] { Tuple.Create(element, element.PlotSettingsName) });
     }
 
     /// <summary>
     /// Adds a collection of newly created PlotSettings elements.
     /// </summary>
-    /// <param name="items">The PlotSettings elements to add.</param>
-    public void AddRange(IEnumerable<PlotSettings> items)
+    /// <param name="elements">The PlotSettings elements to add.</param>
+    public void AddRange(IEnumerable<PlotSettings> elements)
     {
-      Require.ParameterNotNull(items, nameof(items));
+      Require.ParameterNotNull(elements, nameof(elements));
 
-      foreach (var item in items)
+      foreach (var element in elements)
       {
-        Require.ParameterNotNull(item, nameof(item));
-        Require.IsValidSymbolName(item.PlotSettingsName, nameof(item.PlotSettingsName));
-        Require.NameDoesNotExist<PlotSettings>(Contains(item.PlotSettingsName), item.PlotSettingsName);
+        Require.ParameterNotNull(element, nameof(element));
+        Require.IsValidSymbolName(element.PlotSettingsName, nameof(element.PlotSettingsName));
+        Require.NameDoesNotExist<PlotSettings>(Contains(element.PlotSettingsName), element.PlotSettingsName);
       }
 
-      AddRangeInternal(items.Select(i => Tuple.Create(i, i.PlotSettingsName)));
+      AddRangeInternal(elements.Select(i => Tuple.Create(i, i.PlotSettingsName)));
     }
   }
 }

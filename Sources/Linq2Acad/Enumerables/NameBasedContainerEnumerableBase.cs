@@ -22,6 +22,11 @@ namespace Linq2Acad
     {
     }
 
+    /// <summary>
+    /// Determines whether a sequence contains the element with the specified name.
+    /// </summary>
+    /// <param name="name">The name of the object.</param>
+    /// <returns>true if the source sequence contains an element that has the specified name; otherwise, false.</returns>
     public bool Contains(string name)
       => ContainsInternal(name);
 

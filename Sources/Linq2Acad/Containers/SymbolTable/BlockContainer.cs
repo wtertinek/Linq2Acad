@@ -47,7 +47,7 @@ namespace Linq2Acad
     /// <summary>
     /// Converts the Block with the given ObjectId into an EntityContainer that allows querying for entities.
     /// </summary>
-    /// <param name="id">The id of the object.</param>
+    /// <param name="id">The ID of the object.</param>
     /// <returns></returns>
     public EntityContainer ElementAsEntityContainer(ObjectId id)
       => new EntityContainer(database, transaction, id);
@@ -60,7 +60,7 @@ namespace Linq2Acad
       => this.Select(b => new EntityContainer(database, transaction, b.ObjectId));
 
     /// <summary>
-    /// Creates a new BlockTableRecord and adds the given Entites to it.
+    /// Creates a new BlockTableRecord and adds the given Entities to it.
     /// </summary>
     /// <param name="name">The name of the new BlockTableRecord.</param>
     /// <param name="entities">The Entities that should be added to the BlockTableRecord.</param>
@@ -87,7 +87,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Create a new block and imports all model space entities from the given drawing file to it.
+    /// Creates a new block and imports all model space entities from the given drawing file to it.
     /// </summary>
     /// <param name="newBlockName">The name of the new BlockTableRecord.</param>
     /// <param name="fileName">The name of the drawing file that should be imported.</param>

@@ -24,7 +24,7 @@ namespace Linq2Acad
 
     public abstract ElementEnumerable<T, TId> Concat(IEnumerable<T> second);
 
-    public abstract bool Contains(T value);
+    public abstract bool Contains(T element);
 
     public abstract int Count();
 

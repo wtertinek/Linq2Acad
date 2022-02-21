@@ -16,11 +16,11 @@ namespace Linq2Acad
     /// <summary>
     /// Creates a new instance of ImportResult.
     /// </summary>
-    /// <param name="item">The item that has been imported.</param>
+    /// <param name="element">The item that has been imported.</param>
     /// <param name="mapping">ID mapping from objects in the source database to objects in the target database.</param>
-    public ImportResult(T item, IdMapping mapping)
+    internal ImportResult(T element, IdMapping mapping)
     {
-      Item = item;
+      Item = element;
       Mapping = mapping.Cast<IdPair>()
                        .ToDictionary(p => p.Key, p => p.Value);
     }
