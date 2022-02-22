@@ -14,51 +14,8 @@ namespace Linq2Acad
   public sealed class MLeaderStyleContainer : DBDictionaryEnumerable<MLeaderStyle>
   {
     internal MLeaderStyleContainer(Database database, Transaction transaction, ObjectId containerID)
-      : base(database, transaction, containerID)
+      : base(database, transaction, containerID, s => s.Name, () => nameof(MLeaderStyle.Name))
     {
-    }
-
-    /// <summary>
-    /// Creates a new MLeaderStyle element.
-    /// </summary>
-    /// <param name="name">The unique name of the MLeaderStyle element.</param>
-    public MLeaderStyle Create(string name)
-    {
-      Require.IsValidSymbolName(name, nameof(name));
-      Require.NameDoesNotExist<MLeaderStyle>(Contains(name), name);
-
-      return AddInternal(new MLeaderStyle(), name);
-    }
-
-    /// <summary>
-    /// Adds a newly created MLeaderStyle element.
-    /// </summary>
-    /// <param name="element">The MLeaderStyle to element add.</param>
-    public void Add(MLeaderStyle element)
-    {
-      Require.ParameterNotNull(element, nameof(element));
-      Require.IsValidSymbolName(element.Name, nameof(element.Name));
-      Require.NameDoesNotExist<MLeaderStyle>(Contains(element.Name), element.Name);
-
-      AddInternal(element, element.Name);
-    }
-
-    /// <summary>
-    /// Adds a collection of newly created MLeaderStyle elements.
-    /// </summary>
-    /// <param name="elements">The MLeaderStyle elements to add.</param>
-    public void AddRange(IEnumerable<MLeaderStyle> elements)
-    {
-      Require.ParameterNotNull(elements, nameof(elements));
-
-      foreach (var element in elements)
-      {
-        Require.ParameterNotNull(element, nameof(element));
-        Require.IsValidSymbolName(element.Name, nameof(element.Name));
-        Require.NameDoesNotExist<MLeaderStyle>(Contains(element.Name), element.Name);
-      }
-
-      AddRangeInternal(elements.Select(i => Tuple.Create(i, i.Name)));
     }
   }
 }

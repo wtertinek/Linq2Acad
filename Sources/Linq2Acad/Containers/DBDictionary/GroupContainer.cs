@@ -14,27 +14,15 @@ namespace Linq2Acad
   public sealed class GroupContainer : DBDictionaryEnumerable<Group>
   {
     internal GroupContainer(Database database, Transaction transaction, ObjectId containerID)
-      : base(database, transaction, containerID)
+      : base(database, transaction, containerID, g => g.Name, () => nameof(Group.Name))
     {
     }
 
     /// <summary>
-    /// Creates a new Group element.
+    /// Creates a new element.
     /// </summary>
-    /// <param name="name">The unique name of the Group element.</param>
-    public Group Create(string name)
-    {
-      Require.IsValidSymbolName(name, nameof(name));
-      Require.NameDoesNotExist<Group>(Contains(name), name);
-
-      return AddInternal(new Group(), name);
-    }
-
-    /// <summary>
-    /// Creates a new DBVisualStyle element.
-    /// </summary>
-    /// <param name="name">The unique name of the DBVisualStyle element.</param>
-    /// <param name="entities">The entities to be added to the group.</param>
+    /// <param name="name">The unique name of the element.</param>
+    /// <param name="entities">The entities to be added to the Group.</param>
     public Group Create(string name, IEnumerable<Entity> entities)
     {
       Require.IsValidSymbolName(name, nameof(name));
@@ -52,37 +40,6 @@ namespace Linq2Acad
       }
 
       return group;
-    }
-
-    /// <summary>
-    /// Adds a newly created Group element.
-    /// </summary>
-    /// <param name="element">The Group element to add.</param>
-    public void Add(Group element)
-    {
-      Require.ParameterNotNull(element, nameof(element));
-      Require.IsValidSymbolName(element.Name, nameof(element.Name));
-      Require.NameDoesNotExist<Group>(Contains(element.Name), element.Name);
-
-      AddInternal(element, element.Name);
-    }
-
-    /// <summary>
-    /// Adds a collection of newly created Group elements.
-    /// </summary>
-    /// <param name="elements">The Group elements to add.</param>
-    public void AddRange(IEnumerable<Group> elements)
-    {
-      Require.ParameterNotNull(elements, nameof(elements));
-
-      foreach (var element in elements)
-      {
-        Require.ParameterNotNull(element, nameof(element));
-        Require.IsValidSymbolName(element.Name, nameof(element.Name));
-        Require.NameDoesNotExist<Group>(Contains(element.Name), element.Name);
-      }
-
-      AddRangeInternal(elements.Select(i => Tuple.Create(i, i.Name)));
     }
   }
 }

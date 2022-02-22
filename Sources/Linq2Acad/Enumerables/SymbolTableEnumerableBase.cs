@@ -165,7 +165,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Adds a new element to the table.
+    /// Adds a newly created element.
     /// </summary>
     /// <param name="element">The element to add.</param>
     public void Add(T element)
@@ -178,7 +178,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Adds a range of new elements to the table.
+    /// Adds a range of newly created elements.
     /// </summary>
     /// <param name="elements">The elements to add.</param>
     public void AddRange(IEnumerable<T> elements)
