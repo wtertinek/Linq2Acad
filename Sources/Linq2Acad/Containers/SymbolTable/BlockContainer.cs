@@ -9,26 +9,15 @@ using System.Collections;
 namespace Linq2Acad
 {
   /// <summary>
-  /// A container class that provides access to the elements of the Block table.
+  /// A container class that provides access to the elements of the Block table. In addition to the standard LINQ operations this class provides methods to create, add and import BlockTableRecords.
   /// </summary>
   public sealed class BlockContainer : UniqueNameSymbolTableEnumerable<BlockTableRecord>
   {
-    /// <summary>
-    /// Creates a new instance of BlockContainer.
-    /// </summary>
-    /// <param name="database">The drawing database to use.</param>
-    /// <param name="transaction">The transaction to use.</param>
     internal BlockContainer(Database database, Transaction transaction)
       : base(database, transaction, database.BlockTableId, ids => Filter(ids, transaction))
     {
     }
 
-    /// <summary>
-    /// Filters the initial set of ObjectIds. We ignore the model space, all paper space layouts and all XRefs.
-    /// </summary>
-    /// <param name="ids">The initial set of ObjectIds.</param>
-    /// <param name="transaction">The transaction to use.</param>
-    /// <returns>A filtered set of ObjectIds.</returns>
     private static IEnumerable<ObjectId> Filter(IEnumerable<ObjectId> ids, Transaction transaction)
     {
       foreach (var id in ids)
@@ -60,7 +49,7 @@ namespace Linq2Acad
       => this.Select(b => new EntityContainer(database, transaction, b.ObjectId));
 
     /// <summary>
-    /// Creates a new BlockTableRecord and adds the given Entities to it.
+    /// Creates a new BlockTableRecord with the specified name and adds the Entities to it.
     /// </summary>
     /// <param name="name">The name of the new BlockTableRecord.</param>
     /// <param name="entities">The Entities that should be added to the BlockTableRecord.</param>

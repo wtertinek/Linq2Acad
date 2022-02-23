@@ -9,15 +9,10 @@ using System.Collections;
 namespace Linq2Acad
 {
   /// <summary>
-  /// A container class that provides access to the elements of the Viewport table.
+  /// A container class that provides access to the elements of the Viewport table. In addition to the standard LINQ operations this class provides methods to create, add and import ViewportTableRecords.
   /// </summary>
   public sealed class ViewportContainer : NonUniqueNameSymbolTableEnumerable<ViewportTableRecord>
   {
-    /// <summary>
-    /// Creates a new instance of ViewportContainer.
-    /// </summary>
-    /// <param name="database">The drawing database to use.</param>
-    /// <param name="transaction">The transaction to use.</param>
     internal ViewportContainer(Database database, Transaction transaction)
       : base(database, transaction, database.ViewportTableId)
     {

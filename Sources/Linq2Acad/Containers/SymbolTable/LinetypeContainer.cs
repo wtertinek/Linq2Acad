@@ -9,15 +9,10 @@ using System.Collections;
 namespace Linq2Acad
 {
   /// <summary>
-  /// A container class that provides access to the elements of the Linetype table.
+  /// A container class that provides access to the elements of the Linetype table. In addition to the standard LINQ operations this class provides methods to create, add and import LinetypeTableRecords.
   /// </summary>
   public sealed class LinetypeContainer : UniqueNameSymbolTableEnumerable<LinetypeTableRecord>
   {
-    /// <summary>
-    /// Creates a new instance of LinetypeContainer.
-    /// </summary>
-    /// <param name="database">The drawing database to use.</param>
-    /// <param name="transaction">The transaction to use.</param>
     internal LinetypeContainer(Database database, Transaction transaction)
       : base(database, transaction, database.LinetypeTableId)
     {

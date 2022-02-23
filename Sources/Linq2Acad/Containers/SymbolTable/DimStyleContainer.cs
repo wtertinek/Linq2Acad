@@ -9,15 +9,10 @@ using System.Collections;
 namespace Linq2Acad
 {
   /// <summary>
-  /// A container class that provides access to the elements of the DimStyle table.
+  /// A container class that provides access to the elements of the DimStyle table. In addition to the standard LINQ operations this class provides methods to create, add and import DimStyleTableRecords.
   /// </summary>
   public sealed class DimStyleContainer : UniqueNameSymbolTableEnumerable<DimStyleTableRecord>
   {
-    /// <summary>
-    /// Creates a new instance of DimStyleContainer.
-    /// </summary>
-    /// <param name="database">The drawing database to use.</param>
-    /// <param name="transaction">The transaction to use.</param>
     internal DimStyleContainer(Database database, Transaction transaction)
       : base(database, transaction, database.DimStyleTableId)
     {

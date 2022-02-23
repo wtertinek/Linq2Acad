@@ -9,7 +9,7 @@ using System.Collections;
 namespace Linq2Acad
 {
   /// <summary>
-  /// A container class that provides access to the elements of the DetailViewStyle ditionary.
+  /// A container class that provides access to the elements of the DetailViewStyle dictionary. In addition to the standard LINQ operations this class provides methods to create, add and import DetailViewStyles.
   /// </summary>
   public sealed class DetailViewStyleContainer : DBDictionaryEnumerable<DetailViewStyle>
   {

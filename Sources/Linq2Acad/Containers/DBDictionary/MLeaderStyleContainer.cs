@@ -9,7 +9,7 @@ using System.Collections;
 namespace Linq2Acad
 {
   /// <summary>
-  /// A container class that provides access to the elements of the MLeaderStyle ditionary.
+  /// A container class that provides access to the elements of the MLeaderStyle dictionary. In addition to the standard LINQ operations this class provides methods to create, add and import MLeaderStyles.
   /// </summary>
   public sealed class MLeaderStyleContainer : DBDictionaryEnumerable<MLeaderStyle>
   {

@@ -9,7 +9,7 @@ using System.Collections;
 namespace Linq2Acad
 {
   /// <summary>
-  /// A container class that provides access to the elements of the Layout ditionary.
+  /// A container class that provides access to the elements of the Layout dictionary. In addition to the standard LINQ operations this class provides methods to create, add and import Layouts.
   /// </summary>
   public sealed class LayoutContainer : DBDictionaryEnumerableBase<Layout>
   {
@@ -19,7 +19,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Creates a new Layout element.
+    /// Creates a new Layout with the specified name.
     /// </summary>
     /// <param name="name">The unique name of the Layout element.</param>
     public Layout Create(string name)

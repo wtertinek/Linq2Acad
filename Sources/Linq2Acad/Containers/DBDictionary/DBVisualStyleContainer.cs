@@ -9,7 +9,7 @@ using System.Collections;
 namespace Linq2Acad
 {
   /// <summary>
-  /// A container class that provides access to the elements of the DBVisualStyle ditionary.
+  /// A container class that provides access to the elements of the DBVisualStyle dictionary. In addition to the standard LINQ operations this class provides methods to create, add and import DBVisualStyles.
   /// </summary>
   public sealed class DBVisualStyleContainer : DBDictionaryEnumerable<DBVisualStyle>
   {

@@ -9,7 +9,7 @@ using System.Collections;
 namespace Linq2Acad
 {
   /// <summary>
-  /// A container class that provides access to the elements of the SectionViewStyle ditionary.
+  /// A container class that provides access to the elements of the SectionViewStyle dictionary. In addition to the standard LINQ operations this class provides methods to create, add and import SectionViewStyles.
   /// </summary>
   public sealed class SectionViewStyleContainer : DBDictionaryEnumerable<SectionViewStyle>
   {

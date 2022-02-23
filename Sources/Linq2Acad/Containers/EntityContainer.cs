@@ -8,7 +8,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 namespace Linq2Acad
 {
   /// <summary>
-  /// Represents a container that holds Entity objects.
+  /// A container class that provides access to a collection of Entities. In addition to the standard LINQ operations this class provides methods to add, import and clear Entities.
   /// </summary>
   public class EntityContainer : ContainerEnumerableBase<Entity>
   {

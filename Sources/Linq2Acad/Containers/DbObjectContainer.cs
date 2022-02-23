@@ -7,6 +7,9 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Linq2Acad
 {
+  /// <summary>
+  /// A container class that provides access to all database objects. In addition to the standard LINQ operations this class provides a method to add newly created DBObjects.
+  /// </summary>
   public class DbObjectContainer
   {
     private readonly Database database;

@@ -8,7 +8,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 namespace Linq2Acad
 {
   /// <summary>
-  /// Represents a container that holds all Entity objects of a paper space layout.
+  /// A container class that provides access to the Entities of a paper space layout. In addition to the standard LINQ operations this class provides methods to add, import and clear Entities.
   /// </summary>
   public class PaperSpaceEntityContainer : EntityContainer
   {

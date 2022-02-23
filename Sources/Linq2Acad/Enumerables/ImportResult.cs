@@ -13,11 +13,6 @@ namespace Linq2Acad
   /// <typeparam name="T">The type of the object that has been imported.</typeparam>
   public class ImportResult<T> where T : DBObject
   {
-    /// <summary>
-    /// Creates a new instance of ImportResult.
-    /// </summary>
-    /// <param name="element">The item that has been imported.</param>
-    /// <param name="mapping">ID mapping from objects in the source database to objects in the target database.</param>
     internal ImportResult(T element, IdMapping mapping)
     {
       Item = element;

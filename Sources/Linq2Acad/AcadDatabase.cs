@@ -24,14 +24,6 @@ namespace Linq2Acad
     private Transaction transaction;
     private readonly AcadSummaryInfo summaryInfo;
 
-    /// <summary>
-    /// Creates a new instance of AcadDatabase.
-    /// </summary>
-    /// <param name="database">The drawing database to use.</param>
-    /// <param name="keepOpen">True, if the database should be kept open after it has been used. False, if the database should be closed.</param>
-    /// <param name="saveOnCommit">True, if the database should be saved during the commit. False, if the database should not be saved.</param>
-    /// <param name="outFileName">Path to which save the database if saveOnCommit is True.</param>
-    /// <param name="dwgVersion">DWG version to use when saving the database.</param>
     private AcadDatabase(Database database, bool keepOpen, bool saveOnCommit, string outFileName, SaveAsDwgVersion dwgVersion)
       : this(database, database.TransactionManager.StartTransaction(), true, true)
     {
@@ -41,11 +33,6 @@ namespace Linq2Acad
       disposeDatabase = !keepOpen;
     }
 
-    /// <summary>
-    /// Creates a new instance of AcadDatabase.
-    /// </summary>
-    /// <param name="database">The drawing database to use.</param>
-    /// <param name="keepOpen">True, if the database should be kept open after it has been used. False, if the database should be closed.</param>
     private AcadDatabase(Database database, bool keepOpen)
       : this(database, database.TransactionManager.StartTransaction(), true, true)
     {
@@ -53,13 +40,6 @@ namespace Linq2Acad
       saveOnCommit = false;
     }
 
-    /// <summary>
-    /// Creates a new instance of AcadDatabase.
-    /// </summary>
-    /// <param name="database">The drawing database to use.</param>
-    /// <param name="transaction">The transaction to use.</param>
-    /// <param name="commitTransaction">True, if the transaction in use should be committed when this instance is disposed of.</param>
-    /// <param name="disposeTransaction">True, if the transaction in use should be disposed of when this instance is disposed of.</param>
     private AcadDatabase(Database database, Transaction transaction, bool commitTransaction, bool disposeTransaction)
     {
       Database = database;
@@ -87,7 +67,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to all database objects.
+    /// Provides access to all database objects. In addition to the standard LINQ operations this class provides a method to add newly created DBObjects.
     /// </summary>
     public DbObjectContainer DbObjects
     {
@@ -111,7 +91,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the XRef elements.
+    /// Provides access to all XRef elements.
     /// </summary>
     public XRefContainer XRefs
     {
@@ -125,7 +105,7 @@ namespace Linq2Acad
     #region Tables
 
     /// <summary>
-    /// Provides access to the elements of the Block table.
+    /// Provides access to the elements of the Block table. In addition to the standard LINQ operations this class provides methods to create, add and import BlockTableRecords.
     /// </summary>
     public BlockContainer Blocks
     {
@@ -137,7 +117,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the Layer table.
+    /// Provides access to the elements of the Layer table. In addition to the standard LINQ operations this class provides methods to create, add and import LayerTableRecords.
     /// </summary>
     public LayerContainer Layers
     {
@@ -149,7 +129,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the Linetype table.
+    /// Provides access to the elements of the Linetype table. In addition to the standard LINQ operations this class provides methods to create, add and import LinetypeTableRecords.
     /// </summary>
     public LinetypeContainer Linetypes
     {
@@ -161,7 +141,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the RegApp table.
+    /// Provides access to the elements of the RegApp table. In addition to the standard LINQ operations this class provides methods to create, add and import RegAppTableRecords.
     /// </summary>
     public RegAppContainer RegApps
     {
@@ -173,7 +153,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the Ucs table.
+    /// Provides access to the elements of the Ucs table. In addition to the standard LINQ operations this class provides methods to create, add and import UcsTableRecords.
     /// </summary>
     public UcsContainer Ucss
     {
@@ -185,7 +165,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the Viewport table.
+    /// Provides access to the elements of the Viewport table. In addition to the standard LINQ operations this class provides methods to create, add and import ViewportTableRecords.
     /// </summary>
     public ViewportContainer Viewports
     {
@@ -197,7 +177,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the View table.
+    /// Provides access to the elements of the View table. In addition to the standard LINQ operations this class provides methods to create, add and import ViewTableRecords.
     /// </summary>
     public ViewContainer Views
     {
@@ -213,7 +193,7 @@ namespace Linq2Acad
     #region Dictionaries
 
     /// <summary>
-    /// Provides access to the elements of the Layout dictionary.
+    /// Provides access to the elements of the Layout dictionary. In addition to the standard LINQ operations this class provides methods to create, add and import Layouts.
     /// </summary>
     public LayoutContainer Layouts
     {
@@ -225,7 +205,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the Group dictionary.
+    /// Provides access to the elements of the Group dictionary. In addition to the standard LINQ operations this class provides methods to create, add and import Groups.
     /// </summary>
     public GroupContainer Groups
     {
@@ -237,7 +217,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the Material dictionary.
+    /// Provides access to the elements of the Material dictionary. In addition to the standard LINQ operations this class provides methods to create, add and import Materials.
     /// </summary>
     public MaterialContainer Materials
     {
@@ -250,7 +230,7 @@ namespace Linq2Acad
 
 
     /// <summary>
-    /// Provides access to the elements of the PlotSetting dictionary.
+    /// Provides access to the elements of the PlotSetting dictionary. In addition to the standard LINQ operations this class provides methods to create, add and import PlotSettings.
     /// </summary>
     public PlotSettingsContainer PlotSettings
     {
@@ -266,7 +246,7 @@ namespace Linq2Acad
     #region CurrentSpace | ModelSpace | PaperSpace
 
     /// <summary>
-    /// Provides access to the entities of the currently active space.
+    /// Provides access to the entities of the currently active space. In addition to the standard LINQ operations this class provides methods to add, import and clear Entities.
     /// </summary>
     public EntityContainer CurrentSpace
     {
@@ -278,7 +258,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the model space entities.
+    /// Provides access to the model space entities. In addition to the standard LINQ operations this class provides methods to add, import and clear Entities.
     /// </summary>
     public EntityContainer ModelSpace
     {
@@ -292,10 +272,8 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the entities of all layouts. Each element provides access to the entities of one layout.
-    /// The elements are in the order of the AutoCAD layout tabs.
+    /// Provides access to the paper space layouts.
     /// </summary>
-    /// <returns>An IEnumerable&lt;EntityContainer&gt;. Each EntityContainer provides access to the entities of one layout.</returns>
     public IEnumerable<PaperSpaceEntityContainer> PaperSpace
     {
       get

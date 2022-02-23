@@ -9,7 +9,7 @@ using System.Collections;
 namespace Linq2Acad
 {
   /// <summary>
-  /// A container class that provides access to the elements of the PlottSettings ditionary.
+  /// A container class that provides access to the elements of the PlotSettings dictionary. In addition to the standard LINQ operations this class provides methods to create, add and import Plotsettings.
   /// </summary>
   public sealed class PlotSettingsContainer : DBDictionaryEnumerableBase<PlotSettings>
   {
@@ -19,7 +19,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Creates a new PlotSettings element.
+    /// Creates a new PlotSettings with the specified name.
     /// </summary>
     /// <param name="name">The unique name of the PlotSettings element.</param>
     /// <param name="modelType">Determines the plot setup type.</param>

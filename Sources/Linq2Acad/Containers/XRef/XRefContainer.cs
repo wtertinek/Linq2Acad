@@ -15,11 +15,6 @@ namespace Linq2Acad
     private readonly Database database;
     private readonly Transaction transaction;
 
-    /// <summary>
-    /// Creates a new instance of XRefContainer.
-    /// </summary>
-    /// <param name="database">The drawing database to use.</param>
-    /// <param name="transaction">The transaction to use.</param>
     internal XRefContainer(Database database, Transaction transaction)
     {
       this.database = database;

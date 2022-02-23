@@ -9,22 +9,17 @@ using System.Collections;
 namespace Linq2Acad
 {
   /// <summary>
-  /// A container class that provides access to the elements of the Layer table.
+  /// A container class that provides access to the elements of the Layer table. In addition to the standard LINQ operations this class provides methods to create, add and import LayerTableRecords.
   /// </summary>
   public sealed class LayerContainer : UniqueNameSymbolTableEnumerable<LayerTableRecord>
   {
-    /// <summary>
-    /// Creates a new instance of LayerContainer.
-    /// </summary>
-    /// <param name="database">The drawing database to use.</param>
-    /// <param name="transaction">The transaction to use.</param>
     internal LayerContainer(Database database, Transaction transaction)
       : base(database, transaction, database.LayerTableId)
     {
     }
 
     /// <summary>
-    /// Creates a new LayerTableRecord and adds the given Entities to it.
+    /// Creates a new LayerTableRecord with the specified name and adds the Entities to it.
     /// </summary>
     /// <param name="name">The name of the new LayerTableRecord.</param>
     /// <param name="entities">The Entities that should be added to the new LayerTableRecord.</param>

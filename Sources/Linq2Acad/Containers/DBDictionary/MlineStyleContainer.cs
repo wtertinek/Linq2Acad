@@ -9,7 +9,7 @@ using System.Collections;
 namespace Linq2Acad
 {
   /// <summary>
-  /// A container class that provides access to the elements of the MLineStyle ditionary.
+  /// A container class that provides access to the elements of the MlineStyle dictionary. In addition to the standard LINQ operations this class provides methods to create, add and import MlineStyles.
   /// </summary>
   public sealed class MlineStyleContainer : DBDictionaryEnumerable<MlineStyle>
   {

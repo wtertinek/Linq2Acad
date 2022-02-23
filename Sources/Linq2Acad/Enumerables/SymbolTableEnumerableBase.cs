@@ -139,7 +139,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Creates a new element.
+    /// Creates a new element with the specified name.
     /// </summary>
     /// <param name="name">The unique name of the element.</param>
     public T Create(string name)
@@ -210,7 +210,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Creates a new element.
+    /// Creates a new element with the specified name.
     /// </summary>
     /// <param name="name">The unique name of the element.</param>
     public T Create(string name)

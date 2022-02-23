@@ -35,16 +35,9 @@ namespace Linq2Acad
     private bool subjectChanged;
     private bool titleChanged;
 
-    /// <summary>
-    /// Creates a new instance of AcadSummaryInfo.
-    /// </summary>
-    /// <param name="database">The drawing database to use.</param>
     internal AcadSummaryInfo(Database database)
       => this.database = database;
 
-    /// <summary>
-    /// True, if a property has changed.
-    /// </summary>
     internal bool Changed
       => customPropertiesChanged ||
          authorChanged ||
@@ -56,9 +49,6 @@ namespace Linq2Acad
          subjectChanged ||
          titleChanged;
 
-    /// <summary>
-    /// Commits the changes made to the summary info.
-    /// </summary>
     internal void Commit()
     {
       if (Changed)

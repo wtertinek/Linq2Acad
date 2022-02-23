@@ -9,15 +9,10 @@ using System.Collections;
 namespace Linq2Acad
 {
   /// <summary>
-  /// A container class that provides access to the elements of the TextStyle table.
+  /// A container class that provides access to the elements of the TextStyle table. In addition to the standard LINQ operations this class provides methods to create, add and import TextStyleTableRecords.
   /// </summary>
   public sealed class TextStyleContainer : UniqueNameSymbolTableEnumerable<TextStyleTableRecord>
   {
-    /// <summary>
-    /// Creates a new instance of TextStyleContainer.
-    /// </summary>
-    /// <param name="database">The drawing database to use.</param>
-    /// <param name="transaction">The transaction to use.</param>
     internal TextStyleContainer(Database database, Transaction transaction)
       : base(database, transaction, database.TextStyleTableId)
     {

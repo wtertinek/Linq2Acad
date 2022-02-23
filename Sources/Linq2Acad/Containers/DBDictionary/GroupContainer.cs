@@ -9,7 +9,7 @@ using System.Collections;
 namespace Linq2Acad
 {
   /// <summary>
-  /// A container class that provides access to the elements of the Group ditionary.
+  /// A container class that provides access to the elements of the Group dictionary In addition to the standard LINQ operations this class provides methods to create, add and import Groups.
   /// </summary>
   public sealed class GroupContainer : DBDictionaryEnumerable<Group>
   {
@@ -19,7 +19,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Creates a new element.
+    /// Creates a new Group with the specified name and adds the Entities to it.
     /// </summary>
     /// <param name="name">The unique name of the element.</param>
     /// <param name="entities">The entities to be added to the Group.</param>
