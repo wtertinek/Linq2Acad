@@ -64,14 +64,8 @@ namespace Linq2Acad
     /// <summary>
     /// Binds the XRef.
     /// </summary>
-    public void Bind()
-      => Bind(false);
-
-    /// <summary>
-    /// Binds the XRef.
-    /// </summary>
     /// <param name="insertSymbolNamesWithoutPrefixes">If set to true, the SymbolTableRecord names will be changed from the XRef naming convention to normal insert block names.</param>
-    public void Bind(bool insertSymbolNamesWithoutPrefixes)
+    public void Bind(bool insertSymbolNamesWithoutPrefixes = false)
     {
       using (var idCollection = new ObjectIdCollection(new[] { Block.ObjectId }))
       {

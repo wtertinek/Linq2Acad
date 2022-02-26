@@ -91,7 +91,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to all XRef elements.
+    /// Provides access to all XRef elements and methods to attach, overlay, resolve, reload and unload XRefs.
     /// </summary>
     public XRefContainer XRefs
     {
@@ -105,7 +105,7 @@ namespace Linq2Acad
     #region Tables
 
     /// <summary>
-    /// Provides access to the elements of the Block table. In addition to the standard LINQ operations this class provides methods to create, add and import BlockTableRecords.
+    /// Provides access to the elements of the Block table and methods to create, add and import BlockTableRecords.
     /// </summary>
     public BlockContainer Blocks
     {
@@ -117,7 +117,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the Layer table. In addition to the standard LINQ operations this class provides methods to create, add and import LayerTableRecords.
+    /// Provides access to the elements of the Layer table and methods to create, add and import LayerTableRecords.
     /// </summary>
     public LayerContainer Layers
     {
@@ -129,7 +129,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the Linetype table. In addition to the standard LINQ operations this class provides methods to create, add and import LinetypeTableRecords.
+    /// Provides access to the elements of the Linetype table and methods to create, add and import LinetypeTableRecords.
     /// </summary>
     public LinetypeContainer Linetypes
     {
@@ -141,7 +141,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the RegApp table. In addition to the standard LINQ operations this class provides methods to create, add and import RegAppTableRecords.
+    /// Provides access to the elements of the RegApp table and methods to create, add and import RegAppTableRecords.
     /// </summary>
     public RegAppContainer RegApps
     {
@@ -153,7 +153,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the Ucs table. In addition to the standard LINQ operations this class provides methods to create, add and import UcsTableRecords.
+    /// Provides access to the elements of the Ucs table and methods to create, add and import UcsTableRecords.
     /// </summary>
     public UcsContainer Ucss
     {
@@ -165,7 +165,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the Viewport table. In addition to the standard LINQ operations this class provides methods to create, add and import ViewportTableRecords.
+    /// Provides access to the elements of the Viewport table and methods to create, add and import ViewportTableRecords.
     /// </summary>
     public ViewportContainer Viewports
     {
@@ -177,7 +177,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the View table. In addition to the standard LINQ operations this class provides methods to create, add and import ViewTableRecords.
+    /// Provides access to the elements of the View table and methods to create, add and import ViewTableRecords.
     /// </summary>
     public ViewContainer Views
     {
@@ -193,7 +193,7 @@ namespace Linq2Acad
     #region Dictionaries
 
     /// <summary>
-    /// Provides access to the elements of the Layout dictionary. In addition to the standard LINQ operations this class provides methods to create, add and import Layouts.
+    /// Provides access to the elements of the Layout dictionary and methods to create, add and import Layouts.
     /// </summary>
     public LayoutContainer Layouts
     {
@@ -205,7 +205,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the Group dictionary. In addition to the standard LINQ operations this class provides methods to create, add and import Groups.
+    /// Provides access to the elements of the Group dictionary and methods to create, add and import Groups.
     /// </summary>
     public GroupContainer Groups
     {
@@ -217,7 +217,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the Material dictionary. In addition to the standard LINQ operations this class provides methods to create, add and import Materials.
+    /// Provides access to the elements of the Material dictionary and methods to create, add and import Materials.
     /// </summary>
     public MaterialContainer Materials
     {
@@ -230,7 +230,7 @@ namespace Linq2Acad
 
 
     /// <summary>
-    /// Provides access to the elements of the PlotSetting dictionary. In addition to the standard LINQ operations this class provides methods to create, add and import PlotSettings.
+    /// Provides access to the elements of the PlotSettings dictionary and methods to create, add and import PlotSettings.
     /// </summary>
     public PlotSettingsContainer PlotSettings
     {

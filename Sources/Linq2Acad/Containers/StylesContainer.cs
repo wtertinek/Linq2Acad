@@ -22,7 +22,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the DimStyle table. In addition to the standard LINQ operations this class provides methods to create, add and import DimStyles.
+    /// Provides access to the elements of the DimStyle table and methods to create, add and import DimStyleTableRecords.
     /// </summary>
     public DimStyleContainer DimStyles
     {
@@ -34,7 +34,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the TextStyle table. In addition to the standard LINQ operations this class provides methods to create, add and import TextStyles.
+    /// Provides access to the elements of the TextStyle table and methods to create, add and import TextStyleTableRecords.
     /// </summary>
     public TextStyleContainer TextStyles
     {
@@ -46,7 +46,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the MLeaderStyle dictionary. In addition to the standard LINQ operations this class provides methods to create, add and import MLeaderStyles.
+    /// Provides access to the elements of the MLeaderStyle dictionary and methods to create, add and import MLeaderStyles.
     /// </summary>
     public MLeaderStyleContainer MLeaderStyles
     {
@@ -58,7 +58,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the MlineStyle dictionary. In addition to the standard LINQ operations this class provides methods to create, add and import MlineStyles.
+    /// Provides access to the elements of the MlineStyle dictionary and methods to create, add and import MlineStyles.
     /// </summary>
     public MlineStyleContainer MlineStyles
     {
@@ -70,7 +70,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the DBVisualStyle dictionary. In addition to the standard LINQ operations this class provides methods to create, add and import DBVisualStyles.
+    /// Provides access to the elements of the DBVisualStyle dictionary and methods to create, add and import DBVisualStyles.
     /// </summary>
     public DBVisualStyleContainer DBVisualStyles
     {
@@ -82,7 +82,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the TableStyle dictionary. In addition to the standard LINQ operations this class provides methods to create, add and import TableStyles.
+    /// Provides access to the elements of the TableStyle dictionary and methods to create, add and import TableStyles.
     /// </summary>
     public TableStyleContainer TableStyles
     {
@@ -94,7 +94,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the SectionViewStyle dictionary. In addition to the standard LINQ operations this class provides methods to create, add and import SectionViewStyles.
+    /// Provides access to the elements of the SectionViewStyle dictionary and methods to create, add and import SectionViewStyles.
     /// </summary>
     public SectionViewStyleContainer SectionViewStyles
     {
@@ -106,7 +106,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the elements of the DetailViewStyle dictionary. In addition to the standard LINQ operations this class provides methods to create, add and import DetailViewStyles.
+    /// Provides access to the elements of the DetailViewStyle dictionary and methods to create, add and import DetailViewStyles.
     /// </summary>
     public DetailViewStyleContainer DetailViewStyles
     {
