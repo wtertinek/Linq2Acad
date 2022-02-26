@@ -37,6 +37,9 @@ namespace Linq2Acad
     /// </summary>
     DWG2018,
 #endif
+    /// <summary>
+    /// The newest available DWG version.
+    /// </summary>
     NewestAvailable
   }
 }

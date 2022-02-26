@@ -24,10 +24,10 @@ namespace Linq2Acad
     private Transaction transaction;
     private readonly AcadSummaryInfo summaryInfo;
 
-    private AcadDatabase(Database database, bool keepOpen, bool saveOnCommit, string outFileName, SaveAsDwgVersion dwgVersion)
+    private AcadDatabase(Database database, bool keepOpen, string outFileName, SaveAsDwgVersion dwgVersion)
       : this(database, database.TransactionManager.StartTransaction(), true, true)
     {
-      this.saveOnCommit = saveOnCommit;
+      saveOnCommit = saveAsFileName != null;
       saveAsFileName = outFileName;
       this.dwgVersion = dwgVersion;
       disposeDatabase = !keepOpen;
@@ -372,27 +372,21 @@ namespace Linq2Acad
     /// <summary>
     /// Provides access to a newly created drawing database.
     /// </summary>
-    /// <exception cref="System.Exception">Thrown when creating the drawing database throws an exception.</exception>
-    /// <returns>The AcadDatabase instance.</returns>
-    public static AcadDatabase Create()
-    {
-      return Create(new CreateOptions()
-      {
-        KeepDatabaseOpen = false,
-        SaveDwgVersion = SaveAsDwgVersion.NewestAvailable
-      });
-    }
-
-    /// <summary>
-    /// Provides access to a newly created drawing database.
-    /// </summary>
     /// <param name="options">Database create options.</param>
     /// <exception cref="System.Exception">Thrown when creating the drawing database throws an exception.</exception>
     /// <returns>The AcadDatabase instance.</returns>
-    public static AcadDatabase Create(CreateOptions options)
+    public static AcadDatabase Create(CreateOptions options = null)
     {
-      bool saveOnCommit = !string.IsNullOrEmpty(options.SaveFileName);
-      return new AcadDatabase(new Database(true, true), options.KeepDatabaseOpen, saveOnCommit, options.SaveFileName, options.SaveDwgVersion);
+      if (options == null)
+      {
+        options = new CreateOptions()
+                  {
+                    KeepDatabaseOpen = false,
+                    SaveDwgVersion = SaveAsDwgVersion.NewestAvailable
+                  };
+      }
+
+      return new AcadDatabase(new Database(true, true), options.KeepDatabaseOpen, options.SaveFileName, options.SaveDwgVersion);
     }
 
     /// <summary>
@@ -498,15 +492,19 @@ namespace Linq2Acad
       Require.StringNotEmpty(fileName, nameof(fileName));
       Require.FileExists(fileName, nameof(fileName));
 
-      options = options ?? new OpenForEditOptions()
-                           {
-                             SaveAsFileName = fileName,
-                             KeepDatabaseOpen = false,
-                             DwgVersion = SaveAsDwgVersion.DontChange,
-                           };
+      if (options == null)
+      {
+        options = new OpenForEditOptions()
+                  {
+                    SaveAsFileName = fileName,
+                    KeepDatabaseOpen = false,
+                    DwgVersion = SaveAsDwgVersion.DontChange,
+                  };
+      }
+
       Database database = GetDatabase(fileName, false, options.Password);
       var outFileName = options.SaveAsFileName ?? fileName;
-      return new AcadDatabase(database, options.KeepDatabaseOpen, true, outFileName, options.DwgVersion);
+      return new AcadDatabase(database, options.KeepDatabaseOpen, outFileName, options.DwgVersion);
     }
 
     /// <summary>
