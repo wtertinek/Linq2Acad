@@ -300,27 +300,14 @@ namespace Linq2Acad
     {
       using (var db = AcadDatabase.Active())
       {
-        db.XRefs
-          .Where(xr => xr.Status.IsLoaded)
-          .Reload();
+        foreach (var xRef in db.XRefs
+                               .Where(xr => xr.Status.IsLoaded))
+        {
+          xRef.Reload();
+        }
       }
 
       WriteMessage("XRefs reloaded");
-    }
-
-    /// <summary>
-    /// Binding all XRefs
-    /// </summary>
-    [CommandMethod("Linq2AcadExample17")]
-    public void BindingAllXRefs()
-    {
-      using (var db = AcadDatabase.Active())
-      {
-        db.XRefs
-          .Bind();
-      }
-
-      WriteMessage("XRefs bound");
     }
   }
 }

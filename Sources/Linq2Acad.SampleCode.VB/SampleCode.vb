@@ -235,19 +235,9 @@ Partial Public Class SampleCode
   <CommandMethod("Linq2AcadExample16")>
   Public Sub ReloadingAllLoadedXRefs()
     Using db = AcadDatabase.Active()
-      db.XRefs.Where(Function(xr) xr.Status.IsLoaded).Reload()
-    End Using
-
-    WriteMessage("XRefs reloaded")
-  End Sub
-
-  ''' <summary>
-  ''' Binding all XRefs
-  ''' </summary>
-  <CommandMethod("Linq2AcadExample17")>
-  Public Sub BindingAllXRefs()
-    Using db = AcadDatabase.Active()
-      db.XRefs.Bind()
+      For Each xRef In db.XRefs.Where(Function(xr) xr.Status.IsLoaded)
+        xRef.Reload()
+      Next
     End Using
 
     WriteMessage("XRefs reloaded")

@@ -142,9 +142,6 @@
     <Compile Include="..\..\Sources\Linq2Acad\Extensions\DynamicBlockReferencePropertyCollectionExtensions.cs">
       <Link>Extensions\DynamicBlockReferencePropertyCollectionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Sources\Linq2Acad\Extensions\XRefsExtensions.cs">
-      <Link>Extensions\XRefsExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\Containers\XRef\XRef.cs">
       <Link>Containers\XRef\XRef.cs</Link>
     </Compile>

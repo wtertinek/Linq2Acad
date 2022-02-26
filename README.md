@@ -234,19 +234,11 @@ Reloading all loaded XRefs:
 ```c#
 using (var db = AcadDatabase.Active())
 {
-  db.XRefs
-    .Where(xr => xr.Status.IsLoaded)
-    .Reload();
-}
-```
-
-Binding all XRefs:
-
-```c#
-using (var db = AcadDatabase.Active())
-{
-  db.XRefs
-    .Bind();
+  foreach (var xRef in db.XRefs
+                         .Where(xr => xr.Status.IsLoaded))
+  {
+    xRef.Reload();
+  }
 }
 ```
 
