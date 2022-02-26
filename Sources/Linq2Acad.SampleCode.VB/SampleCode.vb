@@ -235,7 +235,7 @@ Partial Public Class SampleCode
   <CommandMethod("Linq2AcadExample16")>
   Public Sub ReloadingAllLoadedXRefs()
     Using db = AcadDatabase.Active()
-      For Each xRef In db.XRefs.Where(Function(xr) xr.Status.IsLoaded)
+      For Each xRef In db.XRefs.Where(Function(xr) xr.IsLoaded)
         xRef.Reload()
       Next
     End Using

@@ -12,45 +12,62 @@ namespace Linq2Acad
   /// </summary>
   public class XRef
   {
-    internal XRef(BlockTableRecord block, Database database)
+    private readonly Transaction transaction;
+    private readonly ObjectId blockTableRecordId;
+
+    internal XRef(Database database, Transaction transaction, ObjectId blockTableRecordId)
     {
-      Block = block;
       Database = database;
-      Status = new XRefInfo(Block.XrefStatus);
+      this.transaction = transaction;
+      this.blockTableRecordId = blockTableRecordId;
     }
 
     internal Database Database { get; }
 
     /// <summary>
-    /// The XRef BlockTableRecord.
+    /// Gets a read-only version of the XRef's BlockTableRecord.
     /// </summary>
-    public BlockTableRecord Block { get; }
+    public BlockTableRecord Block
+      => (BlockTableRecord)transaction.GetObject(blockTableRecordId, OpenMode.ForRead);
 
     /// <summary>
-    /// Gets or sets the block name of the XRef.
+    /// Gets the XRef's block name.
     /// </summary>
     public string BlockName
-    {
-      get => Block.Name;
-      set => Block.Name = value;
-    }
+      => Block.Name;
 
     /// <summary>
-    /// Gets or sets the file path of the XRef.
+    /// Gets the XRef's file path.
     /// </summary>
     public string FilePath
-    {
-      get => Block.PathName;
-      set => Block.PathName = value;
-    }
+      => Block.PathName;
 
     /// <summary>
-    /// Gets the status of the XRef.
+    /// True, if the XRef is not found.
     /// </summary>
-    public XRefInfo Status { get; }
+    public bool FileNotFound
+      => (Block.XrefStatus & XrefStatus.FileNotFound) == XrefStatus.FileNotFound;
 
     /// <summary>
-    /// True, if the XRef is from an attached reference.
+    /// True, if the XRef is resolved.
+    /// </summary>
+    public bool IsResolved
+      => (Block.XrefStatus & XrefStatus.Resolved) == XrefStatus.Resolved;
+
+    /// <summary>
+    /// True, if the XRef is loaded.
+    /// </summary>
+    public bool IsLoaded
+      => !((Block.XrefStatus & XrefStatus.Unloaded) == XrefStatus.Unloaded);
+
+    /// <summary>
+    /// True, if the XRef is referenced.
+    /// </summary>
+    public bool IsReferenced
+      => !((Block.XrefStatus & XrefStatus.Unreferenced) == XrefStatus.Unreferenced);
+
+    /// <summary>
+    /// True, if the XRef is from an attach reference.
     /// </summary>
     public bool IsFromAttachReference
       => !Block.IsFromOverlayReference;
@@ -60,6 +77,26 @@ namespace Linq2Acad
     /// </summary>
     public bool IsFromOverlayReference
       => Block.IsFromOverlayReference;
+
+    /// <summary>
+    /// Updates the XRef's block name.
+    /// </summary>
+    /// <param name="blockName">The name to set.</param>
+    public void UpdateBlockName(string blockName)
+    {
+      var block = (BlockTableRecord)transaction.GetObject(blockTableRecordId, OpenMode.ForWrite);
+      block.Name = blockName;
+    }
+
+    /// <summary>
+    /// Updates the XRef's file path.
+    /// </summary>
+    /// <param name="filePath">The file path to set.</param>
+    public void UpdateFilePath(string filePath)
+    {
+      var block = (BlockTableRecord)transaction.GetObject(blockTableRecordId, OpenMode.ForWrite);
+      block.PathName = filePath;
+    }
 
     /// <summary>
     /// Binds the XRef.

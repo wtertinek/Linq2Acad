@@ -27,7 +27,7 @@ namespace Linq2Acad
     {
       foreach (var block in new XRefBlockContainer(database, transaction))
       {
-        yield return new XRef(block, database);
+        yield return new XRef(database, transaction, block.ObjectId);
       }
     }
 
@@ -59,7 +59,7 @@ namespace Linq2Acad
       Require.NameDoesNotExist<XRef>(new XRefBlockContainer(database, transaction).Contains(blockName), blockName);
 
       var id = database.AttachXref(fileName, blockName);
-      return new XRef((BlockTableRecord)transaction.GetObject(id, OpenMode.ForRead), database);
+      return new XRef(database, transaction, id);
     }
 
     /// <summary>
@@ -83,11 +83,11 @@ namespace Linq2Acad
       Require.NameDoesNotExist<XRef>(new XRefBlockContainer(database, transaction).Contains(blockName), blockName);
 
       var id = database.OverlayXref(fileName, blockName);
-      return new XRef((BlockTableRecord)transaction.GetObject(id, OpenMode.ForRead), database);
+      return new XRef(database, transaction, id);
     }
 
     /// <summary>
-    /// Resolves XRefs in the working database.
+    /// Resolves XRefs.
     /// </summary>
     /// <param name="includeResolvedXRefs">True, if all XRefs should be resolved. By default only newly added (unresolved) XRefs are resolved.</param>
     public void Resolve(bool includeResolvedXRefs = false)

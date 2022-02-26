@@ -235,7 +235,7 @@ Reloading all loaded XRefs:
 using (var db = AcadDatabase.Active())
 {
   foreach (var xRef in db.XRefs
-                         .Where(xr => xr.Status.IsLoaded))
+                         .Where(xr => xr.IsLoaded))
   {
     xRef.Reload();
   }
