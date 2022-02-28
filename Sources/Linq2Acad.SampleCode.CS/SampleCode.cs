@@ -14,11 +14,13 @@ namespace Linq2Acad
   public partial class SampleCode
   {
     /// <summary>
-    /// Removing all entities from the model space
+    /// This sample removes all entities from the model space
     /// </summary>
     [CommandMethod("Linq2AcadExample1")]
     public void RemovingAllEntitiesFromTheModelSpace()
     {
+      WriteMessage("This sample removes all entities from the model space");
+
       using (var db = AcadDatabase.Active())
       {
         db.ModelSpace
@@ -29,11 +31,13 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Removing all BlockReferences from the model space
+    /// This sample removes all BlockReferences from the model space
     /// </summary>
     [CommandMethod("Linq2AcadExample2")]
     public void ErasingAllBlockReferencesFromTheModelSpace()
     {
+      WriteMessage("This sample removes all BlockReferences from the model space");
+
       using (var db = AcadDatabase.Active())
       {
         foreach (var br in db.ModelSpace
@@ -48,15 +52,17 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Adding a line to the model space
+    /// This sample adds a line to the model space
     /// </summary>
     [CommandMethod("Linq2AcadExample3")]
     public void AddingALineToTheModelSpace()
     {
+      WriteMessage("This sample adds a line to the model space");
+
       using (var db = AcadDatabase.Active())
       {
         db.ModelSpace
-          .Add(new Line(new Point3d(0, 0, 0),
+          .Add(new Line(Point3d.Origin,
                         new Point3d(100, 100, 0)));
       }
 
@@ -64,29 +70,37 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Creating a new layer
+    /// This sample creates a new layer
     /// </summary>
     [CommandMethod("Linq2AcadExample4")]
     public void CreatingANewLayer()
     {
-      var name = GetString("Enter layer name");
+      WriteMessage("This sample creates a new layer");
+
+      var layerName = GetString("Enter layer name");
       var colorName = GetString("Enter color name");
 
-      using (var db = AcadDatabase.Active())
+      if (layerName != null &&
+          colorName != null)
       {
-        var layer = db.Layers.Create(name);
-        layer.Color = Color.FromColor(System.Drawing.Color.FromName(colorName));
-      }
+        using (var db = AcadDatabase.Active())
+        {
+          var layer = db.Layers.Create(layerName);
+          layer.Color = Color.FromColor(System.Drawing.Color.FromName(colorName));
+        }
 
-      WriteMessage("Layer " + name + " created");
+        WriteMessage($"Layer {layerName} created");
+      }
     }
 
     /// <summary>
-    /// Printing all layer names
+    /// This sample prints all layer names
     /// </summary>
     [CommandMethod("Linq2AcadExample5")]
     public void PrintingAllLayerNames()
     {
+      WriteMessage("This sample prints all layer names");
+
       using (var db = AcadDatabase.Active())
       {
         foreach (var layer in db.Layers)
@@ -97,192 +111,236 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Turning off all layers, except the one the user enters
+    /// This sample turns off all layers, except the one the user enters
     /// </summary>
     [CommandMethod("Linq2AcadExample6")]
     public void TurningOffAllLayersExceptTheOneTheUserEnters()
     {
+      WriteMessage("This sample turns off all layers, except the one the user enters");
+
       var layerName = GetString("Enter layer name");
 
-      using (var db = AcadDatabase.Active())
+      if (layerName != null)
       {
-        var layerToIgnore = db.Layers
-                              .Element(layerName);
-
-        foreach (var layer in db.Layers
-                                .Except(layerToIgnore)
-                                .UpgradeOpen())
+        using (var db = AcadDatabase.Active())
         {
-          layer.IsOff = true;
-        }
-      }
+          var layerToIgnore = db.Layers
+                                .Element(layerName);
 
-      WriteMessage("All layers (except " + layerName + ") turned off");
+          foreach (var layer in db.Layers
+                                  .Except(layerToIgnore)
+                                  .UpgradeOpen())
+          {
+            layer.IsOff = true;
+          }
+        }
+
+        WriteMessage($"All layers turned off, except {layerName}");
+      }
     }
 
     /// <summary>
-    /// Creating a layer and adding all red lines in the model space to it
+    /// This sample creates a layer and adds all red lines in the model space to it
     /// </summary>
     [CommandMethod("Linq2AcadExample7")]
     public void CreatingALayerAndAddingAllRedLinesInTheModelSpaceToIt()
     {
+      WriteMessage("This sample creates a layer and This sample adds all red lines in the model space to it");
+
       var layerName = GetString("Enter layer name");
 
-      using (var db = AcadDatabase.Active())
+      if (layerName != null)
       {
-        var lines = db.ModelSpace
-                      .OfType<Line>()
-                      .Where(l => l.Color.ColorValue.Name == "ffff0000");
-        db.Layers
-          .Create(layerName, lines);
+        using (var db = AcadDatabase.Active())
+        {
+          var lines = db.ModelSpace
+                        .OfType<Line>()
+                        .Where(l => l.Color.ColorValue.Name == "ffff0000");
+          db.Layers
+            .Create(layerName, lines);
+        }
 
-        WriteMessage("All red lines moved to new layer " + layerName);
+        WriteMessage($"All red lines moved to new layer {layerName}");
       }
     }
 
     /// <summary>
-    /// Moving entities from one layer to another
+    /// This sample moves entities from one layer to another
     /// </summary>
     [CommandMethod("Linq2AcadExample8")]
     public void MovingEntitiesFromOneLayerToAnother()
     {
+      WriteMessage("This sample moves entities from one layer to another");
+
       var sourceLayerName = GetString("Enter source layer name");
       var targetLayerName = GetString("Enter target layer name");
 
-      using (var db = AcadDatabase.Active())
+      if (sourceLayerName != null && targetLayerName != null)
       {
-        var entities = db.CurrentSpace
-                         .Where(e => e.Layer == sourceLayerName);
-        db.Layers
-          .Element(targetLayerName)
-          .AddRange(entities);
-      }
+        using (var db = AcadDatabase.Active())
+        {
+          var entities = db.CurrentSpace
+                           .Where(e => e.Layer == sourceLayerName);
+          db.Layers
+            .Element(targetLayerName)
+            .AddRange(entities);
+        }
 
-      WriteMessage("All entities on layer " + sourceLayerName + " moved to layer " + targetLayerName);
+        WriteMessage($"All entities on layer {sourceLayerName} moved to layer {targetLayerName}");
+      }
     }
 
     /// <summary>
-    /// Importing a block from a drawing file
+    /// This sample imports a block from a drawing file
     /// </summary>
     [CommandMethod("Linq2AcadExample9")]
     public void ImportingABlockFromADrawingFile()
     {
+      WriteMessage("This sample imports a block from a drawing file");
+
       var filePath = GetString("Enter file path");
       var blockName = GetString("Enter block name");
 
-      using (var sourceDb = AcadDatabase.OpenReadOnly(filePath))
+      if (filePath != null && blockName != null)
       {
-        var block = sourceDb.Blocks
-                            .Element(blockName);
-
-        using (var activeDb = AcadDatabase.Active())
+        using (var sourceDb = AcadDatabase.OpenReadOnly(filePath))
         {
-          activeDb.Blocks
-                  .Import(block);
-        }
-      }
+          var block = sourceDb.Blocks
+                              .Element(blockName);
 
-      WriteMessage("Block " + blockName + " imported");
+          using (var activeDb = AcadDatabase.Active())
+          {
+            activeDb.Blocks
+                    .Import(block);
+          }
+        }
+
+        WriteMessage($"Block {blockName} imported");
+      }
     }
 
     /// <summary>
-    /// Opening a drawing from file and counting the BlockReferences in the model space
+    /// This sample opens a drawing from file and counts the BlockReferences in the model space
     /// </summary>
     [CommandMethod("Linq2AcadExample10")]
     public void OpeningADrawingFromFileAndCountingTheBlockReferencesInTheModelSpace()
     {
+      WriteMessage("This sample opens a drawing from file and counting the BlockReferences in the model space");
+
       var filePath = GetString("Enter file path");
 
-      using (var db = AcadDatabase.OpenReadOnly(filePath))
+      if (filePath != null)
       {
-        var count = db.ModelSpace
-                      .OfType<BlockReference>()
-                      .Count();
+        using (var db = AcadDatabase.OpenReadOnly(filePath))
+        {
+          var count = db.ModelSpace
+                        .OfType<BlockReference>()
+                        .Count();
 
-        WriteMessage("Model space block references in file " + filePath + ": " + count);
+          WriteMessage($"Model space block references in file {filePath}: {count}");
+        }
       }
     }
 
     /// <summary>
-    /// Picking an entity and saving a string on it
+    /// This sample picks an entity and saves a string on it
     /// </summary>
     [CommandMethod("Linq2AcadExample11")]
     public void PickingAnEntityAndSavingAStringOnIt()
     {
+      WriteMessage("This sample picks an entity and saves a string on it");
+
       var entityId = GetEntity("Pick an entity");
       var key = GetString("Enter key");
       var str = GetString("Enter string to save");
 
-      using (var db = AcadDatabase.Active())
+      if (entityId.IsValid && key != null && str != null)
       {
-        db.CurrentSpace
-          .Element(entityId)
-          .SaveData(key, str);
-      }
+        using (var db = AcadDatabase.Active())
+        {
+          db.CurrentSpace
+            .Element(entityId)
+            .SaveData(key, str);
+        }
 
-      WriteMessage("Key-value-pair " + key + ":" + str + " saved on entity");
+        WriteMessage($"Key-value-pair {key}:{str} saved on entity");
+      }
     }
 
     /// <summary>
-    /// Picking an entity and reading a string from it
+    /// This sample picks an entity and reads a string from it
     /// </summary>
     [CommandMethod("Linq2AcadExample12")]
     public void PickingAnEntityAndReadingAStringFromIt()
     {
+      WriteMessage("This sample picks an entity and reads a string from it");
+
       var entityId = GetEntity("Pick an entity");
       var key = GetString("Enter key");
 
-      using (var db = AcadDatabase.Active())
+      if (entityId.IsValid && key != null)
       {
-        var str = db.CurrentSpace
-                    .Element(entityId)
-                    .GetData<string>(key);
+        using (var db = AcadDatabase.Active())
+        {
+          var str = db.CurrentSpace
+                      .Element(entityId)
+                      .GetData<string>(key);
 
-        WriteMessage("String " + str + " read from entity");
+          WriteMessage($"String {str} read from entity");
+        }
       }
     }
 
     /// <summary>
-    /// Picking an entity and reading a string from it (with XData as the data source)
+    /// This sample picks an entity and reads a string from it (with XData as the data source)
     /// </summary>
     [CommandMethod("Linq2AcadExample13")]
     public void PickingAnEntityAndReadingAStringFromItWithXDataAsTheDataSource()
     {
+      WriteMessage("This sample picks an entity and reads a string from it (with XData as the data source)");
+
       var entityId = GetEntity("Pick an entity");
       var key = GetString("Enter RegApp name");
 
-      using (var db = AcadDatabase.Active())
+      if (entityId.IsValid && key != null)
       {
-        var str = db.CurrentSpace
-                    .Element(entityId)
-                    .GetData<string>(key, true);
+        using (var db = AcadDatabase.Active())
+        {
+          var str = db.CurrentSpace
+                      .Element(entityId)
+                      .GetData<string>(key, true);
 
-        WriteMessage("String " + str + " read from entity's XData");
+          WriteMessage($"String {str} read from entity's XData");
+        }
       }
     }
 
     /// <summary>
-    /// Counting the number of entities in all paper space layouts
+    /// This sample counts the number of entities in all paper space layouts
     /// </summary>
     [CommandMethod("Linq2AcadExample14")]
     public void CountingTheNumberOfEntitiesInAllPaperSpaceLayouts()
     {
+      WriteMessage("This sample counts the number of entities in all paper space layouts");
+
       using (var db = AcadDatabase.Active())
       {
         var count = db.PaperSpace
                       .SelectMany(ps => ps)
                       .Count();
 
-        WriteMessage(count + " entities in all paper space layouts");
+        WriteMessage($"{count} entities in all paper space layouts");
       }
     }
 
     /// <summary>
-    /// Changing the summary info
+    /// This sample changes the summary info
     /// </summary>
     [CommandMethod("Linq2AcadExample15")]
     public void ChangingTheSummaryInfo()
     {
+      WriteMessage("This sample changes the summary info");
+
       using (var db = AcadDatabase.Active())
       {
         db.SummaryInfo.Author = "John Doe";
@@ -293,11 +351,13 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Reloading all loaded XRefs
+    /// This sample reloads all loaded XRefs
     /// </summary>
     [CommandMethod("Linq2AcadExample16")]
     public void ReloadingAllLoadedXRefs()
     {
+      WriteMessage("This sample reloads all loaded XRefs");
+
       using (var db = AcadDatabase.Active())
       {
         foreach (var xRef in db.XRefs

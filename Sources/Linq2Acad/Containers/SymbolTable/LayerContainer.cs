@@ -28,7 +28,7 @@ namespace Linq2Acad
     public LayerTableRecord Create(string name, IEnumerable<Entity> entities)
     {
       Require.IsValidSymbolName(name, nameof(name));
-      Require.NameDoesNotExist<BlockTableRecord>(Contains(name), name);
+      Require.NameDoesNotExist<LayerTableRecord>(Contains(name), name);
       Require.ElementsNotNull(entities, nameof(entities));
 
       var layer = CreateInternal(name);

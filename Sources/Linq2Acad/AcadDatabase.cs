@@ -459,7 +459,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides read only access to the drawing database in the given file.
+    /// Provides read-only access to the drawing database in the given file.
     /// </summary>
     /// <param name="fileName">The name of the drawing database to open.</param>
     /// <param name="options">Options for opening the database.</param>
@@ -511,7 +511,7 @@ namespace Linq2Acad
     /// Provides access to the drawing database in the given file.
     /// </summary>
     /// <param name="fileName">The name of the drawing database to open.</param>
-    /// <param name="readOnly">If true open the drawing in read only mode. If false, open it in read/write mode.</param>
+    /// <param name="readOnly">If true open the drawing in read-only mode. If false, open it in read/write mode.</param>
     /// <param name="password">The password for the drawing database.</param>
     /// <returns>The Autocad Database instance.</returns>
     private static Database GetDatabase(string fileName, bool readOnly, string password)
