@@ -75,7 +75,7 @@ Please refer to [this blog series](https://wtertinek.com/2016/07/06/linq-and-the
 ## Contributing
 Please contribute to this project by
 - opening an [issue](https://github.com/wtertinek/Linq2Acad/issues) if you found a bug or have a feature request
-- creating a pull request if you want to help extending the librar
+- creating a pull request if you want to help extending the library
 
 ## License
 Linq2Acad is licended unter the [MIT License (MIT)](LICENSE).
