@@ -58,6 +58,8 @@ A Beta version of Linq2Acad is now available on **NuGet**!
 There is a dedicated NuGet package for each AutoCAD version, the packages are named [**Linq2Acad-20xx**](https://www.nuget.org/packages?q=linq2acad). Since we still are in beta phase, the packages are declared as prerelease, so check *Include prereleases* in the NuGet browser in Visual Studio in order to find them. The planned release date is ~~March 1st 2022~~ shortly after the release of AutoCAD 2023.
 
 ### How to upgrade from source code to Nuget
+If you have a source code reference to Linq2Acad in your solution and want to upgrade to NuGet, please take the following steps:
+
 1. Remove your existing `Linq2Acad` **PROJECT** completely from your existing Visual Studio solution. You should see a lot of red squiggly lines. That's great!
 2. Install the Nuget Packages. Voila!
 
