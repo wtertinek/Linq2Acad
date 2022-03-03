@@ -51,7 +51,7 @@ using (var targetDb = AcadDatabase.Active())
   
 More code samples can be found [here](CodeSamples.md).
 
-Linq2Acad is available for AutoCAD 2015 and later.
+Linq2Acad is available for **AutoCAD 2015** and later.
 
 ## NuGet package
 A Beta version of Linq2Acad is now available on **NuGet**!
@@ -67,15 +67,15 @@ There is a dedicated NuGet package for each AutoCAD version, the packages are na
 Code samples in C# and VB.NET can be found [here](CodeSamples.md).
 
 ## API documentation
-An overview of all classes can be found [here](docs/api/Index.md), the API's entry point (AcadDatabase) [here](docs/api/T_Linq2Acad_AcadDatabase.md).
+The API's entry point (AcadDatabase) can be found [here](docs/api/T_Linq2Acad_AcadDatabase.md), an overview of all classes [here](docs/api/Index.md).
 
 ## How it works
 Please refer to [this blog series](https://wtertinek.com/2016/07/06/linq-and-the-autocad-net-api-final-part) which details in a step-by-step fashion: (i) how this library works and (ii) the decision making process and logic behind the library's derivation.
 
 ## Contributing
 Please contribute to this project by
-- Opening an [issue](https://github.com/wtertinek/Linq2Acad/issues) found a bug or have a feature requests
-- Creating a pull request if you want to help extending the libray
+- opening an [issue](https://github.com/wtertinek/Linq2Acad/issues) if you found a bug or have a feature request
+- creating a pull request if you want to help extending the librar
 
 ## License
 Linq2Acad is licended unter the [MIT License (MIT)](LICENSE).
