@@ -1,4 +1,4 @@
-Code from [SampleCode.cs](https://github.com/wtertinek/Linq2Acad/blob/master/Sources/Linq2Acad.SampleCode.CS/SampleCode.cs). See [SampleCode.vb](https://github.com/wtertinek/Linq2Acad/blob/master/Sources/Linq2Acad.SampleCode.VB/SampleCode.vb) for VB samples.
+Code from [SampleCode.cs](../src/Sources/Linq2Acad.SampleCode.CS/SampleCode.cs). See [SampleCode.vb](../src/Sources/Linq2Acad.SampleCode.VB/SampleCode.vb) for VB.NET samples.
 
 #### This sample removes all entities from the model space:
 
