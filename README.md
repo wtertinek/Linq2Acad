@@ -15,10 +15,14 @@
 ```c#
 using (var db = AcadDatabase.Active())
 {
+  var layerNames = new List<string>();
+  
   foreach (var layer in db.Layers)
   {
-    WriteMessage(layer.Name);
+    layerNames.Add(layer.Name);
   }
+  
+  MessageBox.Show(string.Join(", ", layerNames));
 }
 ```
 
@@ -49,7 +53,7 @@ using (var targetDb = AcadDatabase.Active())
 }
 ```
   
-More code samples can be found [here](CodeSamples.md).
+More code samples can be found [here](docs/CodeSamples.md).
 
 Linq2Acad is available for **AutoCAD 2015** and later.
 
@@ -66,10 +70,10 @@ If you have a source code reference to Linq2Acad in your solution and want to up
 (If you add Nuget while already having a `Linq2Acad` project there, and THEN you subsequently remove the latter project - you might have a lot of problems.)
 
 ## Code samples
-Code samples in C# and VB.NET can be found [here](CodeSamples.md).
+Code samples in C# and VB.NET can be found [here](docs/CodeSamples.md).
 
 ## API documentation
-The API's entry point (AcadDatabase) can be found [here](docs/api/T_Linq2Acad_AcadDatabase.md), an overview of all classes [here](docs/api/Index.md).
+Documentation of the API's entry point (AcadDatabase) can be found [here](docs/api/T_Linq2Acad_AcadDatabase.md), an overview of all classes [here](docs/api/Index.md).
 
 ## How it works
 Please refer to [this blog series](https://wtertinek.com/2016/07/06/linq-and-the-autocad-net-api-final-part) which details in a step-by-step fashion: (i) how this library works and (ii) the decision making process and logic behind the library's derivation.
