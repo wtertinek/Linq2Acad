@@ -1,9 +1,11 @@
-## Table of contents
+# Linq2Acad
+A library that aims to simplify AutoCAD .NET addin code. Available for **AutoCAD 2015** and later.
+
+### Overview
 - [Getting started](#get-started)
-- [Nuget Package](#nuget-package)
+- [Nuget package](#nuget-package)
 - [Code samples](#code-samples)
-- [Supported AutoCAD versions](#supported-autocad-versions)
-- [How it Works](#how-it-works)
+- [How it works](#how-it-works)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -12,7 +14,7 @@
 
 #### As a simple example, let's print all layer names using Linq2Acad:
 
-```c#
+```cs
 using (var db = AcadDatabase.Active())
 {
   var layerNames = new List<string>();
@@ -22,13 +24,13 @@ using (var db = AcadDatabase.Active())
     layerNames.Add(layer.Name);
   }
   
-  MessageBox.Show(string.Join(", ", layerNames));
+  MessageBox.Show($"Layers: {string.Join(", ", layerNames)}.");
 }
 ```
 
 #### Or, let's delete all BlockReferences from the model space:
 
-```c#
+```cs
 using (var db = AcadDatabase.Active())
 {
   foreach (var br in db.ModelSpace
@@ -42,7 +44,7 @@ using (var db = AcadDatabase.Active())
 
 #### This code shows how to import a block from a DWG file into the active document:
 
-```c#
+```cs
 using (var sourceDb = AcadDatabase.OpenReadOnly(@"C:\Blocks\Block.dwg"))
 using (var targetDb = AcadDatabase.Active())
 {
@@ -53,13 +55,11 @@ using (var targetDb = AcadDatabase.Active())
 }
 ```
   
-More code samples can be found [here](docs/CodeSamples.md).
-
-Linq2Acad is available for **AutoCAD 2015** and later.
+More code samples (in C# and VB.NET) can be found [here](docs/CodeSamples.md).
 
 ## NuGet package
 A Beta version of Linq2Acad is now available on **NuGet**!
-There is a dedicated NuGet package for each AutoCAD version, the packages are named [**Linq2Acad-20xx**](https://www.nuget.org/packages?q=linq2acad). Since we still are in beta phase, the packages are declared as prerelease, so check *Include prereleases* in the NuGet browser in Visual Studio in order to find them. The planned release date is ~~March 1st 2022~~ shortly after the release of AutoCAD 2023.
+There is a dedicated NuGet package for each AutoCAD version, the packages are named [**Linq2Acad-20xx**](https://www.nuget.org/packages?q=linq2acad). Since we still are in beta phase, the packages are declared as prerelease, so **check *Include prereleases*** in the NuGet browser in Visual Studio in order to find the packages. The planned release date is ~~March 1st 2022~~ shortly after the release of AutoCAD 2023.
 
 ### How to upgrade from source code to Nuget
 If you have a source code reference to Linq2Acad in your solution and want to upgrade to NuGet, please take the following steps:
@@ -73,7 +73,7 @@ If you have a source code reference to Linq2Acad in your solution and want to up
 Code samples in C# and VB.NET can be found [here](docs/CodeSamples.md).
 
 ## API documentation
-Documentation of the API's entry point (AcadDatabase) can be found [here](docs/api/T_Linq2Acad_AcadDatabase.md), an overview of all classes [here](docs/api/Index.md).
+The best entry point into the API documentation is the class [AcadDatabase](docs/api/T_Linq2Acad_AcadDatabase.md). An overview of all classes can be found [here](docs/api/Index.md).
 
 ## How it works
 Please refer to [this blog series](https://wtertinek.com/2016/07/06/linq-and-the-autocad-net-api-final-part) which details in a step-by-step fashion: (i) how this library works and (ii) the decision making process and logic behind the library's derivation.
@@ -82,6 +82,8 @@ Please refer to [this blog series](https://wtertinek.com/2016/07/06/linq-and-the
 Please contribute to this project by
 - opening an [issue](https://github.com/wtertinek/Linq2Acad/issues) if you found a bug or have a feature request
 - creating a pull request if you want to help extending the library
+
+For those with graphic design abilities: it would be nice to have a Linq2Acad logo.
 
 ## License
 Linq2Acad is licended unter the [MIT License (MIT)](LICENSE).
