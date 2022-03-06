@@ -47,7 +47,7 @@ namespace Linq2Acad
     /// <exception cref="System.ArgumentNullException">Thrown when parameter  <i>entities</i> is null.</exception>
     /// <exception cref="System.Exception">Thrown when the an Entity belongs to another block or an AutoCAD error occurs.</exception>
     /// <returns>The ObjectIds of the Entities that were added.</returns>
-    public IEnumerable<ObjectId> AddRange(IEnumerable<Entity> entities, bool setDatabaseDefaults = false)
+    public IReadOnlyCollection<ObjectId> AddRange(IEnumerable<Entity> entities, bool setDatabaseDefaults = false)
     {
       Require.ParameterNotNull(entities, nameof(entities));
       Require.ElementsNotNull(entities, nameof(entities));
@@ -66,20 +66,24 @@ namespace Linq2Acad
     /// <param name="items">The Entities to be added.</param>
     /// <param name="setDatabaseDefaults">True, if the database defaults should be set.</param>
     /// <returns>The ObjectIds of the Entities that were added.</returns>
-    private IEnumerable<ObjectId> AddInternal(IEnumerable<Entity> items, bool setDatabaseDefaults)
+    private IReadOnlyCollection<ObjectId> AddInternal(IEnumerable<Entity> items, bool setDatabaseDefaults)
     {
       var btr = (BlockTableRecord)transaction.GetObject(ID, OpenMode.ForWrite);
-      return items.Select(i =>
-                          {
-                            if (setDatabaseDefaults)
-                            {
-                              i.SetDatabaseDefaults();
-                            }
+      var ids = new List<ObjectId>();
 
-                            var id = btr.AppendEntity(i);
-                            transaction.AddNewlyCreatedDBObject(i, true);
-                            return id;
-                          });
+      foreach (var item in items)
+      {
+        if (setDatabaseDefaults)
+        {
+          item.SetDatabaseDefaults();
+        }
+
+        var id = btr.AppendEntity(item);
+        transaction.AddNewlyCreatedDBObject(item, true);
+        ids.Add(id);
+      }
+
+      return ids;
     }
 
     /// <summary>
