@@ -4,6 +4,7 @@ A library that aims to simplify AutoCAD .NET addin code. Available for **AutoCAD
 ### Overview
 - [Getting started](#get-started)
 - [Nuget package](#nuget-package)
+- [API documentation](#api-documentation)
 - [Code samples](#code-samples)
 - [How it works](#how-it-works)
 - [Contributing](#contributing)
@@ -69,11 +70,11 @@ If you have a source code reference to Linq2Acad in your solution and want to up
 
 (If you add Nuget while already having a `Linq2Acad` project there, and THEN you subsequently remove the latter project - you might have a lot of problems.)
 
-## Code samples
-Code samples in C# and VB.NET can be found [here](docs/CodeSamples.md).
-
 ## API documentation
 The best entry point into the API documentation is the class [AcadDatabase](docs/api/T_Linq2Acad_AcadDatabase.md). An overview of all classes can be found [here](docs/api/Index.md).
+
+## Code samples
+Code samples in C# and VB.NET can be found [here](docs/CodeSamples.md).
 
 ## How it works
 Please refer to [this blog series](https://wtertinek.com/2016/07/06/linq-and-the-autocad-net-api-final-part) which details in a step-by-step fashion: (i) how this library works and (ii) the decision making process and logic behind the library's derivation.
