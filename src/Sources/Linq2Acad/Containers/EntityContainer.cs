@@ -33,6 +33,8 @@ namespace Linq2Acad
     /// <returns>The ObjectId of the Entity that was added.</returns>
     public ObjectId Add(Entity entity, bool setDatabaseDefaults = false)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.ParameterNotNull(entity, nameof(entity));
       Require.NewlyCreated(entity, nameof(entity));
 
@@ -49,6 +51,8 @@ namespace Linq2Acad
     /// <returns>The ObjectIds of the Entities that were added.</returns>
     public IReadOnlyCollection<ObjectId> AddRange(IEnumerable<Entity> entities, bool setDatabaseDefaults = false)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.ParameterNotNull(entities, nameof(entities));
       Require.ElementsNotNull(entities, nameof(entities));
 
@@ -92,6 +96,9 @@ namespace Linq2Acad
     /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     public void Clear()
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
+
       foreach (var entity in this.UpgradeOpen())
       {
         entity.Erase();

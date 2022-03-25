@@ -62,6 +62,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return summaryInfo;
       }
     }
@@ -74,6 +75,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new DbObjectContainer(Database, transaction);
       }
     }
@@ -86,6 +88,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new StylesContainer(Database, transaction);
       }
     }
@@ -98,6 +101,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new XRefContainer(Database, transaction);
       }
     }
@@ -112,6 +116,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new BlockContainer(Database, transaction);
       }
     }
@@ -124,6 +129,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new LayerContainer(Database, transaction);
       }
     }
@@ -136,6 +142,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new LinetypeContainer(Database, transaction);
       }
     }
@@ -148,6 +155,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new RegAppContainer(Database, transaction);
       }
     }
@@ -160,6 +168,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new UcsContainer(Database, transaction);
       }
     }
@@ -172,6 +181,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new ViewportContainer(Database, transaction);
       }
     }
@@ -184,6 +194,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new ViewContainer(Database, transaction);
       }
     }
@@ -200,6 +211,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new LayoutContainer(Database, transaction, Database.LayoutDictionaryId);
       }
     }
@@ -212,6 +224,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new GroupContainer(Database, transaction, Database.GroupDictionaryId);
       }
     }
@@ -224,6 +237,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new MaterialContainer(Database, transaction, Database.MaterialDictionaryId);
       }
     }
@@ -237,6 +251,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new PlotSettingsContainer(Database, transaction, Database.PlotSettingsDictionaryId);
       }
     }
@@ -253,6 +268,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new EntityContainer(Database, transaction, Database.CurrentSpaceId);
       }
     }
@@ -265,6 +281,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
 
         var modelSpaceId = ((BlockTable)transaction.GetObject(Database.BlockTableId, OpenMode.ForRead))[BlockTableRecord.ModelSpace];
         return new EntityContainer(Database, transaction, modelSpaceId);
@@ -279,6 +296,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
 
         return new PaperSpaceLayoutContainer(Database, transaction);
       }

@@ -25,6 +25,8 @@ namespace Linq2Acad
     /// <param name="entities">The entities to be added to the Group.</param>
     public Group Create(string name, IEnumerable<Entity> entities)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.IsValidSymbolName(name, nameof(name));
       Require.NameDoesNotExist<Group>(Contains(name), name);
 

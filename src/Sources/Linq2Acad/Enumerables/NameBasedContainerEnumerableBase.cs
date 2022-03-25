@@ -28,7 +28,12 @@ namespace Linq2Acad
     /// <param name="name">The name of the object.</param>
     /// <returns>true if the source sequence contains an element that has the specified name; otherwise, false.</returns>
     public bool Contains(string name)
-      => ContainsInternal(name);
+    {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
+
+      return ContainsInternal(name);
+    }
 
     protected abstract bool ContainsInternal(string name);
   }

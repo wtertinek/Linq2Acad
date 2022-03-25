@@ -90,6 +90,8 @@ namespace Linq2Acad
     /// <returns>The element with the specified name.</returns>
     public T Element(string name, bool openForWrite = false)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.StringNotEmpty(name, nameof(name));
       Require.NameExists<T>(Contains(name), name);
 
@@ -110,6 +112,8 @@ namespace Linq2Acad
     /// <returns>The element with the specified name.</returns>
     public T ElementOrDefault(string name, bool openForWrite = false)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.StringNotEmpty(name, nameof(name));
 
       return ElementOrDefaultInternal(name, openForWrite);
@@ -144,6 +148,8 @@ namespace Linq2Acad
     /// <param name="name">The unique name of the element.</param>
     public T Create(string name)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.IsValidSymbolName(name, nameof(name));
       Require.NameDoesNotExist<T>(Contains(name), name);
 
@@ -156,6 +162,8 @@ namespace Linq2Acad
     /// <param name="names">The unique names of the new elements.</param>
     public IEnumerable<T> Create(IEnumerable<string> names)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.ParameterNotNull(names, nameof(names));
       Require.ElementsNotNull(names, nameof(names));
       var existingName = names.FirstOrDefault(Contains);
@@ -170,6 +178,8 @@ namespace Linq2Acad
     /// <param name="element">The element to add.</param>
     public void Add(T element)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.ParameterNotNull(element, nameof(element));
       Require.IsValidSymbolName(element.Name, nameof(element.Name));
       Require.NameDoesNotExist<T>(Contains(element.Name), element.Name);
@@ -183,6 +193,8 @@ namespace Linq2Acad
     /// <param name="elements">The elements to add.</param>
     public void AddRange(IEnumerable<T> elements)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.ParameterNotNull(elements, nameof(elements));
 
       foreach (var element in elements)
@@ -215,6 +227,8 @@ namespace Linq2Acad
     /// <param name="name">The unique name of the element.</param>
     public T Create(string name)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.IsValidSymbolName(name, nameof(name));
 
       return CreateInternal(name);
@@ -226,6 +240,8 @@ namespace Linq2Acad
     /// <param name="names">The unique names of the new elements.</param>
     public IEnumerable<T> Create(IEnumerable<string> names)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.ElementsNotNull(names, nameof(names));
 
       return CreateInternal(names);
@@ -237,6 +253,8 @@ namespace Linq2Acad
     /// <param name="element">The element to add.</param>
     public void Add(T element)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.ParameterNotNull(element, nameof(element));
       Require.IsValidSymbolName(element.Name, nameof(element.Name));
 
@@ -249,6 +267,8 @@ namespace Linq2Acad
     /// <param name="elements">The elements to add.</param>
     public void AddRange(IEnumerable<T> elements)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.ParameterNotNull(elements, nameof(elements));
 
       foreach (var element in elements)

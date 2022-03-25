@@ -34,6 +34,7 @@ namespace Linq2Acad
     public T Element<T>(ObjectId id, bool openForWrite = false) where T : DBObject
     {
       Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.IsValid(id, nameof(id));
 
       return ElementInternal<T>(id, openForWrite);
@@ -52,6 +53,7 @@ namespace Linq2Acad
     public T ElementOrDefault<T>(ObjectId id, bool openForWrite = false) where T : DBObject
     {
       Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
 
       return !id.IsValid ? null : ElementInternal<T>(id, openForWrite);
     }
@@ -66,6 +68,7 @@ namespace Linq2Acad
     private T ElementInternal<T>(ObjectId id, bool openForWrite) where T : DBObject
     {
       Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
 
       return (T)transaction.GetObject(id, openForWrite ? OpenMode.ForWrite : OpenMode.ForRead);
     }
@@ -83,6 +86,7 @@ namespace Linq2Acad
     public IEnumerable<T> Elements<T>(IEnumerable<ObjectId> ids, bool openForWrite = false) where T : DBObject
     {
       Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.ElementsValid(ids, nameof(ids));
 
       return ElementsInternal<T>(ids, openForWrite);
@@ -101,6 +105,7 @@ namespace Linq2Acad
     public IEnumerable<T> Elements<T>(ObjectIdCollection ids, bool openForWrite = false) where T : DBObject
     {
       Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.ParameterNotNull(ids, nameof(ids));
       Require.ElementsValid(ids.Cast<ObjectId>(), nameof(ids));
 
@@ -131,6 +136,7 @@ namespace Linq2Acad
     public void AddNewlyCreatedDBObject(DBObject obj)
     {
       Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.ParameterNotNull(obj, nameof(obj));
 
       transaction.AddNewlyCreatedDBObject(obj, true);

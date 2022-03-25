@@ -22,6 +22,7 @@ namespace Linq2Acad
     public IEnumerator<PaperSpaceEntityContainer> GetEnumerator()
     {
       Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
 
       var layouts = new LayoutContainer(database, transaction, database.LayoutDictionaryId);
 

@@ -39,6 +39,8 @@ namespace Linq2Acad
     /// <returns>true if the source sequence contains the specified element; otherwise, false.</returns>
     public override bool Contains(T element)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.ParameterNotNull(element, nameof(element));
       
       return ContainsInternal(element.ObjectId);
@@ -63,6 +65,8 @@ namespace Linq2Acad
     /// <returns>The element with the specified ID.</returns>
     public T Element(ObjectId id, bool openForWrite = false)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.IsValid(id, nameof(id));
       
       return ElementInternal(id, openForWrite);
@@ -75,7 +79,12 @@ namespace Linq2Acad
     /// <param name="openForWrite">True, if the object should be opened for-write. By default the object is opened readonly.</param>
     /// <returns>The element with the specified ID.</returns>
     public T ElementOrDefault(ObjectId id, bool openForWrite = false)
-      => id.IsValid ? ElementInternal(id, openForWrite) : null;
+    {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
+
+      return id.IsValid ? ElementInternal(id, openForWrite) : null;
+    }
 
     private T ElementInternal(ObjectId id, bool openForWrite)
       => (T)transaction.GetObject(id, openForWrite ? OpenMode.ForWrite : OpenMode.ForRead);
@@ -88,6 +97,8 @@ namespace Linq2Acad
     /// <returns>An object that represents the result of an import operation.</returns>
     public ImportResult<T> Import(T element, bool replaceIfDuplicate = false)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.ParameterNotNull(element, nameof(element));
 
       return ImportInternal(element, replaceIfDuplicate);
@@ -101,6 +112,8 @@ namespace Linq2Acad
     /// <returns>An object that represents the result of an import operation.</returns>
     public IReadOnlyCollection<ImportResult<T>> Import(IEnumerable<T> elements, bool replaceIfDuplicate = false)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.ParameterNotNull(elements, nameof(elements));
       Require.DifferentOrigin(database, elements, nameof(elements));
 

@@ -27,6 +27,8 @@ namespace Linq2Acad
     /// <param name="element">The element to add.</param>
     public void Add(T element)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.ParameterNotNull(element, nameof(element));
 
       var name = getName(element);
@@ -42,6 +44,8 @@ namespace Linq2Acad
     /// <param name="elements">The elements to add.</param>
     public void AddRange(IEnumerable<T> elements)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.ParameterNotNull(elements, nameof(elements));
 
       var namePropertyName = getNamePropertyName();
@@ -89,6 +93,8 @@ namespace Linq2Acad
     /// <returns>The element with the specified name.</returns>
     public T Element(string name, bool openForWrite = false)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.StringNotEmpty(name, nameof(name));
       Require.NameExists<T>(Contains(name), name);
 
@@ -110,6 +116,8 @@ namespace Linq2Acad
     /// <returns>The element with the specified name.</returns>
     public T ElementOrDefault(string name, bool openForWrite = false)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.StringNotEmpty(name, nameof(name));
 
       return ElementOrDefaultInternal(name, openForWrite);
@@ -131,7 +139,12 @@ namespace Linq2Acad
     }
 
     public override sealed int Count()
-      => ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Count;
+    {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
+
+      return ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Count;
+    }
   }
 
   public abstract class DBDictionaryEnumerable<T> : DBDictionaryEnumerableBase<T> where T : DBObject, new()
@@ -148,6 +161,8 @@ namespace Linq2Acad
     /// <param name="name">The unique name of the element.</param>
     public T Create(string name)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.IsValidSymbolName(name, nameof(name));
       Require.NameDoesNotExist<T>(Contains(name), name);
 

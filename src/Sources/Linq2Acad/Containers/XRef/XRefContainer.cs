@@ -47,6 +47,8 @@ namespace Linq2Acad
     /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>file name</i> is null.</exception>
     public XRef Attach(string fileName, string blockName = null)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.ParameterNotNull(fileName, nameof(fileName));
       Require.FileExists(fileName, nameof(fileName));
 
@@ -71,6 +73,8 @@ namespace Linq2Acad
     /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>file name</i> is null.</exception>
     public XRef Overlay(string fileName, string blockName = null)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.ParameterNotNull(fileName, nameof(fileName));
       Require.FileExists(fileName, nameof(fileName));
 
@@ -91,13 +95,21 @@ namespace Linq2Acad
     /// </summary>
     /// <param name="includeResolvedXRefs">True, if all XRefs should be resolved. By default only newly added (unresolved) XRefs are resolved.</param>
     public void Resolve(bool includeResolvedXRefs = false)
-      => database.ResolveXrefs(true, !includeResolvedXRefs);
+    {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
+
+      database.ResolveXrefs(true, !includeResolvedXRefs);
+    }
 
     /// <summary>
     /// Reloads all XRefs.
     /// </summary>
     public void Reload()
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
+
       var xRefs = new XRefContainer(database, transaction);
 
       using (var idCollection = new ObjectIdCollection(xRefs.Select(x => x.Block.ObjectId).ToArray()))
@@ -111,6 +123,9 @@ namespace Linq2Acad
     /// </summary>
     public void Unload()
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
+
       var xRefs = new XRefContainer(database, transaction);
 
       using (var idCollection = new ObjectIdCollection(xRefs.Select(x => x.Block.ObjectId).ToArray()))

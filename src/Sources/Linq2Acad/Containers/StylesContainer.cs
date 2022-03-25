@@ -29,6 +29,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new DimStyleContainer(database, transaction);
       }
     }
@@ -41,6 +42,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new TextStyleContainer(database, transaction);
       }
     }
@@ -53,6 +55,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new MLeaderStyleContainer(database, transaction, database.MLeaderStyleDictionaryId);
       }
     }
@@ -65,6 +68,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new MlineStyleContainer(database, transaction, database.MLStyleDictionaryId);
       }
     }
@@ -77,6 +81,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new DBVisualStyleContainer(database, transaction, database.VisualStyleDictionaryId);
       }
     }
@@ -89,6 +94,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new TableStyleContainer(database, transaction, database.TableStyleDictionaryId);
       }
     }
@@ -101,6 +107,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new SectionViewStyleContainer(database, transaction, database.SectionViewStyleDictionaryId);
       }
     }
@@ -113,6 +120,7 @@ namespace Linq2Acad
       get
       {
         Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
         return new DetailViewStyleContainer(database, transaction, database.DetailViewStyleDictionaryId);
       }
     }

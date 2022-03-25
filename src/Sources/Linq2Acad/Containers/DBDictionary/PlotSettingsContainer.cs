@@ -25,6 +25,8 @@ namespace Linq2Acad
     /// <param name="modelType">Determines the plot setup type.</param>
     public PlotSettings Create(string name, bool modelType)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.IsValidSymbolName(name, nameof(name));
       Require.NameDoesNotExist<PlotSettings>(Contains(name), name);
 

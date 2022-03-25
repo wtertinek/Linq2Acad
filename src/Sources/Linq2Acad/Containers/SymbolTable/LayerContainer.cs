@@ -27,6 +27,8 @@ namespace Linq2Acad
     /// <exception cref="System.ArgumentNullException">Thrown when parameters <i>name</i> or <i>entities</i> is null.</exception>
     public LayerTableRecord Create(string name, IEnumerable<Entity> entities)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.IsValidSymbolName(name, nameof(name));
       Require.NameDoesNotExist<LayerTableRecord>(Contains(name), name);
       Require.ElementsNotNull(entities, nameof(entities));

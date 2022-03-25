@@ -39,14 +39,24 @@ namespace Linq2Acad
     /// <param name="id">The ID of the object.</param>
     /// <returns></returns>
     public EntityContainer ElementAsEntityContainer(ObjectId id)
-      => new EntityContainer(database, transaction, id);
+    {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
+
+      return new EntityContainer(database, transaction, id);
+    }
 
     /// <summary>
     /// Converts each Block into an EntityContainer that allows querying for entities.
     /// </summary>
     /// <returns>The elements of the Block table as EntitiyContainers.</returns>
     public IEnumerable<EntityContainer> AsEntityContainers()
-      => this.Select(b => new EntityContainer(database, transaction, b.ObjectId));
+    {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
+
+      return this.Select(b => new EntityContainer(database, transaction, b.ObjectId));
+    }
 
     /// <summary>
     /// Creates a new BlockTableRecord with the specified name and adds the Entities to it.
@@ -57,6 +67,8 @@ namespace Linq2Acad
     /// <exception cref="System.ArgumentNullException">Thrown when parameters <i>name</i> or <i>entities</i> is null.</exception>
     public BlockTableRecord Create(string name, IEnumerable<Entity> entities)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.IsValidSymbolName(name, nameof(name));
       Require.NameDoesNotExist<BlockTableRecord>(Contains(name), name);
       Require.ElementsNotNull(entities, nameof(entities));
@@ -84,6 +96,8 @@ namespace Linq2Acad
     /// <exception cref="System.ArgumentNullException">Thrown when parameters <i>newBlockName</i> or <i>fileName</i> is null.</exception>
     public BlockTableRecord Import(string newBlockName, string fileName)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.ParameterNotNull(newBlockName, nameof(newBlockName));
       Require.NameDoesNotExist<BlockTableRecord>(Contains(newBlockName), newBlockName);
       Require.ParameterNotNull(fileName, nameof(fileName));

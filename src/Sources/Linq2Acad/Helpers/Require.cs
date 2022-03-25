@@ -134,12 +134,20 @@ namespace Linq2Acad
       {
         if (objectName != null)
         {
-          throw new ObjectDisposedException(objectName, $"Object {objectName} of type {className} is disposed");
+          throw new ObjectDisposedException(objectName, $"Object '{objectName}' of type {className} is disposed");
         }
         else
         {
-          throw new ObjectDisposedException(className, $"Instance of type {className} is disposed");
+          throw new ObjectDisposedException(className, $"Object of type {className} is disposed");
         }
+      }
+    }
+
+    public static void TransactionNotDisposed(bool disposed)
+    {
+      if (disposed)
+      {
+        throw new ObjectDisposedException("Transaction", "Accessing a transaction that is no longer valid");
       }
     }
 

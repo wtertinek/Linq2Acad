@@ -23,8 +23,17 @@ namespace Linq2Acad
     /// </summary>
     /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     public ViewportTableRecord Current
-      => database.CurrentViewportTableRecordId.IsValid
-           ? (ViewportTableRecord)transaction.GetObject(database.CurrentViewportTableRecordId, OpenMode.ForRead)
-           : null;
+    {
+      get
+      {
+        Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
+
+        return database.CurrentViewportTableRecordId.IsValid
+                 ? (ViewportTableRecord)transaction.GetObject(database.CurrentViewportTableRecordId, OpenMode.ForRead)
+                 : null;
+
+      }
+    }
   }
 }

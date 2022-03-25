@@ -24,6 +24,8 @@ namespace Linq2Acad
     /// <param name="name">The unique name of the Layout element.</param>
     public Layout Create(string name)
     {
+      Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
+      Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.IsValidSymbolName(name, nameof(name));
       Require.NameDoesNotExist<Layout>(Contains(name), name);
 
