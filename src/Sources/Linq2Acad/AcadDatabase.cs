@@ -307,19 +307,15 @@ namespace Linq2Acad
     #region Instance methods
 
     /// <summary>
-    /// Immediately discards all changes and the underlying transaction.
+    /// Immediately discards all changes and aborts the underlying transaction. The session is no longer usable after calling this method.
     /// </summary>
-    public void DiscardChanges()
+    public void Abort()
     {
-      Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-
       if (!transaction.IsDisposed)
       {
         transaction.Abort();
         transaction.Dispose();
       }
-
-      transaction = Database.TransactionManager.StartTransaction();
     }
 
     /// <summary>
@@ -327,26 +323,29 @@ namespace Linq2Acad
     /// </summary>
     public void Dispose()
     {
-      Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-
-      if (commitTransaction)
+      if (!transaction.IsDisposed)
       {
-        transaction.Commit();
+        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
 
-        if (SummaryInfo.Changed)
+        if (commitTransaction)
         {
-          SummaryInfo.Commit();
+          transaction.Commit();
+
+          if (SummaryInfo.Changed)
+          {
+            SummaryInfo.Commit();
+          }
+
+          if (saveOnCommit)
+          {
+            Database.SaveAs(saveAsFileName, GetDwgVersion());
+          }
         }
 
-        if (saveOnCommit)
+        if (disposeTransaction)
         {
-          Database.SaveAs(saveAsFileName, GetDwgVersion());
+          transaction.Dispose();
         }
-      }
-
-      if (disposeTransaction)
-      {
-        transaction.Dispose();
       }
 
       if (disposeDatabase)
