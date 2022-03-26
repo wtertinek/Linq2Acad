@@ -69,7 +69,7 @@ namespace Linq2Acad
       Require.TransactionNotDisposed(transaction.IsDisposed);
       Require.IsValid(id, nameof(id));
       
-      return ElementInternal(id, openForWrite);
+      return ElementInternal(id, openForWrite, true);
     }
 
     /// <summary>
@@ -83,11 +83,28 @@ namespace Linq2Acad
       Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
       Require.TransactionNotDisposed(transaction.IsDisposed);
 
-      return id.IsValid ? ElementInternal(id, openForWrite) : null;
+      return id.IsValid ? ElementInternal(id, openForWrite, false) : null;
     }
 
-    private T ElementInternal(ObjectId id, bool openForWrite)
-      => (T)transaction.GetObject(id, openForWrite ? OpenMode.ForWrite : OpenMode.ForRead);
+    private T ElementInternal(ObjectId id, bool openForWrite, bool trowIfNotFound)
+    {
+      try
+      {
+        var result = transaction.GetObject(id, openForWrite ? OpenMode.ForWrite : OpenMode.ForRead);
+        return result != null ? (T)result : null;
+      }
+      catch
+      {
+        if (trowIfNotFound)
+        {
+          throw;
+        }
+        else
+        {
+          return null;
+        }
+      }
+    }
 
     /// <summary>
     /// Imports the specified element into the current database.
