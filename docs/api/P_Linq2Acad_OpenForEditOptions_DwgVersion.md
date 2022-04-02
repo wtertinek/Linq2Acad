@@ -20,7 +20,7 @@ Public Property DwgVersion As SaveAsDwgVersion
 
 #### Property Value
 Type: <a href="T_Linq2Acad_SaveAsDwgVersion.md#SaveAsDwgVersion-Enumeration">SaveAsDwgVersion</a>
-<a href="#OpenForEditOptionsDwgVersion-Property">Back to Top</a>
+<br/><br/><a href="#OpenForEditOptionsDwgVersion-Property">Back to Top</a>
 
 ## See Also
 

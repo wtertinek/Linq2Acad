@@ -19,7 +19,7 @@ Public ReadOnly Property DbObjects As DbObjectContainer
 
 #### Property Value
 Type: <a href="T_Linq2Acad_DbObjectContainer.md#DbObjectContainer-Class">DbObjectContainer</a>
-<a href="#AcadDatabaseDbObjects-Property">Back to Top</a>
+<br/><br/><a href="#AcadDatabaseDbObjects-Property">Back to Top</a>
 
 ## See Also
 

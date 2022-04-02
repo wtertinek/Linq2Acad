@@ -19,7 +19,7 @@ Public ReadOnly Property Linetypes As LinetypeContainer
 
 #### Property Value
 Type: <a href="T_Linq2Acad_LinetypeContainer.md#LinetypeContainer-Class">LinetypeContainer</a>
-<a href="#AcadDatabaseLinetypes-Property">Back to Top</a>
+<br/><br/><a href="#AcadDatabaseLinetypes-Property">Back to Top</a>
 
 ## See Also
 

@@ -19,7 +19,7 @@ Public ReadOnly Property PlotSettings As PlotSettingsContainer
 
 #### Property Value
 Type: <a href="T_Linq2Acad_PlotSettingsContainer.md#PlotSettingsContainer-Class">PlotSettingsContainer</a>
-<a href="#AcadDatabasePlotSettings-Property">Back to Top</a>
+<br/><br/><a href="#AcadDatabasePlotSettings-Property">Back to Top</a>
 
 ## See Also
 

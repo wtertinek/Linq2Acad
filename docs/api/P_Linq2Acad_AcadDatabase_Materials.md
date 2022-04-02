@@ -19,7 +19,7 @@ Public ReadOnly Property Materials As MaterialContainer
 
 #### Property Value
 Type: <a href="T_Linq2Acad_MaterialContainer.md#MaterialContainer-Class">MaterialContainer</a>
-<a href="#AcadDatabaseMaterials-Property">Back to Top</a>
+<br/><br/><a href="#AcadDatabaseMaterials-Property">Back to Top</a>
 
 ## See Also
 

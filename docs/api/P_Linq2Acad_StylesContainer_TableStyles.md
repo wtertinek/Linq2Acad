@@ -19,7 +19,7 @@ Public ReadOnly Property TableStyles As TableStyleContainer
 
 #### Property Value
 Type: <a href="T_Linq2Acad_TableStyleContainer.md#TableStyleContainer-Class">TableStyleContainer</a>
-<a href="#StylesContainerTableStyles-Property">Back to Top</a>
+<br/><br/><a href="#StylesContainerTableStyles-Property">Back to Top</a>
 
 ## See Also
 

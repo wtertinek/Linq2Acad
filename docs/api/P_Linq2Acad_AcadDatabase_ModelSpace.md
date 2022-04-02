@@ -19,7 +19,7 @@ Public ReadOnly Property ModelSpace As EntityContainer
 
 #### Property Value
 Type: <a href="T_Linq2Acad_EntityContainer.md#EntityContainer-Class">EntityContainer</a>
-<a href="#AcadDatabaseModelSpace-Property">Back to Top</a>
+<br/><br/><a href="#AcadDatabaseModelSpace-Property">Back to Top</a>
 
 ## See Also
 

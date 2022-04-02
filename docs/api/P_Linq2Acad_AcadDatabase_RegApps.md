@@ -19,7 +19,7 @@ Public ReadOnly Property RegApps As RegAppContainer
 
 #### Property Value
 Type: <a href="T_Linq2Acad_RegAppContainer.md#RegAppContainer-Class">RegAppContainer</a>
-<a href="#AcadDatabaseRegApps-Property">Back to Top</a>
+<br/><br/><a href="#AcadDatabaseRegApps-Property">Back to Top</a>
 
 ## See Also
 

@@ -19,7 +19,7 @@ Public ReadOnly Property MLeaderStyles As MLeaderStyleContainer
 
 #### Property Value
 Type: <a href="T_Linq2Acad_MLeaderStyleContainer.md#MLeaderStyleContainer-Class">MLeaderStyleContainer</a>
-<a href="#StylesContainerMLeaderStyles-Property">Back to Top</a>
+<br/><br/><a href="#StylesContainerMLeaderStyles-Property">Back to Top</a>
 
 ## See Also
 

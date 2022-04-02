@@ -19,7 +19,7 @@ Public ReadOnly Property SummaryInfo As AcadSummaryInfo
 
 #### Property Value
 Type: <a href="T_Linq2Acad_AcadSummaryInfo.md#AcadSummaryInfo-Class">AcadSummaryInfo</a>
-<a href="#AcadDatabaseSummaryInfo-Property">Back to Top</a>
+<br/><br/><a href="#AcadDatabaseSummaryInfo-Property">Back to Top</a>
 
 ## See Also
 

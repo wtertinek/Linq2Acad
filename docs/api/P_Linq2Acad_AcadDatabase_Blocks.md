@@ -19,7 +19,7 @@ Public ReadOnly Property Blocks As BlockContainer
 
 #### Property Value
 Type: <a href="T_Linq2Acad_BlockContainer.md#BlockContainer-Class">BlockContainer</a>
-<a href="#AcadDatabaseBlocks-Property">Back to Top</a>
+<br/><br/><a href="#AcadDatabaseBlocks-Property">Back to Top</a>
 
 ## See Also
 

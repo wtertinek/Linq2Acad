@@ -19,7 +19,7 @@ Public ReadOnly Property Layers As LayerContainer
 
 #### Property Value
 Type: <a href="T_Linq2Acad_LayerContainer.md#LayerContainer-Class">LayerContainer</a>
-<a href="#AcadDatabaseLayers-Property">Back to Top</a>
+<br/><br/><a href="#AcadDatabaseLayers-Property">Back to Top</a>
 
 ## See Also
 

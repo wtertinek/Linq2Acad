@@ -19,7 +19,7 @@ Public ReadOnly Property Styles As StylesContainer
 
 #### Property Value
 Type: <a href="T_Linq2Acad_StylesContainer.md#StylesContainer-Class">StylesContainer</a>
-<a href="#AcadDatabaseStyles-Property">Back to Top</a>
+<br/><br/><a href="#AcadDatabaseStyles-Property">Back to Top</a>
 
 ## See Also
 

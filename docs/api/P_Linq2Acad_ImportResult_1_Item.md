@@ -19,7 +19,7 @@ Public ReadOnly Property Item As T
 
 #### Property Value
 Type: <a href="T_Linq2Acad_ImportResult_1.md#ImportResultT-Class">*T*</a>
-<a href="#ImportResultTItem-Property">Back to Top</a>
+<br/><br/><a href="#ImportResultTItem-Property">Back to Top</a>
 
 ## See Also
 

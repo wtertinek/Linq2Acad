@@ -19,7 +19,7 @@ Public ReadOnly Property Groups As GroupContainer
 
 #### Property Value
 Type: <a href="T_Linq2Acad_GroupContainer.md#GroupContainer-Class">GroupContainer</a>
-<a href="#AcadDatabaseGroups-Property">Back to Top</a>
+<br/><br/><a href="#AcadDatabaseGroups-Property">Back to Top</a>
 
 ## See Also
 

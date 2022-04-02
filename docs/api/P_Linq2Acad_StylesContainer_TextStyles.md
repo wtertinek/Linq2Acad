@@ -19,7 +19,7 @@ Public ReadOnly Property TextStyles As TextStyleContainer
 
 #### Property Value
 Type: <a href="T_Linq2Acad_TextStyleContainer.md#TextStyleContainer-Class">TextStyleContainer</a>
-<a href="#StylesContainerTextStyles-Property">Back to Top</a>
+<br/><br/><a href="#StylesContainerTextStyles-Property">Back to Top</a>
 
 ## See Also
 

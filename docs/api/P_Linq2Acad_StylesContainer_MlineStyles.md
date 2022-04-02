@@ -19,7 +19,7 @@ Public ReadOnly Property MlineStyles As MlineStyleContainer
 
 #### Property Value
 Type: <a href="T_Linq2Acad_MlineStyleContainer.md#MlineStyleContainer-Class">MlineStyleContainer</a>
-<a href="#StylesContainerMlineStyles-Property">Back to Top</a>
+<br/><br/><a href="#StylesContainerMlineStyles-Property">Back to Top</a>
 
 ## See Also
 

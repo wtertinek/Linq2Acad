@@ -19,7 +19,7 @@ Public ReadOnly Property DimStyles As DimStyleContainer
 
 #### Property Value
 Type: <a href="T_Linq2Acad_DimStyleContainer.md#DimStyleContainer-Class">DimStyleContainer</a>
-<a href="#StylesContainerDimStyles-Property">Back to Top</a>
+<br/><br/><a href="#StylesContainerDimStyles-Property">Back to Top</a>
 
 ## See Also
 
