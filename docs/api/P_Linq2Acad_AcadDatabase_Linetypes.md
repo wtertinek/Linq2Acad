@@ -1,7 +1,7 @@
 # AcadDatabase.Linetypes Property 
  
 
-The <a href="T_Linq2Acad_LinetypeContainer.md">LinetypeContainer</a> class provides access to the elements of the Linetype table and methods to create, add and import LinetypeTableRecords.
+The <a href="T_Linq2Acad_LinetypeContainer.md#LinetypeContainer-Class">LinetypeContainer</a> class provides access to the elements of the Linetype table and methods to create, add and import LinetypeTableRecords.
 
 ## Syntax
 
@@ -18,10 +18,11 @@ Public ReadOnly Property Linetypes As LinetypeContainer
 
 
 #### Property Value
-Type: <a href="T_Linq2Acad_LinetypeContainer.md">LinetypeContainer</a>
+Type: <a href="T_Linq2Acad_LinetypeContainer.md#LinetypeContainer-Class">LinetypeContainer</a>
+<a href="#AcadDatabaseLinetypes-Property">Back to Top</a>
 
 ## See Also
 
 
 #### Reference
-<a href="T_Linq2Acad_AcadDatabase.md">AcadDatabase Class</a><br /><a href="N_Linq2Acad.md">Linq2Acad Namespace</a><br />
+<a href="T_Linq2Acad_AcadDatabase.md#AcadDatabase-Class">AcadDatabase Class</a><br /><a href="N_Linq2Acad.md#Linq2Acad-Namespace">Linq2Acad Namespace</a><br />

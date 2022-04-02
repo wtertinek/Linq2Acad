@@ -1,4 +1,4 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.DatabaseServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +17,6 @@ namespace Linq2Acad
     /// </summary>
     /// <param name="layer">The layer instance.</param>
     /// <param name="entity">The entity to add.</param>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>entity</i> is null.</exception>
-    /// <exception cref="System.Exception">Thrown when adding the entity throws an exception.</exception>
     public static void Add(this LayerTableRecord layer, Entity entity)
     {
       Require.ParameterNotNull(layer, nameof(layer));
@@ -32,8 +30,6 @@ namespace Linq2Acad
     /// </summary>
     /// <param name="layer">The layer instance.</param>
     /// <param name="entities">The entities to add.</param>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>entities</i> is null.</exception>
-    /// <exception cref="System.Exception">Thrown when adding an entity throws an exception.</exception>
     public static void AddRange(this LayerTableRecord layer, IEnumerable<Entity> entities)
     {
       Require.ParameterNotNull(layer, nameof(layer));

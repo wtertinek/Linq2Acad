@@ -16,11 +16,12 @@ Public Sub AddNewlyCreatedDBObject (obj As DBObject)
 ```
 
 
-#### Parameters
+### Parameters
 <dl><dt>obj</dt><dd>Type: DBObject<br />The object to add to the transaction.</dd></dl>
+<a href="#DbObjectContainerAddNewlyCreatedDBObject-Method">Back to Top</a>
 
 ## See Also
 
 
 #### Reference
-<a href="T_Linq2Acad_DbObjectContainer.md">DbObjectContainer Class</a><br /><a href="N_Linq2Acad.md">Linq2Acad Namespace</a><br />
+<a href="T_Linq2Acad_DbObjectContainer.md#DbObjectContainer-Class">DbObjectContainer Class</a><br /><a href="N_Linq2Acad.md#Linq2Acad-Namespace">Linq2Acad Namespace</a><br />

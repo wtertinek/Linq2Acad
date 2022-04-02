@@ -22,14 +22,15 @@ Public Function Import (
 ```
 
 
-#### Parameters
+### Parameters
 <dl><dt>element</dt><dd>Type: MLeaderStyle<br />The MLeaderStyle to import.</dd><dt>replaceIfDuplicate (Optional)</dt><dd>Type: bool<br />true, if the the imported MLeaderStyle should be replaced if it is already present; otherwise, false.</dd></dl>
 
-#### Return Value
-Type: <a href="T_Linq2Acad_ImportResult_1.md">ImportResult</a>(MLeaderStyle)<br />An object that represents the result of an import operation.
+### Return Value
+Type: <a href="T_Linq2Acad_ImportResult_1.md#ImportResultT-Class">ImportResult</a>(MLeaderStyle)<br />An object that represents the result of an import operation.
+<a href="#MLeaderStyleContainerImport-Method-MLeaderStyle-bool">Back to Top</a>
 
 ## See Also
 
 
 #### Reference
-<a href="T_Linq2Acad_MLeaderStyleContainer.md">MLeaderStyleContainer Class</a><br /><a href="N_Linq2Acad.md">Linq2Acad Namespace</a><br />
+<a href="T_Linq2Acad_MLeaderStyleContainer.md#MLeaderStyleContainer-Class">MLeaderStyleContainer Class</a><br /><a href="N_Linq2Acad.md#Linq2Acad-Namespace">Linq2Acad Namespace</a><br />

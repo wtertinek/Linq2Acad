@@ -1,4 +1,4 @@
-# MlineStyleContainer.ElementOrDefault Method 
+# MlineStyleContainer.ElementOrDefault Method (ObjectId, bool)
  
 
 Returns the MlineStyle with the specified ID or <i>null</i> if the MlineStyle cannot be found.
@@ -22,14 +22,15 @@ Public Function ElementOrDefault (
 ```
 
 
-#### Parameters
+### Parameters
 <dl><dt>id</dt><dd>Type: ObjectId<br />The ID of the MlineStyle.</dd><dt>openForWrite (Optional)</dt><dd>Type: bool<br />True, if the object should be opened for-write. By default the object is opened readonly.</dd></dl>
 
-#### Return Value
+### Return Value
 Type: MlineStyle<br />The MlineStyle with the specified ID.
+<a href="#MlineStyleContainerElementOrDefault-Method-ObjectId-bool">Back to Top</a>
 
 ## See Also
 
 
 #### Reference
-<a href="T_Linq2Acad_MlineStyleContainer.md">MlineStyleContainer Class</a><br /><a href="N_Linq2Acad.md">Linq2Acad Namespace</a><br />
+<a href="T_Linq2Acad_MlineStyleContainer.md#MlineStyleContainer-Class">MlineStyleContainer Class</a><br /><a href="N_Linq2Acad.md#Linq2Acad-Namespace">Linq2Acad Namespace</a><br />

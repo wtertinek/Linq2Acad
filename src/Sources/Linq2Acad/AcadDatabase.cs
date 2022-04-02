@@ -1,4 +1,4 @@
-﻿using Autodesk.AutoCAD.ApplicationServices.Core;
+using Autodesk.AutoCAD.ApplicationServices.Core;
 using Autodesk.AutoCAD.DatabaseServices;
 using System;
 using System.Collections;
@@ -390,7 +390,6 @@ namespace Linq2Acad
     /// Provides access to a newly created drawing database.
     /// </summary>
     /// <param name="options">Database create options.</param>
-    /// <exception cref="System.Exception">Thrown when creating the drawing database throws an exception.</exception>
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Create(CreateOptions options = null)
     {
@@ -409,7 +408,6 @@ namespace Linq2Acad
     /// <summary>
     /// Provides access to the drawing database of the active document.
     /// </summary>
-    /// <exception cref="System.Exception">Thrown when no active document is available.</exception>
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Active()
     {
@@ -425,8 +423,6 @@ namespace Linq2Acad
     /// <param name="transaction">The transaction to use.</param>
     /// <param name="commitTransaction">True, if the transaction in use should be committed when this instance is disposed of.</param>
     /// <param name="disposeTransaction">True, if the transaction in use should be disposed of when this instance is disposed of.</param>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>transaction</i> is null.</exception>
-    /// <exception cref="System.Exception">Thrown when no active document is available or the transaction is invalid.</exception>
     /// <returns>The AcadDatabase instance.</returns>
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)]
     public static AcadDatabase Active(Transaction transaction, bool commitTransaction, bool disposeTransaction)
@@ -442,8 +438,6 @@ namespace Linq2Acad
     /// Provides access to the given drawing database.
     /// </summary>
     /// <param name="database">The drawing database to use.</param>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>database</i> is null.</exception>
-    /// <exception cref="System.Exception">Thrown when the database is invalid.</exception>
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Use(Database database)
     {
@@ -461,8 +455,6 @@ namespace Linq2Acad
     /// <param name="transaction">The transaction to use.</param>
     /// <param name="commitTransaction">True, if the transaction in use should be committed when this instance is disposed of.</param>
     /// <param name="disposeTransaction">True, if the transaction in use should be disposed of when this instance is disposed of.</param>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameters <i>database</i> or <i>transaction</i> is null.</exception>
-    /// <exception cref="System.Exception">Thrown when the database or the transaction is invalid.</exception>
     /// <returns>The AcadDatabase instance.</returns>
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)]
     public static AcadDatabase Use(Database database, Transaction transaction, bool commitTransaction, bool disposeTransaction)
@@ -480,9 +472,6 @@ namespace Linq2Acad
     /// </summary>
     /// <param name="fileName">The name of the drawing database to open.</param>
     /// <param name="options">Options for opening the database.</param>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>fileName</i> is null.</exception>
-    /// <exception cref="System.IO.FileNotFoundException">Thrown when the file cannot be found.</exception>
-    /// <exception cref="System.Exception">Thrown when opening the drawing database throws an exception.</exception>
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase OpenReadOnly(string fileName, OpenReadOnlyOptions options = null)
     {
@@ -500,9 +489,6 @@ namespace Linq2Acad
     /// </summary>
     /// <param name="fileName">The name of the drawing database to open.</param>
     /// <param name="options">Options for opening and closing the database.</param>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>fileName</i> is null.</exception>
-    /// <exception cref="System.IO.FileNotFoundException">Thrown when the file cannot be found.</exception>
-    /// <exception cref="System.Exception">Thrown when opening the drawing database throws an exception.</exception>
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase OpenForEdit(string fileName, OpenForEditOptions options = null)
     {

@@ -16,14 +16,15 @@ Public Function ElementAsEntityContainer (id As ObjectId) As EntityContainer
 ```
 
 
-#### Parameters
+### Parameters
 <dl><dt>id</dt><dd>Type: ObjectId<br />The ID of the object.</dd></dl>
 
-#### Return Value
-Type: <a href="T_Linq2Acad_EntityContainer.md">EntityContainer</a><br />
+### Return Value
+Type: <a href="T_Linq2Acad_EntityContainer.md#EntityContainer-Class">EntityContainer</a><br />
+<a href="#BlockContainerElementAsEntityContainer-Method">Back to Top</a>
 
 ## See Also
 
 
 #### Reference
-<a href="T_Linq2Acad_BlockContainer.md">BlockContainer Class</a><br /><a href="N_Linq2Acad.md">Linq2Acad Namespace</a><br />
+<a href="T_Linq2Acad_BlockContainer.md#BlockContainer-Class">BlockContainer Class</a><br /><a href="N_Linq2Acad.md#Linq2Acad-Namespace">Linq2Acad Namespace</a><br />

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,8 +28,6 @@ namespace Linq2Acad
     /// </summary>
     /// <param name="entity">The Entity to be added.</param>
     /// <param name="setDatabaseDefaults">True, if the database defaults should be set.</param>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameter  <i>entity</i> is null.</exception>
-    /// <exception cref="System.Exception">Thrown when the given Entity belongs to another block or an AutoCAD error occurs.</exception>
     /// <returns>The ObjectId of the Entity that was added.</returns>
     public ObjectId Add(Entity entity, bool setDatabaseDefaults = false)
     {
@@ -46,8 +44,6 @@ namespace Linq2Acad
     /// </summary>
     /// <param name="entities">The Entities to be added.</param>
     /// <param name="setDatabaseDefaults">True, if the database defaults should be set.</param>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameter  <i>entities</i> is null.</exception>
-    /// <exception cref="System.Exception">Thrown when the an Entity belongs to another block or an AutoCAD error occurs.</exception>
     /// <returns>The ObjectIds of the Entities that were added.</returns>
     public IReadOnlyCollection<ObjectId> AddRange(IEnumerable<Entity> entities, bool setDatabaseDefaults = false)
     {
@@ -93,7 +89,6 @@ namespace Linq2Acad
     /// <summary>
     /// Removes all Entities from this container.
     /// </summary>
-    /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     public void Clear()
     {
       Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));

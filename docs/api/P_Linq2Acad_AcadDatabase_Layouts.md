@@ -1,7 +1,7 @@
 # AcadDatabase.Layouts Property 
  
 
-The <a href="T_Linq2Acad_LayoutContainer.md">LayoutContainer</a> class provides access to the elements of the Layout dictionary and methods to create, add and import Layouts.
+The <a href="T_Linq2Acad_LayoutContainer.md#LayoutContainer-Class">LayoutContainer</a> class provides access to the elements of the Layout dictionary and methods to create, add and import Layouts.
 
 ## Syntax
 
@@ -18,10 +18,11 @@ Public ReadOnly Property Layouts As LayoutContainer
 
 
 #### Property Value
-Type: <a href="T_Linq2Acad_LayoutContainer.md">LayoutContainer</a>
+Type: <a href="T_Linq2Acad_LayoutContainer.md#LayoutContainer-Class">LayoutContainer</a>
+<a href="#AcadDatabaseLayouts-Property">Back to Top</a>
 
 ## See Also
 
 
 #### Reference
-<a href="T_Linq2Acad_AcadDatabase.md">AcadDatabase Class</a><br /><a href="N_Linq2Acad.md">Linq2Acad Namespace</a><br />
+<a href="T_Linq2Acad_AcadDatabase.md#AcadDatabase-Class">AcadDatabase Class</a><br /><a href="N_Linq2Acad.md#Linq2Acad-Namespace">Linq2Acad Namespace</a><br />

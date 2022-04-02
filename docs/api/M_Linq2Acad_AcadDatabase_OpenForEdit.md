@@ -22,17 +22,15 @@ Public Shared Function OpenForEdit (
 ```
 
 
-#### Parameters
-<dl><dt>fileName</dt><dd>Type: string<br />The name of the drawing database to open.</dd><dt>options (Optional)</dt><dd>Type: <a href="T_Linq2Acad_OpenForEditOptions.md">Linq2Acad.OpenForEditOptions</a><br />Options for opening and closing the database.</dd></dl>
+### Parameters
+<dl><dt>fileName</dt><dd>Type: string<br />The name of the drawing database to open.</dd><dt>options (Optional)</dt><dd>Type: <a href="T_Linq2Acad_OpenForEditOptions.md#OpenForEditOptions-Class">OpenForEditOptions</a><br />Options for opening and closing the database.</dd></dl>
 
-#### Return Value
-Type: <a href="T_Linq2Acad_AcadDatabase.md">AcadDatabase</a><br />The AcadDatabase instance.
-
-## Exceptions
-&nbsp;<table><tr><th>Exception</th><th>Condition</th></tr><tr><td><a href="https://docs.microsoft.com/dotnet/api/system.argumentnullexception" target="_blank" rel="noopener noreferrer">ArgumentNullException</a></td><td>Thrown when parameter <i>fileName</i> is null.</td></tr><tr><td><a href="https://docs.microsoft.com/dotnet/api/system.io.filenotfoundexception" target="_blank" rel="noopener noreferrer">FileNotFoundException</a></td><td>Thrown when the file cannot be found.</td></tr><tr><td><a href="https://docs.microsoft.com/dotnet/api/system.exception" target="_blank" rel="noopener noreferrer">Exception</a></td><td>Thrown when opening the drawing database throws an exception.</td></tr></table>
+### Return Value
+Type: <a href="T_Linq2Acad_AcadDatabase.md#AcadDatabase-Class">AcadDatabase</a><br />The AcadDatabase instance.
+<a href="#AcadDatabaseOpenForEdit-Method">Back to Top</a>
 
 ## See Also
 
 
 #### Reference
-<a href="T_Linq2Acad_AcadDatabase.md">AcadDatabase Class</a><br /><a href="N_Linq2Acad.md">Linq2Acad Namespace</a><br />
+<a href="T_Linq2Acad_AcadDatabase.md#AcadDatabase-Class">AcadDatabase Class</a><br /><a href="N_Linq2Acad.md#Linq2Acad-Namespace">Linq2Acad Namespace</a><br />

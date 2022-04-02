@@ -21,7 +21,6 @@ namespace Linq2Acad
     /// <summary>
     /// Returns the current Viewport or null, if there is no current Viewport.
     /// </summary>
-    /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     public ViewportTableRecord Current
     {
       get

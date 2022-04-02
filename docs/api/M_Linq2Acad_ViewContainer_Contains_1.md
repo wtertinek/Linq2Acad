@@ -16,14 +16,15 @@ Public Overrides Function Contains (element As ViewTableRecord) As Boolean
 ```
 
 
-#### Parameters
+### Parameters
 <dl><dt>element</dt><dd>Type: ViewTableRecord<br />The ViewTableRecord to locate in the sequence.</dd></dl>
 
-#### Return Value
+### Return Value
 Type: bool<br />true if the source sequence contains the specified element; otherwise, false.
+<a href="#ViewContainerContains-Method-ViewTableRecord">Back to Top</a>
 
 ## See Also
 
 
 #### Reference
-<a href="T_Linq2Acad_ViewContainer.md">ViewContainer Class</a><br /><a href="N_Linq2Acad.md">Linq2Acad Namespace</a><br />
+<a href="T_Linq2Acad_ViewContainer.md#ViewContainer-Class">ViewContainer Class</a><br /><a href="N_Linq2Acad.md#Linq2Acad-Namespace">Linq2Acad Namespace</a><br />

@@ -22,17 +22,15 @@ Public Function Create (
 ```
 
 
-#### Parameters
+### Parameters
 <dl><dt>name</dt><dd>Type: string<br />The name of the new LayerTableRecord.</dd><dt>entities</dt><dd>Type: IEnumerable(Entity)<br />The Entities that should be added to the new LayerTableRecord.</dd></dl>
 
-#### Return Value
+### Return Value
 Type: LayerTableRecord<br />A new instance of LayerTableRecord.
-
-## Exceptions
-&nbsp;<table><tr><th>Exception</th><th>Condition</th></tr><tr><td><a href="https://docs.microsoft.com/dotnet/api/system.argumentnullexception" target="_blank" rel="noopener noreferrer">ArgumentNullException</a></td><td>Thrown when parameters <i>name</i> or <i>entities</i> is null.</td></tr></table>
+<a href="#LayerContainerCreate-Method-string-IEnumerableEntity">Back to Top</a>
 
 ## See Also
 
 
 #### Reference
-<a href="T_Linq2Acad_LayerContainer.md">LayerContainer Class</a><br /><a href="N_Linq2Acad.md">Linq2Acad Namespace</a><br />
+<a href="T_Linq2Acad_LayerContainer.md#LayerContainer-Class">LayerContainer Class</a><br /><a href="N_Linq2Acad.md#Linq2Acad-Namespace">Linq2Acad Namespace</a><br />

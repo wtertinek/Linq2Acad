@@ -1,4 +1,4 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using System;
 using System.Collections;
@@ -21,7 +21,6 @@ namespace Linq2Acad
     /// <param name="source">The source object to write the object to.</param>
     /// <param name="key">A string that acts as the key in the extension dictionary.</param>
     /// <param name="data">The object to store.</param>
-    /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     public static void SaveData<T>(this DBObject source, string key, T data)
     {
       Require.ParameterNotNull(source, nameof(source));
@@ -105,7 +104,6 @@ namespace Linq2Acad
     /// <typeparam name="T">The type of the object to read.</typeparam>
     /// <param name="source">The source object to read the object from.</param>
     /// <param name="key">A string that acts as the key in the extension dictionary.</param>
-    /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     /// <returns>The object in the extension dictionary.</returns>
     public static T GetData<T>(this DBObject source, string key)
       => GetData<T>(source, key, false);
@@ -117,7 +115,6 @@ namespace Linq2Acad
     /// <param name="source">The source object to read the object from.</param>
     /// <param name="key">If parameter <paramref name="useXData"/> is true, this string is the name of the RegApp to read the data from. If parameter <paramref name="useXData"/> is false, this string acts as the key in the extension dictionary.</param>
     /// <param name="useXData">True, if data should be read from the source object's XData. False, if data should be read from the source object's extension dictionary.</param>
-    /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     /// <returns>The object in the extension dictionary.</returns>
     public static T GetData<T>(this DBObject source, string key, bool useXData)
     {
@@ -135,7 +132,6 @@ namespace Linq2Acad
     /// <typeparam name="T">The type of the object to read.</typeparam>
     /// <param name="source">The source object to read the object from.</param>
     /// <param name="key">A string that acts as the key in the extension dictionary.</param>
-    /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     /// <returns>The object in the extension dictionary.</returns>
     private static T GetFromXExtensionDictionary<T>(DBObject source, string key)
     {
@@ -178,7 +174,6 @@ namespace Linq2Acad
     /// <typeparam name="T">The type of the object to read.</typeparam>
     /// <param name="source">The source object to read the object from.</param>
     /// <param name="regAppName">The name of the RegApp to read the data from.</param>
-    /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     /// <returns>The object in the extension dictionary.</returns>
     private static T GetFromXData<T>(DBObject source, string regAppName)
     {
@@ -337,7 +332,6 @@ namespace Linq2Acad
     /// </summary>
     /// <param name="source">The source object to check.</param>
     /// <param name="key">A string that acts as the key in the extension dictionary.</param>
-    /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     /// <returns>True, if the extension dictionary contains an entry with the given key.</returns>
     public static bool HasData(this DBObject source, string key)
       => HasData(source, key, false);
@@ -348,7 +342,6 @@ namespace Linq2Acad
     /// <param name="source">The source object to check.</param>
     /// <param name="key">If parameter <paramref name="useXData"/> is true, this string is the name of the RegApp to read the data from. If parameter <paramref name="useXData"/> is false, this string acts as the key in the extension dictionary.</param>
     /// <param name="useXData">True, if data should be read from the source object's XData. False, if data should be read from the source object's extension dictionary.</param>
-    /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     /// <returns>True, if the extension dictionary contains an entry with the given key.</returns>
     public static bool HasData(this DBObject source, string key, bool useXData)
     {
@@ -395,8 +388,6 @@ namespace Linq2Acad
     /// </summary>
     /// <param name="source">The source object to check.</param>
     /// <param name="key">A string that acts as the key in the extension dictionary.</param>
-    /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
-    /// <exception cref="System.Collections.Generic.KeyNotFoundException">Thrown when the given key is not found.</exception>
     public static void RemoveData(this DBObject source, string key)
     {
       Require.ParameterNotNull(source, nameof(source));

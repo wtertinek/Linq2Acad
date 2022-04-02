@@ -16,14 +16,15 @@ Public Function Contains (name As String) As Boolean
 ```
 
 
-#### Parameters
+### Parameters
 <dl><dt>name</dt><dd>Type: string<br />The name of the object.</dd></dl>
 
-#### Return Value
+### Return Value
 Type: bool<br />true if the source sequence contains an LayerTableRecord that has the specified name; otherwise, false.
+<a href="#LayerContainerContains-Method-string">Back to Top</a>
 
 ## See Also
 
 
 #### Reference
-<a href="T_Linq2Acad_LayerContainer.md">LayerContainer Class</a><br /><a href="N_Linq2Acad.md">Linq2Acad Namespace</a><br />
+<a href="T_Linq2Acad_LayerContainer.md#LayerContainer-Class">LayerContainer Class</a><br /><a href="N_Linq2Acad.md#Linq2Acad-Namespace">Linq2Acad Namespace</a><br />

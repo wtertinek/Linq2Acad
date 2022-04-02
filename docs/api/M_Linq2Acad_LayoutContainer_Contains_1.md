@@ -16,14 +16,15 @@ Public Overrides Function Contains (element As Layout) As Boolean
 ```
 
 
-#### Parameters
+### Parameters
 <dl><dt>element</dt><dd>Type: Layout<br />The Layout to locate in the sequence.</dd></dl>
 
-#### Return Value
+### Return Value
 Type: bool<br />true if the source sequence contains the specified element; otherwise, false.
+<a href="#LayoutContainerContains-Method-Layout">Back to Top</a>
 
 ## See Also
 
 
 #### Reference
-<a href="T_Linq2Acad_LayoutContainer.md">LayoutContainer Class</a><br /><a href="N_Linq2Acad.md">Linq2Acad Namespace</a><br />
+<a href="T_Linq2Acad_LayoutContainer.md#LayoutContainer-Class">LayoutContainer Class</a><br /><a href="N_Linq2Acad.md#Linq2Acad-Namespace">Linq2Acad Namespace</a><br />

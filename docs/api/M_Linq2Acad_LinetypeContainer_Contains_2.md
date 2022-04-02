@@ -16,14 +16,15 @@ Public Function Contains (name As String) As Boolean
 ```
 
 
-#### Parameters
+### Parameters
 <dl><dt>name</dt><dd>Type: string<br />The name of the object.</dd></dl>
 
-#### Return Value
+### Return Value
 Type: bool<br />true if the source sequence contains an LinetypeTableRecord that has the specified name; otherwise, false.
+<a href="#LinetypeContainerContains-Method-string">Back to Top</a>
 
 ## See Also
 
 
 #### Reference
-<a href="T_Linq2Acad_LinetypeContainer.md">LinetypeContainer Class</a><br /><a href="N_Linq2Acad.md">Linq2Acad Namespace</a><br />
+<a href="T_Linq2Acad_LinetypeContainer.md#LinetypeContainer-Class">LinetypeContainer Class</a><br /><a href="N_Linq2Acad.md#Linq2Acad-Namespace">Linq2Acad Namespace</a><br />

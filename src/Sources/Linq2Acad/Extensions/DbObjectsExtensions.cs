@@ -1,4 +1,4 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.DatabaseServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +18,6 @@ namespace Linq2Acad
     /// <typeparam name="T">The type of elements in this System.Collections.Generic.IEnumerable&lt;DBObject&gt;.</typeparam>
     /// <param name="elements">The System.Collections.Generic.IEnumerable&lt;DBObject&gt; instance.</param>
     /// <param name="action">The action to execute.</param>
-    /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameter  <i>action</i> is null.</exception>
     public static void ForEach<T>(this IEnumerable<T> elements, Action<T> action) where T : DBObject
     {
       Require.ParameterNotNull(elements, nameof(elements));
@@ -36,7 +34,6 @@ namespace Linq2Acad
     /// </summary>
     /// <typeparam name="T">The type of elements in this System.Collections.Generic.IEnumerable&lt;DBObject&gt;.</typeparam>
     /// <param name="source">The System.Collections.Generic.IEnumerable&lt;DBObject&gt; instance.</param>
-    /// <exception cref="System.Exception">Thrown when an AutoCAD error occurs.</exception>
     /// <returns>The given elements in OpenMode.ForWrite.</returns>
     public static IEnumerable<T> UpgradeOpen<T>(this IEnumerable<T> source) where T : DBObject
     {

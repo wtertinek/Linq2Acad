@@ -64,7 +64,6 @@ namespace Linq2Acad
     /// <param name="name">The name of the new BlockTableRecord.</param>
     /// <param name="entities">The Entities that should be added to the BlockTableRecord.</param>
     /// <returns>A new instance of BlockTableRecord.</returns>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameters <i>name</i> or <i>entities</i> is null.</exception>
     public BlockTableRecord Create(string name, IEnumerable<Entity> entities)
     {
       Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
@@ -93,7 +92,6 @@ namespace Linq2Acad
     /// <param name="newBlockName">The name of the new BlockTableRecord.</param>
     /// <param name="fileName">The name of the drawing file that should be imported.</param>
     /// <returns>A new instance of BlockTableRecord.</returns>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameters <i>newBlockName</i> or <i>fileName</i> is null.</exception>
     public BlockTableRecord Import(string newBlockName, string fileName)
     {
       Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));

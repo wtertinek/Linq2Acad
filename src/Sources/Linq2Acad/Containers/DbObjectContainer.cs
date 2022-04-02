@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,9 +27,6 @@ namespace Linq2Acad
     /// <typeparam name="T">The type of the object.</typeparam>
     /// <param name="id">The ID of the object.</param>
     /// <param name="openForWrite">True, if the object should be opened for-write. By default the object is opened readonly.</param>
-    /// <exception cref="System.ArgumentOutOfRangeException">Thrown when an invalid ObjectId is passed.</exception>
-    /// <exception cref="System.InvalidCastException">Thrown when the object cannot be casted to the target type.</exception>
-    /// <exception cref="System.Exception">Thrown when getting the element throws an exception.</exception>
     /// <returns>The object with the given ObjectId.</returns>
     public T Element<T>(ObjectId id, bool openForWrite = false) where T : DBObject
     {
@@ -46,9 +43,6 @@ namespace Linq2Acad
     /// <typeparam name="T">The type of the object.</typeparam>
     /// <param name="id">The ID of the object.</param>
     /// <param name="openForWrite">True, if the object should be opened for-write. By default the object is opened readonly.</param>
-    /// <exception cref="System.ArgumentOutOfRangeException">Thrown when an invalid ObjectId is passed.</exception>
-    /// <exception cref="System.InvalidCastException">Thrown when the object cannot be casted to the target type.</exception>
-    /// <exception cref="System.Exception">Thrown when getting the element throws an exception.</exception>
     /// <returns>The object with the given ObjectId.</returns>
     public T ElementOrDefault<T>(ObjectId id, bool openForWrite = false) where T : DBObject
     {
@@ -79,9 +73,6 @@ namespace Linq2Acad
     /// <typeparam name="T">The type of the objects.</typeparam>
     /// <param name="ids">The ids of the objects.</param>
     /// <param name="openForWrite">True, if the objects should be opened for-write. By default the objects are opened readonly.</param>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>ids</i> is null.</exception>
-    /// <exception cref="System.InvalidCastException">Thrown when an object cannot be casted to the target type.</exception>
-    /// <exception cref="System.Exception">Thrown when an ObjectId is invalid or getting an element throws an exception.</exception>
     /// <returns>The objects with the given ObjectIds.</returns>
     public IEnumerable<T> Elements<T>(IEnumerable<ObjectId> ids, bool openForWrite = false) where T : DBObject
     {
@@ -98,9 +89,6 @@ namespace Linq2Acad
     /// <typeparam name="T">The type of the objects.</typeparam>
     /// <param name="ids">The ids of the objects.</param>
     /// <param name="openForWrite">True, if the objects should be opened for-write. By default the objects are opened readonly.</param>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>ids</i> is null.</exception>
-    /// <exception cref="System.InvalidCastException">Thrown when an object cannot be casted to the target type.</exception>
-    /// <exception cref="System.Exception">Thrown when an ObjectId is invalid or getting an element throws an exception.</exception>
     /// <returns>The objects with the given ObjectIds.</returns>
     public IEnumerable<T> Elements<T>(ObjectIdCollection ids, bool openForWrite = false) where T : DBObject
     {

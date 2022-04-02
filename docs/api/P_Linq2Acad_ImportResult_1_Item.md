@@ -18,10 +18,11 @@ Public ReadOnly Property Item As T
 
 
 #### Property Value
-Type: <a href="T_Linq2Acad_ImportResult_1.md">*T*</a>
+Type: <a href="T_Linq2Acad_ImportResult_1.md#ImportResultT-Class">*T*</a>
+<a href="#ImportResultTItem-Property">Back to Top</a>
 
 ## See Also
 
 
 #### Reference
-<a href="T_Linq2Acad_ImportResult_1.md">ImportResult(T) Class</a><br /><a href="N_Linq2Acad.md">Linq2Acad Namespace</a><br />
+<a href="T_Linq2Acad_ImportResult_1.md#ImportResultT-Class">ImportResult(T) Class</a><br /><a href="N_Linq2Acad.md#Linq2Acad-Namespace">Linq2Acad Namespace</a><br />

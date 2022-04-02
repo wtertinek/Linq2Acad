@@ -18,10 +18,11 @@ Public ReadOnly Property DBVisualStyles As DBVisualStyleContainer
 
 
 #### Property Value
-Type: <a href="T_Linq2Acad_DBVisualStyleContainer.md">DBVisualStyleContainer</a>
+Type: <a href="T_Linq2Acad_DBVisualStyleContainer.md#DBVisualStyleContainer-Class">DBVisualStyleContainer</a>
+<a href="#StylesContainerDBVisualStyles-Property">Back to Top</a>
 
 ## See Also
 
 
 #### Reference
-<a href="T_Linq2Acad_StylesContainer.md">StylesContainer Class</a><br /><a href="N_Linq2Acad.md">Linq2Acad Namespace</a><br />
+<a href="T_Linq2Acad_StylesContainer.md#StylesContainer-Class">StylesContainer Class</a><br /><a href="N_Linq2Acad.md#Linq2Acad-Namespace">Linq2Acad Namespace</a><br />

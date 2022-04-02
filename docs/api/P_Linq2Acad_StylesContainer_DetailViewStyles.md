@@ -18,10 +18,11 @@ Public ReadOnly Property DetailViewStyles As DetailViewStyleContainer
 
 
 #### Property Value
-Type: <a href="T_Linq2Acad_DetailViewStyleContainer.md">DetailViewStyleContainer</a>
+Type: <a href="T_Linq2Acad_DetailViewStyleContainer.md#DetailViewStyleContainer-Class">DetailViewStyleContainer</a>
+<a href="#StylesContainerDetailViewStyles-Property">Back to Top</a>
 
 ## See Also
 
 
 #### Reference
-<a href="T_Linq2Acad_StylesContainer.md">StylesContainer Class</a><br /><a href="N_Linq2Acad.md">Linq2Acad Namespace</a><br />
+<a href="T_Linq2Acad_StylesContainer.md#StylesContainer-Class">StylesContainer Class</a><br /><a href="N_Linq2Acad.md#Linq2Acad-Namespace">Linq2Acad Namespace</a><br />

@@ -1,4 +1,4 @@
-# MaterialContainer.ElementOrDefault Method 
+# MaterialContainer.ElementOrDefault Method (ObjectId, bool)
  
 
 Returns the Material with the specified ID or <i>null</i> if the Material cannot be found.
@@ -22,14 +22,15 @@ Public Function ElementOrDefault (
 ```
 
 
-#### Parameters
+### Parameters
 <dl><dt>id</dt><dd>Type: ObjectId<br />The ID of the Material.</dd><dt>openForWrite (Optional)</dt><dd>Type: bool<br />True, if the object should be opened for-write. By default the object is opened readonly.</dd></dl>
 
-#### Return Value
+### Return Value
 Type: Material<br />The Material with the specified ID.
+<a href="#MaterialContainerElementOrDefault-Method-ObjectId-bool">Back to Top</a>
 
 ## See Also
 
 
 #### Reference
-<a href="T_Linq2Acad_MaterialContainer.md">MaterialContainer Class</a><br /><a href="N_Linq2Acad.md">Linq2Acad Namespace</a><br />
+<a href="T_Linq2Acad_MaterialContainer.md#MaterialContainer-Class">MaterialContainer Class</a><br /><a href="N_Linq2Acad.md#Linq2Acad-Namespace">Linq2Acad Namespace</a><br />

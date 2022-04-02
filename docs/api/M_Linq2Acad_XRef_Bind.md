@@ -16,11 +16,12 @@ Public Sub Bind (Optional insertSymbolNamesWithoutPrefixes As Boolean = false)
 ```
 
 
-#### Parameters
+### Parameters
 <dl><dt>insertSymbolNamesWithoutPrefixes (Optional)</dt><dd>Type: bool<br />If set to true, the SymbolTableRecord names will be changed from the XRef naming convention to normal insert block names.</dd></dl>
+<a href="#XRefBind-Method">Back to Top</a>
 
 ## See Also
 
 
 #### Reference
-<a href="T_Linq2Acad_XRef.md">XRef Class</a><br /><a href="N_Linq2Acad.md">Linq2Acad Namespace</a><br />
+<a href="T_Linq2Acad_XRef.md#XRef-Class">XRef Class</a><br /><a href="N_Linq2Acad.md#Linq2Acad-Namespace">Linq2Acad Namespace</a><br />

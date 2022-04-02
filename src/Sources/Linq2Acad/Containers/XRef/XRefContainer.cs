@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,7 +44,6 @@ namespace Linq2Acad
     /// <param name="fileName">The file name of the XRef.</param>
     /// <param name="blockName">The XRef's block name. If not specified, the file name is used as the XRef's block name.</param>
     /// <returns>A new instance of XRef.</returns>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>file name</i> is null.</exception>
     public XRef Attach(string fileName, string blockName = null)
     {
       Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
@@ -70,7 +69,6 @@ namespace Linq2Acad
     /// <param name="fileName">The file name of the XRef.</param>
     /// <param name="blockName">The XRef's block name. If not specified, the file name is used as the XRef's block name.</param>
     /// <returns>A new instance of XRef.</returns>
-    /// <exception cref="System.ArgumentNullException">Thrown when parameter <i>file name</i> is null.</exception>
     public XRef Overlay(string fileName, string blockName = null)
     {
       Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));

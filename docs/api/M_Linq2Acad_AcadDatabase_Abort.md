@@ -1,25 +1,21 @@
-# AcadDatabase.Database Property 
+# AcadDatabase.Abort Method 
  
 
-The drawing database in use.
+Immediately discards all changes and aborts the underlying transaction. The session is no longer usable after calling this method.
 
 ## Syntax
 
 **C#**<br />
 ``` C#
-public Database Database { get; }
+public void Abort()
 ```
 
 **VB**<br />
 ``` VB
-Public ReadOnly Property Database As Database
-	Get
+Public Sub Abort
 ```
+<a href="#AcadDatabaseAbort-Method">Back to Top</a>
 
-
-#### Property Value
-Type: Database
-<a href="#AcadDatabaseDatabase-Property">Back to Top</a>
 
 ## See Also
 
