@@ -181,15 +181,13 @@
     <Compile Include="..\..\Sources\Linq2Acad\Extensions\LayerTableRecordExtensions.cs">
       <Link>Extensions\LayerTableRecordExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Sources\Linq2Acad\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\AcadSummaryInfo.cs">
       <Link>AcadSummaryInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\Containers\XRef\XRefContainer.cs">
       <Link>Containers\XRef\XRefContainer.cs</Link>
     </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoCAD.NET.Core">
