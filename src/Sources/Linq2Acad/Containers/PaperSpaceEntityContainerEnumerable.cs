@@ -38,7 +38,7 @@ namespace Linq2Acad
   }
 
   /// <summary>
-  /// Extension methods for IEnumerable&lt;PaperSpaceLayout&gt;.
+  /// Extension methods for IEnumerable&lt;PaperSpaceEntityContainer&gt;.
   /// </summary>
   public static class PaperSpaceLayoutEnumerableExtensions
   {

@@ -1,7 +1,7 @@
 # PaperSpaceLayoutEnumerableExtensions Class
  
 
-Extension methods for IEnumerable<PaperSpaceLayout>.
+Extension methods for IEnumerable(PaperSpaceEntityContainer).
 
 
 ## Methods

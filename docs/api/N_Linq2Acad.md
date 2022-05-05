@@ -46,11 +46,11 @@ A container class that provides access to all XRef elements. In addition to the 
 &nbsp;<table><tr><th></th><th>Class</th><th>Description</th></tr><tr><td>![Public class](media/pubclass.gif "Public class")</td><td><a href="T_Linq2Acad_AttributeCollectionExtensions.md#AttributeCollectionExtensions-Class">AttributeCollectionExtensions</a></td><td>
 Extension methods for AttributeCollections.</td></tr><tr><td>![Public class](media/pubclass.gif "Public class")</td><td><a href="T_Linq2Acad_DbObjectExtensions.md#DbObjectExtensions-Class">DbObjectExtensions</a></td><td>
 Extension methods for instances of DbObject.</td></tr><tr><td>![Public class](media/pubclass.gif "Public class")</td><td><a href="T_Linq2Acad_DbObjectsExtensions.md#DbObjectsExtensions-Class">DbObjectsExtensions</a></td><td>
-Extension methods for IEnumerable<DBObject>.</td></tr><tr><td>![Public class](media/pubclass.gif "Public class")</td><td><a href="T_Linq2Acad_DynamicBlockReferencePropertyCollectionExtensions.md#DynamicBlockReferencePropertyCollectionExtensions-Class">DynamicBlockReferencePropertyCollectionExtensions</a></td><td>
+Extension methods for IEnumerable(DBObject).</td></tr><tr><td>![Public class](media/pubclass.gif "Public class")</td><td><a href="T_Linq2Acad_DynamicBlockReferencePropertyCollectionExtensions.md#DynamicBlockReferencePropertyCollectionExtensions-Class">DynamicBlockReferencePropertyCollectionExtensions</a></td><td>
 Extension methods for DynamicBlockReferencePropertyCollections.</td></tr><tr><td>![Public class](media/pubclass.gif "Public class")</td><td><a href="T_Linq2Acad_EditorExtensions.md#EditorExtensions-Class">EditorExtensions</a></td><td>
 Extension methods for the AutoCAD Editor.</td></tr><tr><td>![Public class](media/pubclass.gif "Public class")</td><td><a href="T_Linq2Acad_LayerTableRecordExtensions.md#LayerTableRecordExtensions-Class">LayerTableRecordExtensions</a></td><td>
 Extension methods for instances of LayerTableRecord.</td></tr><tr><td>![Public class](media/pubclass.gif "Public class")</td><td><a href="T_Linq2Acad_PaperSpaceLayoutEnumerableExtensions.md#PaperSpaceLayoutEnumerableExtensions-Class">PaperSpaceLayoutEnumerableExtensions</a></td><td>
-Extension methods for IEnumerable<PaperSpaceLayout>.</td></tr></table>
+Extension methods for IEnumerable(PaperSpaceEntityContainer).</td></tr></table>
 <a href="#Linq2Acad-Namespace">Back to Top</a>
 
 ## Enumerations

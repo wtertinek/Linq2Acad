@@ -21,7 +21,7 @@ namespace Linq2Acad
     private readonly bool saveOnCommit;
     private readonly string saveAsFileName;
     private readonly SaveAsDwgVersion dwgVersion;
-    private Transaction transaction;
+    private readonly Transaction transaction;
     private readonly AcadSummaryInfo summaryInfo;
 
     private AcadDatabase(Database database, bool keepOpen, string outFileName, SaveAsDwgVersion dwgVersion)
@@ -274,7 +274,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the model space entities. In addition to the standard LINQ operations this class provides methods to add, import and clear Entities.
+    /// Provides access to the entities of the model space. In addition to the standard LINQ operations this class provides methods to add, import and clear Entities.
     /// </summary>
     public EntityContainer ModelSpace
     {
@@ -289,7 +289,7 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the paper space layouts.
+    /// Provides access to the entities of the paper space layouts.
     /// </summary>
     public IEnumerable<PaperSpaceEntityContainer> PaperSpace
     {

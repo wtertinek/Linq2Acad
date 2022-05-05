@@ -1,7 +1,7 @@
 # DbObjectsExtensions Class
  
 
-Extension methods for IEnumerable<DBObject>.
+Extension methods for IEnumerable(DBObject).
 
 
 ## Methods
