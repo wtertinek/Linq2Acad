@@ -1,6 +1,5 @@
 # Linq2Acad
-A library that aims to simplify AutoCAD .NET addin code.
-Available for **AutoCAD 2015** and later (**AutoCAD 2023 now available!**).
+A library that aims to simplify AutoCAD .NET addin code. Available for **AutoCAD 2015** and later (**AutoCAD 2023 now available!**).
 
 ### Overview
 - [Getting started](#get-started)
