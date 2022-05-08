@@ -71,6 +71,9 @@ If you have a source code reference to Linq2Acad in your solution and want to up
 
 (If you add Nuget while already having a `Linq2Acad` project there, and THEN you subsequently remove the latter project - you might have a lot of problems.)
 
+### Breaking changes not reflected in version updates
+Beginning with the Nuget release of version 1.0.0, Linq2Acad is released in accordance with the rules of [semantic versioning](https://semver.org). Previous to that, there have been breaking changes to the API that were not reflected in the API's version number. The changes in question can be found [here](docs/BreakingChanges.md).
+
 ## API documentation
 The best entry point into the API documentation is the class [AcadDatabase](docs/api/T_Linq2Acad_AcadDatabase.md#AcadDatabase-Class). An overview of all classes can be found [here](docs/api/Index.md#Linq2Acad-Namespace).
 
