@@ -1,4 +1,4 @@
-Beginning with the Nuget release of version 1.0.0, Linq2Acad is released in accordance with the rules of [semantic versioning](https://semver.org). Previous to that, there have been breaking changes to the API that were not reflected in the API's version number. The changes in question (see the commit messages for more information):
+Beginning with the Nuget release of version 1.0.0, Linq2Acad is released in accordance with the rules of [semantic versioning](https://semver.org). Previous to that, there have been breaking changes to the API that were not reflected in the API's version number. The changes in question are (see the commit messages for more information):
 
 * AcadDatabase.DiscardChanges replaced by AcadDatabase.Abort ([263dc61](https://github.com/wtertinek/Linq2Acad/commit/263dc6170167dbd97999c977e4b13f3cba1c0bf9))
 * XRef's property setters changed to methodes, XRefInfo class integrated into XRef class ([f8c6a54](https://github.com/wtertinek/Linq2Acad/commit/f8c6a54b2d772f116ea6caf98d4688cb4ae9fdce))

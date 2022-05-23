@@ -1,9 +1,9 @@
 # Linq2Acad
-A library that aims to simplify AutoCAD .NET addin code. Available for **AutoCAD 2015** and later (**AutoCAD 2023 now available!**).
+A library that aims to simplify AutoCAD .NET addin code. Available for **AutoCAD 2015** and later.
 
 ### Overview
 - [Getting started](#get-started)
-- [Nuget package](#nuget-package)
+- [NuGet package](#nuget-package)
 - [API documentation](#api-documentation)
 - [Code samples](#code-samples)
 - [How it works](#how-it-works)
@@ -59,8 +59,7 @@ using (var targetDb = AcadDatabase.Active())
 More code samples (in C# and VB.NET) can be found [here](docs/CodeSamples.md).
 
 ## NuGet package
-**UPDATE**: Version 1.0.0 of Linq2Acad is now available on **NuGet**!
-There is a dedicated NuGet package for each AutoCAD version, the packages are named **Linq2Acad-20xx** [(see nuget.org)](https://www.nuget.org/packages?q=linq2acad).
+**UPDATE**: Version 1.0.0 of Linq2Acad is now available on NuGet! There is a dedicated NuGet package for each AutoCAD version, the packages are named **Linq2Acad-20xx** ([see nuget.org](https://www.nuget.org/packages?q=linq2acad)).
 
 ### How to upgrade from source code to Nuget
 If you have a source code reference to Linq2Acad in your solution and want to upgrade to NuGet, please take the following steps:
