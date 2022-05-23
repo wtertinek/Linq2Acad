@@ -60,7 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoCAD.NET.Core">
-      <Version>24.1.51000</Version>
+      <Version>24.2.0</Version>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
   </ItemGroup>
