@@ -59,8 +59,8 @@ using (var targetDb = AcadDatabase.Active())
 More code samples (in C# and VB.NET) can be found [here](docs/CodeSamples.md).
 
 ## NuGet package
-A Beta version of Linq2Acad is now available on **NuGet**!
-There is a dedicated NuGet package for each AutoCAD version, the packages are named [**Linq2Acad-20xx**](https://www.nuget.org/packages?q=linq2acad). Since we still are in beta phase, the packages are declared as prerelease, so **check *Include prereleases*** in the NuGet browser in Visual Studio in order to find the packages. The planned release date is ~~March 1st 2022~~ shortly after the release of AutoCAD 2023.
+**UPDATE**: Version 1.0.0 of Linq2Acad is now available on **NuGet**!
+There is a dedicated NuGet package for each AutoCAD version, the packages are named **Linq2Acad-20xx** [(see nuget.org)](https://www.nuget.org/packages?q=linq2acad).
 
 ### How to upgrade from source code to Nuget
 If you have a source code reference to Linq2Acad in your solution and want to upgrade to NuGet, please take the following steps:
