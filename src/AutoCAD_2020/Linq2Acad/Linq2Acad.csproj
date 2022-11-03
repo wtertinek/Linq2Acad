@@ -187,6 +187,9 @@
     <Compile Include="..\..\Sources\Linq2Acad\Containers\XRef\XRefContainer.cs">
       <Link>Containers\XRef\XRefContainer.cs</Link>
     </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Extensions\GroupExtensions.cs">
+      <Link>Extensions\GroupExtensions.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

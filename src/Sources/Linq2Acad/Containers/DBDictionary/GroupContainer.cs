@@ -31,15 +31,7 @@ namespace Linq2Acad
       Require.NameDoesNotExist<Group>(Contains(name), name);
 
       var group = AddInternal(new Group(), name);
-
-      if (entities.Any())
-      {
-        using (var idCollection = new ObjectIdCollection(entities.Select(e => e.ObjectId)
-                                                                  .ToArray()))
-        {
-          group.Append(idCollection);
-        }
-      }
+      group.Append(entities);      
 
       return group;
     }
