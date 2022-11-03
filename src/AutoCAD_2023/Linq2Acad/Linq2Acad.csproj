@@ -181,6 +181,9 @@
     <Compile Include="..\..\Sources\Linq2Acad\Extensions\LayerTableRecordExtensions.cs">
       <Link>Extensions\LayerTableRecordExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Extensions\GroupExtensions.cs">
+      <Link>Extensions\GroupExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\AcadSummaryInfo.cs">
       <Link>AcadSummaryInfo.cs</Link>
     </Compile>
