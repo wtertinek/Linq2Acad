@@ -376,32 +376,34 @@ namespace Linq2Acad
             using (var db = AcadDatabase.Active())
             {
                 Group group1 = db.Groups.CreateOrFind("Group1");
-                group1.Append(create10Lines(db)); // append lines
+                group1.Append(createEntities(db)); // append lines
 
 
-                List<Line> lines = create10Lines(db);
+                List<Line> lines = createEntities(db);
                 group1.InsertAt(1, lines);         // insert at lines       
                 group1.RemoveAt(1, lines);         // remove at lines
 
 
-                List<Line> lines2 = create10Lines(db);
+                List<Line> lines2 = createEntities(db);
                 Group group2 = db.Groups.CreateOrFind("Group2");
                 group2.Append(lines2.Select(line => line.ObjectId));   // append using objectIds
                 group2.Remove(lines2.Select(line => line.ObjectId));   // remove at using objectIds
 
 
                 Group group3 = db.Groups.CreateOrFind("Group3");
-                List<Entity> entities = create10Lines(db).Cast<Entity>().ToList();
+                List<Entity> entities = createEntities(db).Cast<Entity>().ToList();
                 group3.InsertAt(0, entities); // insert at entities
                 group3.RemoveAt(0, entities); // remove at entities               
 
 
                 Group group4 = db.Groups.CreateOrFind("Group4");
-                group4.InsertAt(0, create10Lines(db).Select(line => line.ObjectId)); // insert at object ids
+                group4.InsertAt(0, createEntities(db).Select(line => line.ObjectId)); // insert at object ids
                 group4.RemoveAt(0, group4.GetAllEntityIds()); // remove at object ids
+
+                Group group5 = db.Groups.CreateOrFind("Group5", createEntities(db));
             }
 
-            List<Line> create10Lines(AcadDatabase db)
+            List<Line> createEntities(AcadDatabase db)
             {
                 Random randomizer = new Random();
                 List<Line> lines = new List<Line>();
@@ -432,6 +434,11 @@ namespace Linq2Acad
           => container.Contains(groupName)
                ? container.Element(groupName)
                : container.Create(groupName);
+
+        public static Group CreateOrFind(this GroupContainer container, string groupName, IEnumerable<Entity> entities)
+            => container.Contains(groupName)
+               ? container.Element(groupName)
+               : container.Create(groupName, entities);
     }
 
 
