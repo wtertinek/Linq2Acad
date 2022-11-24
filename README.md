@@ -62,10 +62,9 @@ More code samples (in C# and VB.NET) can be found [here](docs/CodeSamples.md).
 **UPDATE**: Version 1.0.0 of Linq2Acad is now available on NuGet! There is a dedicated NuGet package for each AutoCAD version, the packages are named **Linq2Acad-20xx** ([see nuget.org](https://www.nuget.org/packages?q=linq2acad)).
 
 ### How to upgrade from source code to Nuget
-If you have a source code reference to Linq2Acad in your solution and want to upgrade to NuGet, please take the following steps:
 
-1. Remove your existing `Linq2Acad` **PROJECT** completely from your existing Visual Studio solution. You should see a lot of red squiggly lines. That's great!
-2. Install the Nuget Packages. Voila!
+1. Remove your existing `Linq2Acad` **PROJECT** completely from your existing Visual Studio solution. (You should see a lot of red squiggly lines.)
+2. Install the Nuget Packages. 
 
 (If you add Nuget while already having a `Linq2Acad` project there, and THEN you subsequently remove the latter project - you might have a lot of problems.)
 
