@@ -82,9 +82,12 @@ Code samples in C# and VB.NET can be found [here](docs/CodeSamples.md).
 Please refer to [this blog series](https://wtertinek.com/2016/07/06/linq-and-the-autocad-net-api-final-part) which details in a step-by-step fashion: (i) how this library works and (ii) the decision making process and logic behind the library's derivation.
 
 ## Contributing
-Please contribute to this project by
-- opening an [issue](https://github.com/wtertinek/Linq2Acad/issues) if you found a bug or have a feature request
-- creating a pull request if you want to help extending the library
+
+Please:
+
+- open an [issue](https://github.com/wtertinek/Linq2Acad/issues) if you've found a bug,
+- a [discussion](https://github.com/wtertinek/Linq2Acad/discussions/new) for a feature request, and then, 
+- a pull request if you want to help extending the library.
 
 For those with graphic design abilities: it would be nice to have a Linq2Acad logo.
 
