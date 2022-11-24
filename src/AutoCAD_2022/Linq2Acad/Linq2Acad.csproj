@@ -190,6 +190,9 @@
     <Compile Include="..\..\Sources\Linq2Acad\Extensions\GroupExtensions.cs">
       <Link>Extensions\GroupExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Extensions\LineExtensions.cs">
+      <Link>Extensions\LineExtensions.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
