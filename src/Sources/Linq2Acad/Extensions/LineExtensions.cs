@@ -42,7 +42,7 @@ namespace Linq2Acad
         /// </summary>
         /// <param name="line"></param>
         /// <param name="startPoint"></param>
-        /// <returns></returns>
+        /// <returns>Line</returns>
         public static Line From(this Line line, Point3d startPoint)
         {
             line.StartPoint = startPoint;
@@ -55,7 +55,7 @@ namespace Linq2Acad
         /// </summary>
         /// <param name="line"></param>
         /// <param name="endPoint"></param>
-        /// <returns></returns>
+        /// <returns>Line</returns>
         public static Line To(this Line line, Point3d endPoint)
         {
             line.EndPoint = endPoint;
