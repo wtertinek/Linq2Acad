@@ -84,9 +84,12 @@ Code samples in C# and VB.NET can be found [here](docs/CodeSamples.md).
 - the design / implementation decisions involved in deriving the API. 
 
 ## Contributing
-Please contribute to this project by
-- opening an [issue](https://github.com/wtertinek/Linq2Acad/issues) if you found a bug or have a feature request
-- creating a pull request if you want to help extending the library
+
+Please:
+
+- open an [issue](https://github.com/wtertinek/Linq2Acad/issues) if you've found a bug,
+- a [discussion](https://github.com/wtertinek/Linq2Acad/discussions/new) for a feature request, and then, 
+- a pull request if you want to help extending the library.
 
 For those with graphic design abilities: it would be nice to have a Linq2Acad logo.
 
