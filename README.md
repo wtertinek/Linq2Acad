@@ -77,8 +77,11 @@ The best entry point into the API documentation is the class [AcadDatabase](docs
 ## Code samples
 Code samples in C# and VB.NET can be found [here](docs/CodeSamples.md).
 
-## How it works
-Please refer to [this blog series](https://wtertinek.com/2016/07/06/linq-and-the-autocad-net-api-final-part) which details in a step-by-step fashion: (i) how this library works and (ii) the decision making process and logic behind the library's derivation.
+## How it works?
+[This blog series](https://wtertinek.com/2016/07/06/linq-and-the-autocad-net-api-final-part) discusses:
+
+- the original problem this library seeks to solve,
+- the design / implementation decisions involved in deriving the API. 
 
 ## Contributing
 Please contribute to this project by
