@@ -82,7 +82,6 @@ Code samples in C# and VB.NET can be found [here](docs/CodeSamples.md).
 Please refer to [this blog series](https://wtertinek.com/2016/07/06/linq-and-the-autocad-net-api-final-part) which details in a step-by-step fashion: (i) how this library works and (ii) the decision making process and logic behind the library's derivation.
 
 ## Contributing
-
 See [contributing documentation](/Contributing.md).
 
 ## License
