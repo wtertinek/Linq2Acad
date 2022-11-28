@@ -62,10 +62,9 @@ More code samples (in C# and VB.NET) can be found [here](docs/CodeSamples.md).
 **UPDATE**: Version 1.0.0 of Linq2Acad is now available on NuGet! There is a dedicated NuGet package for each AutoCAD version, the packages are named **Linq2Acad-20xx** ([see nuget.org](https://www.nuget.org/packages?q=linq2acad)).
 
 ### How to upgrade from source code to Nuget
-If you have a source code reference to Linq2Acad in your solution and want to upgrade to NuGet, please take the following steps:
 
-1. Remove your existing `Linq2Acad` **PROJECT** completely from your existing Visual Studio solution. You should see a lot of red squiggly lines. That's great!
-2. Install the Nuget Packages. Voila!
+1. Remove your existing `Linq2Acad` **PROJECT** completely from your existing Visual Studio solution. (You should see a lot of red squiggly lines.)
+2. Install the Nuget Packages. 
 
 (If you add Nuget while already having a `Linq2Acad` project there, and THEN you subsequently remove the latter project - you might have a lot of problems.)
 
@@ -78,8 +77,11 @@ The best entry point into the API documentation is the class [AcadDatabase](docs
 ## Code samples
 Code samples in C# and VB.NET can be found [here](docs/CodeSamples.md).
 
-## How it works
-Please refer to [this blog series](https://wtertinek.com/2016/07/06/linq-and-the-autocad-net-api-final-part) which details in a step-by-step fashion: (i) how this library works and (ii) the decision making process and logic behind the library's derivation.
+## How it works?
+[This blog series](https://wtertinek.com/2016/07/06/linq-and-the-autocad-net-api-final-part) discusses:
+
+- the original problem this library seeks to solve,
+- the design / implementation decisions involved in deriving the API. 
 
 ## Contributing
 See [contributing documentation](/Contributing.md).
