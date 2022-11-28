@@ -84,7 +84,6 @@ Code samples in C# and VB.NET can be found [here](docs/CodeSamples.md).
 - the design / implementation decisions involved in deriving the API. 
 
 ## Contributing
-
 See [contributing documentation](/Contributing.md).
 
 ## License
