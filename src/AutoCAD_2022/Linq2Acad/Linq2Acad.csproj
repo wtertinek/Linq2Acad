@@ -193,8 +193,14 @@
     <Compile Include="..\..\Sources\Linq2Acad\Extensions\LineExtensions.cs">
       <Link>Extensions\LineExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Extensions\BlockTableRecordExtensions.cs">
+      <Link>Extensions\BlockTableRecordExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Sources\Linq2Acad\Builders\LineBuilder.cs">
       <Link>Builders\LineBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Sources\Linq2Acad\Builders\BlockReferenceBuilder.cs">
+      <Link>Builders\BlockReferenceBuilder.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -9,7 +9,6 @@ using System.Runtime.Remoting.Messaging;
 
 namespace Linq2Acad
 {
-
     public class LineBuilder
     {        
         double startX = 0;
