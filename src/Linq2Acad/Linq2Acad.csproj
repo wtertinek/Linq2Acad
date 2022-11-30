@@ -1,0 +1,375 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{439863BE-0E7E-41F6-B6DF-9EA47AA3E022}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Linq2Acad</RootNamespace>
+    <AssemblyName>Linq2Acad</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_2015|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug_2015\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;AutoCAD_2015</DefineConstants>
+    <DocumentationFile>bin\Debug_2015\Linq2Acad.XML</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_2016|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug_2016\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;AutoCAD_2016</DefineConstants>
+    <DocumentationFile>bin\Debug_2016\Linq2Acad.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_2017|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug_2017\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;AutoCAD_2017</DefineConstants>
+    <DocumentationFile>bin\Debug_2017\Linq2Acad.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_2018|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug_2018\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;AutoCAD_2018</DefineConstants>
+    <DocumentationFile>bin\Debug_2018\Linq2Acad.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_2019|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug_2019\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;AutoCAD_2019</DefineConstants>
+    <DocumentationFile>bin\Debug_2019\Linq2Acad.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_2020|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug_2020\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;AutoCAD_2020</DefineConstants>
+    <DocumentationFile>bin\Debug_2020\Linq2Acad.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_2021|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug_2021\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;AutoCAD_2021</DefineConstants>
+    <DocumentationFile>bin\Debug_2021\Linq2Acad.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_2022|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug_2022\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;AutoCAD_2022</DefineConstants>
+    <DocumentationFile>bin\Debug_2022\Linq2Acad.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_2023|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug_2023\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;AutoCAD_2023</DefineConstants>
+    <DocumentationFile>bin\Debug_2023\Linq2Acad.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_2015|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release_2015\</OutputPath>
+    <DefineConstants>TRACE;AutoCAD_2015</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>1591</NoWarn>
+    <DocumentationFile>bin\Release_2015\Linq2Acad.xml</DocumentationFile>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_2016|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release_2016\</OutputPath>
+    <DefineConstants>TRACE;AutoCAD_2016</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>1591</NoWarn>
+    <DocumentationFile>bin\Release_2016\Linq2Acad.xml</DocumentationFile>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_2017|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release_2017\</OutputPath>
+    <DefineConstants>TRACE;AutoCAD_2017</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>1591</NoWarn>
+    <DocumentationFile>bin\Release_2017\Linq2Acad.xml</DocumentationFile>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_2018|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release_2018\</OutputPath>
+    <DefineConstants>TRACE;AutoCAD_2018</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>1591</NoWarn>
+    <DocumentationFile>bin\Release_2018\Linq2Acad.xml</DocumentationFile>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_2019|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release_2019\</OutputPath>
+    <DefineConstants>TRACE;AutoCAD_2019</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>1591</NoWarn>
+    <DocumentationFile>bin\Release_2019\Linq2Acad.xml</DocumentationFile>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_2020|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release_2020\</OutputPath>
+    <DefineConstants>TRACE;AutoCAD_2020</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>1591</NoWarn>
+    <DocumentationFile>bin\Release_2020\Linq2Acad.xml</DocumentationFile>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_2021|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release_2021\</OutputPath>
+    <DefineConstants>TRACE;AutoCAD_2021</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>1591</NoWarn>
+    <DocumentationFile>bin\Release_2021\Linq2Acad.xml</DocumentationFile>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_2022|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release_2022\</OutputPath>
+    <DefineConstants>TRACE;AutoCAD_2022</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>1591</NoWarn>
+    <DocumentationFile>bin\Release_2022\Linq2Acad.xml</DocumentationFile>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_2023|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release_2023\</OutputPath>
+    <DefineConstants>TRACE;AutoCAD_2023</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>1591</NoWarn>
+    <DocumentationFile>bin\Release_2023\Linq2Acad.xml</DocumentationFile>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Containers\StylesContainer.cs" />
+    <Compile Include="Containers\PaperSpaceEntityContainer.cs" />
+    <Compile Include="Containers\PaperSpaceEntityContainerEnumerable.cs" />
+    <Compile Include="CreateOptions.cs" />
+    <Compile Include="Containers\DbObjectContainer.cs" />
+    <Compile Include="OpenForEditOptions.cs" />
+    <Compile Include="OpenReadOnlyOptions.cs" />
+    <Compile Include="Helpers\Require.cs" />
+    <Compile Include="SaveAsDwgVersion.cs" />
+    <Compile Include="Containers\EntityContainer.cs" />
+    <Compile Include="Containers\SymbolTable\BlockContainer.cs" />
+    <Compile Include="Containers\SymbolTable\DimStyleContainer.cs" />
+    <Compile Include="Containers\SymbolTable\LayerContainer.cs" />
+    <Compile Include="Containers\SymbolTable\LinetypeContainer.cs" />
+    <Compile Include="Containers\SymbolTable\RegAppContainer.cs" />
+    <Compile Include="Containers\SymbolTable\TextStyleContainer.cs" />
+    <Compile Include="Containers\SymbolTable\UcsContainer.cs" />
+    <Compile Include="Containers\SymbolTable\ViewportContainer.cs" />
+    <Compile Include="Containers\SymbolTable\ViewContainer.cs" />
+    <Compile Include="Containers\DBDictionary\DBVisualStyleContainer.cs" />
+    <Compile Include="Containers\DBDictionary\DetailViewStyleContainer.cs" />
+    <Compile Include="Containers\DBDictionary\GroupContainer.cs" />
+    <Compile Include="Containers\DBDictionary\LayoutContainer.cs" />
+    <Compile Include="Containers\DBDictionary\MaterialContainer.cs" />
+    <Compile Include="Containers\DBDictionary\MLeaderStyleContainer.cs" />
+    <Compile Include="Containers\DBDictionary\MlineStyleContainer.cs" />
+    <Compile Include="Containers\DBDictionary\PlotSettingsContainer.cs" />
+    <Compile Include="Containers\DBDictionary\SectionViewStyleContainer.cs" />
+    <Compile Include="Containers\DBDictionary\TableStyleContainer.cs" />
+    <Compile Include="Extensions\AttributeCollectionExtensions.cs" />
+    <Compile Include="Extensions\DynamicBlockReferencePropertyCollectionExtensions.cs" />
+    <Compile Include="Containers\XRef\XRef.cs" />
+    <Compile Include="Extensions\DbObjectExtensions.cs" />
+    <Compile Include="Extensions\EditorExtensions.cs" />
+    <Compile Include="Enumerables\ElementEnumerable.cs" />
+    <Compile Include="Enumerables\IdEnumerable.cs" />
+    <Compile Include="Enumerables\NameBasedContainerEnumerableBase.cs" />
+    <Compile Include="Enumerables\ImportResult.cs" />
+    <Compile Include="Enumerables\DBDictionaryEnumerableBase.cs" />
+    <Compile Include="Enumerables\ContainerEnumerableBase.cs" />
+    <Compile Include="AcadDatabase.cs" />
+    <Compile Include="Enumerables\SymbolTableEnumerableBase.cs" />
+    <Compile Include="Extensions\DbObjectsExtensions.cs" />
+    <Compile Include="Helpers\Helpers.cs" />
+    <Compile Include="Extensions\LayerTableRecordExtensions.cs" />
+    <Compile Include="Extensions\GroupExtensions.cs" />
+    <Compile Include="AcadSummaryInfo.cs" />
+    <Compile Include="Containers\XRef\XRefContainer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Choose>
+    <When Condition="$(DefineConstants.Contains('AutoCAD_2015'))">
+      <ItemGroup>
+        <PackageReference Include="AutoCAD.NET.Core">
+          <Version>20.0.1</Version>
+          <ExcludeAssets>runtime</ExcludeAssets>
+        </PackageReference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(DefineConstants.Contains('AutoCAD_2016'))">
+      <ItemGroup>
+        <PackageReference Include="AutoCAD.NET.Core">
+          <Version>20.1.0</Version>
+          <ExcludeAssets>runtime</ExcludeAssets>
+        </PackageReference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(DefineConstants.Contains('AutoCAD_2017'))">
+      <ItemGroup>
+        <PackageReference Include="AutoCAD.NET.Core">
+          <Version>21.0.2</Version>
+          <ExcludeAssets>runtime</ExcludeAssets>
+        </PackageReference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(DefineConstants.Contains('AutoCAD_2018'))">
+      <ItemGroup>
+        <PackageReference Include="AutoCAD.NET.Core">
+          <Version>22.0.0</Version>
+          <ExcludeAssets>runtime</ExcludeAssets>
+        </PackageReference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(DefineConstants.Contains('AutoCAD_2019'))">
+      <ItemGroup>
+        <PackageReference Include="AutoCAD.NET.Core">
+          <Version>23.0.0</Version>
+          <ExcludeAssets>runtime</ExcludeAssets>
+        </PackageReference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(DefineConstants.Contains('AutoCAD_2020'))">
+      <ItemGroup>
+        <PackageReference Include="AutoCAD.NET.Core">
+          <Version>23.1.0</Version>
+          <ExcludeAssets>runtime</ExcludeAssets>
+        </PackageReference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(DefineConstants.Contains('AutoCAD_2021'))">
+      <ItemGroup>
+        <PackageReference Include="AutoCAD.NET.Core">
+          <Version>24.0.0</Version>
+          <ExcludeAssets>runtime</ExcludeAssets>
+        </PackageReference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(DefineConstants.Contains('AutoCAD_2022'))">
+      <ItemGroup>
+        <PackageReference Include="AutoCAD.NET.Core">
+          <Version>24.1.51000</Version>
+          <ExcludeAssets>runtime</ExcludeAssets>
+        </PackageReference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(DefineConstants.Contains('AutoCAD_2023'))">
+      <ItemGroup>
+        <PackageReference Include="AutoCAD.NET.Core">
+          <Version>24.2.0</Version>
+          <ExcludeAssets>runtime</ExcludeAssets>
+          <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
