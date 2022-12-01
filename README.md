@@ -84,7 +84,7 @@ Code samples in C# and VB.NET can be found [here](docs/CodeSamples.md).
 - the design / implementation decisions involved in deriving the API. 
 
 ## Contributing
-See [contributing documentation](/Contributing.md).
+See [contributing documentation](/.github/Contributing.md).
 
 ## License
 Linq2Acad is licended unter the [MIT License (MIT)](LICENSE).
