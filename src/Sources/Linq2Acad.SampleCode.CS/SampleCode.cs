@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
 
@@ -369,6 +370,20 @@ namespace Linq2Acad
 
             WriteMessage("XRefs reloaded");
         }
+
+
+        [CommandMethod("Linq2AcadExample17")]
+        public void TestLineExtensions()
+        {
+            Line line = new Line()
+                            .From(z: 3)
+                            .To(x: 3);
+
+            WriteMessage(line.StartPoint.ToString()); // => (0,0,3)            
+            WriteMessage(line.EndPoint.ToString());   // => (3, 0, 0)
+            line.Dispose();
+        }
+
 
         [CommandMethod("AddEntitiesToGroup")]
         public void AddEntitiesToGroup()
