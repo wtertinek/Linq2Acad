@@ -241,7 +241,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SampleCode.Addin.cs">
+    <Compile Include="SampleCode.AddIn.cs">
       <DependentUpon>SampleCode.cs</DependentUpon>
     </Compile>
     <Compile Include="SampleCode.cs" />
