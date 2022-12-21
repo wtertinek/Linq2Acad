@@ -78,6 +78,7 @@ namespace Linq2Acad
     {
       Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
       Require.TransactionNotDisposed(transaction.IsDisposed);
+      Require.ParameterNotNull(ids, nameof(ids));
       Require.ElementsValid(ids, nameof(ids));
 
       return ElementsInternal<T>(ids, openForWrite);

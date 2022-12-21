@@ -19,9 +19,12 @@ namespace Linq2Acad
     /// <param name="tag">The tag to look for.</param>
     /// <returns>True if the AttributeCollection contains an AttributeReference with the given tag, otherwise false.</returns>
     public static bool Contains(this AttributeCollection attributes, string tag)
-      => GetAttributeReferences(attributes, OpenMode.ForRead)
-         .Any(a => a.Tag == tag);
+    {
+      Require.ParameterNotNull(attributes, nameof(attributes));
 
+      return GetAttributeReferences(attributes, OpenMode.ForRead)
+             .Any(a => a.Tag == tag);
+    }
     /// <summary>
     /// Gets the value of the AttributeReference with the given tag.
     /// </summary>
@@ -29,8 +32,10 @@ namespace Linq2Acad
     /// <param name="tag">The tag to look for.</param>
     public static string GetValue(this AttributeCollection attributes, string tag)
     {
-      var attribute = GetAttributeReference(attributes, tag, OpenMode.ForRead);
-      return attribute.TextString;
+      Require.ParameterNotNull(attributes, nameof(attributes));
+
+      var attributeReference = GetAttributeReference(attributes, tag, OpenMode.ForRead);
+      return attributeReference.TextString;
     }
 
     /// <summary>
@@ -41,8 +46,10 @@ namespace Linq2Acad
     /// <param name="value">The value to set.</param>
     public static void SetValue(this AttributeCollection attributes, string tag, string value)
     {
-      var attribute = GetAttributeReference(attributes, tag, OpenMode.ForWrite);
-      attribute.TextString = value;
+      Require.ParameterNotNull(attributes, nameof(attributes));
+
+      var attributeReference = GetAttributeReference(attributes, tag, OpenMode.ForWrite);
+      attributeReference.TextString = value;
     }
 
     /// <summary>
@@ -50,17 +57,25 @@ namespace Linq2Acad
     /// </summary>
     /// <param name="attributes">The AttributeCollection.</param>
     public static void ClearValues(this AttributeCollection attributes)
-      => GetAttributeReferences(attributes, OpenMode.ForWrite)
-         .ForEach(ar => ar.TextString = "");
+    {
+      Require.ParameterNotNull(attributes, nameof(attributes));
+
+      var attributeReferences = GetAttributeReferences(attributes, OpenMode.ForWrite);
+
+      foreach (var attributeReference in attributeReferences)
+      {
+        attributeReference.TextString = "";
+      }
+    }
 
     private static AttributeReference GetAttributeReference(AttributeCollection attributes, string tag, OpenMode openMode)
     {
-      var attribute = GetAttributeReferences(attributes, openMode)
-                      .FirstOrDefault(a => a.Tag == tag);
+      var attributeReference = GetAttributeReferences(attributes, openMode)
+                               .FirstOrDefault(a => a.Tag == tag);
 
-      Require.ObjectNotNull(attribute, $"No {nameof(AttributeReference)} with Tag '{tag}' found");
+      Require.ObjectNotNull(attributeReference, $"No {nameof(AttributeReference)} with Tag '{tag}' found");
 
-      return attribute;
+      return attributeReference;
     }
 
     private static IEnumerable<AttributeReference> GetAttributeReferences(AttributeCollection attributes, OpenMode openMode)

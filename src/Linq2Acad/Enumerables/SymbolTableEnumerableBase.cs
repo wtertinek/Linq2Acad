@@ -62,10 +62,10 @@ namespace Linq2Acad
       }
     }
 
-    protected override sealed bool ContainsInternal(ObjectId id)
+    protected sealed override bool ContainsInternal(ObjectId id)
       => ((SymbolTable)transaction.GetObject(ID, OpenMode.ForRead)).Has(id);
 
-    protected override sealed bool ContainsInternal(string name)
+    protected sealed override bool ContainsInternal(string name)
       => ((SymbolTable)transaction.GetObject(ID, OpenMode.ForRead)).Has(name);
   }
 

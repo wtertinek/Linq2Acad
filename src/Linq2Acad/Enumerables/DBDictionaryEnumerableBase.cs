@@ -79,10 +79,10 @@ namespace Linq2Acad
       }
     }
 
-    protected override sealed bool ContainsInternal(ObjectId id)
+    protected sealed override bool ContainsInternal(ObjectId id)
       => ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Contains(id);
 
-    protected override sealed bool ContainsInternal(string name)
+    protected sealed override bool ContainsInternal(string name)
       => ((DBDictionary)transaction.GetObject(ID, OpenMode.ForRead)).Contains(name);
 
     /// <summary>
@@ -138,7 +138,7 @@ namespace Linq2Acad
       }
     }
 
-    public override sealed int Count()
+    public sealed override int Count()
     {
       Require.NotDisposed(database.IsDisposed, nameof(AcadDatabase));
       Require.TransactionNotDisposed(transaction.IsDisposed);

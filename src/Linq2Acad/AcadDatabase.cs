@@ -242,7 +242,6 @@ namespace Linq2Acad
       }
     }
 
-
     /// <summary>
     /// Provides access to the elements of the PlotSettings dictionary and methods to create, add and import PlotSettings.
     /// </summary>
@@ -531,21 +530,15 @@ namespace Linq2Acad
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override bool Equals(object obj)
-    {
-      return base.Equals(obj);
-    }
+      => base.Equals(obj);
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override int GetHashCode()
-    {
-      return base.GetHashCode();
-    }
+      => base.GetHashCode();
 
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public override string ToString()
-    {
-      return base.ToString();
-    }
+      => base.ToString();
 
     #endregion
   }
