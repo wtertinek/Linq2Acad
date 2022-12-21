@@ -9,15 +9,15 @@ namespace Linq2Acad
 {
   public abstract class NameBasedContainerEnumerableBase<T> : ContainerEnumerableBase<T> where T : DBObject
   {
-    protected NameBasedContainerEnumerableBase(Database database, Transaction transaction,
-                                               ObjectId containerID, Func<object, ObjectId> getID)
+    private protected NameBasedContainerEnumerableBase(Database database, Transaction transaction,
+                                                       ObjectId containerID, Func<object, ObjectId> getID)
       : base(database, transaction, containerID, getID)
     {
     }
 
-    protected NameBasedContainerEnumerableBase(Database database, Transaction transaction,
-                                               ObjectId containerID, Func<object, ObjectId> getID,
-                                               Func<IEnumerable<ObjectId>, IEnumerable<ObjectId>> filter)
+    private protected NameBasedContainerEnumerableBase(Database database, Transaction transaction,
+                                                       ObjectId containerID, Func<object, ObjectId> getID,
+                                                       Func<IEnumerable<ObjectId>, IEnumerable<ObjectId>> filter)
       : base(database, transaction, containerID, getID, filter)
     {
     }

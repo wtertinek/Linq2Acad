@@ -158,5 +158,13 @@ namespace Linq2Acad
         throw new Exception(message);
       }
     }
+
+    public static void ParameterNotNegative(int index, string parameterName)
+    {
+      if (index < 0)
+      {
+        throw new ArgumentException($"Parameter {parameterName} must not be negative");
+      }
+    }
   }
 }
