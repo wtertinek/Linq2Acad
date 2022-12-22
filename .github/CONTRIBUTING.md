@@ -68,13 +68,11 @@ Before you submit your Pull Request (PR) consider the following guidelines:
      git checkout -b my-fix-branch master
      ```
 
-4. Create your patch, **including appropriate test cases**.
+4. Create your patch.
 
 5. Follow our [Coding Rules](#rules).
 
-6. Run the full Linq2Acad test suite, as described in the [developer documentation][dev-doc], and ensure that all tests pass.
-
-7. Commit your changes using a descriptive commit message that follows our [commit message conventions](#commit).
+6. Commit your changes using a descriptive commit message that follows our [commit message conventions](#commit).
    Adherence to these conventions is necessary because release notes are automatically generated from these messages.
 
      ```shell
@@ -82,13 +80,13 @@ Before you submit your Pull Request (PR) consider the following guidelines:
      ```
     Note: the optional commit `-a` command line option will automatically "add" and "rm" edited files.
 
-8. Push your branch to GitHub:
+7. Push your branch to GitHub:
 
     ```shell
     git push origin my-fix-branch
     ```
 
-9. In GitHub, send a pull request to `Linq2Acad:master`.
+8. In GitHub, send a pull request to `Linq2Acad:master`.
 
 #### Addressing review feedback
 
@@ -96,9 +94,7 @@ If we ask for changes via code reviews then:
 
 1. Make the required updates to the code.
 
-2. Re-run the Angular test suites to ensure tests are still passing.
-
-3. Create a fixup commit and push to your GitHub repository (this will update your Pull Request):
+2. Create a fixup commit and push to your GitHub repository (this will update your Pull Request):
 
     ```shell
     git commit --all --fixup HEAD
@@ -170,7 +166,6 @@ After your pull request is merged, you can safely delete your branch and pull th
 ## <a name="rules"></a> Coding Rules
 To ensure consistency throughout the source code, keep these rules in mind as you are working:
 
-* All features or bug fixes **must be tested** by one or more specs (unit-tests).
 * All public API methods **must be documented**.
 * Coding style and coding issues are checked using analyzers. All errors **and warnings** must be fixed.
 
