@@ -17,7 +17,7 @@ namespace Linq2Acad
     /// This sample removes all entities from the model space
     /// </summary>
     [CommandMethod("Linq2AcadExample1")]
-    public void RemovingAllEntitiesFromTheModelSpace()
+    public void RemoveEntitiesFromModelSpace()
     {
       WriteMessage("This sample removes all entities from the model space");
 
@@ -34,7 +34,7 @@ namespace Linq2Acad
     /// This sample removes all BlockReferences from the model space
     /// </summary>
     [CommandMethod("Linq2AcadExample2")]
-    public void ErasingAllBlockReferencesFromTheModelSpace()
+    public void RemoveBlockReferencesFromModelSpace()
     {
       WriteMessage("This sample removes all BlockReferences from the model space");
 
@@ -55,7 +55,7 @@ namespace Linq2Acad
     /// This sample adds a line to the model space
     /// </summary>
     [CommandMethod("Linq2AcadExample3")]
-    public void AddingALineToTheModelSpace()
+    public void AddLineToModelSpace()
     {
       WriteMessage("This sample adds a line to the model space");
 
@@ -73,7 +73,7 @@ namespace Linq2Acad
     /// This sample creates a new layer
     /// </summary>
     [CommandMethod("Linq2AcadExample4")]
-    public void CreatingANewLayer()
+    public void CreateLayer()
     {
       WriteMessage("This sample creates a new layer");
 
@@ -97,7 +97,7 @@ namespace Linq2Acad
     /// This sample prints all layer names
     /// </summary>
     [CommandMethod("Linq2AcadExample5")]
-    public void PrintingAllLayerNames()
+    public void PrintAllLayerNames()
     {
       WriteMessage("This sample prints all layer names");
 
@@ -114,7 +114,7 @@ namespace Linq2Acad
     /// This sample turns off all layers, except the one the user enters
     /// </summary>
     [CommandMethod("Linq2AcadExample6")]
-    public void TurningOffAllLayersExceptTheOneTheUserEnters()
+    public void TurnOffAllLayersExceptTheOneTheUserEnters()
     {
       WriteMessage("This sample turns off all layers, except the one the user enters");
 
@@ -124,8 +124,7 @@ namespace Linq2Acad
       {
         using (var db = AcadDatabase.Active())
         {
-          var layerToIgnore = db.Layers
-                                .Element(layerName);
+          var layerToIgnore = db.Layers.Element(layerName);
 
           foreach (var layer in db.Layers
                                   .Except(layerToIgnore)
@@ -143,9 +142,9 @@ namespace Linq2Acad
     /// This sample creates a layer and adds all red lines in the model space to it
     /// </summary>
     [CommandMethod("Linq2AcadExample7")]
-    public void CreatingALayerAndAddingAllRedLinesInTheModelSpaceToIt()
+    public void CreateLayerAndAddAllRedLinesInTheModelSpaceToIt()
     {
-      WriteMessage("This sample creates a layer and This sample adds all red lines in the model space to it");
+      WriteMessage("This sample creates a layer and adds all red lines in the model space to it");
 
       var layerName = GetString("Enter layer name");
 
@@ -156,8 +155,7 @@ namespace Linq2Acad
           var lines = db.ModelSpace
                         .OfType<Line>()
                         .Where(l => l.Color.ColorValue.Name == "ffff0000");
-          db.Layers
-            .Create(layerName, lines);
+          db.Layers.Create(layerName, lines);
         }
 
         WriteMessage($"All red lines moved to new layer {layerName}");
@@ -168,7 +166,7 @@ namespace Linq2Acad
     /// This sample moves entities from one layer to another
     /// </summary>
     [CommandMethod("Linq2AcadExample8")]
-    public void MovingEntitiesFromOneLayerToAnother()
+    public void MoveEntitiesFromOneLayerToAnother()
     {
       WriteMessage("This sample moves entities from one layer to another");
 
@@ -179,7 +177,7 @@ namespace Linq2Acad
       {
         using (var db = AcadDatabase.Active())
         {
-          var entities = db.CurrentSpace
+          var entities = db.ModelSpace
                            .Where(e => e.Layer == sourceLayerName);
           db.Layers
             .Element(targetLayerName)
@@ -194,25 +192,21 @@ namespace Linq2Acad
     /// This sample imports a block from a drawing file
     /// </summary>
     [CommandMethod("Linq2AcadExample9")]
-    public void ImportingABlockFromADrawingFile()
+    public void ImportBlockFromDrawingFile()
     {
       WriteMessage("This sample imports a block from a drawing file");
 
       var filePath = GetString("Enter file path");
       var blockName = GetString("Enter block name");
 
-      if (filePath != null && blockName != null)
+      if (filePath != null &&
+          blockName != null)
       {
         using (var sourceDb = AcadDatabase.OpenReadOnly(filePath))
+        using (var targetDb = AcadDatabase.Active())
         {
-          var block = sourceDb.Blocks
-                              .Element(blockName);
-
-          using (var activeDb = AcadDatabase.Active())
-          {
-            activeDb.Blocks
-                    .Import(block);
-          }
+          var block = sourceDb.Blocks.Element(blockName);
+          targetDb.Blocks.Import(block);
         }
 
         WriteMessage($"Block {blockName} imported");
@@ -223,7 +217,7 @@ namespace Linq2Acad
     /// This sample opens a drawing from file and counts the BlockReferences in the model space
     /// </summary>
     [CommandMethod("Linq2AcadExample10")]
-    public void OpeningADrawingFromFileAndCountingTheBlockReferencesInTheModelSpace()
+    public void OpenDrawingFromFileAndCountingBlockReferencesInModelSpace()
     {
       WriteMessage("This sample opens a drawing from file and counting the BlockReferences in the model space");
 
@@ -243,18 +237,20 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// This sample picks an entity and saves a string on it
+    /// This sample picks an Entity and saves a string on it
     /// </summary>
     [CommandMethod("Linq2AcadExample11")]
-    public void PickingAnEntityAndSavingAStringOnIt()
+    public void PickEntityAndSaveStringOnIt()
     {
-      WriteMessage("This sample picks an entity and saves a string on it");
+      WriteMessage("This sample picks an Entity and saves a string on it");
 
-      var entityId = GetEntity("Pick an entity");
+      var entityId = GetEntity("Pick an Entity");
       var key = GetString("Enter key");
       var str = GetString("Enter string to save");
 
-      if (entityId.IsValid && key != null && str != null)
+      if (entityId.IsValid &&
+          key != null
+          && str != null)
       {
         using (var db = AcadDatabase.Active())
         {
@@ -263,22 +259,23 @@ namespace Linq2Acad
             .SaveData(key, str);
         }
 
-        WriteMessage($"Key-value-pair {key}:{str} saved on entity");
+        WriteMessage($"Key-value-pair {key}:{str} saved on Entity");
       }
     }
 
     /// <summary>
-    /// This sample picks an entity and reads a string from it
+    /// This sample picks an Entity and reads a string from it
     /// </summary>
     [CommandMethod("Linq2AcadExample12")]
-    public void PickingAnEntityAndReadingAStringFromIt()
+    public void PickEntityAndReadStringFromIt()
     {
-      WriteMessage("This sample picks an entity and reads a string from it");
+      WriteMessage("This sample picks an Entity and reads a string from it");
 
-      var entityId = GetEntity("Pick an entity");
+      var entityId = GetEntity("Pick an Entity");
       var key = GetString("Enter key");
 
-      if (entityId.IsValid && key != null)
+      if (entityId.IsValid &&
+          key != null)
       {
         using (var db = AcadDatabase.Active())
         {
@@ -286,20 +283,20 @@ namespace Linq2Acad
                       .Element(entityId)
                       .GetData<string>(key);
 
-          WriteMessage($"String {str} read from entity");
+          WriteMessage($"String {str} read from Entity");
         }
       }
     }
 
     /// <summary>
-    /// This sample picks an entity and reads a string from it (with XData as the data source)
+    /// This sample picks an Entity and reads a string from it (with XData as the data source)
     /// </summary>
     [CommandMethod("Linq2AcadExample13")]
-    public void PickingAnEntityAndReadingAStringFromItWithXDataAsTheDataSource()
+    public void PickEntityAndReadStringFromItWithXDataAsTheDataSource()
     {
-      WriteMessage("This sample picks an entity and reads a string from it (with XData as the data source)");
+      WriteMessage("This sample picks an Entity and reads a string from it (with XData as the data source)");
 
-      var entityId = GetEntity("Pick an entity");
+      var entityId = GetEntity("Pick an Entity");
       var key = GetString("Enter RegApp name");
 
       if (entityId.IsValid && key != null)
@@ -310,7 +307,7 @@ namespace Linq2Acad
                       .Element(entityId)
                       .GetData<string>(key, true);
 
-          WriteMessage($"String {str} read from entity's XData");
+          WriteMessage($"String {str} read from Entity's XData");
         }
       }
     }
@@ -319,7 +316,7 @@ namespace Linq2Acad
     /// This sample counts the number of entities in all paper space layouts
     /// </summary>
     [CommandMethod("Linq2AcadExample14")]
-    public void CountingTheNumberOfEntitiesInAllPaperSpaceLayouts()
+    public void CountNumberOfEntitiesInAllPaperSpaceLayouts()
     {
       WriteMessage("This sample counts the number of entities in all paper space layouts");
 
@@ -337,7 +334,7 @@ namespace Linq2Acad
     /// This sample changes the summary info
     /// </summary>
     [CommandMethod("Linq2AcadExample15")]
-    public void ChangingTheSummaryInfo()
+    public void ChangeummaryInfo()
     {
       WriteMessage("This sample changes the summary info");
 
@@ -354,7 +351,7 @@ namespace Linq2Acad
     /// This sample reloads all loaded XRefs
     /// </summary>
     [CommandMethod("Linq2AcadExample16")]
-    public void ReloadingAllLoadedXRefs()
+    public void ReloadLoadedXRefs()
     {
       WriteMessage("This sample reloads all loaded XRefs");
 

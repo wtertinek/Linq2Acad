@@ -41,17 +41,13 @@ using (var db = AcadDatabase.Active())
 var layerName = GetString("Enter layer name");
 var colorName = GetString("Enter color name");
 
-if (layerName != null &&
-    colorName != null)
+using (var db = AcadDatabase.Active())
 {
-  using (var db = AcadDatabase.Active())
-  {
-    var layer = db.Layers.Create(layerName);
-    layer.Color = Color.FromColor(System.Drawing.Color.FromName(colorName));
-  }
-
-  WriteMessage($"Layer {layerName} created");
+  var layer = db.Layers.Create(layerName);
+  layer.Color = Color.FromColor(System.Drawing.Color.FromName(colorName));
 }
+
+WriteMessage($"Layer {layerName} created");
 ```
 
 #### This sample prints all layer names:
@@ -71,23 +67,19 @@ using (var db = AcadDatabase.Active())
 ```c#
 var layerName = GetString("Enter layer name");
 
-if (layerName != null)
+using (var db = AcadDatabase.Active())
 {
-  using (var db = AcadDatabase.Active())
+  var layerToIgnore = db.Layers.Element(layerName);
+
+  foreach (var layer in db.Layers
+                          .Except(layerToIgnore)
+                          .UpgradeOpen())
   {
-    var layerToIgnore = db.Layers
-                          .Element(layerName);
-
-    foreach (var layer in db.Layers
-                            .Except(layerToIgnore)
-                            .UpgradeOpen())
-    {
-      layer.IsOff = true;
-    }
+    layer.IsOff = true;
   }
-
-  WriteMessage($"All layers turned off, except {layerName}");
 }
+
+WriteMessage($"All layers turned off, except {layerName}");
 ```
 
 #### This sample creates a layer and adds all red lines in the model space to it:
@@ -95,19 +87,15 @@ if (layerName != null)
 ```c#
 var layerName = GetString("Enter layer name");
 
-if (layerName != null)
+using (var db = AcadDatabase.Active())
 {
-  using (var db = AcadDatabase.Active())
-  {
-    var lines = db.ModelSpace
-                  .OfType<Line>()
-                  .Where(l => l.Color.ColorValue.Name == "ffff0000");
-    db.Layers
-      .Create(layerName, lines);
-  }
-
-  WriteMessage($"All red lines moved to new layer {layerName}");
+  var lines = db.ModelSpace
+                .OfType<Line>()
+                .Where(l => l.Color.ColorValue.Name == "ffff0000");
+  db.Layers.Create(layerName, lines);
 }
+
+WriteMessage($"All red lines moved to new layer {layerName}");
 ```
 
 #### This sample moves entities from one layer to another:
@@ -116,19 +104,16 @@ if (layerName != null)
 var sourceLayerName = GetString("Enter source layer name");
 var targetLayerName = GetString("Enter target layer name");
 
-if (sourceLayerName != null && targetLayerName != null)
+using (var db = AcadDatabase.Active())
 {
-  using (var db = AcadDatabase.Active())
-  {
-    var entities = db.CurrentSpace
-                     .Where(e => e.Layer == sourceLayerName);
-    db.Layers
-      .Element(targetLayerName)
-      .AddRange(entities);
-  }
-
-  WriteMessage($"All entities on layer {sourceLayerName} moved to layer {targetLayerName}");
+  var entities = db.ModelSpace
+                   .Where(e => e.Layer == sourceLayerName);
+  db.Layers
+    .Element(targetLayerName)
+    .AddRange(entities);
 }
+
+WriteMessage($"All entities on layer {sourceLayerName} moved to layer {targetLayerName}");
 ```
 
 #### This sample imports a block from a drawing file:
@@ -137,22 +122,14 @@ if (sourceLayerName != null && targetLayerName != null)
 var filePath = GetString("Enter file path");
 var blockName = GetString("Enter block name");
 
-if (filePath != null && blockName != null)
+using (var sourceDb = AcadDatabase.OpenReadOnly(filePath))
+using (var targetDb = AcadDatabase.Active())
 {
-  using (var sourceDb = AcadDatabase.OpenReadOnly(filePath))
-  {
-    var block = sourceDb.Blocks
-                        .Element(blockName);
-
-    using (var activeDb = AcadDatabase.Active())
-    {
-      activeDb.Blocks
-              .Import(block);
-    }
-  }
-
-  WriteMessage($"Block {blockName} imported");
+  var block = sourceDb.Blocks.Element(blockName);
+  targetDb.Blocks.Import(block);
 }
+
+WriteMessage($"Block {blockName} imported");
 ```
 
 #### This sample opens a drawing from file and counts the BlockReferences in the model space:
@@ -160,74 +137,62 @@ if (filePath != null && blockName != null)
 ```c#
 var filePath = GetString("Enter file path");
 
-if (filePath != null)
+using (var db = AcadDatabase.OpenReadOnly(filePath))
 {
-  using (var db = AcadDatabase.OpenReadOnly(filePath))
-  {
-    var count = db.ModelSpace
-                  .OfType<BlockReference>()
-                  .Count();
+  var count = db.ModelSpace
+                .OfType<BlockReference>()
+                .Count();
 
-    WriteMessage($"Model space block references in file {filePath}: {count}");
-  }
+  WriteMessage($"Model space block references in file {filePath}: {count}");
 }
 ```
 
-#### This sample picks an entity and saves a string on it:
+#### This sample picks an Entity and saves a string on it:
 
 ```c#
-var entityId = GetEntity("Pick an entity");
+var entityId = GetEntity("Pick an Entity");
 var key = GetString("Enter key");
 var str = GetString("Enter string to save");
 
-if (entityId.IsValid && key != null && str != null)
+using (var db = AcadDatabase.Active())
 {
-  using (var db = AcadDatabase.Active())
-  {
-    db.CurrentSpace
-      .Element(entityId)
-      .SaveData(key, str);
-  }
-
-  WriteMessage($"Key-value-pair {key}:{str} saved on entity");
+  db.CurrentSpace
+    .Element(entityId)
+    .SaveData(key, str);
 }
+
+WriteMessage($"Key-value-pair {key}:{str} saved on Entity");
 ```
 
-#### This sample picks an entity and reads a string from it:
+#### This sample picks an Entity and reads a string from it:
 
 ```c#
-var entityId = GetEntity("Pick an entity");
+var entityId = GetEntity("Pick an Entity");
 var key = GetString("Enter key");
 
-if (entityId.IsValid && key != null)
+using (var db = AcadDatabase.Active())
 {
-  using (var db = AcadDatabase.Active())
-  {
-    var str = db.CurrentSpace
-                .Element(entityId)
-                .GetData<string>(key);
+  var str = db.CurrentSpace
+              .Element(entityId)
+              .GetData<string>(key);
 
-    WriteMessage($"String {str} read from entity");
-  }
+  WriteMessage($"String {str} read from Entity");
 }
 ```
 
-#### This sample picks an entity and reads a string from it (with XData as the data source):
+#### This sample picks an Entity and reads a string from it (with XData as the data source):
 
 ```c#
-var entityId = GetEntity("Pick an entity");
+var entityId = GetEntity("Pick an Entity");
 var key = GetString("Enter RegApp name");
 
-if (entityId.IsValid && key != null)
+using (var db = AcadDatabase.Active())
 {
-  using (var db = AcadDatabase.Active())
-  {
-    var str = db.CurrentSpace
-                .Element(entityId)
-                .GetData<string>(key, true);
+  var str = db.CurrentSpace
+              .Element(entityId)
+              .GetData<string>(key, true);
 
-    WriteMessage($"String {str} read from entity's XData");
-  }
+  WriteMessage($"String {str} read from Entity's XData");
 }
 ```
 
