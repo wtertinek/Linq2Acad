@@ -1,6 +1,6 @@
 # Contributing to Linq2Acad
 
-*This guidlines are derived from the [Angular contributing guidlines](https://github.com/angular/angular/blob/main/CONTRIBUTING.md)*
+*These guidlines are derived from the [Angular contributing guidlines](https://github.com/angular/angular/blob/main/CONTRIBUTING.md)*
 
 We would love for you to contribute to Linq2Acad and help make it even better than it is today!
 As a contributor, here are the guidelines we would like you to follow:
