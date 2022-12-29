@@ -1,35 +1,28 @@
 # Linq2Acad
-A library that aims to simplify AutoCAD .NET addin code. Available for **AutoCAD 2015** and later.
+A library that aims to simplify AutoCAD .NET plugin code. Available for `AutoCAD 2015` and later.
 
 ### Overview
 - [Getting started](#get-started)
 - [NuGet package](#nuget-package)
 - [API documentation](#api-documentation)
-- [Code samples](#code-samples)
 - [How it works](#how-it-works)
 - [Contributing](#contributing)
 - [License](#license)
 
 ## Getting started
-**Linq2Acad** is a library that aims to simplify AutoCAD .NET addin code. It should be a more intuitive API for working with the drawing database, making the learning curve for beginners less steep.
+`Linq2Acad` is a library that aims to simplify AutoCAD .NET plugin code. It should be a more intuitive API for working with the drawing database, making the learning curve for beginners less steep.
 
 #### As a simple example, let's print all layer names using Linq2Acad:
 
 ```cs
 using (var db = AcadDatabase.Active())
 {
-  var layerNames = new List<string>();
-  
-  foreach (var layer in db.Layers)
-  {
-    layerNames.Add(layer.Name);
-  }
-  
-  MessageBox.Show($"Layers: {string.Join(", ", layerNames)}.");
+  var layerNames = db.Layers.Select(l => l.Name);
+  MessageBox.Show(string.Join(", ", layerNames));
 }
 ```
 
-#### Or, let's delete all BlockReferences from the model space:
+#### Linq2Acad makes it easy to delete all BlockReferences from the model space:
 
 ```cs
 using (var db = AcadDatabase.Active())
@@ -46,20 +39,69 @@ using (var db = AcadDatabase.Active())
 #### This code shows how to import a block from a DWG file into the active document:
 
 ```cs
-using (var sourceDb = AcadDatabase.OpenReadOnly(@"C:\Blocks\Block.dwg"))
+using (var sourceDb = AcadDatabase.OpenReadOnly(@"C:\Blocks\Shapes.dwg"))
 using (var targetDb = AcadDatabase.Active())
 {
-  var block = sourceDb.Blocks
-                      .Element("My_Block_V8");
-  targetDb.Blocks
-          .Import(block);
+  var block = sourceDb.Blocks.Element("TRIANGLE");
+  targetDb.Blocks.Import(block);
 }
 ```
-  
+
+#### You can easily store data on entities:
+
+```c#
+var entityId = GetEntity("Pick an Entity");
+var key = GetString("Enter key");
+var str = GetString("Enter string to save");
+
+// We first write the data (it is stored in the Entity's extension data)
+using (var db = AcadDatabase.Active())
+{
+  db.CurrentSpace
+    .Element(entityId)
+    .SaveData(key, str);
+
+  WriteMessage($"Key-value-pair {key}:{str} saved on Entity");
+}
+
+// Then we read it back
+using (var db = AcadDatabase.Active())
+{
+  var str = db.CurrentSpace
+              .Element(entityId)
+              .GetData<string>(key);
+
+  WriteMessage($"String {str} read from Entity");
+}
+```
+
+#### You can use Linq2Acad to changes the summary info of the active document:
+
+```cs
+using (var db = AcadDatabase.Active())
+{
+  db.SummaryInfo.Author = "John Doe";
+  db.SummaryInfo.CustomProperties["CustomData1"] = "42";
+}
+```
+
+#### There's also a simple way to, for example, reload all loaded XRefs:
+
+```cs
+using (var db = AcadDatabase.Active())
+{
+  foreach (var xRef in db.XRefs
+                         .Where(xr => xr.IsLoaded))
+  {
+    xRef.Reload();
+  }
+}
+```
+      
 More code samples (in C# and VB.NET) can be found [here](docs/CodeSamples.md).
 
-## NuGet package
-**UPDATE**: Version 1.0.0 of Linq2Acad is now available on NuGet! There is a dedicated NuGet package for each AutoCAD version, the packages are named **Linq2Acad-20xx** ([see nuget.org](https://www.nuget.org/packages?q=linq2acad)).
+
+## Installation
 
 ### How to upgrade from source code to Nuget
 
@@ -73,9 +115,6 @@ Beginning with the Nuget release of version 1.0.0, Linq2Acad is released in acco
 
 ## API documentation
 The best entry point into the API documentation is the class [AcadDatabase](docs/api/T_Linq2Acad_AcadDatabase.md#AcadDatabase-Class). An overview of all classes can be found [here](docs/api/Index.md#Linq2Acad-Namespace).
-
-## Code samples
-Code samples in C# and VB.NET can be found [here](docs/CodeSamples.md).
 
 ## How it works?
 [This blog series](https://wtertinek.com/2016/07/06/linq-and-the-autocad-net-api-final-part) discusses:
