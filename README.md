@@ -156,7 +156,7 @@ The best entry point into the API documentation is the class [AcadDatabase](docs
 - the design / implementation decisions involved in deriving the API. 
 
 ## Contributing
-See [contributing documentation](/.github/CONTRIBUTING.md).
+We would love for you to contribute to Linq2Acad and help to make the life of AutoCAD plugin developers easier. We welcome ideas, suggestions and discussions to push the development forward. Implementation of bugfixes or new features are also always welcome. For details see the [contributing guidelines](.github/CONTRIBUTING.md).
 
 ## License
 Linq2Acad is licended unter the [MIT License (MIT)](LICENSE).
