@@ -8,7 +8,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/wtertinek/Linq2Acad</projectUrl>
-    <description>Linq2Acad for AutoCAD 2018</description>
+    <description>A library that aims to simplify AutoCAD .NET plugin code</description>
     <tags>AutoCAD LINQ</tags>
     <dependencies>
       <group targetFramework=".NETFramework4.6">
