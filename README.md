@@ -3,7 +3,7 @@ A library that aims to simplify AutoCAD .NET plugin code. Available for `AutoCAD
 
 ### Overview
 - [Getting started](#get-started)
-- [NuGet package](#nuget-package)
+- [Installation](#installation)
 - [API documentation](#api-documentation)
 - [How it works](#how-it-works)
 - [Contributing](#contributing)
@@ -103,15 +103,48 @@ More code samples (in C# and VB.NET) can be found [here](docs/CodeSamples.md).
 
 ## Installation
 
-### How to upgrade from source code to Nuget
+### NuGet packages
 
-1. Remove your existing `Linq2Acad` **PROJECT** completely from your existing Visual Studio solution. (You should see a lot of red squiggly lines.)
-2. Install the Nuget Packages. 
+Linq2Acad is available on NuGet. There is a dedicated Linq2Acad package for each AutoCAD version. Simply add the package for your AutoCAD version to your C#/VB project in Visual Studio. Available packages:
 
-(If you add Nuget while already having a `Linq2Acad` project there, and THEN you subsequently remove the latter project - you might have a lot of problems.)
+<a href="https://www.nuget.org/packages/Linq2Acad-2023">
+  <img src="https://img.shields.io/nuget/v/Linq2Acad-2023?label=Linq2Acad-2023&style=plastic" alt="Linq2Acad-2023" />
+</a>
+<a href="https://www.nuget.org/packages/Linq2Acad-2022">
+  <img src="https://img.shields.io/nuget/v/Linq2Acad-2022?label=Linq2Acad-2022&style=plastic" alt="Linq2Acad-2022" />
+</a>
+<br/>
+<a href="https://www.nuget.org/packages/Linq2Acad-2021">
+  <img src="https://img.shields.io/nuget/v/Linq2Acad-2021?label=Linq2Acad-2021&style=plastic" alt="Linq2Acad-2021" />
+</a>
+<a href="https://www.nuget.org/packages/Linq2Acad-2020">
+  <img src="https://img.shields.io/nuget/v/Linq2Acad-2020?label=Linq2Acad-2020&style=plastic" alt="Linq2Acad-2020" />
+</a>
+<br/>
+<a href="https://www.nuget.org/packages/Linq2Acad-2019">
+  <img src="https://img.shields.io/nuget/v/Linq2Acad-2019?label=Linq2Acad-2019&style=plastic" alt="Linq2Acad-2019" />
+</a>
+<a href="https://www.nuget.org/packages/Linq2Acad-2018">
+  <img src="https://img.shields.io/nuget/v/Linq2Acad-2018?label=Linq2Acad-2018&style=plastic" alt="Linq2Acad-2018" />
+</a>
+<br/>
+<a href="https://www.nuget.org/packages/Linq2Acad-2017">
+  <img src="https://img.shields.io/nuget/v/Linq2Acad-2017?label=Linq2Acad-2017&style=plastic" alt="Linq2Acad-2017" />
+</a>
+<a href="https://www.nuget.org/packages/Linq2Acad-2016">
+  <img src="https://img.shields.io/nuget/v/Linq2Acad-2016?label=Linq2Acad-2016&style=plastic" alt="Linq2Acad-2016" />
+</a>
+<br/>
+<a href="https://www.nuget.org/packages/Linq2Acad-2015">
+  <img src="https://img.shields.io/nuget/v/Linq2Acad-2015?label=Linq2Acad-2015&style=plastic" alt="Linq2Acad-2015" />
+</a>
 
-### Breaking changes not reflected in version updates
-Beginning with the Nuget release of version 1.0.0, Linq2Acad is released in accordance with the rules of [semantic versioning](https://semver.org). Previous to that, there have been breaking changes to the API that were not reflected in the API's version number. The changes in question can be found [here](docs/BreakingChanges.md).
+### How to upgrade from source code to NuGet
+
+1. Remove your existing Linq2Acad project completely from your existing Visual Studio solution (You should see a lot of red squiggly lines)
+2. Install the NuGet Package
+
+(If you add NuGet while already having a Linq2Acad project there, and THEN you subsequently remove the latter project - you might have a lot of problems)
 
 ## API documentation
 The best entry point into the API documentation is the class [AcadDatabase](docs/api/T_Linq2Acad_AcadDatabase.md#AcadDatabase-Class). An overview of all classes can be found [here](docs/api/Index.md#Linq2Acad-Namespace).
