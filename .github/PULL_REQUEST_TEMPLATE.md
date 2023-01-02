@@ -23,7 +23,7 @@ Please describe the tests that you ran to verify your changes. Provide instructi
 ## Checklist:
 
 - [ ] My code follows the style guidelines of this project
-- [ ] Commit messages follow the [conventional commits specification](https://www.conventionalcommits.org/en/v1.0.0/)
+- [ ] Commit messages follow the [guidlines](.github/CONTRIBUTING.md#commit)
 - [ ] I have performed a self-review of my own code
 - [ ] I have made corresponding changes to the documentation
 - [ ] My changes generate no new warnings
