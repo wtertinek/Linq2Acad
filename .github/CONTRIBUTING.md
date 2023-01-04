@@ -190,7 +190,7 @@ Each commit message consists of a **header**, a **body**, and a **footer** (the 
 
 The `header` is mandatory and must conform to the [Commit Message Header](#commit-header) format.
 
-The `body` is mandatory for all commits except for those of type "docs".
+The `body` is mandatory for all commits except for ["fixup!"](#addressing-review-feedback) and ["revert:"](#revert-commits) commits.
 When the body is present it must be at least 20 characters long and must conform to the [Commit Message Body](#commit-body) format.
 
 The `footer` is optional. The [Commit Message Footer](#commit-footer) format describes what the footer is used for and the structure it must have.
@@ -201,12 +201,12 @@ The `footer` is optional. The [Commit Message Footer](#commit-footer) format des
 ```
 <type>: <short summary>
   │            │
-  │            └─⫸ Summary in present tense. Not capitalized. No period at the end.
+  │            └─⫸ Summary in present tense
   │   
   └─⫸ Commit Type: chore|ci|docs|feat|fix|refactor|test
 ```
 
-The `<type>` and `<summary>` fields are mandatory
+Both fields (`<type>` and `<summary>`) are mandatory
 
 
 ##### Type
@@ -227,8 +227,6 @@ Must be one of the following:
 Use the summary field to provide a succinct description of the change:
 
 * use the imperative, present tense: "change" not "changed" nor "changes"
-* don't capitalize the first letter
-* no dot (.) at the end
 
 
 #### <a name="commit-body"></a>Commit Message Body
