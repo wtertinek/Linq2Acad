@@ -1,0 +1,21 @@
+name: 'Feature Branch Commit Message Check'
+on:
+  push:
+    branches:
+      - !master
+
+jobs:
+  check-commit-message:
+    name: Check Commit Message
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Commit Type
+        uses: gsactions/commit-message-checker@v2
+        with:
+          pattern: '^(chore|ci|docs|feat|fix|refactor|test)!?:\s.+$\n\n^.{20,}$|^(fixup!\s|revert:\s)(chore|ci|docs|feat|fix|refactor|test)!?:\s.+$(\n\n^.{20,})?$'
+          flags: 'gm'
+          error: 'At least one commmit message does not conform to the commmit message guidelines. See .github/CONTRIBUTING.md for details.'
+          excludeDescription: 'true'
+          excludeTitle: 'true'
+          checkAllCommitMessages: 'true'
+          accessToken: ${{ secrets.GITHUB_TOKEN }}
