@@ -31,7 +31,7 @@ namespace Linq2Acad
     /// DWG 2013 format (AC1027)
     /// </summary>
     DWG2013,
-#if AutoCAD_2018 || AutoCAD_2019 || AutoCAD_2020 || AutoCAD_2021 || AutoCAD_2022 || AutoCAD_2023
+#if AutoCAD_2018 || AutoCAD_2019 || AutoCAD_2020 || AutoCAD_2021 || AutoCAD_2022 || AutoCAD_2023 || AutoCAD_2024
     /// <summary>
     /// DWG 2018 format (AC1032)
     /// </summary>
