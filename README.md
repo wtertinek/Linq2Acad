@@ -2,12 +2,16 @@
 A library that aims to simplify AutoCAD .NET plugin code. Available for `AutoCAD 2015` and later.
 
 ### Overview
+- [News](#news)
 - [Getting started](#get-started)
 - [Installation](#installation)
 - [API documentation](#api-documentation)
 - [How it works](#how-it-works)
 - [Contributing](#contributing)
 - [License](#license)
+
+# News
+`Linq2Acad-2024` is now available as a release candidate on [NuGet](https://www.nuget.org/packages/Linq2Acad-2024/). If you test it, please provide some feedback to the [pull request](https://github.com/wtertinek/Linq2Acad/pull/34).
 
 ## Getting started
 `Linq2Acad` is a library that aims to simplify AutoCAD .NET plugin code. It should be a more intuitive API for working with the drawing database, making the learning curve for beginners less steep.
@@ -107,6 +111,10 @@ More code samples (in C# and VB.NET) can be found [here](docs/CodeSamples.md).
 
 Linq2Acad is available on NuGet. There is a dedicated Linq2Acad package for each AutoCAD version. Simply add the package for your AutoCAD version to your C#/VB project in Visual Studio. Available packages:
 
+<a href="https://www.nuget.org/packages/Linq2Acad-2024">
+  <img src="https://img.shields.io/nuget/v/Linq2Acad-2024?label=Linq2Acad-2024-rc2&style=plastic" alt="Linq2Acad-2024-rc2" />
+</a>
+<br/>
 <a href="https://www.nuget.org/packages/Linq2Acad-2023">
   <img src="https://img.shields.io/nuget/v/Linq2Acad-2023?label=Linq2Acad-2023&style=plastic" alt="Linq2Acad-2023" />
 </a>
