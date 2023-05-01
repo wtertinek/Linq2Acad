@@ -112,6 +112,18 @@
     <DefineConstants>AutoCAD_2023</DefineConstants>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_2024|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug_2024\</OutputPath>
+    <DefineConstants>AutoCAD_2024</DefineConstants>
+    <DocumentationFile>Linq2Acad.SampleCode.VB.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_2015|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <DefineDebug>false</DefineDebug>
@@ -209,6 +221,17 @@
     <DocumentationFile>Linq2Acad.SampleCode.VB.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DefineConstants>AutoCAD_2023</DefineConstants>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release_2024|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Release_2024\</OutputPath>
+    <DefineConstants>AutoCAD_2024</DefineConstants>
+    <DocumentationFile>Linq2Acad.SampleCode.VB.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup>
@@ -359,6 +382,15 @@
       <ItemGroup>
         <PackageReference Include="AutoCAD.NET.Core">
           <Version>24.2.0</Version>
+          <ExcludeAssets>runtime</ExcludeAssets>
+          <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(DefineConstants.Contains('AutoCAD_2024'))">
+      <ItemGroup>
+        <PackageReference Include="AutoCAD.NET.Core">
+          <Version>24.3.0</Version>
           <ExcludeAssets>runtime</ExcludeAssets>
           <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
