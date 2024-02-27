@@ -1,4 +1,4 @@
-using Autodesk.AutoCAD.ApplicationServices.Core;
+﻿using Autodesk.AutoCAD.ApplicationServices.Core;
 using Autodesk.AutoCAD.DatabaseServices;
 using System;
 using System.Collections;
@@ -13,19 +13,15 @@ namespace Linq2Acad
   /// <summary>
   /// The main class that provides access to the drawing database.
   /// </summary>
-  public sealed class AcadDatabase : IDisposable
+  public sealed class AcadDatabase : AcadDatabaseCore, IDisposable
   {
-    private readonly bool commitTransaction;
-    private readonly bool disposeTransaction;
     private readonly bool disposeDatabase;
     private readonly bool saveOnCommit;
     private readonly string saveAsFileName;
     private readonly SaveAsDwgVersion dwgVersion;
-    private readonly Transaction transaction;
-    private readonly AcadSummaryInfo summaryInfo;
 
     private AcadDatabase(Database database, bool keepOpen, string outFileName, SaveAsDwgVersion dwgVersion)
-      : this(database, database.TransactionManager.StartTransaction(), true, true)
+      : this(database, database.TransactionManager.StartTransaction())
     {
       saveOnCommit = saveAsFileName != null;
       saveAsFileName = outFileName;
@@ -34,274 +30,16 @@ namespace Linq2Acad
     }
 
     private AcadDatabase(Database database, bool keepOpen)
-      : this(database, database.TransactionManager.StartTransaction(), true, true)
+      : this(database, database.TransactionManager.StartTransaction())
     {
       disposeDatabase = !keepOpen;
       saveOnCommit = false;
     }
 
-    private AcadDatabase(Database database, Transaction transaction, bool commitTransaction, bool disposeTransaction)
+    private AcadDatabase(Database database, Transaction transaction)
+      : base(database, transaction)
     {
-      Database = database;
-      this.transaction = transaction;
-      this.commitTransaction = commitTransaction;
-      this.disposeTransaction = disposeTransaction;
-      summaryInfo = new AcadSummaryInfo(database);
     }
-
-    /// <summary>
-    /// The drawing database in use.
-    /// </summary>
-    public Database Database { get; }
-
-    /// <summary>
-    /// Provies access to the summary info.
-    /// </summary>
-    public AcadSummaryInfo SummaryInfo
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        Require.TransactionNotDisposed(transaction.IsDisposed);
-        return summaryInfo;
-      }
-    }
-
-    /// <summary>
-    /// Provides access to all database objects. In addition to the standard LINQ operations this class provides a method to add newly created DBObjects.
-    /// </summary>
-    public DbObjectContainer DbObjects
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        Require.TransactionNotDisposed(transaction.IsDisposed);
-        return new DbObjectContainer(Database, transaction);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to all style related tables and dictionaries.
-    /// </summary>
-    public StylesContainer Styles
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        Require.TransactionNotDisposed(transaction.IsDisposed);
-        return new StylesContainer(Database, transaction);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to all XRef elements and methods to attach, overlay, resolve, reload and unload XRefs.
-    /// </summary>
-    public XRefContainer XRefs
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        Require.TransactionNotDisposed(transaction.IsDisposed);
-        return new XRefContainer(Database, transaction);
-      }
-    }
-
-    #region Tables
-
-    /// <summary>
-    /// Provides access to the elements of the Block table and methods to create, add and import BlockTableRecords.
-    /// </summary>
-    public BlockContainer Blocks
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        Require.TransactionNotDisposed(transaction.IsDisposed);
-        return new BlockContainer(Database, transaction);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the Layer table and methods to create, add and import LayerTableRecords.
-    /// </summary>
-    public LayerContainer Layers
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        Require.TransactionNotDisposed(transaction.IsDisposed);
-        return new LayerContainer(Database, transaction);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the Linetype table and methods to create, add and import LinetypeTableRecords.
-    /// </summary>
-    public LinetypeContainer Linetypes
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        Require.TransactionNotDisposed(transaction.IsDisposed);
-        return new LinetypeContainer(Database, transaction);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the RegApp table and methods to create, add and import RegAppTableRecords.
-    /// </summary>
-    public RegAppContainer RegApps
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        Require.TransactionNotDisposed(transaction.IsDisposed);
-        return new RegAppContainer(Database, transaction);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the Ucs table and methods to create, add and import UcsTableRecords.
-    /// </summary>
-    public UcsContainer Ucss
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        Require.TransactionNotDisposed(transaction.IsDisposed);
-        return new UcsContainer(Database, transaction);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the Viewport table and methods to create, add and import ViewportTableRecords.
-    /// </summary>
-    public ViewportContainer Viewports
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        Require.TransactionNotDisposed(transaction.IsDisposed);
-        return new ViewportContainer(Database, transaction);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the View table and methods to create, add and import ViewTableRecords.
-    /// </summary>
-    public ViewContainer Views
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        Require.TransactionNotDisposed(transaction.IsDisposed);
-        return new ViewContainer(Database, transaction);
-      }
-    }
-
-    #endregion
-
-    #region Dictionaries
-
-    /// <summary>
-    /// Provides access to the elements of the Layout dictionary and methods to create, add and import Layouts.
-    /// </summary>
-    public LayoutContainer Layouts
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        Require.TransactionNotDisposed(transaction.IsDisposed);
-        return new LayoutContainer(Database, transaction, Database.LayoutDictionaryId);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the Group dictionary and methods to create, add and import Groups.
-    /// </summary>
-    public GroupContainer Groups
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        Require.TransactionNotDisposed(transaction.IsDisposed);
-        return new GroupContainer(Database, transaction, Database.GroupDictionaryId);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the Material dictionary and methods to create, add and import Materials.
-    /// </summary>
-    public MaterialContainer Materials
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        Require.TransactionNotDisposed(transaction.IsDisposed);
-        return new MaterialContainer(Database, transaction, Database.MaterialDictionaryId);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the elements of the PlotSettings dictionary and methods to create, add and import PlotSettings.
-    /// </summary>
-    public PlotSettingsContainer PlotSettings
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        Require.TransactionNotDisposed(transaction.IsDisposed);
-        return new PlotSettingsContainer(Database, transaction, Database.PlotSettingsDictionaryId);
-      }
-    }
-
-    #endregion
-
-    #region CurrentSpace | ModelSpace | PaperSpace
-
-    /// <summary>
-    /// Provides access to the entities of the currently active space. In addition to the standard LINQ operations this class provides methods to add, import and clear Entities.
-    /// </summary>
-    public EntityContainer CurrentSpace
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        Require.TransactionNotDisposed(transaction.IsDisposed);
-        return new EntityContainer(Database, transaction, Database.CurrentSpaceId);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the entities of the model space. In addition to the standard LINQ operations this class provides methods to add, import and clear Entities.
-    /// </summary>
-    public EntityContainer ModelSpace
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        Require.TransactionNotDisposed(transaction.IsDisposed);
-
-        var modelSpaceId = ((BlockTable)transaction.GetObject(Database.BlockTableId, OpenMode.ForRead))[BlockTableRecord.ModelSpace];
-        return new EntityContainer(Database, transaction, modelSpaceId);
-      }
-    }
-
-    /// <summary>
-    /// Provides access to the entities of the paper space layouts.
-    /// </summary>
-    public IEnumerable<PaperSpaceEntityContainer> PaperSpace
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-        Require.TransactionNotDisposed(transaction.IsDisposed);
-
-        return new PaperSpaceLayoutContainer(Database, transaction);
-      }
-    }
-
-    #endregion
 
     #region Instance methods
 
@@ -326,25 +64,19 @@ namespace Linq2Acad
       {
         Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
 
-        if (commitTransaction)
+        transaction.Commit();
+
+        if (SummaryInfo.Changed)
         {
-          transaction.Commit();
-
-          if (SummaryInfo.Changed)
-          {
-            SummaryInfo.Commit();
-          }
-
-          if (saveOnCommit)
-          {
-            Database.SaveAs(saveAsFileName, GetDwgVersion());
-          }
+          SummaryInfo.Commit();
         }
 
-        if (disposeTransaction)
+        if (saveOnCommit)
         {
-          transaction.Dispose();
+          Database.SaveAs(saveAsFileName, GetDwgVersion());
         }
+
+        transaction.Dispose();
       }
 
       if (disposeDatabase)
@@ -416,24 +148,6 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the drawing database of the active document.
-    /// This is an advanced feature, use with caution.
-    /// </summary>
-    /// <param name="transaction">The transaction to use.</param>
-    /// <param name="commitTransaction">True, if the transaction in use should be committed when this instance is disposed of.</param>
-    /// <param name="disposeTransaction">True, if the transaction in use should be disposed of when this instance is disposed of.</param>
-    /// <returns>The AcadDatabase instance.</returns>
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)]
-    public static AcadDatabase Active(Transaction transaction, bool commitTransaction, bool disposeTransaction)
-    {
-      Require.ObjectNotNull(Application.DocumentManager.MdiActiveDocument, "No active document");
-      Require.ParameterNotNull(transaction, nameof(transaction));
-      Require.NotDisposed(transaction.IsDisposed, nameof(Transaction), nameof(transaction));
-
-      return new AcadDatabase(Application.DocumentManager.MdiActiveDocument.Database, transaction, commitTransaction, disposeTransaction);
-    }
-
-    /// <summary>
     /// Provides access to the given drawing database.
     /// </summary>
     /// <param name="database">The drawing database to use.</param>
@@ -444,26 +158,6 @@ namespace Linq2Acad
       Require.NotDisposed(database.IsDisposed, nameof(Database), nameof(database));
 
       return new AcadDatabase(database, true);
-    }
-
-    /// <summary>
-    /// Provides access to the given drawing database.
-    /// This is an advanced feature, use with caution.
-    /// </summary>
-    /// <param name="database">The drawing database to use.</param>
-    /// <param name="transaction">The transaction to use.</param>
-    /// <param name="commitTransaction">True, if the transaction in use should be committed when this instance is disposed of.</param>
-    /// <param name="disposeTransaction">True, if the transaction in use should be disposed of when this instance is disposed of.</param>
-    /// <returns>The AcadDatabase instance.</returns>
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)]
-    public static AcadDatabase Use(Database database, Transaction transaction, bool commitTransaction, bool disposeTransaction)
-    {
-      Require.ParameterNotNull(database, nameof(database));
-      Require.NotDisposed(database.IsDisposed, nameof(Database), nameof(database));
-      Require.ParameterNotNull(transaction, nameof(transaction));
-      Require.NotDisposed(transaction.IsDisposed, nameof(transaction));
-
-      return new AcadDatabase(database, transaction, commitTransaction, disposeTransaction);
     }
 
     /// <summary>
@@ -522,6 +216,37 @@ namespace Linq2Acad
       database.ReadDwgFile(fileName, readOnly ? FileOpenMode.OpenForReadAndReadShare : FileOpenMode.OpenForReadAndWriteNoShare, false, password);
       database.CloseInput(true);
       return database;
+    }
+
+
+    /// <summary>
+    /// Provides access to the given drawing database using the given transaction.
+    /// </summary>
+    /// <param name="database">The drawing database to use.</param>
+    /// <param name="transaction">The transaction to use.</param>
+    /// <returns>The AcadDatabase instance.</returns>
+    public static AcadDatabaseCore Use(Database database, Transaction transaction)
+    {
+      Require.ParameterNotNull(database, nameof(database));
+      Require.NotDisposed(database.IsDisposed, nameof(Database), nameof(database));
+      Require.ParameterNotNull(transaction, nameof(transaction));
+      Require.NotDisposed(transaction.IsDisposed, nameof(transaction));
+
+      return new AcadDatabase(database, transaction);
+    }
+
+    /// <summary>
+    /// Provides access to the drawing database of the active document using the given transaction.
+    /// </summary>
+    /// <param name="transaction">The transaction to use.</param>
+    /// <returns>The AcadDatabase instance.</returns>
+    public static AcadDatabaseCore Active(Transaction transaction)
+    {
+      Require.ObjectNotNull(Application.DocumentManager.MdiActiveDocument, "No active document");
+      Require.ParameterNotNull(transaction, nameof(transaction));
+      Require.NotDisposed(transaction.IsDisposed, nameof(Transaction), nameof(transaction));
+
+      return new AcadDatabase(Application.DocumentManager.MdiActiveDocument.Database, transaction);
     }
 
     #endregion
