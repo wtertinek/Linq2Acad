@@ -218,37 +218,6 @@ namespace Linq2Acad
       return database;
     }
 
-
-    /// <summary>
-    /// Provides access to the given drawing database using the given transaction.
-    /// </summary>
-    /// <param name="database">The drawing database to use.</param>
-    /// <param name="transaction">The transaction to use.</param>
-    /// <returns>The AcadDatabase instance.</returns>
-    public static AcadDatabaseCore Use(Database database, Transaction transaction)
-    {
-      Require.ParameterNotNull(database, nameof(database));
-      Require.NotDisposed(database.IsDisposed, nameof(Database), nameof(database));
-      Require.ParameterNotNull(transaction, nameof(transaction));
-      Require.NotDisposed(transaction.IsDisposed, nameof(transaction));
-
-      return new AcadDatabase(database, transaction);
-    }
-
-    /// <summary>
-    /// Provides access to the drawing database of the active document using the given transaction.
-    /// </summary>
-    /// <param name="transaction">The transaction to use.</param>
-    /// <returns>The AcadDatabase instance.</returns>
-    public static AcadDatabaseCore Active(Transaction transaction)
-    {
-      Require.ObjectNotNull(Application.DocumentManager.MdiActiveDocument, "No active document");
-      Require.ParameterNotNull(transaction, nameof(transaction));
-      Require.NotDisposed(transaction.IsDisposed, nameof(Transaction), nameof(transaction));
-
-      return new AcadDatabase(Application.DocumentManager.MdiActiveDocument.Database, transaction);
-    }
-
     #endregion
 
     #region Overrides to remove methods from IntelliSense
