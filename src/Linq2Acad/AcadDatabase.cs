@@ -16,24 +16,14 @@ namespace Linq2Acad
   public sealed class AcadDatabase : AcadDataModel, IDisposable
   {
     private readonly bool disposeDatabase;
-    private readonly bool saveOnCommit;
-    private readonly string saveAsFileName;
-    private readonly SaveAsDwgVersion dwgVersion;
+    private readonly Action<Database> postProcessCommit;
 
-    private AcadDatabase(Database database, bool keepDatabaseOpen, string saveAsFileName, SaveAsDwgVersion dwgVersion)
-      : base(database, database.TransactionManager.StartTransaction())
-    {
-      saveOnCommit = saveAsFileName != null;
-      this.saveAsFileName = saveAsFileName;
-      this.dwgVersion = dwgVersion;
-      disposeDatabase = !keepDatabaseOpen;
-    }
-
-    private AcadDatabase(Database database, bool keepDatabaseOpen)
+    private AcadDatabase(Database database, bool keepDatabaseOpen,
+                         Action<Database> postProcessCommit = null)
       : base(database, database.TransactionManager.StartTransaction())
     {
       disposeDatabase = !keepDatabaseOpen;
-      saveOnCommit = false;
+      this.postProcessCommit = postProcessCommit;
     }
 
     #region Instance methods
@@ -66,10 +56,7 @@ namespace Linq2Acad
           SummaryInfo.Commit();
         }
 
-        if (saveOnCommit)
-        {
-          Database.SaveAs(saveAsFileName, GetDwgVersion());
-        }
+        postProcessCommit?.Invoke(Database);
 
         transaction.Dispose();
       }
@@ -80,31 +67,35 @@ namespace Linq2Acad
       }
     }
 
-    /// <summary>
-    /// Convert the SaveAsDwgVersion enum to Autodesk's DwgVersion.
-    /// </summary>
-    /// <returns>Autodesk DwgVersion.</returns>
-    private DwgVersion GetDwgVersion()
+    private static void SaveDatabaseAs(Database database, string fileName, SaveAsDwgVersion dwgVersion)
     {
-      switch (dwgVersion)
+      DwgVersion GetDwgVersion()
       {
-        case SaveAsDwgVersion.DWG2004:
-          return DwgVersion.AC1015;
-        case SaveAsDwgVersion.DWG2007:
-          return DwgVersion.AC1021;
-        case SaveAsDwgVersion.DWG2010:
-          return DwgVersion.AC1024;
-        case SaveAsDwgVersion.DWG2013:
-          return DwgVersion.AC1027;
+        switch (dwgVersion)
+        {
+          case SaveAsDwgVersion.DWG2004:
+            return DwgVersion.AC1015;
+          case SaveAsDwgVersion.DWG2007:
+            return DwgVersion.AC1021;
+          case SaveAsDwgVersion.DWG2010:
+            return DwgVersion.AC1024;
+          case SaveAsDwgVersion.DWG2013:
+            return DwgVersion.AC1027;
 #if AutoCAD_2018 || AutoCAD_2019 || AutoCAD_2020 || AutoCAD_2021 || AutoCAD_2022 || AutoCAD_2023 || AutoCAD_2024
-        case SaveAsDwgVersion.DWG2018:
-          return DwgVersion.AC1032;
+          case SaveAsDwgVersion.DWG2018:
+            return DwgVersion.AC1032;
 #endif
-        case SaveAsDwgVersion.NewestAvailable:
-          return DwgVersion.Newest;
-        case SaveAsDwgVersion.DontChange:
-        default:
-          return Database.OriginalFileSavedByVersion;
+          case SaveAsDwgVersion.NewestAvailable:
+            return DwgVersion.Newest;
+          case SaveAsDwgVersion.DontChange:
+          default:
+            return database.OriginalFileSavedByVersion;
+        }
+      }
+
+      if (fileName != null)
+      {
+        database.SaveAs(fileName, GetDwgVersion());
       }
     }
 
@@ -127,7 +118,8 @@ namespace Linq2Acad
                   };
       }
 
-      return new AcadDatabase(new Database(true, true), false, options.SaveFileName, options.SaveDwgVersion);
+      return new AcadDatabase(new Database(true, true), false,
+                              d => SaveDatabaseAs(d, options.SaveFileName, options.SaveDwgVersion));
     }
 
     /// <summary>
@@ -193,7 +185,8 @@ namespace Linq2Acad
 
       Database database = GetDatabase(fileName, false, options.Password);
       var outFileName = options.SaveAsFileName ?? fileName;
-      return new AcadDatabase(database, false, outFileName, options.DwgVersion);
+      return new AcadDatabase(database, false,
+                              d => SaveDatabaseAs(d, outFileName, options.DwgVersion));
     }
 
     /// <summary>
