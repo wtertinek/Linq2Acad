@@ -20,11 +20,11 @@ namespace Linq2Acad
     private readonly string saveAsFileName;
     private readonly SaveAsDwgVersion dwgVersion;
 
-    private AcadDatabase(Database database, bool keepDatabaseOpen, string outFileName, SaveAsDwgVersion dwgVersion)
+    private AcadDatabase(Database database, bool keepDatabaseOpen, string saveAsFileName, SaveAsDwgVersion dwgVersion)
       : base(database, database.TransactionManager.StartTransaction())
     {
       saveOnCommit = saveAsFileName != null;
-      saveAsFileName = outFileName;
+      this.saveAsFileName = saveAsFileName;
       this.dwgVersion = dwgVersion;
       disposeDatabase = !keepDatabaseOpen;
     }
