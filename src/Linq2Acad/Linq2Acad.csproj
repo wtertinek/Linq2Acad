@@ -263,6 +263,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AcadDataModel.cs" />
     <Compile Include="Containers\StylesContainer.cs" />
     <Compile Include="Containers\PaperSpaceEntityContainer.cs" />
     <Compile Include="Containers\PaperSpaceEntityContainerEnumerable.cs" />
