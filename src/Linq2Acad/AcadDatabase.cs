@@ -39,25 +39,28 @@ namespace Linq2Acad
     /// </summary>
     public void Dispose()
     {
-      if (!transaction.IsDisposed)
+      if (Database.IsDisposed)
       {
-        Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
-
-        transaction.Commit();
-
-        if (SummaryInfo.Changed)
+        if (!transaction.IsDisposed)
         {
+          transaction.Dispose();
+        }
+      }
+      else
+      {
+        if (!transaction.IsDisposed)
+        {
+          transaction.Commit();
+          postProcessCommit?.Invoke(Database);
+          transaction.Dispose();
+
           SummaryInfo.Commit();
         }
 
-        postProcessCommit?.Invoke(Database);
-
-        transaction.Dispose();
-      }
-
-      if (disposeDatabase)
-      {
-        Database.Dispose();
+        if (disposeDatabase)
+        {
+          Database.Dispose();
+        }
       }
     }
 
