@@ -21,13 +21,5 @@ namespace Linq2Acad
     /// Defaults to the DWG version used by the running AutoCAD version. 
     /// </summary>
     public SaveAsDwgVersion SaveDwgVersion { get; set; }
-
-    /// <summary>
-    /// True, if the database should be kept open after it has been used.
-    /// False, if the database should be closed.
-    /// This is an advanced feature, use with caution.
-    /// </summary>
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)]
-    public bool KeepDatabaseOpen { get; set; }
   }
 }
