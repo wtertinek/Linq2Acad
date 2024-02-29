@@ -12,6 +12,12 @@ namespace Linq2Acad
     private protected readonly Transaction transaction;
     private readonly AcadSummaryInfo summaryInfo;
 
+    /// <summary>
+    /// Provides access to the given drawing database using the given transaction.
+    /// </summary>
+    /// <param name="database">The drawing database to use.</param>
+    /// <param name="transaction">The transaction to use.</param>
+    /// <returns>The AcadDatabase instance.</returns>
     public AcadDataModel(Database database, Transaction transaction)
     {
       Require.ParameterNotNull(database, nameof(database));

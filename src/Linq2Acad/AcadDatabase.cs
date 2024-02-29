@@ -5,7 +5,7 @@ using System;
 namespace Linq2Acad
 {
   /// <summary>
-  /// The main class that provides access to the drawing database.
+  /// This class provides access to the drawing database and, if necessary, maintains the life cycle of the database.
   /// </summary>
   public sealed class AcadDatabase : AcadDataModel, IDisposable
   {
