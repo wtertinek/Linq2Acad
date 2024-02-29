@@ -1,12 +1,6 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices.Core;
 using Autodesk.AutoCAD.DatabaseServices;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Linq2Acad
 {
@@ -110,13 +104,10 @@ namespace Linq2Acad
     /// <returns>The AcadDatabase instance.</returns>
     public static AcadDatabase Create(CreateOptions options = null)
     {
-      if (options == null)
-      {
-        options = new CreateOptions()
-                  {
-                    SaveDwgVersion = SaveAsDwgVersion.NewestAvailable
-                  };
-      }
+      options = options ?? new CreateOptions()
+                           {
+                             SaveDwgVersion = SaveAsDwgVersion.NewestAvailable
+                           };
 
       return new AcadDatabase(new Database(true, true), false,
                               d => SaveDatabaseAs(d, options.SaveFileName, options.SaveDwgVersion));
@@ -159,7 +150,7 @@ namespace Linq2Acad
 
       options = options ?? new OpenReadOnlyOptions();
 
-      Database database = GetDatabase(fileName, true, options.Password);
+      var database = GetDatabase(fileName, true, options.Password);
       return new AcadDatabase(database, false);
     }
 
@@ -174,16 +165,13 @@ namespace Linq2Acad
       Require.StringNotEmpty(fileName, nameof(fileName));
       Require.FileExists(fileName, nameof(fileName));
 
-      if (options == null)
-      {
-        options = new OpenForEditOptions()
-                  {
-                    SaveAsFileName = fileName,
-                    DwgVersion = SaveAsDwgVersion.DontChange,
-                  };
-      }
+      options = options ?? new OpenForEditOptions()
+                           {
+                             SaveAsFileName = fileName,
+                             DwgVersion = SaveAsDwgVersion.DontChange,
+                           };
 
-      Database database = GetDatabase(fileName, false, options.Password);
+      var database = GetDatabase(fileName, false, options.Password);
       var outFileName = options.SaveAsFileName ?? fileName;
       return new AcadDatabase(database, false,
                               d => SaveDatabaseAs(d, outFileName, options.DwgVersion));
