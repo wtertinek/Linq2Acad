@@ -15,34 +15,25 @@ namespace Linq2Acad
   /// </summary>
   public sealed class AcadDatabase : AcadDataModel, IDisposable
   {
-    private readonly bool commitTransaction;
-    private readonly bool disposeTransaction;
     private readonly bool disposeDatabase;
     private readonly bool saveOnCommit;
     private readonly string saveAsFileName;
     private readonly SaveAsDwgVersion dwgVersion;
 
-    private AcadDatabase(Database database, bool keepOpen, string outFileName, SaveAsDwgVersion dwgVersion)
-      : this(database, database.TransactionManager.StartTransaction(), true, true)
+    private AcadDatabase(Database database, bool keepDatabaseOpen, string outFileName, SaveAsDwgVersion dwgVersion)
+      : base(database, database.TransactionManager.StartTransaction())
     {
       saveOnCommit = outFileName != null;
       saveAsFileName = outFileName;
       this.dwgVersion = dwgVersion;
-      disposeDatabase = !keepOpen;
+      disposeDatabase = !keepDatabaseOpen;
     }
 
-    private AcadDatabase(Database database, bool keepOpen)
-      : this(database, database.TransactionManager.StartTransaction(), true, true)
+    private AcadDatabase(Database database, bool keepDatabaseOpen)
+      : base(database, database.TransactionManager.StartTransaction())
     {
-      disposeDatabase = !keepOpen;
+      disposeDatabase = !keepDatabaseOpen;
       saveOnCommit = false;
-    }
-
-    private AcadDatabase(Database database, Transaction transaction, bool commitTransaction, bool disposeTransaction)
-      : base(database, transaction)
-    {
-      this.commitTransaction = commitTransaction;
-      this.disposeTransaction = disposeTransaction;
     }
 
     #region Instance methods
@@ -68,25 +59,19 @@ namespace Linq2Acad
       {
         Require.NotDisposed(Database.IsDisposed, nameof(AcadDatabase));
 
-        if (commitTransaction)
+        transaction.Commit();
+
+        if (SummaryInfo.Changed)
         {
-          transaction.Commit();
-
-          if (SummaryInfo.Changed)
-          {
-            SummaryInfo.Commit();
-          }
-
-          if (saveOnCommit)
-          {
-            Database.SaveAs(saveAsFileName, GetDwgVersion());
-          }
+          SummaryInfo.Commit();
         }
 
-        if (disposeTransaction)
+        if (saveOnCommit)
         {
-          transaction.Dispose();
+          Database.SaveAs(saveAsFileName, GetDwgVersion());
         }
+
+        transaction.Dispose();
       }
 
       if (disposeDatabase)
@@ -138,12 +123,11 @@ namespace Linq2Acad
       {
         options = new CreateOptions()
                   {
-                    KeepDatabaseOpen = false,
                     SaveDwgVersion = SaveAsDwgVersion.NewestAvailable
                   };
       }
 
-      return new AcadDatabase(new Database(true, true), options.KeepDatabaseOpen, options.SaveFileName, options.SaveDwgVersion);
+      return new AcadDatabase(new Database(true, true), false, options.SaveFileName, options.SaveDwgVersion);
     }
 
     /// <summary>
@@ -155,24 +139,6 @@ namespace Linq2Acad
       Require.ObjectNotNull(Application.DocumentManager.MdiActiveDocument, "No active document");
 
       return new AcadDatabase(Application.DocumentManager.MdiActiveDocument.Database, true);
-    }
-
-    /// <summary>
-    /// Provides access to the drawing database of the active document.
-    /// This is an advanced feature, use with caution.
-    /// </summary>
-    /// <param name="transaction">The transaction to use.</param>
-    /// <param name="commitTransaction">True, if the transaction in use should be committed when this instance is disposed of.</param>
-    /// <param name="disposeTransaction">True, if the transaction in use should be disposed of when this instance is disposed of.</param>
-    /// <returns>The AcadDatabase instance.</returns>
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)]
-    public static AcadDatabase Active(Transaction transaction, bool commitTransaction, bool disposeTransaction)
-    {
-      Require.ObjectNotNull(Application.DocumentManager.MdiActiveDocument, "No active document");
-      Require.ParameterNotNull(transaction, nameof(transaction));
-      Require.NotDisposed(transaction.IsDisposed, nameof(Transaction), nameof(transaction));
-
-      return new AcadDatabase(Application.DocumentManager.MdiActiveDocument.Database, transaction, commitTransaction, disposeTransaction);
     }
 
     /// <summary>
@@ -189,26 +155,6 @@ namespace Linq2Acad
     }
 
     /// <summary>
-    /// Provides access to the given drawing database.
-    /// This is an advanced feature, use with caution.
-    /// </summary>
-    /// <param name="database">The drawing database to use.</param>
-    /// <param name="transaction">The transaction to use.</param>
-    /// <param name="commitTransaction">True, if the transaction in use should be committed when this instance is disposed of.</param>
-    /// <param name="disposeTransaction">True, if the transaction in use should be disposed of when this instance is disposed of.</param>
-    /// <returns>The AcadDatabase instance.</returns>
-    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)]
-    public static AcadDatabase Use(Database database, Transaction transaction, bool commitTransaction, bool disposeTransaction)
-    {
-      Require.ParameterNotNull(database, nameof(database));
-      Require.NotDisposed(database.IsDisposed, nameof(Database), nameof(database));
-      Require.ParameterNotNull(transaction, nameof(transaction));
-      Require.NotDisposed(transaction.IsDisposed, nameof(transaction));
-
-      return new AcadDatabase(database, transaction, commitTransaction, disposeTransaction);
-    }
-
-    /// <summary>
     /// Provides read-only access to the drawing database in the given file.
     /// </summary>
     /// <param name="fileName">The name of the drawing database to open.</param>
@@ -222,7 +168,7 @@ namespace Linq2Acad
       options = options ?? new OpenReadOnlyOptions();
 
       Database database = GetDatabase(fileName, true, options.Password);
-      return new AcadDatabase(database, options.KeepDatabaseOpen);
+      return new AcadDatabase(database, false);
     }
 
     /// <summary>
@@ -241,14 +187,13 @@ namespace Linq2Acad
         options = new OpenForEditOptions()
                   {
                     SaveAsFileName = fileName,
-                    KeepDatabaseOpen = false,
                     DwgVersion = SaveAsDwgVersion.DontChange,
                   };
       }
 
       Database database = GetDatabase(fileName, false, options.Password);
       var outFileName = options.SaveAsFileName ?? fileName;
-      return new AcadDatabase(database, options.KeepDatabaseOpen, outFileName, options.DwgVersion);
+      return new AcadDatabase(database, false, outFileName, options.DwgVersion);
     }
 
     /// <summary>
