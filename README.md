@@ -11,7 +11,7 @@ A library that aims to simplify AutoCAD .NET plugin code. Available for `AutoCAD
 - [License](#license)
 
 # News
-**Linq2Acad-2024** is now available as a release candidate on [NuGet](https://www.nuget.org/packages/Linq2Acad-2024/). If you test it, please provide some feedback to the [pull request](https://github.com/wtertinek/Linq2Acad/pull/34).
+**Linq2Acad-2024** is now available as on [NuGet](https://www.nuget.org/packages/Linq2Acad-2024/).
 
 ## Getting started
 `Linq2Acad` is a library that aims to simplify AutoCAD .NET plugin code. It should be a more intuitive API for working with the drawing database, making the learning curve for beginners less steep.
@@ -114,35 +114,34 @@ Linq2Acad is available on NuGet. There is a dedicated Linq2Acad package for each
 <a href="https://www.nuget.org/packages/Linq2Acad-2024">
   <img src="https://img.shields.io/nuget/v/Linq2Acad-2024?label=Linq2Acad-2024&style=plastic" alt="Linq2Acad-2024" />
 </a>
-<br/>
 <a href="https://www.nuget.org/packages/Linq2Acad-2023">
   <img src="https://img.shields.io/nuget/v/Linq2Acad-2023?label=Linq2Acad-2023&style=plastic" alt="Linq2Acad-2023" />
 </a>
+<br/>
 <a href="https://www.nuget.org/packages/Linq2Acad-2022">
   <img src="https://img.shields.io/nuget/v/Linq2Acad-2022?label=Linq2Acad-2022&style=plastic" alt="Linq2Acad-2022" />
 </a>
-<br/>
 <a href="https://www.nuget.org/packages/Linq2Acad-2021">
   <img src="https://img.shields.io/nuget/v/Linq2Acad-2021?label=Linq2Acad-2021&style=plastic" alt="Linq2Acad-2021" />
 </a>
+<br/>
 <a href="https://www.nuget.org/packages/Linq2Acad-2020">
   <img src="https://img.shields.io/nuget/v/Linq2Acad-2020?label=Linq2Acad-2020&style=plastic" alt="Linq2Acad-2020" />
 </a>
-<br/>
 <a href="https://www.nuget.org/packages/Linq2Acad-2019">
   <img src="https://img.shields.io/nuget/v/Linq2Acad-2019?label=Linq2Acad-2019&style=plastic" alt="Linq2Acad-2019" />
 </a>
+<br/>
 <a href="https://www.nuget.org/packages/Linq2Acad-2018">
   <img src="https://img.shields.io/nuget/v/Linq2Acad-2018?label=Linq2Acad-2018&style=plastic" alt="Linq2Acad-2018" />
 </a>
-<br/>
 <a href="https://www.nuget.org/packages/Linq2Acad-2017">
   <img src="https://img.shields.io/nuget/v/Linq2Acad-2017?label=Linq2Acad-2017&style=plastic" alt="Linq2Acad-2017" />
 </a>
+<br/>
 <a href="https://www.nuget.org/packages/Linq2Acad-2016">
   <img src="https://img.shields.io/nuget/v/Linq2Acad-2016?label=Linq2Acad-2016&style=plastic" alt="Linq2Acad-2016" />
 </a>
-<br/>
 <a href="https://www.nuget.org/packages/Linq2Acad-2015">
   <img src="https://img.shields.io/nuget/v/Linq2Acad-2015?label=Linq2Acad-2015&style=plastic" alt="Linq2Acad-2015" />
 </a>
