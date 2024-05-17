@@ -27,7 +27,7 @@ namespace Linq2Acad
     private AcadDatabase(Database database, bool keepOpen, string outFileName, SaveAsDwgVersion dwgVersion)
       : this(database, database.TransactionManager.StartTransaction(), true, true)
     {
-      saveOnCommit = saveAsFileName != null;
+      saveOnCommit = outFileName != null;
       saveAsFileName = outFileName;
       this.dwgVersion = dwgVersion;
       disposeDatabase = !keepOpen;
