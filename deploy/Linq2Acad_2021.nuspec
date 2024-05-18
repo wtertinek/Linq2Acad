@@ -12,7 +12,7 @@
     <tags>AutoCAD LINQ</tags>
     <dependencies>
       <group targetFramework=".NETFramework4.7">
-        <dependency id="AutoCAD.NET.Core" version="[24.0.0,24.1.51000)" />
+        <dependency id="AutoCAD.NET.Core" version="[24.0.0,24.1.51000)" exclude="runtime" />
       </group>
     </dependencies>
   </metadata>
