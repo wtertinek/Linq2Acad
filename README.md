@@ -11,7 +11,7 @@ A library that aims to simplify AutoCAD .NET plugin code. Available for `AutoCAD
 - [License](#license)
 
 # News
-**Linq2Acad-2024** is now available as on [NuGet](https://www.nuget.org/packages/Linq2Acad-2024/).
+**Linq2Acad-2024** is now available on [NuGet](https://www.nuget.org/packages/Linq2Acad-2024/).
 
 ## Getting started
 `Linq2Acad` is a library that aims to simplify AutoCAD .NET plugin code. It should be a more intuitive API for working with the drawing database, making the learning curve for beginners less steep.
