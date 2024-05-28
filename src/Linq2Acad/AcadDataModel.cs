@@ -10,7 +10,6 @@ namespace Linq2Acad
   public class AcadDataModel
   {
     private protected readonly Transaction transaction;
-    private readonly AcadSummaryInfo summaryInfo;
 
     public AcadDataModel(Database database, Transaction transaction)
     {
@@ -21,26 +20,12 @@ namespace Linq2Acad
 
       Database = database;
       this.transaction = transaction;
-      summaryInfo = new AcadSummaryInfo(database);
     }
 
     /// <summary>
     /// The drawing database in use.
     /// </summary>
     public Database Database { get; }
-
-    /// <summary>
-    /// Provies access to the summary info.
-    /// </summary>
-    public AcadSummaryInfo SummaryInfo
-    {
-      get
-      {
-        Require.NotDisposed(Database.IsDisposed, nameof(Database));
-        Require.TransactionNotDisposed(transaction.IsDisposed);
-        return summaryInfo;
-      }
-    }
 
     /// <summary>
     /// Provides access to all database objects. In addition to the standard LINQ operations this class provides a method to add newly created DBObjects.

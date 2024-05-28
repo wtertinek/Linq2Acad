@@ -11,6 +11,7 @@ namespace Linq2Acad
   {
     private readonly bool disposeDatabase;
     private readonly Action<Database> postProcessCommit;
+    private readonly AcadSummaryInfo summaryInfo;
 
     private AcadDatabase(Database database, bool keepDatabaseOpen,
                          Action<Database> postProcessCommit = null)
@@ -18,9 +19,22 @@ namespace Linq2Acad
     {
       disposeDatabase = !keepDatabaseOpen;
       this.postProcessCommit = postProcessCommit;
+      summaryInfo = new AcadSummaryInfo(database);
     }
 
     #region Instance methods
+    /// <summary>
+    /// Provies access to the summary info.
+    /// </summary>
+    public AcadSummaryInfo SummaryInfo
+    {
+      get
+      {
+        Require.NotDisposed(Database.IsDisposed, nameof(Database));
+        Require.TransactionNotDisposed(transaction.IsDisposed);
+        return summaryInfo;
+      }
+    }
 
     /// <summary>
     /// Immediately discards all changes and aborts the underlying transaction. The session is no longer usable after calling this method.
