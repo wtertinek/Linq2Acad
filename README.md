@@ -3,7 +3,7 @@ A library that aims to simplify AutoCAD .NET plugin code. Available for `AutoCAD
 
 ### Overview
 - [News](#news)
-- [Getting started](#get-started)
+- [Getting started](#getting-started)
 - [Installation](#installation)
 - [API documentation](#api-documentation)
 - [How it works](#how-it-works)
