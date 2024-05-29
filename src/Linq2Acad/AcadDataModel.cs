@@ -11,6 +11,12 @@ namespace Linq2Acad
   {
     private protected readonly Transaction transaction;
 
+    /// <summary>
+    /// Creates a new instance of AcadDataModel using the given drawing database and transaction.
+    /// </summary>
+    /// <param name="database">The drawing database to use.</param>
+    /// <param name="transaction">The transaction to use.</param>
+    /// <returns>The AcadDataModel instance.</returns>
     public AcadDataModel(Database database, Transaction transaction)
     {
       Require.ParameterNotNull(database, nameof(database));

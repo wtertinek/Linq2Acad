@@ -5,7 +5,7 @@ using System;
 namespace Linq2Acad
 {
   /// <summary>
-  /// The main class that provides access to the drawing database.
+  /// This class provides access to the drawing database and, if necessary, maintains the life cycle of the database.
   /// </summary>
   public sealed class AcadDatabase : AcadDataModel, IDisposable
   {
@@ -22,7 +22,6 @@ namespace Linq2Acad
       summaryInfo = new AcadSummaryInfo(database);
     }
 
-    #region Instance methods
     /// <summary>
     /// Provies access to the summary info.
     /// </summary>
@@ -110,9 +109,18 @@ namespace Linq2Acad
       }
     }
 
-    #endregion
-
     #region Factory methods
+
+    /// <summary>
+    /// Provides access to the drawing database of the active document.
+    /// </summary>
+    /// <returns>The AcadDatabase instance.</returns>
+    public static AcadDatabase Active()
+    {
+      Require.ObjectNotNull(Application.DocumentManager.MdiActiveDocument, "No active document");
+
+      return new AcadDatabase(Application.DocumentManager.MdiActiveDocument.Database, true);
+    }
 
     /// <summary>
     /// Provides access to a newly created drawing database.
@@ -128,30 +136,6 @@ namespace Linq2Acad
 
       return new AcadDatabase(new Database(true, true), false,
                               d => SaveDatabaseAs(d, options.SaveFileName, options.SaveDwgVersion));
-    }
-
-    /// <summary>
-    /// Provides access to the drawing database of the active document.
-    /// </summary>
-    /// <returns>The AcadDatabase instance.</returns>
-    public static AcadDatabase Active()
-    {
-      Require.ObjectNotNull(Application.DocumentManager.MdiActiveDocument, "No active document");
-
-      return new AcadDatabase(Application.DocumentManager.MdiActiveDocument.Database, true);
-    }
-
-    /// <summary>
-    /// Provides access to the given drawing database.
-    /// </summary>
-    /// <param name="database">The drawing database to use.</param>
-    /// <returns>The AcadDatabase instance.</returns>
-    public static AcadDatabase Use(Database database)
-    {
-      Require.ParameterNotNull(database, nameof(database));
-      Require.NotDisposed(database.IsDisposed, nameof(Database), nameof(database));
-
-      return new AcadDatabase(database, true);
     }
 
     /// <summary>

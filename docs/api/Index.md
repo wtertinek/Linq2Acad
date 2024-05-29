@@ -8,6 +8,7 @@
 
 ## Classes
 &nbsp;<table><tr><th></th><th>Class</th><th>Description</th></tr><tr><td>![Public class](media/pubclass.gif "Public class")</td><td><a href="T_Linq2Acad_AcadDatabase.md#AcadDatabase-Class">AcadDatabase</a></td><td>
+This class provides access to the drawing database and, if necessary, maintains the life cycle of the database.</td></tr><tr><td>![Public class](media/pubclass.gif "Public class")</td><td><a href="T_Linq2Acad_AcadDataModel.md#AcadDataModel-Class">AcadDataModel</a></td><td>
 The main class that provides access to the drawing database.</td></tr><tr><td>![Public class](media/pubclass.gif "Public class")</td><td><a href="T_Linq2Acad_AcadSummaryInfo.md#AcadSummaryInfo-Class">AcadSummaryInfo</a></td><td>
 This class encapsulates a set of strings that can be used to add additional information to a DWG file.</td></tr><tr><td>![Public class](media/pubclass.gif "Public class")</td><td><a href="T_Linq2Acad_BlockContainer.md#BlockContainer-Class">BlockContainer</a></td><td>
 A container class that provides access to the elements of the Block table. In addition to the standard LINQ operations this class provides methods to create, add and import BlockTableRecords.</td></tr><tr><td>![Public class](media/pubclass.gif "Public class")</td><td><a href="T_Linq2Acad_CreateOptions.md#CreateOptions-Class">CreateOptions</a></td><td>

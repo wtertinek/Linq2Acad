@@ -154,7 +154,7 @@ Linq2Acad is available on NuGet. There is a dedicated Linq2Acad package for each
 (If you add NuGet while already having a Linq2Acad project there, and THEN you subsequently remove the latter project - you might have a lot of problems)
 
 ## API documentation
-The best entry point into the API documentation is the class [AcadDatabase](docs/api/T_Linq2Acad_AcadDatabase.md#AcadDatabase-Class). An overview of all classes can be found [here](docs/api/Index.md#Linq2Acad-Namespace).
+The best entry point into the API documentation are the properties of the class [AcadDataModel](docs/api/T_Linq2Acad_AcadDataModel.md#Properties). An overview of all classes can be found [here](docs/api/Index.md#Linq2Acad-Namespace).
 
 ## How it works?
 [This blog series](https://wtertinek.com/2016/07/06/linq-and-the-autocad-net-api-final-part) discusses:

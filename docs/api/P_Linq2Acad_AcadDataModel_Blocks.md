@@ -1,4 +1,4 @@
-# AcadDatabase.Blocks Property 
+# AcadDataModel.Blocks Property 
  
 
 The <a href="T_Linq2Acad_BlockContainer.md#BlockContainer-Class">BlockContainer</a> class provides access to the elements of the Block table and methods to create, add and import BlockTableRecords.
@@ -19,10 +19,10 @@ Public ReadOnly Property Blocks As BlockContainer
 
 #### Property Value
 Type: <a href="T_Linq2Acad_BlockContainer.md#BlockContainer-Class">BlockContainer</a>
-<br/><br/><a href="#AcadDatabaseBlocks-Property">Back to Top</a>
+<br/><br/><a href="#AcadDataModelBlocks-Property">Back to Top</a>
 
 ## See Also
 
 
 #### Reference
-<a href="T_Linq2Acad_AcadDatabase.md#AcadDatabase-Class">AcadDatabase Class</a><br /><a href="N_Linq2Acad.md#Linq2Acad-Namespace">Linq2Acad Namespace</a><br />
+<a href="T_Linq2Acad_AcadDataModel.md#AcadDataModel-Class">AcadDataModel Class</a><br /><a href="N_Linq2Acad.md#Linq2Acad-Namespace">Linq2Acad Namespace</a><br />
